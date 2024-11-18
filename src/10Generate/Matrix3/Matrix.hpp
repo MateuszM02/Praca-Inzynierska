@@ -1,7 +1,7 @@
 #pragma once
 #include "MatrixConcepts.hpp"
 
-namespace src::RepeatFun::Matrix3
+namespace src::Generate::Matrix3
 {
 // klasa trzymajaca 2-wymiarowa, kwadratowa macierz
 template<typename SquareMatrix> 
@@ -28,4 +28,4 @@ private:
     size_t n; 
     SquareMatrix matrix;
 };
-} // namespace src::RepeatFun::Matrix3
+} // namespace src::Generate::Matrix3

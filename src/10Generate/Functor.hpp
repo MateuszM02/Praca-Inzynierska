@@ -10,7 +10,7 @@
 
 #include "../MethodType.hpp"
 
-namespace src::RepeatFun
+namespace src::Generate
 {
 // Klasa abstrakcyjna Functor, po ktorej dziedzicza klasy funktorowe
 template <class DataType> 
@@ -63,4 +63,4 @@ private:
         return sequence;
     }
 };
-} // namespace src::RepeatFun
+} // namespace src::Generate

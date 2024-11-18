@@ -1,6 +1,6 @@
 #include "MatrixFunctor.hpp"
 
-namespace src::RepeatFun::Matrix3
+namespace src::Generate::Matrix3
 {
 template<template<typename> class MatrixType, typename InnerType>
 requires IsSquareMatrix<InnerType>
@@ -17,4 +17,4 @@ MatrixFunctor<MatrixType, InnerType>::operator()()
     currentMatrix *= originalMatrix;
     return currentMatrix;
 }
-} // namespace src::RepeatFun::Matrix3
+} // namespace src::Generate::Matrix3

@@ -1,6 +1,6 @@
 #include "MatrixTests.hpp"
 
-namespace tests::RepeatFun::Matrix3tests
+namespace tests::Generate::Matrix3tests
 {
 template<template<typename> class MatrixType, typename InnerType>
 requires Matrix3::IsSquareMatrix<InnerType>
@@ -12,4 +12,4 @@ void MatrixTests<MatrixType, InnerType>::createTest(
     auto functor = Matrix3::MatrixFunctor<MatrixType, InnerType>(args[0]);
     runTest(functor, n, methodType);
 }
-} // namespace tests::RepeatFun::Matrix3tests
+} // namespace tests::Generate::Matrix3tests

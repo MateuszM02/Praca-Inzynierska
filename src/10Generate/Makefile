@@ -1,15 +1,19 @@
 # Pliki wyjsciowe 
 OBJ = \
-	main.o \
 	Even1/EvenFunctor.o \
 	Fibonacci2/FibonacciFunctor.o \
 	Matrix3/Matrix.o \
 	Matrix3/MatrixFunctor.o
 
-# Aplikacja odpalajaca main()
-EXECUTABLE = app
+# Pliki zrodlowe
+SRC = \
+	Even1/EvenFunctor.cpp \
+	Fibonacci2/FibonacciFunctor.cpp \
+	Matrix3/Matrix.cpp \
+	Matrix3/MatrixFunctor.cpp
 
-include ../../common.mk
+# Zaladuj flagi kompilacyjne z glownego Makefile'a
+include ../../Makefile
 
 # Pliki naglowkowe
 HEADERS = \
@@ -20,14 +24,6 @@ HEADERS = \
 	Matrix3/MatrixFunctor.hpp \
 	Functor.hpp
 
-# Pliki zrodlowe
-SRC = \
-	main.cpp \
-	Even1/EvenFunctor.cpp \
-	Fibonacci2/FibonacciFunctor.cpp \
-	Matrix3/Matrix.cpp \
-	Matrix3/MatrixFunctor.cpp
-
 # Zaleznosci plikow wyjsciowych
 MATRIX_DEPENDENCIES = \
 	Functor.hpp \
@@ -35,9 +31,8 @@ MATRIX_DEPENDENCIES = \
 	Matrix3/Matrix.cpp \
 	Matrix3/MatrixConcepts.hpp
 
-# Kompilator main
-main.o: $(SRC) $(HEADERS)
-	$(COMPILE) $(CXXFLAGS) -c main.cpp -o main.o
+# Kompiluj wszystkie pliki w tym folderze
+all: $(OBJ)
 
 # Kompilator przykladow
 EvenFunctor.o: Functor.hpp Even1/EvenFunctor.cpp Even1/EvenFunctor.hpp
@@ -51,3 +46,9 @@ Matrix.o: $(MATRIX_DEPENDENCIES)
 
 MatrixFunctor.o: $(MATRIX_DEPENDENCIES) Matrix3/MatrixFunctor.hpp Matrix3/MatrixFunctor.cpp
 	$(COMPILE) $(CXXFLAGS) -c Matrix3/MatrixFunctor.cpp -o MatrixFunctor.o
+
+# Inne metody
+clean:
+	rm -f $(OBJ)
+
+.PHONY: all clean

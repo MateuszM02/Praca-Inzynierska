@@ -3,7 +3,7 @@
 
 // Przyklad 2. Liczby Fibonacciego --------------------------------------------------------------------------
 
-namespace src::RepeatFun::Fibonacci2
+namespace src::Generate::Fibonacci2
 {
 template <class Number>
 requires std::is_arithmetic_v<Number>
@@ -15,4 +15,4 @@ public:
 private:
     Number a, b;
 };
-} // namespace src::RepeatFun::Fibonacci2
+} // namespace src::Generate::Fibonacci2

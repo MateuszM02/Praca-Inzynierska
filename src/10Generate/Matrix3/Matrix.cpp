@@ -1,6 +1,6 @@
 #include "Matrix.hpp"
 
-namespace src::RepeatFun::Matrix3
+namespace src::Generate::Matrix3
 {
     template<typename SquareMatrix> 
     requires IsSquareMatrix<SquareMatrix>
@@ -56,4 +56,4 @@ namespace src::RepeatFun::Matrix3
         } 
         return os; 
     }
-} // namespace src::RepeatFun::Matrix3
+} // namespace src::Generate::Matrix3

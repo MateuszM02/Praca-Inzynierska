@@ -1,17 +1,17 @@
 #pragma once
 
-#include "../../src/10RepeatFun/Functor.hpp"
+#include "../../src/10Generate/Functor.hpp"
 
-using namespace src::RepeatFun;
+using namespace src::Generate;
 
-namespace tests::RepeatFun
+namespace tests::Generate
 {
-// Klasa abstrakcyjna FunctorTestFixture, po ktorej dziedzicza klasy testowe funktorow
+// Klasa abstrakcyjna GenerateTestFixture, po ktorej dziedzicza klasy testowe metod generate
 template <class DataType> 
-class FunctorTestFixture 
+class GenerateTestFixture 
 { 
 public:
-    virtual ~FunctorTestFixture() = default;
+    virtual ~GenerateTestFixture() = default;
 
     void runTest(
         Functor<DataType>& functor,
@@ -27,4 +27,4 @@ protected:
         const src::MethodType& methodType,
         const std::vector<DataType>& args) = 0;
 };
-} // namespace tests::RepeatFun
+} // namespace tests::Generate

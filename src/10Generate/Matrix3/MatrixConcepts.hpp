@@ -1,7 +1,7 @@
 #pragma once
 #include "../Functor.hpp"
 
-namespace src::RepeatFun::Matrix3
+namespace src::Generate::Matrix3
 {
 // Koncept sprawdzajacy, czy typ macierzy ma metode size() zwracajaca std::size_t 
 template<typename MaybeSquareMatrix> 
@@ -41,4 +41,4 @@ concept IsSquareMatrix =
 {
     { isSquareMatrix(m) } -> std::same_as<bool>;
 };
-} // namespace src::RepeatFun::Matrix3
+} // namespace src::Generate::Matrix3

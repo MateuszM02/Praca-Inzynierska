@@ -1,7 +1,7 @@
 #pragma once
 #include "Matrix.hpp"
 
-namespace src::RepeatFun::Matrix3
+namespace src::Generate::Matrix3
 {
 // funktor do podnoszenia macierzy do danej potegi
 template<template<typename> class MatrixType, typename InnerType>
@@ -15,4 +15,4 @@ private:
     const MatrixType<InnerType> originalMatrix;
     MatrixType<InnerType> currentMatrix;
 };
-} // namespace src::RepeatFun::Matrix3
+} // namespace src::Generate::Matrix3

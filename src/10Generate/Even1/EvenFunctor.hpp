@@ -3,7 +3,7 @@
 
 // Przyklad 1. Kolejne dodatnie liczby parzyste -------------------------------------------------------------
 
-namespace src::RepeatFun::Even1
+namespace src::Generate::Even1
 {
 class EvenFunctor : public Functor<unsigned int>
 {
@@ -13,4 +13,4 @@ public:
 private:
     unsigned int x;
 };
-} // namespace src::RepeatFun::Even1
+} // namespace src::Generate::Even1

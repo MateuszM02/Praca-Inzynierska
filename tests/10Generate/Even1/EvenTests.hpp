@@ -1,11 +1,11 @@
 #pragma once
 
 #include "../TestFixture.hpp"
-#include "../../../src/10RepeatFun/Even1/EvenFunctor.hpp"
+#include "../../../src/10Generate/Even1/EvenFunctor.hpp"
 
-namespace tests::RepeatFun::Even1tests
+namespace tests::Generate::Even1tests
 {
-class EvenTest : FunctorTestFixture<unsigned int>
+class EvenTest : GenerateTestFixture<unsigned int>
 { 
 public:
     void createTest(
@@ -13,4 +13,4 @@ public:
         const src::MethodType& methodType,
         const std::vector<unsigned int>& args) override;
 };
-} // namespace tests::RepeatFun::Even1tests
+} // namespace tests::Generate::Even1tests

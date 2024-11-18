@@ -1,6 +1,6 @@
 #include "EvenTests.hpp"
 
-namespace tests::RepeatFun::Even1tests
+namespace tests::Generate::Even1tests
 {
 void EvenTest::createTest(
     const unsigned int n,
@@ -10,4 +10,4 @@ void EvenTest::createTest(
     auto functor = Even1::EvenFunctor();
     runTest(functor, n, methodType);
 }
-} // namespace tests::RepeatFun::Even1tests
+} // namespace tests::Generate::Even1tests

@@ -1,6 +1,6 @@
 #include "EvenFunctor.hpp"
 
-namespace src::RepeatFun::Even1
+namespace src::Generate::Even1
 {
 EvenFunctor::EvenFunctor() : x{0} { }
 
@@ -10,4 +10,4 @@ EvenFunctor::operator()()
     x += 2;
     return x;
 }
-} // namespace src::RepeatFun::Even1
+} // namespace src::Generate::Even1
