@@ -1,9 +1,9 @@
 #pragma once
 
 #include "../TestFixture.hpp"
-#include "../../../src/10Generate/Fibonacci2/FibonacciFunctor.hpp"
+#include "../../../src/10Generate/Fibonacci1/FibonacciFunctor.hpp"
 
-namespace tests::Generate::Fibonacci2tests
+namespace tests::Generate::Fibonacci1tests
 {
 template <class Number>
 requires std::is_arithmetic_v<Number>
@@ -15,4 +15,4 @@ public:
         const src::MethodType& methodType,
         const std::vector<Number>& args) override;
 };
-} // namespace tests::Generate::Fibonacci2tests
+} // namespace tests::Generate::Fibonacci1tests

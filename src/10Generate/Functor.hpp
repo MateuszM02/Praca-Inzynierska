@@ -3,7 +3,6 @@
 #include <array>
 #include <concepts> // concept (C++ 20)
 #include <iostream>
-#include <type_traits> // std::enable_if (C++ 11)
 #include <vector>
 
 #include <boost/range/algorithm/generate.hpp> // boost::range::generate
@@ -25,40 +24,40 @@ public:
         switch (methodType)
         {
             case MethodType::STL:
-                return generateSTL(*this, n);
+                return generateSTL(n);
             case MethodType::Boost:
-                return generateBoost(*this, n);
+                return generateBoost(n);
             case MethodType::Simple:
-                return generateSimple(*this, n);
+                return generateSimple(n);
             default:
                 throw new std::invalid_argument("Zly typ metody!");
         }
     }
 
 private:
-    std::vector<DataType> generateSTL(Functor<DataType>& generator, const unsigned int n) 
+    std::vector<DataType> generateSTL(const unsigned int n) 
     {
         std::vector<DataType> sequence;
         sequence.reserve(n);
-        std::generate(sequence.begin(), sequence.end(), std::ref(generator));
+        std::generate(sequence.begin(), sequence.end(), std::ref(*this));
         return sequence;
     }
 
-    std::vector<DataType> generateBoost(Functor<DataType>& generator, const unsigned int n) 
+    std::vector<DataType> generateBoost(const unsigned int n) 
     {
         std::vector<DataType> sequence;
         sequence.reserve(n);
-        boost::range::generate(sequence, std::ref(generator));
+        boost::range::generate(sequence, std::ref(*this));
         return sequence;
     }
 
-    std::vector<DataType> generateSimple(Functor<DataType>& generator, const unsigned int n) 
+    std::vector<DataType> generateSimple(const unsigned int n) 
     {
         std::vector<DataType> sequence;
         sequence.reserve(n);
         for (DataType& element : sequence)
         {
-            element = generator();
+            element = this->operator()();
         }
         return sequence;
     }
