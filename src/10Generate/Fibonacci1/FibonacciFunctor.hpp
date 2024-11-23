@@ -1,9 +1,9 @@
 #pragma once
 #include "../Functor.hpp"
 
-// Przyklad 2. Liczby Fibonacciego --------------------------------------------------------------------------
+// Przyklad 1. Liczby Fibonacciego --------------------------------------------------------------------------
 
-namespace src::Generate::Fibonacci2
+namespace src::Generate::Fibonacci1
 {
 template <class Number>
 requires std::is_arithmetic_v<Number>
@@ -15,4 +15,4 @@ public:
 private:
     Number a, b;
 };
-} // namespace src::Generate::Fibonacci2
+} // namespace src::Generate::Fibonacci1

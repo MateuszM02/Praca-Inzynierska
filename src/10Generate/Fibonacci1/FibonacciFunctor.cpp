@@ -1,6 +1,6 @@
 #include "FibonacciFunctor.hpp"
 
-namespace src::Generate::Fibonacci2
+namespace src::Generate::Fibonacci1
 {
 template <class Number>
 requires std::is_arithmetic_v<Number>
@@ -19,4 +19,4 @@ FibonacciFunctor<Number>::operator()()
     b = next;
     return a;
 }
-} // namespace src::Generate::Fibonacci2
+} // namespace src::Generate::Fibonacci1
