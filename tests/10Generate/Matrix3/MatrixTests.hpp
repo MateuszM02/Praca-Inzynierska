@@ -1,5 +1,5 @@
 #pragma once
-#include "../TestFixture.hpp"
+#include "../GenerateTestFixture.hpp"
 #include "../../../src/10Generate/Matrix3/MatrixFunctor.hpp"
 
 namespace tests::Generate::Matrix3tests

@@ -1,5 +1,5 @@
 #pragma once
-#include "../TestFixture.hpp"
+#include "../GenerateTestFixture.hpp"
 #include "../../../src/10Generate/Fibonacci1/FibonacciFunctor.hpp"
 
 namespace tests::Generate::Fibonacci1tests

@@ -1,5 +1,5 @@
 #pragma once
-#include "../TestFixture.hpp"
+#include "../GenerateTestFixture.hpp"
 #include "../../../src/10Generate/RandomString2/RandomStringFunctor.hpp"
 
 namespace tests::Generate::RandomString2tests

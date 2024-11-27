@@ -4,13 +4,7 @@
 
 namespace tests::Merge::Tree2tests
 {
-template <class DataType>
-class TreeTest : MergeTestFixture<DataType>
-{ 
-public:
-    void createTest(
-        const std::vector<Trees2::TreeNode<DataType>>& v1,
-        const std::vector<Trees2::TreeNode<DataType>>& v2,
-        const src::MethodType& methodType) override;
-};
+
+// TODO: TreeTests.hpp
+
 } // namespace tests::Merge::Tree2tests
