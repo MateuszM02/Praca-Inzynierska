@@ -1,6 +1,6 @@
 #include "IntVector.hpp"
 
-namespace src::Merge::Vector2
+namespace src::Merge::Vector3
 {
 // v1 jest "mniejszym" wektorem od v2 kiedy:
 // 1. ma mniej elementow LUB
@@ -22,4 +22,4 @@ bool IntVector::operator()(const std::vector<int>& v1, const std::vector<int>& v
     }
     return v1Smaller < v1Bigger;
 }
-} // namespace src::Merge::Vector2
+} // namespace src::Merge::Vector3
