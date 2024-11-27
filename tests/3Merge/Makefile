@@ -1,48 +1,46 @@
 # Folder z implemetacja
 BASE_DIR = ../../src/3Merge
 
-# # TODO: Pliki wyjsciowe
-# OBJ = \
-# 	RandomString2/RandomStringTests.o \
-# 	Fibonacci1/FibonacciTests.o \
-# 	Matrix3/MatrixTests.o
+# Pliki wyjsciowe
+OBJ = \
+	Points1/PointsTests.o \
+	Trees2/TreeTests.o \
+	Vector3/VectorTests.o
 
-# # TODO: Pliki zrodlowe
-# SRC = \
-# 	$(BASE_DIR)/RandomString2/RandomStringFunctor.cpp \
-# 	$(BASE_DIR)/Fibonacci1/FibonacciFunctor.cpp \
-# 	$(BASE_DIR)/Matrix3/Matrix.cpp \
-# 	$(BASE_DIR)/Matrix3/MatrixFunctor.cpp \
-# 	RandomString2/RandomStringTests.cpp \
-# 	Fibonacci1/FibonacciTests.cpp \
-# 	Matrix3/MatrixTests.cpp
+# Pliki zrodlowe
+SRC = \
+	$(BASE_DIR)/Points1/Points.cpp \
+	$(BASE_DIR)/Trees2/Tree.cpp \
+	$(BASE_DIR)/Vector3/IntVector.cpp \
+	Points1/PointsTests.cpp \
+	Trees2/TreeTests.cpp \
+	Vector3/VectorTests.cpp
 
 # Zaladuj flagi kompilacyjne z glownego Makefile'a
 include ../../Makefile
 
-# # TODO: Pliki naglowkowe
-# HEADERS = \
-# 	$(BASE_DIR)/RandomString2/RandomStringFunctor.hpp \
-# 	$(BASE_DIR)/Fibonacci1/FibonacciFunctor.hpp \
-# 	$(BASE_DIR)/Matrix3/Matrix.hpp \
-# 	$(BASE_DIR)/Matrix3/MatrixFunctor.hpp \
-# 	RandomString2/RandomStringTests.hpp \
-# 	Fibonacci1/FibonacciTests.hpp \
-# 	Matrix3/MatrixTests.hpp \
-# 	TestFixture.hpp
+# Pliki naglowkowe
+HEADERS = \
+	$(BASE_DIR)/Points1/Points.hpp \
+	$(BASE_DIR)/Trees2/Tree.hpp \
+	$(BASE_DIR)/Vector3/IntVector.hpp \
+	Points1/PointsTests.hpp \
+	Trees2/TreeTests.hpp \
+	Vector3/VectorTests.hpp \
+	MergeTestFixture.hpp
 
 # kompiluj wszystkie pliki w tym folderze
 all: $(OBJ)
 
-# # TODO: Kompilator testow
-# RandomString2/RandomStringTests.o: $(HEADERS) RandomString2/RandomStringTests.cpp RandomString2/RandomStringTests.hpp
-# 	$(COMPILE) $(CXXFLAGS) -c RandomString2/RandomStringTests.cpp -o RandomString2/RandomStringTests.o
+# Kompilator testow
+Points1/PointsTests.o: $(HEADERS) Points1/PointsTests.cpp Points1/PointsTests.hpp
+	$(COMPILE) $(CXXFLAGS) -c Points1/PointsTests.cpp -o Points1/PointsTests.o
 
-# Fibonacci1/FibonacciTests.o: $(HEADERS) Fibonacci1/FibonacciTests.cpp Fibonacci1/FibonacciTests.hpp
-# 	$(COMPILE) $(CXXFLAGS) -c Fibonacci1/FibonacciTests.cpp -o Fibonacci1/FibonacciTests.o
+Trees2/TreeTests.o: $(HEADERS) Trees2/TreeTests.cpp Trees2/TreeTests.hpp
+	$(COMPILE) $(CXXFLAGS) -c Trees2/TreeTests.cpp -o Trees2/TreeTests.o
 
-# Matrix3/MatrixTests.o: $(HEADERS) Matrix3/MatrixTests.cpp Matrix3/MatrixTests.hpp
-# 	$(COMPILE) $(CXXFLAGS) -c Matrix3/MatrixTests.cpp -o Matrix3/MatrixTests.o
+Vector3/VectorTests.o: $(HEADERS) Vector3/VectorTests.cpp Vector3/VectorTests.hpp
+	$(COMPILE) $(CXXFLAGS) -c Vector3/VectorTests.cpp -o Vector3/VectorTests.o
 
 # Inne metody
 clean:
