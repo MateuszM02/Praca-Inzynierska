@@ -1,3 +1,5 @@
+#pragma once
+
 namespace src
 {
 enum MethodType

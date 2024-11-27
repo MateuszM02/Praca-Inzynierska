@@ -1,6 +1,9 @@
 #pragma once
 #include "../Merger.hpp"
+
 #include <memory> // std::unique_ptr
+
+// Przyklad 2. Glebokosc drzewa -----------------------------------------------------------------------------
 
 namespace src::Merge::Trees2 
 {

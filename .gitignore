@@ -1,0 +1,3 @@
+# Ignoruj katalogi konfiguracyjne/budujace pliki wynikowe
+.vscode/
+build/

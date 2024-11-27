@@ -1,5 +1,4 @@
 #pragma once
-
 #include "../MergeTestFixture.hpp"
 #include "../../../src/3Merge/Trees2/Tree.hpp"
 

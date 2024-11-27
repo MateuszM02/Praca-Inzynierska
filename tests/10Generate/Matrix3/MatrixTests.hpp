@@ -1,5 +1,4 @@
 #pragma once
-
 #include "../TestFixture.hpp"
 #include "../../../src/10Generate/Matrix3/MatrixFunctor.hpp"
 
