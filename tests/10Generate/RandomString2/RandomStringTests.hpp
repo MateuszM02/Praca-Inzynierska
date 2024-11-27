@@ -1,16 +1,18 @@
-#pragma once
-
 #include "../TestFixture.hpp"
 #include "../../../src/10Generate/RandomString2/RandomStringFunctor.hpp"
 
-namespace tests::Generate::RandomString2tests
+namespace tests::Generate::RandomString2Tests
 {
-class RandomStringTest : GenerateTestFixture<std::string>
-{ 
-public:
-    void createTest(
-        const unsigned int n,
-        const src::MethodType& methodType,
-        const std::vector<std::string>& args) override;
+
+struct RandomStringArgs : public GenerateTestStruct<std::string>
+{
+    RandomStringArgs(unsigned int length, unsigned int n, std::vector<std::string> v);
+    
+    RandomString2::RandomStringFunctor functor;
 };
-} // namespace tests::Generate::RandomString2tests
+
+class RandomStringFixture : public GenerateTestFixture<std::string> 
+{ 
+};
+
+} // namespace tests::Generate::RandomString2Tests

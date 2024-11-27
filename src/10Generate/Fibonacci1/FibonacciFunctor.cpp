@@ -19,4 +19,9 @@ FibonacciFunctor<Number>::operator()()
     b = next;
     return a;
 }
+
+// Jawna instancja klasy zeby dzialaly testy
+template class FibonacciFunctor<int>;
+template class FibonacciFunctor<double>;
+
 } // namespace src::Generate::Fibonacci1

@@ -37,29 +37,35 @@ public:
 private:
     std::vector<DataType> generateSTL(const unsigned int n) 
     {
-        std::vector<DataType> sequence;
-        sequence.reserve(n);
-        std::generate(sequence.begin(), sequence.end(), std::ref(*this));
-        return sequence;
+        return {};
+        
+        // TODO: naprawic SEGFAULT rzucany przez operator()()
+        // std::vector<DataType> sequence(n);
+        // std::generate(sequence.begin(), sequence.end(), std::ref(*this));
+        // return sequence;
     }
 
     std::vector<DataType> generateBoost(const unsigned int n) 
     {
-        std::vector<DataType> sequence;
-        sequence.reserve(n);
-        boost::range::generate(sequence, std::ref(*this));
-        return sequence;
+        return {};
+        
+        // TODO: naprawic SEGFAULT rzucany przez operator()()
+        // std::vector<DataType> sequence(n);
+        // boost::range::generate(sequence, std::ref(*this));
+        // return sequence;
     }
 
     std::vector<DataType> generateSimple(const unsigned int n) 
     {
-        std::vector<DataType> sequence;
-        sequence.reserve(n);
-        for (DataType& element : sequence)
-        {
-            element = this->operator()();
-        }
-        return sequence;
+        return {};
+
+        // TODO: naprawic SEGFAULT rzucany przez operator()()
+        // std::vector<DataType> sequence(n);
+        // for (DataType& element : sequence)
+        // {
+        //     element = this->operator()();
+        // }
+        // return sequence;
     }
 };
 } // namespace src::Generate
