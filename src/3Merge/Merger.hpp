@@ -100,6 +100,4 @@ private:
     }
 };
 
-// template class Merger<int>;
-
 } // namespace src::Merge
