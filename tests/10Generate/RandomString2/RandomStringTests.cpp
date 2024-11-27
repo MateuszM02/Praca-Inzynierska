@@ -1,6 +1,6 @@
 #include "RandomStringTests.hpp"
 
-namespace tests::Generate::RandomString2Tests
+namespace tests::Generate::RandomString2tests
 {
 
 RandomStringArgs::RandomStringArgs(
@@ -39,4 +39,4 @@ INSTANTIATE_TEST_SUITE_P(
                         std::vector<std::string>{ "2", "2", "4", "6", "10", "16", "26", "42", "68"})
 ));
 
-} // namespace tests::Generate::RandomString2Tests
+} // namespace tests::Generate::RandomString2tests

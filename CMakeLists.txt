@@ -20,35 +20,7 @@ enable_testing()
 set(BOOST_ROOT "C:/boost_1_82_0") 
 include_directories(${BOOST_ROOT})
 
-add_executable(
-  FibonacciTests
-  tests/10Generate/Fibonacci1/FibonacciTests.cpp
-  src/10Generate/Fibonacci1/FibonacciFunctor.cpp
-)
-
-add_executable(
-  RandomStringTests
-  tests/10Generate/RandomString2/RandomStringTests.cpp
-  src/10Generate/RandomString2/RandomStringFunctor.cpp
-)
-
-# Dodaj Boost do kazdego execa 
-target_include_directories(FibonacciTests PRIVATE ${Boost_INCLUDE_DIRS})
-target_include_directories(RandomStringTests PRIVATE ${Boost_INCLUDE_DIRS})
-
-target_link_libraries(
-  FibonacciTests
-  GTest::gtest_main
-)
-
-target_link_libraries(
-  RandomStringTests
-  GTest::gtest_main
-)
-
-include(GoogleTest)
-gtest_discover_tests(FibonacciTests)
-gtest_discover_tests(RandomStringTests)
+add_subdirectory(tests)
 
 # komendy do wywolywania w glownym folderze (nie wewnatrz build)
 
