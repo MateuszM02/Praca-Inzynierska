@@ -1,4 +1,6 @@
 #pragma once
+#include "../MethodType.hpp"
+
 #include <algorithm> // std::generate
 #include <array>
 #include <concepts> // concept (C++ 20)
@@ -6,8 +8,6 @@
 #include <vector>
 
 #include <boost/range/algorithm/generate.hpp> // boost::range::generate
-
-#include "../MethodType.hpp"
 
 namespace src::Generate
 {

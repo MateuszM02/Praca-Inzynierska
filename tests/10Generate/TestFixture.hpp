@@ -1,6 +1,6 @@
 #pragma once
-
 #include "../../src/10Generate/Functor.hpp"
+
 #include <gtest/gtest.h>
 
 using namespace src::Generate;

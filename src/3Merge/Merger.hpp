@@ -1,11 +1,11 @@
 #pragma once
+#include "../MethodType.hpp"
+
 #include <concepts> // concept (C++ 20)
 #include <iostream>
 #include <vector>
 
 #include <boost/range/algorithm/merge.hpp> // boost::range::merge
-
-#include "../MethodType.hpp"
 
 namespace src::Merge
 {

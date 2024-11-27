@@ -1,3 +1,4 @@
+#pragma once
 #include "../TestFixture.hpp"
 #include "../../../src/10Generate/Fibonacci1/FibonacciFunctor.hpp"
 

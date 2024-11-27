@@ -1,9 +1,10 @@
 #pragma once
 #include "Matrix.hpp"
 
+// Przyklad 3. Podnoszenie kwadratowej macierzy do potegi n-tej ---------------------------------------------
+
 namespace src::Generate::Matrix3
 {
-// funktor do podnoszenia macierzy do danej potegi
 template<template<typename> class MatrixType, typename InnerType>
 requires IsSquareMatrix<InnerType>
 class MatrixFunctor : public Functor<MatrixType<InnerType>>

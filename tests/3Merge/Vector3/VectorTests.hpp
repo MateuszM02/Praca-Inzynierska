@@ -1,5 +1,4 @@
 #pragma once
-
 #include "../MergeTestFixture.hpp"
 #include "../../../src/3Merge/Vector3/IntVector.hpp"
 
