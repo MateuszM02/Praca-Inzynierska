@@ -5,16 +5,16 @@
 
 namespace src::Generate::Matrix3
 {
-template<template<typename> class MatrixType, typename InnerType>
-requires IsSquareMatrix<InnerType>
-class MatrixFunctor : public Functor<MatrixType<InnerType>>
+template <class Number>
+requires std::is_arithmetic_v<Number>
+class MatrixFunctor : public Functor<Matrix<Number>>
 {
 public:
-    MatrixFunctor(const MatrixType<InnerType>& m);
-    MatrixType<InnerType> operator()() override;
-    std::shared_ptr<Functor<MatrixType<InnerType>>> clone() const override;
+    MatrixFunctor(const Matrix<Number>& m);
+    Matrix<Number> operator()() override;
+    std::shared_ptr<Functor<Matrix<Number>>> clone() const override;
 private:
-    const MatrixType<InnerType> originalMatrix;
-    MatrixType<InnerType> currentMatrix;
+    const Matrix<Number> originalMatrix;
+    Matrix<Number> currentMatrix;
 };
 } // namespace src::Generate::Matrix3

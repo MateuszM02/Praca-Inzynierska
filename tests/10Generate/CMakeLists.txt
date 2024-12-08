@@ -20,7 +20,7 @@ add_executable(
   ${SRC_DIR}/Matrix3/Matrix.cpp
 )
 
-# Dodaj Boost do kazdego execa 
+# Dodaj Boost i GTEST do kazdego execa 
 target_include_directories(FibonacciTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
 target_include_directories(RandomStringTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
 target_include_directories(MatrixTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)

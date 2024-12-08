@@ -2,28 +2,32 @@
 
 namespace src::Generate::Matrix3
 {
-template<template<typename> class MatrixType, typename InnerType>
-requires IsSquareMatrix<InnerType>
-MatrixFunctor<MatrixType, InnerType>::MatrixFunctor(const MatrixType<InnerType>& m) 
+template <class Number>
+requires std::is_arithmetic_v<Number>
+MatrixFunctor<Number>::MatrixFunctor(const Matrix<Number>& m) 
 : originalMatrix(m) 
 , currentMatrix(m)
 { }
 
-template<template<typename> class MatrixType, typename InnerType>
-requires IsSquareMatrix<InnerType>
-MatrixType<InnerType> 
-MatrixFunctor<MatrixType, InnerType>::operator()()
+template <class Number>
+requires std::is_arithmetic_v<Number>
+Matrix<Number> 
+MatrixFunctor<Number>::operator()()
 {
     currentMatrix *= originalMatrix;
     return currentMatrix;
 }
 
-template<template<typename> class MatrixType, typename InnerType>
-requires IsSquareMatrix<InnerType>
-std::shared_ptr<Functor<MatrixType<InnerType>>>
-MatrixFunctor<MatrixType, InnerType>::clone() const
+template <class Number>
+requires std::is_arithmetic_v<Number>
+std::shared_ptr<Functor<Matrix<Number>>>
+MatrixFunctor<Number>::clone() const
 {
     return std::make_shared<MatrixFunctor>(*this);
 }
+
+// Jawna instancja klasy zeby dzialaly testy
+template class MatrixFunctor<int>;
+template class MatrixFunctor<double>;
 
 } // namespace src::Generate::Matrix3
