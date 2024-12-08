@@ -41,4 +41,5 @@ concept IsSquareMatrix =
 {
     { isSquareMatrix(m) } -> std::same_as<bool>;
 };
+
 } // namespace src::Generate::Matrix3

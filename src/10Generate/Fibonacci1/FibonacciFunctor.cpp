@@ -20,6 +20,14 @@ FibonacciFunctor<Number>::operator()()
     return a;
 }
 
+template <class Number>
+requires std::is_arithmetic_v<Number>
+std::shared_ptr<Functor<Number>> 
+FibonacciFunctor<Number>::clone() const
+{
+    return std::make_shared<FibonacciFunctor>(*this);
+}
+
 // Jawna instancja klasy zeby dzialaly testy
 template class FibonacciFunctor<int>;
 template class FibonacciFunctor<double>;

@@ -20,25 +20,14 @@ add_executable(
 )
 
 # Dodaj Boost do kazdego execa 
-target_include_directories(PointsTests PRIVATE ${Boost_INCLUDE_DIRS})
-target_include_directories(TreeTests PRIVATE ${Boost_INCLUDE_DIRS})
-target_include_directories(VectorTests PRIVATE ${Boost_INCLUDE_DIRS})
+target_include_directories(PointsTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
+target_include_directories(TreeTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
+target_include_directories(VectorTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
 
 # Polacz z GTEST_main
-target_link_libraries(
-  PointsTests
-  GTest::gtest_main
-)
-
-target_link_libraries(
-  TreeTests
-  GTest::gtest_main
-)
-
-target_link_libraries(
-    VectorTests
-  GTest::gtest_main
-)
+target_link_libraries(PointsTests GTest::gtest_main)
+target_link_libraries(TreeTests GTest::gtest_main)
+target_link_libraries(VectorTests GTest::gtest_main)
 
 # Dolacz testy GTEST
 include(GoogleTest)

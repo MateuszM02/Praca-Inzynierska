@@ -17,4 +17,13 @@ MatrixFunctor<MatrixType, InnerType>::operator()()
     currentMatrix *= originalMatrix;
     return currentMatrix;
 }
+
+template<template<typename> class MatrixType, typename InnerType>
+requires IsSquareMatrix<InnerType>
+std::shared_ptr<Functor<MatrixType<InnerType>>>
+MatrixFunctor<MatrixType, InnerType>::clone() const
+{
+    return std::make_shared<MatrixFunctor>(*this);
+}
+
 } // namespace src::Generate::Matrix3

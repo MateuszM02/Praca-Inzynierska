@@ -21,25 +21,14 @@ add_executable(
 )
 
 # Dodaj Boost do kazdego execa 
-target_include_directories(FibonacciTests PRIVATE ${Boost_INCLUDE_DIRS})
-target_include_directories(RandomStringTests PRIVATE ${Boost_INCLUDE_DIRS})
-target_include_directories(MatrixTests PRIVATE ${Boost_INCLUDE_DIRS})
+target_include_directories(FibonacciTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
+target_include_directories(RandomStringTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
+target_include_directories(MatrixTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
 
 # Polacz z GTEST_main
-target_link_libraries(
-  FibonacciTests
-  GTest::gtest_main
-)
-
-target_link_libraries(
-  RandomStringTests
-  GTest::gtest_main
-)
-
-target_link_libraries(
-  MatrixTests
-  GTest::gtest_main
-)
+target_link_libraries(FibonacciTests GTest::gtest_main)
+target_link_libraries(RandomStringTests GTest::gtest_main)
+target_link_libraries(MatrixTests GTest::gtest_main)
 
 # Dolacz testy GTEST
 include(GoogleTest)

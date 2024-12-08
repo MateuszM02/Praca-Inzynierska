@@ -7,12 +7,12 @@ namespace tests::Generate::RandomString2tests
 
 struct RandomStringArgs : public GenerateTestStruct<std::string>
 {
-    RandomStringArgs(unsigned int length, unsigned int n, std::vector<std::string> v);
+    RandomStringArgs(unsigned int l, unsigned int n);
     
-    RandomString2::RandomStringFunctor functor;
+    unsigned int length;
 };
 
-class RandomStringFixture : public GenerateTestFixture<std::string> 
+class RandomStringFixture : public ::testing::TestWithParam<RandomStringArgs>
 { 
 };
 
