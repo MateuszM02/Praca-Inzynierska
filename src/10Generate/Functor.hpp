@@ -21,16 +21,19 @@ public:
     virtual DataType operator()() = 0;
     virtual std::shared_ptr<Functor<DataType>> clone() const = 0;
 
-    std::vector<DataType> call(const unsigned int n, const MethodType& methodType)
+    std::vector<DataType> callFunctor(
+        const unsigned int n, 
+        const MethodType& methodType,
+        std::ostream& os)
     {
         switch (methodType)
         {
             case MethodType::STL:
-                return measureExecutionTime("STL", &generateSTL, n);
+                return measureExecutionTime(&generateSTL, "STL", n, os);
             case MethodType::Boost:
-                return measureExecutionTime("Boost", &generateBoost, n);
+                return measureExecutionTime(&generateBoost, "Boost", n, os);
             case MethodType::Simple:
-                return measureExecutionTime("Simple", &generateSimple, n);
+                return measureExecutionTime(&generateSimple, "Simple", n, os);
             default:
                 throw new std::invalid_argument("Zly typ metody!");
         }
@@ -38,34 +41,35 @@ public:
 
 private:
     std::vector<DataType> measureExecutionTime(
-        const std::string& methodName, 
-        std::vector<DataType>(Functor::*memberFunction)(const unsigned int), 
-        const unsigned int n) 
+        std::vector<DataType>(Functor::*memberFunction)(const unsigned int),
+        const std::string& methodName,
+        const unsigned int n,
+        std::ostream& os)
     { 
-        auto start = std::chrono::high_resolution_clock::now(); 
-        std::vector<DataType> result = (this->*memberFunction)(n); 
+        auto start = std::chrono::high_resolution_clock::now();
+        std::vector<DataType> result = (this->*memberFunction)(n);
         auto end = std::chrono::high_resolution_clock::now();
 
-        std::chrono::duration<double> duration = end - start; 
-        std::cout << methodName << " call time: " << duration.count() << " seconds\n"; 
-        return result; 
+        std::chrono::duration<double> duration = end - start;
+        os << methodName << " call time: " << duration.count() << " seconds\n";
+        return result;
     }
 
-    std::vector<DataType> generateSTL(const unsigned int n) 
+    std::vector<DataType> generateSTL(const unsigned int n)
     {
         std::vector<DataType> sequence(n);
         std::generate(sequence.begin(), sequence.end(), [this]() { return this->operator()(); });
         return sequence;
     }
 
-    std::vector<DataType> generateBoost(const unsigned int n) 
+    std::vector<DataType> generateBoost(const unsigned int n)
     {
         std::vector<DataType> sequence(n);
         boost::range::generate(sequence, [this]() { return this->operator()(); });
         return sequence;
     }
 
-    std::vector<DataType> generateSimple(const unsigned int n) 
+    std::vector<DataType> generateSimple(const unsigned int n)
     {
         std::vector<DataType> sequence(n);
         for (DataType& element : sequence)
@@ -75,4 +79,5 @@ private:
         return sequence;
     }
 };
+
 } // namespace src::Generate

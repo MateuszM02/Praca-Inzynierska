@@ -1,6 +1,7 @@
 #pragma once
 #include "../../src/10Generate/Functor.hpp"
 
+#include <fstream>
 #include <gtest/gtest.h>
 
 using namespace src::Generate;
@@ -12,14 +13,20 @@ template <typename DataType>
 struct GenerateTestStruct
 {
 public:
+    const std::string filePath;
     std::shared_ptr<Functor<DataType>> functorRef;
     unsigned int number;
     std::vector<DataType> expectedResult;
 
-    GenerateTestStruct(std::shared_ptr<Functor<DataType>> f, unsigned int n, std::vector<DataType> v) 
-    : functorRef{f} 
-    , number{n} 
-    , expectedResult{std::move(v)} 
+    GenerateTestStruct(
+        const std::string& path,
+        std::shared_ptr<Functor<DataType>> f,
+        const unsigned int n,
+        const std::vector<DataType>& v)
+    : filePath{path}
+    , functorRef{f}
+    , number{n}
+    , expectedResult{v}
     { }
 };
 
@@ -38,24 +45,35 @@ public:
         const std::shared_ptr<Functor<DataType>> boostFunctor = args.functorRef->clone();
         const std::shared_ptr<Functor<DataType>> simpleFunctor = args.functorRef->clone();
 
-        const std::vector<DataType>& stlResult = args.functorRef->call(args.number, src::MethodType::STL);
-        const std::vector<DataType>& boostResult = boostFunctor->call(args.number, src::MethodType::Boost);
-        const std::vector<DataType>& simpleResult = simpleFunctor->call(args.number, src::MethodType::Simple);
-        
-        ASSERT_EQ(stlResult, args.expectedResult); 
-        ASSERT_EQ(boostResult, args.expectedResult); 
-        ASSERT_EQ(simpleResult, args.expectedResult);
+        std::ostringstream os; // Uzycie ostringstream do wypisywania wynikow testow
 
-        ASSERT_EQ(stlResult.size(), args.expectedResult.size()); 
-        ASSERT_EQ(boostResult.size(), args.expectedResult.size()); 
-        ASSERT_EQ(simpleResult.size(), args.expectedResult.size()); 
-        
-        for (unsigned int i = 0; i < args.expectedResult.size(); ++i) 
-        { 
-            EXPECT_EQ(stlResult[i], args.expectedResult[i]) << "Wynik STL rozni sie na indeksie " << i; 
-            EXPECT_EQ(boostResult[i], args.expectedResult[i]) << "Wynik Boost rozni sie na indeksie " << i; 
-            EXPECT_EQ(simpleResult[i], args.expectedResult[i]) << "Wynik Simple rozni sie na indeksie " << i; 
+        const std::vector<DataType>& stlResult = args.functorRef->callFunctor(args.number, src::MethodType::STL, os);
+        const std::vector<DataType>& boostResult = boostFunctor->callFunctor(args.number, src::MethodType::Boost, os);
+        const std::vector<DataType>& simpleResult = simpleFunctor->callFunctor(args.number, src::MethodType::Simple, os);
+
+        EXPECT_EQ(stlResult.size(), args.expectedResult.size()) << "Rozmiar wyniku STL różni się od oczekiwanego."; 
+        EXPECT_EQ(boostResult.size(), args.expectedResult.size()) << "Rozmiar wyniku Boost różni się od oczekiwanego."; 
+        EXPECT_EQ(simpleResult.size(), args.expectedResult.size()) << "Rozmiar wyniku Simple różni się od oczekiwanego.";
+
+        for (unsigned int i = 0; i < args.expectedResult.size(); ++i)
+        {
+            EXPECT_EQ(stlResult[i], args.expectedResult[i]) << "Wynik STL różni się na indeksie " << i;
+            EXPECT_EQ(boostResult[i], args.expectedResult[i]) << "Wynik Boost różni się na indeksie " << i;
+            EXPECT_EQ(simpleResult[i], args.expectedResult[i]) << "Wynik Simple różni się na indeksie " << i;
+        }
+
+        // Wypisz wynik testu do podanego pliku
+        std::ofstream outFile(args.filePath, std::ios::out | std::ios::trunc);
+        if (outFile.is_open())
+        {
+            outFile << os.str();
+            outFile.close();
+        }
+        else
+        {
+            std::cerr << "Nie udalo sie zapisac wynikow testu do pliku: " << args.filePath << "\n";
         }
     }
 };
+
 } // namespace tests::Generate

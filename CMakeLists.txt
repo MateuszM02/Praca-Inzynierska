@@ -20,6 +20,7 @@ FetchContent_MakeAvailable(googletest)
 # Wlacz testowanie za pomoca komend CMake
 enable_testing()
 
+# TODO: dynamiczne znajdowanie Boosta
 set(BOOST_ROOT "C:/boost_1_82_0") 
 include_directories(${BOOST_ROOT})
 
