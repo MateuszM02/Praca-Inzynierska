@@ -1,9 +1,11 @@
 #pragma once
-#include "MatrixConcepts.hpp"
-#define SquareMatrix(T) std::vector<std::vector<T>>
+#include "../Functor.hpp"
 
 namespace src::Generate::Matrix3
 {
+
+template <class Number> 
+using SquareMatrix = std::vector<std::vector<Number>>;
 
 // klasa trzymajaca 2-wymiarowa, kwadratowa macierz
 template <class Number>
@@ -13,7 +15,7 @@ class Matrix
 public: 
     Matrix() : n(0), matrix({ { } }) { }
 
-    Matrix(const SquareMatrix(Number)& values) 
+    Matrix(const SquareMatrix<Number>& values) 
     : n(values.size())
     , matrix(values) 
     { } 
@@ -33,6 +35,6 @@ public:
 
 private: 
     size_t n; 
-    SquareMatrix(Number) matrix;
+    SquareMatrix<Number> matrix;
 };
 } // namespace src::Generate::Matrix3

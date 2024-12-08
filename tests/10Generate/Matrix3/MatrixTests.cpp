@@ -29,13 +29,13 @@ INSTANTIATE_TEST_SUITE_P(
         MatrixArgs<int>(
             Path::Create(Matrix, 2),
             Matrix3::MatrixFunctor<int>(Examples::c1(50u)), 
-            150u, 
-            Examples::C(50u, 150u)),
+            100u, 
+            Examples::C(50u, 100u)),
         MatrixArgs<int>(
             Path::Create(Matrix, 3),
-            Matrix3::MatrixFunctor<int>(Examples::c1(150u)), 
+            Matrix3::MatrixFunctor<int>(Examples::c1(100u)), 
             50u, 
-            Examples::C(150u, 50u))
+            Examples::C(100u, 50u))
     ));
 
 INSTANTIATE_TEST_SUITE_P(

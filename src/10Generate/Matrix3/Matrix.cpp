@@ -24,7 +24,7 @@ Matrix<Number>::operator*=(const Matrix<Number>& other)
         throw std::invalid_argument("Matrix dimensions must match for multiplication."); 
     } 
     
-    SquareMatrix(Number) result(n, std::vector<Number>(n)); 
+    SquareMatrix<Number> result(n, std::vector<Number>(n)); 
 
     for (size_t row = 0; row < n; ++row)
     {
@@ -38,13 +38,6 @@ Matrix<Number>::operator*=(const Matrix<Number>& other)
         }
     }
 
-    // for (size_t row = 0; row < n; ++row)
-    // {
-    //     for (size_t col = 0; col < n; ++col)
-    //     {
-    //         matrix[row][col] = result[row][col];
-    //     }
-    // }
     matrix = result;
     return *this;
 }
