@@ -1,5 +1,6 @@
 #pragma once
 #include "../GenerateTestFixture.hpp"
+#include "../Path.hpp"
 #include "../../../src/10Generate/Fibonacci1/FibonacciFunctor.hpp"
 
 namespace tests::Generate::Fibonacci1tests
@@ -10,6 +11,7 @@ requires std::is_arithmetic_v<Number>
 struct FibonacciArgs : public GenerateTestStruct<Number>
 {
     FibonacciArgs(
+        const std::string& path,
         Fibonacci1::FibonacciFunctor<Number> f, 
         unsigned int n, 
         const std::vector<Number>& expectedResult);
@@ -30,4 +32,5 @@ TEST_P(FibonacciDoubleFixture, doubleTest)
 { 
     VerifyTest(GetParam());
 }
+
 } // namespace tests::Generate::Fibonacci1tests

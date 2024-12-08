@@ -2,59 +2,85 @@
 
 namespace src::Generate::Matrix3
 {
-template<typename SquareMatrix> 
-requires IsSquareMatrix<SquareMatrix>
+template <class Number>
+requires std::is_arithmetic_v<Number>
 const auto& 
-Matrix<SquareMatrix>::at(size_t i, size_t j) const
+Matrix<Number>::at(size_t row, size_t col) const
 { 
-    if (i >= n || j >= n) 
+    if (row >= n || col >= n) 
     { 
         throw std::out_of_range("Index out of range."); 
     } 
-    return matrix[i][j]; 
+    return matrix[row][col]; 
 } 
  
-template<typename SquareMatrix>
-requires IsSquareMatrix<SquareMatrix>
-Matrix<SquareMatrix> 
-Matrix<SquareMatrix>::operator*(const Matrix<SquareMatrix>& other) const
+template <class Number>
+requires std::is_arithmetic_v<Number>
+Matrix<Number> 
+Matrix<Number>::operator*=(const Matrix<Number>& other)
 { 
     if (n != other.n) 
     { 
         throw std::invalid_argument("Matrix dimensions must match for multiplication."); 
     } 
     
-    SquareMatrix result(matrix.size(), 
-        typename SquareMatrix::value_type(matrix.size())); 
-    
-    for (size_t i = 0; i < n; ++i) 
-    { 
-        for (size_t j = 0; j < n; ++j) 
-        { 
-            result[i][j] = 0; 
-            for (size_t k = 0; k < n; ++k) 
-            { 
-                result[i][j] += matrix[i][k] * other.matrix[k][j]; 
-            } 
-        } 
-    } 
-    return Matrix<SquareMatrix>(result);
+    SquareMatrix<Number> result(n, std::vector<Number>(n)); 
+
+    for (size_t row = 0; row < n; ++row)
+    {
+        for (size_t col = 0; col < n; ++col)
+        {
+            result[row][col] = 0;
+            for (size_t k = 0; k < n; ++k)
+            {
+                result[row][col] += matrix[row][k] * other.matrix[k][col];
+            }
+        }
+    }
+
+    matrix = result;
+    return *this;
 }
 
-template <typename OtherSquareMatrix>
-requires IsSquareMatrix<OtherSquareMatrix>
+template <class Number>
+requires std::is_arithmetic_v<Number>
+bool 
+Matrix<Number>::operator==(const Matrix<Number>& other) const
+{
+    if (this->n != other.n) return false;
+
+    for (size_t row = 0; row < this->n; ++row)
+    {
+        for (size_t col = 0; col < this->n; ++col)
+        {
+            if (this->at(row, col) != other.at(row, col))
+                return false;
+        }
+    }
+
+    return true;
+}
+
+template <typename OtherNumber>
+requires std::is_arithmetic_v<OtherNumber>
 std::ostream& 
-operator<<(std::ostream& os, const Matrix<OtherSquareMatrix>& mat) 
+operator<<(std::ostream& os, const Matrix<OtherNumber>& mat) 
 { 
-    for (const auto& row : mat.matrix) 
-    { 
-        for (const auto& elem : row) 
-        { 
-            os << elem << " "; 
-        } 
-        os << std::endl; 
-    } 
+    for (size_t row = 0; row < mat.size(); ++row)
+    {
+        for (size_t col = 0; col < mat.size(); ++col)
+        {
+            os << mat.at(row, col) << " ";
+        }
+    }
     return os; 
 }
+
+// Jawna instancja klasy zeby dzialaly testy
+template class Matrix<int>;
+template class Matrix<double>;
+
+template std::ostream& operator<< (std::ostream& os, const Matrix<int>& mat);
+template std::ostream& operator<< (std::ostream& os, const Matrix<double>& mat);
 
 } // namespace src::Generate::Matrix3

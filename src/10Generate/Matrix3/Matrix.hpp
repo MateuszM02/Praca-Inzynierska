@@ -1,15 +1,21 @@
 #pragma once
-#include "MatrixConcepts.hpp"
+#include "../Functor.hpp"
 
 namespace src::Generate::Matrix3
 {
+
+template <class Number> 
+using SquareMatrix = std::vector<std::vector<Number>>;
+
 // klasa trzymajaca 2-wymiarowa, kwadratowa macierz
-template<typename SquareMatrix> 
-requires IsSquareMatrix<SquareMatrix> 
+template <class Number>
+requires std::is_arithmetic_v<Number>
 class Matrix
 { 
 public: 
-    Matrix(const SquareMatrix& values) 
+    Matrix() : n(0), matrix({ { } }) { }
+
+    Matrix(const SquareMatrix<Number>& values) 
     : n(values.size())
     , matrix(values) 
     { } 
@@ -18,14 +24,17 @@ public:
     const auto& at(size_t i, size_t j) const; 
 
     // Operator mnozenia macierzy 
-    Matrix<SquareMatrix> operator*(const Matrix<SquareMatrix>& other) const;
+    Matrix<Number> operator*=(const Matrix<Number>& other);
+
+    // Operator rownosci elementow macierzy
+    bool operator==(const Matrix<Number>& other) const;
 
     // operator do wypisywania wartosci macierzy
-    template <typename OtherSquareMatrix>
-    friend std::ostream& operator<<(std::ostream& os, const Matrix<OtherSquareMatrix>& mat);
+    template <typename OtherNumber>
+    friend std::ostream& operator<<(std::ostream& os, const Matrix<OtherNumber>& mat);
 
 private: 
     size_t n; 
-    SquareMatrix matrix;
+    SquareMatrix<Number> matrix;
 };
 } // namespace src::Generate::Matrix3
