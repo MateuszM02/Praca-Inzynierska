@@ -12,11 +12,11 @@ template <typename DataType>
 struct GenerateTestStruct
 {
 public:
-    Functor<DataType>& functorRef;
+    std::shared_ptr<Functor<DataType>> functorRef;
     unsigned int number;
     std::vector<DataType> expectedResult;
 
-    GenerateTestStruct(Functor<DataType>& f, unsigned int n, std::vector<DataType> v) 
+    GenerateTestStruct(std::shared_ptr<Functor<DataType>> f, unsigned int n, std::vector<DataType> v) 
     : functorRef{f} 
     , number{n} 
     , expectedResult{std::move(v)} 
@@ -35,9 +35,12 @@ public:
 
     void VerifyTest(const GenerateTestStruct<DataType>& args)
     {
-        const std::vector<DataType> stlResult = args.functorRef.call(args.number, src::MethodType::STL);
-        const std::vector<DataType> boostResult = args.functorRef.call(args.number, src::MethodType::Boost);
-        const std::vector<DataType> simpleResult = args.functorRef.call(args.number, src::MethodType::Simple);
+        const std::shared_ptr<Functor<DataType>> boostFunctor = args.functorRef->clone();
+        const std::shared_ptr<Functor<DataType>> simpleFunctor = args.functorRef->clone();
+
+        const std::vector<DataType>& stlResult = args.functorRef->call(args.number, src::MethodType::STL);
+        const std::vector<DataType>& boostResult = boostFunctor->call(args.number, src::MethodType::Boost);
+        const std::vector<DataType>& simpleResult = simpleFunctor->call(args.number, src::MethodType::Simple);
         
         ASSERT_EQ(stlResult, args.expectedResult); 
         ASSERT_EQ(boostResult, args.expectedResult); 

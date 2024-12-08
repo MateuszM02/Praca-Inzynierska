@@ -12,6 +12,7 @@ class MatrixFunctor : public Functor<MatrixType<InnerType>>
 public:
     MatrixFunctor(const MatrixType<InnerType>& m);
     MatrixType<InnerType> operator()() override;
+    std::shared_ptr<Functor<MatrixType<InnerType>>> clone() const override;
 private:
     const MatrixType<InnerType> originalMatrix;
     MatrixType<InnerType> currentMatrix;

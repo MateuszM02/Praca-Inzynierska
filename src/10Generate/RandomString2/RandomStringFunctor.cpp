@@ -18,4 +18,11 @@ std::string RandomStringFunctor::operator()()
     } 
     return randomString;
 }
+
+std::shared_ptr<Functor<std::string>> 
+RandomStringFunctor::clone() const
+{
+    return std::make_shared<RandomStringFunctor>(*this);
+}
+
 } // namespace src::Generate::RandomString2

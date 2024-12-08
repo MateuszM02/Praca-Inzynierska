@@ -9,9 +9,10 @@ template <class Number>
 requires std::is_arithmetic_v<Number>
 struct FibonacciArgs : public GenerateTestStruct<Number>
 {
-    FibonacciArgs(Fibonacci1::FibonacciFunctor<Number> f, unsigned int n, std::vector<Number> v);
-
-    Fibonacci1::FibonacciFunctor<Number> functor;
+    FibonacciArgs(
+        Fibonacci1::FibonacciFunctor<Number> f, 
+        unsigned int n, 
+        const std::vector<Number>& expectedResult);
 };
 
 class FibonacciIntFixture : public GenerateTestFixture<int>
@@ -20,15 +21,13 @@ class FibonacciIntFixture : public GenerateTestFixture<int>
 class FibonacciDoubleFixture : public GenerateTestFixture<double>
 { };
 
-// TODO: Odkomentowac TEST_P jak naprawie SEGFAULT
+TEST_P(FibonacciIntFixture, intTest)
+{ 
+    VerifyTest(GetParam());
+}
 
-// TEST_P(FibonacciIntFixture, intTest)
-// { 
-//     VerifyTest(GetParam());
-// }
-
-// TEST_P(FibonacciDoubleFixture, doubleTest)
-// { 
-//     VerifyTest(GetParam());
-// }
+TEST_P(FibonacciDoubleFixture, doubleTest)
+{ 
+    VerifyTest(GetParam());
+}
 } // namespace tests::Generate::Fibonacci1tests
