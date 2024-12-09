@@ -15,8 +15,9 @@ struct GenerateTestStruct
 public:
     const std::string filePath;
     std::shared_ptr<Functor<DataType>> functorRef;
-    unsigned int number;
-    std::vector<DataType> expectedResult;
+    
+    const unsigned int number;
+    const std::vector<DataType> expectedResult;
 
     GenerateTestStruct(
         const std::string& path,
@@ -35,11 +36,6 @@ template <class DataType>
 class GenerateTestFixture : public ::testing::TestWithParam<GenerateTestStruct<DataType>>
 { 
 public:
-    void SetUp() override
-    {
-        std::cout << "Inside SetUp\n";
-    }
-
     void VerifyTest(const GenerateTestStruct<DataType>& args)
     {
         const std::shared_ptr<Functor<DataType>> boostFunctor = args.functorRef->clone();
@@ -50,6 +46,9 @@ public:
         const std::vector<DataType>& stlResult = args.functorRef->callFunctor(args.number, src::MethodType::STL, os);
         const std::vector<DataType>& boostResult = boostFunctor->callFunctor(args.number, src::MethodType::Boost, os);
         const std::vector<DataType>& simpleResult = simpleFunctor->callFunctor(args.number, src::MethodType::Simple, os);
+
+        ::testing::internal::CaptureStdout(),
+        ::testing::internal::CaptureStderr();
 
         EXPECT_EQ(stlResult.size(), args.expectedResult.size()) << "Rozmiar wyniku STL różni się od oczekiwanego."; 
         EXPECT_EQ(boostResult.size(), args.expectedResult.size()) << "Rozmiar wyniku Boost różni się od oczekiwanego."; 
@@ -62,10 +61,26 @@ public:
             EXPECT_EQ(simpleResult[i], args.expectedResult[i]) << "Wynik Simple różni się na indeksie " << i;
         }
 
-        // Wypisz wynik testu do podanego pliku
+        // Zapisywanie wynikow testu do pliku
         std::ofstream outFile(args.filePath, std::ios::out | std::ios::trunc);
         if (outFile.is_open())
         {
+            if (::testing::Test::HasFailure()) 
+            {
+                outFile << "Rozmiary wynikow nie zgadzaja sie z oczekiwanymi.\n";
+                outFile << ::testing::internal::GetCapturedStdout();
+                outFile << ::testing::internal::GetCapturedStderr();
+                outFile.close();
+                return;
+            }
+            
+            // Petla for do porownywania wynikow, jesli rozmiary sa rowne
+            for (unsigned int i = 0; i < args.expectedResult.size(); ++i)
+            {
+                EXPECT_EQ(stlResult[i], args.expectedResult[i]) << "Wynik STL rozni sie na indeksie " << i;
+                EXPECT_EQ(boostResult[i], args.expectedResult[i]) << "Wynik Boost rozni sie na indeksie " << i;
+                EXPECT_EQ(simpleResult[i], args.expectedResult[i]) << "Wynik Simple rozni sie na indeksie " << i;
+            }
             outFile << os.str();
             outFile.close();
         }

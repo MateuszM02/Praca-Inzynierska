@@ -21,7 +21,7 @@ INSTANTIATE_TEST_SUITE_P(
     FibonacciIntFixture,
     ::testing::Values(
         FibonacciArgs<int>(
-            Path::Create(Fibonacci, 1),
+            Path::Create(GenerateFibonacci, 1),
             {1, 1},
             45u,
             std::vector<int>{
@@ -35,7 +35,7 @@ INSTANTIATE_TEST_SUITE_P(
                                         24157817, 39088169, 63245986, 102334155, 165580141,
                                         267914296, 433494437, 701408733, 1134903170, 1836311903}),
         FibonacciArgs<int>(
-            Path::Create(Fibonacci, 2),
+            Path::Create(GenerateFibonacci, 2),
             {2, 2},
             40u,
             std::vector<int>{
@@ -54,7 +54,7 @@ INSTANTIATE_TEST_SUITE_P(
     FibonacciDoubleFixture,
     ::testing::Values(
         FibonacciArgs<double>(
-            Path::Create(Fibonacci, 3),
+            Path::Create(GenerateFibonacci, 3),
             {1.0, 1.0},
             80u,
             std::vector<double>{ 
@@ -76,7 +76,7 @@ INSTANTIATE_TEST_SUITE_P(
                                                 5527939700884757.0, 8944394323791464.0, 14472334024676221.0, 23416728348467685.0, 37889062373143906.0 }),
 
         FibonacciArgs<double>(
-            Path::Create(Fibonacci, 4),
+            Path::Create(GenerateFibonacci, 4),
             {1.5, 2.5},
             60u,
             std::vector<double>{ 

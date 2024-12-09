@@ -19,6 +19,20 @@ public:
     , right{nullptr}
     { }
 
+    bool operator==(const TreeNode<DataType>& other) const
+    {
+        return  this->value == other.value &&
+                this->height == other.height &&
+                *(this->left.get()) == *(other.left.get()) &&
+                *(this->left.get()) == *(other.left.get());
+    }
+
+    // operator porownania - wysokosc drzewa
+    bool operator<(const TreeNode<DataType>& other) const
+    {
+        return this->height < other.height;
+    }
+
     DataType value;
     int height;
     std::unique_ptr<TreeNode<DataType>> left;
@@ -26,31 +40,29 @@ public:
 };
 
 template <typename DataType>
+using TreeNodePtr = std::unique_ptr<TreeNode<DataType>>;
+
+template <typename DataType>
 class Tree : public Merger<TreeNode<DataType>> 
 {
 public:
-    Tree() : root{nullptr} { }
-
-    bool operator()(const TreeNode<DataType>& tree1, const TreeNode<DataType>& tree2) override;
-
     void insert(const DataType& value);
     bool find(const DataType& value) const;
     void remove(const DataType& value);
 
 private:
-    #define TreeNodePtr std::unique_ptr<TreeNode<DataType>>
-
-    TreeNodePtr root;
+    TreeNodePtr<DataType> root;
 
     int getHeight(TreeNode<DataType>* node) const;
     int getBalance(TreeNode<DataType>* node) const;
 
-    TreeNodePtr rightRotate(TreeNodePtr y);
-    TreeNodePtr leftRotate(TreeNodePtr x);
+    TreeNodePtr<DataType> rightRotate(TreeNodePtr<DataType> y);
+    TreeNodePtr<DataType> leftRotate(TreeNodePtr<DataType> x);
 
-    TreeNodePtr insertRec(TreeNodePtr node, const DataType& value);
+    TreeNodePtr<DataType> insertRec(TreeNodePtr<DataType> node, const DataType& value);
+    TreeNodePtr<DataType> removeRec(TreeNodePtr<DataType> node, const DataType& value);
+    
     bool findRec(const TreeNode<DataType>* node, const DataType& value) const;
-    TreeNodePtr removeRec(TreeNodePtr node, const DataType& value);
     TreeNode<DataType>* getMinNode(TreeNode<DataType>* node) const;
 };
 

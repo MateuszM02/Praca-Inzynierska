@@ -1,6 +1,6 @@
 #pragma once
 #include "../GenerateTestFixture.hpp"
-#include "../Path.hpp"
+#include "../../Path.hpp"
 #include "../../../src/10Generate/Fibonacci1/FibonacciFunctor.hpp"
 
 namespace tests::Generate::Fibonacci1tests

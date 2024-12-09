@@ -2,8 +2,18 @@
 
 namespace src::Merge::Points1
 {
-bool Points::operator()(const Point2D& elem1, const Point2D& elem2)
+// Operator rownosci punktow do sprawdzania poprawnosci scalania
+bool Point2D::operator==(const Point2D& other) const
 {
-    return elem1.x + elem2.y < elem2.x + elem2.y;
+    return this->x == other.x && this->y == other.y;
 }
+
+// Operator mniejszosci punktow potrzebny do scalania
+bool Point2D::operator<(const Point2D& other) const
+{
+    return  this->x != other.x ? 
+            this->x < other.x :
+            this->y < other.y;
+}
+
 } // namespace src::Merge::Points1

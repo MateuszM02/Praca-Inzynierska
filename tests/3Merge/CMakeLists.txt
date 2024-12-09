@@ -19,7 +19,7 @@ add_executable(
   ${SRC_DIR}/Vector3/IntVector.cpp
 )
 
-# Dodaj Boost do kazdego execa 
+# Dodaj Boost i GTEST do kazdego execa 
 target_include_directories(PointsTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
 target_include_directories(TreeTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
 target_include_directories(VectorTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
