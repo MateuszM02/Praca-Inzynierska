@@ -6,18 +6,21 @@ namespace src::Merge::Trees2
 // public
 
 template <typename DataType>
+requires std::is_arithmetic_v<DataType>
 void Tree<DataType>::insert(const DataType& value) 
 {
     root = insertRec(std::move(root), value);
 }
 
 template <typename DataType>
+requires std::is_arithmetic_v<DataType>
 bool Tree<DataType>::find(const DataType& value) const 
 {
     return findRec(root.get(), value);
 }
 
 template <typename DataType>
+requires std::is_arithmetic_v<DataType>
 void Tree<DataType>::remove(const DataType& value) 
 {
     root = removeRec(std::move(root), value);
@@ -26,12 +29,14 @@ void Tree<DataType>::remove(const DataType& value)
 // private
 
 template <typename DataType>
+requires std::is_arithmetic_v<DataType>
 int Tree<DataType>::getHeight(TreeNode<DataType>* node) const 
 {
     return node ? node->height : 0;
 }
 
 template <typename DataType>
+requires std::is_arithmetic_v<DataType>
 int Tree<DataType>::getBalance(TreeNode<DataType>* node) const 
 {
     return node ? getHeight(node->left.get()) - getHeight(node->right.get()) : 0;
@@ -40,6 +45,7 @@ int Tree<DataType>::getBalance(TreeNode<DataType>* node) const
 // rotacje
 
 template <typename DataType>
+requires std::is_arithmetic_v<DataType>
 TreeNodePtr<DataType> Tree<DataType>::rightRotate(TreeNodePtr<DataType> y) 
 {
     auto x = std::move(y->left);
@@ -55,6 +61,7 @@ TreeNodePtr<DataType> Tree<DataType>::rightRotate(TreeNodePtr<DataType> y)
 }
 
 template <typename DataType>
+requires std::is_arithmetic_v<DataType>
 TreeNodePtr<DataType> Tree<DataType>::leftRotate(TreeNodePtr<DataType> x) 
 {
     auto y = std::move(x->right);
@@ -72,6 +79,7 @@ TreeNodePtr<DataType> Tree<DataType>::leftRotate(TreeNodePtr<DataType> x)
 // insert, find, delete
 
 template <typename DataType>
+requires std::is_arithmetic_v<DataType>
 TreeNodePtr<DataType> Tree<DataType>::insertRec(TreeNodePtr<DataType> node, const DataType& value) 
 {
     if (!node) 
@@ -119,6 +127,7 @@ TreeNodePtr<DataType> Tree<DataType>::insertRec(TreeNodePtr<DataType> node, cons
 }
 
 template <typename DataType>
+requires std::is_arithmetic_v<DataType>
 TreeNodePtr<DataType> Tree<DataType>::removeRec(TreeNodePtr<DataType> node, const DataType& value) 
 {
     if (!node) 
@@ -179,6 +188,7 @@ TreeNodePtr<DataType> Tree<DataType>::removeRec(TreeNodePtr<DataType> node, cons
 }
 
 template <typename DataType>
+requires std::is_arithmetic_v<DataType>
 bool Tree<DataType>::findRec(const TreeNode<DataType>* node, const DataType& value) const 
 {
     if (!node) 
@@ -200,6 +210,7 @@ bool Tree<DataType>::findRec(const TreeNode<DataType>* node, const DataType& val
 }
 
 template <typename DataType>
+requires std::is_arithmetic_v<DataType>
 TreeNode<DataType>* Tree<DataType>::getMinNode(TreeNode<DataType>* node) const 
 {
     if (!node) return node;

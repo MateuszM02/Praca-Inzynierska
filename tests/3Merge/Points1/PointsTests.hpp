@@ -73,12 +73,12 @@ public:
         return { v1, v2, expectedResult };
     }
 
-    static Points1::Point2D fmod3i3_mod7i64(int i)
+    static Points1::Point2D fmod3i3_mod7i64(const int i)
     {
         return { 3*i + (i % 3), 7*i % 64 };
     }
 
-    static Points1::Point2D f3i_mod9i64(int i)
+    static Points1::Point2D f3i_mod9i64(const int i)
     {
         return { 3*i, 9*i % 64 };
     }
