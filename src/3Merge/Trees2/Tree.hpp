@@ -19,15 +19,6 @@ public:
     , right{nullptr}
     { }
 
-    // konstruktor kopiujacy potrzebny do testowania
-    TreeNode(const TreeNode<DataType>& other)
-    {
-        value = other.value;
-        height = other.height;
-        left = std::make_unique<TreeNode<DataType>>(*other.left.get());
-        right = std::make_unique<TreeNode<DataType>>(*other.right.get());
-    }
-
     bool operator==(const TreeNode<DataType>& other) const
     {
         return  this->value == other.value &&
