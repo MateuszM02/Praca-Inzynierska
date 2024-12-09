@@ -1,6 +1,6 @@
 #pragma once
 #include "../GenerateTestFixture.hpp"
-#include "../Path.hpp"
+#include "../../Path.hpp"
 #include "../../../src/10Generate/Matrix3/MatrixFunctor.hpp"
 
 namespace tests::Generate::Matrix3tests

@@ -2,9 +2,7 @@
 #include "../MethodType.hpp"
 
 #include <algorithm> // std::generate
-#include <array>
 #include <chrono> // mierzenie czasu wykonania testu
-#include <concepts> // concept (C++ 20)
 #include <iostream>
 #include <vector>
 

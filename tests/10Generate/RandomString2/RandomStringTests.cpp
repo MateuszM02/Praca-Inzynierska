@@ -39,13 +39,13 @@ INSTANTIATE_TEST_SUITE_P(
     RandomStringPrefix, 
     RandomStringFixture,
     ::testing::Values( // dlugosc slowa, ilosc slow
-        RandomStringArgs(Path::Create(RandomString, 1), 1u, 1000000u),
-        RandomStringArgs(Path::Create(RandomString, 2), 20u, 50000u),
-        RandomStringArgs(Path::Create(RandomString, 3), 200u, 5000u),
-        RandomStringArgs(Path::Create(RandomString, 4), 1000u, 1000u),
-        RandomStringArgs(Path::Create(RandomString, 5), 5000u, 200u),
-        RandomStringArgs(Path::Create(RandomString, 6), 50000u, 20u),
-        RandomStringArgs(Path::Create(RandomString, 7), 1000000u, 1u)
+        RandomStringArgs(Path::Create(GenerateRandomString, 1), 1u, 1000000u),
+        RandomStringArgs(Path::Create(GenerateRandomString, 2), 20u, 50000u),
+        RandomStringArgs(Path::Create(GenerateRandomString, 3), 200u, 5000u),
+        RandomStringArgs(Path::Create(GenerateRandomString, 4), 1000u, 1000u),
+        RandomStringArgs(Path::Create(GenerateRandomString, 5), 5000u, 200u),
+        RandomStringArgs(Path::Create(GenerateRandomString, 6), 50000u, 20u),
+        RandomStringArgs(Path::Create(GenerateRandomString, 7), 1000000u, 1u)
 ));
 
 } // namespace tests::Generate::RandomString2tests

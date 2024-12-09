@@ -1,6 +1,7 @@
 #pragma once
 #include "../MethodType.hpp"
 
+#include <chrono> // mierzenie czasu wykonania testu
 #include <concepts> // concept (C++ 20)
 #include <iostream>
 #include <vector>
@@ -10,93 +11,109 @@
 namespace src::Merge
 {
 
+// Typ elementow przy scalaniu wektorow musi miec nastepujace operatory
+// == rownosci - aby sprawdzic, czy poprawnie scalilismy 2 wektory w testach
+// < mniejszosci - domyslny comparator std::merge i boost::range::merge
+template <typename DataType> 
+concept Comparable = requires(DataType a, DataType b)
+{
+    { a == b } -> std::convertible_to<bool>;
+    { a < b } -> std::convertible_to<bool>;
+};
+
 // Klasa abstrakcyjna Merger, po ktorej dziedzicza klasy przykladowe
-template <class DataType> 
+template <Comparable DataType>
 class Merger
 {
-public: 
-    virtual ~Merger() = default;
-    // operator porownania < dla danego typu
-    virtual bool operator()(const DataType& elem1, const DataType& elem2) = 0;
+public:
+    Merger(const std::vector<DataType>& v1, const std::vector<DataType>& v2)
+    : vec1{v1}
+    , vec2{v2}
+    { }
 
-    std::vector<DataType> call(
-        const std::vector<DataType>& v1, 
-        const std::vector<DataType>& v2, 
-        const MethodType& methodType)
-        requires requires(const std::vector<DataType>& v1, const std::vector<DataType>& v2) 
-        { 
-            { v1.size() == v2.size() } -> std::convertible_to<bool>;
-        }
+    virtual ~Merger() = default;
+
+    std::vector<DataType> callMerger(const MethodType& methodType, std::ostream& os)
     {
         switch (methodType)
         {
             case MethodType::STL:
-                return mergeSTL(v1, v2);
+                return measureExecutionTime(&mergeSTL, "STL", os);
             case MethodType::Boost:
-                return mergeBoost(v1, v2);
+                return measureExecutionTime(&mergeBoost, "Boost", os);
             case MethodType::Simple:
-                return mergeSimple(v1, v2);
+                return measureExecutionTime(&mergeSimple, "Simple", os);
             default:
                 throw new std::invalid_argument("Zly typ metody!");
         }
     }
 
+protected:
+    const std::vector<DataType> vec1;
+    const std::vector<DataType> vec2;
+
 private:
-    std::vector<DataType> mergeSTL(
-        const std::vector<DataType>& v1, 
-        const std::vector<DataType>& v2)
+    std::vector<DataType> measureExecutionTime(
+        std::vector<DataType>(Merger::*memberFunction)(),
+        const std::string& methodName,
+        std::ostream& os)
     {
-        std::vector<DataType> sequence;
-        sequence.reserve(v1.size());
-        std::merge(v1.begin(), v2.begin(), v1.end(), v2.end(), sequence.begin(), std::ref(*this));
-        return sequence;
+        auto start = std::chrono::high_resolution_clock::now();
+        std::vector<DataType> result = (this->*memberFunction)();
+        auto end = std::chrono::high_resolution_clock::now();
+
+        std::chrono::duration<double> duration = end - start;
+        os << methodName << " call time: " << duration.count() << " seconds\n";
+        return result;
     }
 
-    std::vector<DataType> mergeBoost(
-        const std::vector<DataType>& v1, 
-        const std::vector<DataType>& v2)
+    std::vector<DataType> mergeSTL()
     {
-        std::vector<DataType> sequence;
-        sequence.reserve(v1.size());
-        boost::range::merge(v1, v2, sequence.begin(), std::ref(*this));
-        return sequence;
+        std::vector<DataType> resultVec(vec1.size()+vec2.size());
+        std::merge(vec1.begin(), vec1.end(), vec2.begin(), vec2.end(), resultVec.begin());
+        return resultVec;
     }
 
-    std::vector<DataType> mergeSimple(
-        const std::vector<DataType>& v1, 
-        const std::vector<DataType>& v2)
+    std::vector<DataType> mergeBoost()
     {
-        std::vector<DataType> sequence;
-        sequence.reserve(v1.size());
+        std::vector<DataType> resultVec(vec1.size()+vec2.size());
+        boost::range::merge(vec1, vec2, resultVec.begin());
+        return resultVec;
+    }
+
+    std::vector<DataType> mergeSimple()
+    {
+        const unsigned int size1 = vec1.size();
+        const unsigned int size2 = vec2.size();
+
+        std::vector<DataType> resultVec(size1 + size2);
         unsigned int index1 = 0;
         unsigned int index2 = 0;
-        const unsigned int size1 = v1.size();
-        const unsigned int size2 = v2.size();
 
         while (index1 < size1 && index2 < size2)
         {
-            if (this->operator()(v1[index1], v2[index2]))
+            if (vec1[index1] < vec2[index2])
             {
-                sequence.emplace_back(v1[index1]);
+                resultVec[index1+index2] = vec1[index1];
                 index1++;
             }
             else
             {
-                sequence.emplace_back(v2[index2]);
+                resultVec[index1+index2] = vec2[index2];
                 index2++;
             }
         }
         while (index1 < size1)
         {
-            sequence.emplace_back(v1[index1]);
+            resultVec[index1+index2] = vec1[index1];
             index1++;
         }
         while (index2 < size2)
         {
-            sequence.emplace_back(v2[index2]);
+            resultVec[index1+index2] = vec2[index2];
             index2++;
         }
-        return sequence;
+        return resultVec;
     }
 };
 

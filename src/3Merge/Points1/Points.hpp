@@ -10,13 +10,17 @@ struct Point2D
 {
     int x;
     int y;
+
+    bool operator==(const Point2D& other) const;
+    bool operator<(const Point2D& other) const;
 };
 
 class Points : public Merger<Point2D>
 {
 public:
-    Points() { }
-
-    bool operator()(const Point2D& elem1, const Point2D& elem2) override;
+    Points(const std::vector<Point2D>& v1, const std::vector<Point2D>& v2)
+    : Merger(v1, v2)
+    { }
 };
+
 } // namespace src::Merge::Points1
