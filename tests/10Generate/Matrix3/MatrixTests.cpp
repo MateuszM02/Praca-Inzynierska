@@ -22,17 +22,17 @@ INSTANTIATE_TEST_SUITE_P(
     MatrixIntFixture,
     ::testing::Values(
         MatrixArgs<int>(
-            Path::Create(Matrix, 1),
+            Path::Create(GenerateMatrix, 1),
             Matrix3::MatrixFunctor<int>(Examples::a1()), 
             10000u, 
             Examples::A(10000u)),
         MatrixArgs<int>(
-            Path::Create(Matrix, 2),
+            Path::Create(GenerateMatrix, 2),
             Matrix3::MatrixFunctor<int>(Examples::c1(50u)), 
             100u, 
             Examples::C(50u, 100u)),
         MatrixArgs<int>(
-            Path::Create(Matrix, 3),
+            Path::Create(GenerateMatrix, 3),
             Matrix3::MatrixFunctor<int>(Examples::c1(100u)), 
             50u, 
             Examples::C(100u, 50u))
@@ -43,17 +43,17 @@ INSTANTIATE_TEST_SUITE_P(
     MatrixDoubleFixture,
     ::testing::Values( 
         MatrixArgs<double>(
-            Path::Create(Matrix, 4),
+            Path::Create(GenerateMatrix, 4),
             Matrix3::MatrixFunctor<double>(Examples::b1(10u)), 
             1000u, 
             Examples::B(10u, 1000u)),
         MatrixArgs<double>(
-            Path::Create(Matrix, 5),
+            Path::Create(GenerateMatrix, 5),
             Matrix3::MatrixFunctor<double>(Examples::b1(25u)), 
             500u, 
             Examples::B(25u, 500u)),
         MatrixArgs<double>(
-            Path::Create(Matrix, 6),
+            Path::Create(GenerateMatrix, 6),
             Matrix3::MatrixFunctor<double>(Examples::b1(50u)), 
             100u, 
             Examples::B(50u, 100u))

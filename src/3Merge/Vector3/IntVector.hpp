@@ -6,11 +6,24 @@
 namespace src::Merge::Vector3
 {
 
-class IntVector : public Merger<std::vector<int>>
+struct IntVector
+{
+private:
+    std::vector<int> values;
+public:
+    int at(const unsigned int i) const { return values[i]; }
+    size_t size() const { return values.size(); }
+
+    bool operator==(const IntVector& other) const;
+    bool operator<(const IntVector& other) const;
+};
+
+class MyVector : public Merger<IntVector>
 {
 public:
-    IntVector() { }
-
-    bool operator()(const std::vector<int>& v1, const std::vector<int>& v2) override;
+    MyVector(const std::vector<IntVector>& v1, const std::vector<IntVector>& v2)
+    : Merger(v1, v2)
+    { }
 };
+
 } // namespace src::Merge::Vector3

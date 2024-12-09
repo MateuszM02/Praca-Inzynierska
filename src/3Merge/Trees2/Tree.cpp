@@ -2,13 +2,6 @@
 
 namespace src::Merge::Trees2
 {
-// operator porownania - wysokosc drzewa
-
-template <typename DataType>
-bool Tree<DataType>::operator()(const TreeNode<DataType>& tree1, const TreeNode<DataType>& tree2)
-{
-    return tree1.height < tree2.height;
-}
 
 // public
 
@@ -47,7 +40,7 @@ int Tree<DataType>::getBalance(TreeNode<DataType>* node) const
 // rotacje
 
 template <typename DataType>
-TreeNodePtr Tree<DataType>::rightRotate(TreeNodePtr y) 
+TreeNodePtr<DataType> Tree<DataType>::rightRotate(TreeNodePtr<DataType> y) 
 {
     auto x = std::move(y->left);
     auto T2 = std::move(x->right);
@@ -62,7 +55,7 @@ TreeNodePtr Tree<DataType>::rightRotate(TreeNodePtr y)
 }
 
 template <typename DataType>
-TreeNodePtr Tree<DataType>::leftRotate(TreeNodePtr x) 
+TreeNodePtr<DataType> Tree<DataType>::leftRotate(TreeNodePtr<DataType> x) 
 {
     auto y = std::move(x->right);
     auto T2 = std::move(y->left);
@@ -79,7 +72,7 @@ TreeNodePtr Tree<DataType>::leftRotate(TreeNodePtr x)
 // insert, find, delete
 
 template <typename DataType>
-TreeNodePtr Tree<DataType>::insertRec(TreeNodePtr node, const DataType& value) 
+TreeNodePtr<DataType> Tree<DataType>::insertRec(TreeNodePtr<DataType> node, const DataType& value) 
 {
     if (!node) 
     {
@@ -126,28 +119,7 @@ TreeNodePtr Tree<DataType>::insertRec(TreeNodePtr node, const DataType& value)
 }
 
 template <typename DataType>
-bool Tree<DataType>::findRec(const TreeNode<DataType>* node, const DataType& value) const 
-{
-    if (!node) 
-    {
-        return false;
-    }
-    else if (value == node->value) 
-    {
-        return true;
-    } 
-    else if (value < node->value) 
-    {
-        return findRec(node->left.get(), value);
-    } 
-    else 
-    {
-        return findRec(node->right.get(), value);
-    }
-}
-
-template <typename DataType>
-TreeNodePtr Tree<DataType>::removeRec(TreeNodePtr node, const DataType& value) 
+TreeNodePtr<DataType> Tree<DataType>::removeRec(TreeNodePtr<DataType> node, const DataType& value) 
 {
     if (!node) 
     {
@@ -204,6 +176,27 @@ TreeNodePtr Tree<DataType>::removeRec(TreeNodePtr node, const DataType& value)
     }
 
     return node;
+}
+
+template <typename DataType>
+bool Tree<DataType>::findRec(const TreeNode<DataType>* node, const DataType& value) const 
+{
+    if (!node) 
+    {
+        return false;
+    }
+    else if (value == node->value) 
+    {
+        return true;
+    } 
+    else if (value < node->value) 
+    {
+        return findRec(node->left.get(), value);
+    } 
+    else 
+    {
+        return findRec(node->right.get(), value);
+    }
 }
 
 template <typename DataType>

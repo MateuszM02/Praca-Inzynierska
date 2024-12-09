@@ -1,6 +1,6 @@
 #pragma once
 #include "../GenerateTestFixture.hpp"
-#include "../Path.hpp"
+#include "../../Path.hpp"
 #include "../../../src/10Generate/RandomString2/RandomStringFunctor.hpp"
 
 namespace tests::Generate::RandomString2tests
