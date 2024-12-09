@@ -5,15 +5,22 @@
 
 namespace src::Generate::Fibonacci1
 {
-template <class Number>
-requires std::is_arithmetic_v<Number>
-class FibonacciFunctor : public Functor<Number>
+
+template <typename DataType>
+concept Addable = requires(DataType a, DataType b)
+{
+    { a + b } -> std::convertible_to<DataType>;
+};
+
+template <Addable DataType>
+class FibonacciFunctor : public Functor<DataType>
 {
 public:
-    FibonacciFunctor(const Number& first, const Number& second);
-    Number operator()() override;
-    std::shared_ptr<Functor<Number>> clone() const override;
+    FibonacciFunctor(const DataType& first, const DataType& second);
+    DataType operator()() override;
+    std::shared_ptr<Functor<DataType>> clone() const override;
 private:
-    Number a, b;
+    DataType a, b;
 };
+
 } // namespace src::Generate::Fibonacci1

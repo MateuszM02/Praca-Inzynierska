@@ -2,29 +2,28 @@
 
 namespace src::Generate::Matrix3
 {
-template <class Number>
-requires std::is_arithmetic_v<Number>
-const auto& 
-Matrix<Number>::at(size_t row, size_t col) const
-{ 
-    if (row >= n || col >= n) 
-    { 
-        throw std::out_of_range("Index out of range."); 
-    } 
-    return matrix[row][col]; 
-} 
- 
-template <class Number>
-requires std::is_arithmetic_v<Number>
-Matrix<Number> 
-Matrix<Number>::operator*=(const Matrix<Number>& other)
-{ 
+
+template <Multiplicable DataType>
+const DataType&
+Matrix<DataType>::at(size_t row, size_t col) const
+{
+    if (row >= n || col >= n)
+    {
+        throw std::out_of_range("Index out of range.");
+    }
+    return matrix[row][col];
+}
+
+template <Multiplicable DataType>
+Matrix<DataType>
+Matrix<DataType>::operator*=(const Matrix<DataType>& other)
+{
     if (n != other.n) 
     { 
         throw std::invalid_argument("Matrix dimensions must match for multiplication."); 
-    } 
-    
-    SquareMatrix<Number> result(n, std::vector<Number>(n)); 
+    }
+
+    SquareMatrix<DataType> result(n, std::vector<DataType>(n)); 
 
     for (size_t row = 0; row < n; ++row)
     {
@@ -42,10 +41,9 @@ Matrix<Number>::operator*=(const Matrix<Number>& other)
     return *this;
 }
 
-template <class Number>
-requires std::is_arithmetic_v<Number>
-bool 
-Matrix<Number>::operator==(const Matrix<Number>& other) const
+template <Multiplicable DataType>
+bool
+Matrix<DataType>::operator==(const Matrix<DataType>& other) const
 {
     if (this->n != other.n) return false;
 
@@ -61,11 +59,10 @@ Matrix<Number>::operator==(const Matrix<Number>& other) const
     return true;
 }
 
-template <typename OtherNumber>
-requires std::is_arithmetic_v<OtherNumber>
-std::ostream& 
-operator<<(std::ostream& os, const Matrix<OtherNumber>& mat) 
-{ 
+template <Multiplicable OtherDataType>
+std::ostream&
+operator<<(std::ostream& os, const Matrix<OtherDataType>& mat) 
+{
     for (size_t row = 0; row < mat.size(); ++row)
     {
         for (size_t col = 0; col < mat.size(); ++col)
@@ -73,7 +70,7 @@ operator<<(std::ostream& os, const Matrix<OtherNumber>& mat)
             os << mat.at(row, col) << " ";
         }
     }
-    return os; 
+    return os;
 }
 
 // Jawna instancja klasy zeby dzialaly testy

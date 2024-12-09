@@ -2,28 +2,25 @@
 
 namespace src::Generate::Fibonacci1
 {
-template <class Number>
-requires std::is_arithmetic_v<Number>
-FibonacciFunctor<Number>::FibonacciFunctor(const Number& first, const Number& second) 
+
+template <Addable DataType>
+FibonacciFunctor<DataType>::FibonacciFunctor(const DataType& first, const DataType& second) 
 : a(first)
 , b(second) 
 { }
 
-template <class Number>
-requires std::is_arithmetic_v<Number>
-Number 
-FibonacciFunctor<Number>::operator()()
+template <Addable DataType>
+DataType FibonacciFunctor<DataType>::operator()()
 {
-    Number next = a + b;
+    DataType next = a + b;
     a = b;
     b = next;
     return a;
 }
 
-template <class Number>
-requires std::is_arithmetic_v<Number>
-std::shared_ptr<Functor<Number>> 
-FibonacciFunctor<Number>::clone() const
+template <Addable DataType>
+std::shared_ptr<Functor<DataType>> 
+FibonacciFunctor<DataType>::clone() const
 {
     return std::make_shared<FibonacciFunctor>(*this);
 }
