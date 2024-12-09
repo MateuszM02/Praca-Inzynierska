@@ -3,6 +3,7 @@
 
 #include <algorithm> // std::generate
 #include <chrono> // mierzenie czasu wykonania testu
+#include <concepts> // concept (C++ 20)
 #include <iostream>
 #include <vector>
 
@@ -10,6 +11,7 @@
 
 namespace src::Generate
 {
+
 // Klasa abstrakcyjna Functor, po ktorej dziedzicza klasy funktorowe
 template <class DataType> 
 class Functor 

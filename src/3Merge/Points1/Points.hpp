@@ -17,10 +17,6 @@ struct Point2D
 
 class Points : public Merger<Point2D>
 {
-public:
-    Points(const std::vector<Point2D>& v1, const std::vector<Point2D>& v2)
-    : Merger(v1, v2)
-    { }
 };
 
 } // namespace src::Merge::Points1

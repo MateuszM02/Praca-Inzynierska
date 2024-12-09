@@ -10,20 +10,33 @@ namespace tests::Merge
 {
 
 template <Comparable DataType>
+struct VectorStruct
+{
+    std::vector<DataType> v1;
+    std::vector<DataType> v2;
+    std::vector<DataType> expectedResult;
+};
+
+template <Comparable DataType>
 struct MergeTestStruct
 {
 public:
     const std::string filePath;
     std::shared_ptr<Merger<DataType>> mergerRef;
+
+    const std::vector<DataType> v1;
+    const std::vector<DataType> v2;
     const std::vector<DataType> expectedResult;
 
     MergeTestStruct(
         const std::string& path,
         std::shared_ptr<Merger<DataType>> f,
-        const std::vector<DataType>& result)
+        const VectorStruct<DataType>& vectors)
     : filePath{path}
     , mergerRef{f}
-    , expectedResult{result}
+    , v1{vectors.v1}
+    , v2{vectors.v2}
+    , expectedResult{vectors.expectedResult}
     { }
 };
 
@@ -36,9 +49,12 @@ public:
     {
         std::ostringstream os; // Użycie ostringstream do wypisywania wyników testów
 
-        const std::vector<DataType>& stlResult = args.mergerRef->callMerger(src::MethodType::STL, os);
-        const std::vector<DataType>& boostResult = args.mergerRef->callMerger(src::MethodType::Boost, os);
-        const std::vector<DataType> simpleResult = args.mergerRef->callMerger(src::MethodType::Simple, os);
+        const std::vector<DataType>& stlResult = args.mergerRef->callMerger(
+            src::MethodType::STL, args.v1, args.v2, os);
+        const std::vector<DataType>& boostResult = args.mergerRef->callMerger(
+            src::MethodType::Boost, args.v1, args.v2, os);
+        const std::vector<DataType> simpleResult = args.mergerRef->callMerger(
+            src::MethodType::Simple, args.v1, args.v2, os);
 
         ::testing::internal::CaptureStdout(),
         ::testing::internal::CaptureStderr();

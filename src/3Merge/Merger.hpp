@@ -26,40 +26,38 @@ template <Comparable DataType>
 class Merger
 {
 public:
-    Merger(const std::vector<DataType>& v1, const std::vector<DataType>& v2)
-    : vec1{v1}
-    , vec2{v2}
-    { }
-
     virtual ~Merger() = default;
 
-    std::vector<DataType> callMerger(const MethodType& methodType, std::ostream& os)
+    std::vector<DataType> callMerger(
+        const MethodType& methodType, 
+        const std::vector<DataType>& v1,
+        const std::vector<DataType>& v2,
+        std::ostream& os)
     {
         switch (methodType)
         {
             case MethodType::STL:
-                return measureExecutionTime(&mergeSTL, "STL", os);
+                return measureExecutionTime(&mergeSTL, "STL", v1, v2, os);
             case MethodType::Boost:
-                return measureExecutionTime(&mergeBoost, "Boost", os);
+                return measureExecutionTime(&mergeBoost, "Boost", v1, v2, os);
             case MethodType::Simple:
-                return measureExecutionTime(&mergeSimple, "Simple", os);
+                return measureExecutionTime(&mergeSimple, "Simple", v1, v2, os);
             default:
                 throw new std::invalid_argument("Zly typ metody!");
         }
     }
 
-protected:
-    const std::vector<DataType> vec1;
-    const std::vector<DataType> vec2;
-
 private:
     std::vector<DataType> measureExecutionTime(
-        std::vector<DataType>(Merger::*memberFunction)(),
+        std::vector<DataType>(Merger::*memberFunction)
+            (const std::vector<DataType>&, const std::vector<DataType>&),
         const std::string& methodName,
+        const std::vector<DataType>& v1,
+        const std::vector<DataType>& v2,
         std::ostream& os)
     {
         auto start = std::chrono::high_resolution_clock::now();
-        std::vector<DataType> result = (this->*memberFunction)();
+        std::vector<DataType> result = (this->*memberFunction)(v1, v2);
         auto end = std::chrono::high_resolution_clock::now();
 
         std::chrono::duration<double> duration = end - start;
@@ -67,24 +65,24 @@ private:
         return result;
     }
 
-    std::vector<DataType> mergeSTL()
+    std::vector<DataType> mergeSTL(const std::vector<DataType>& v1, const std::vector<DataType>& v2)
     {
-        std::vector<DataType> resultVec(vec1.size()+vec2.size());
-        std::merge(vec1.begin(), vec1.end(), vec2.begin(), vec2.end(), resultVec.begin());
+        std::vector<DataType> resultVec(v1.size() + v2.size());
+        std::merge(v1.begin(), v1.end(), v2.begin(), v2.end(), resultVec.begin());
         return resultVec;
     }
 
-    std::vector<DataType> mergeBoost()
+    std::vector<DataType> mergeBoost(const std::vector<DataType>& v1, const std::vector<DataType>& v2)
     {
-        std::vector<DataType> resultVec(vec1.size()+vec2.size());
-        boost::range::merge(vec1, vec2, resultVec.begin());
+        std::vector<DataType> resultVec(v1.size() + v2.size());
+        boost::range::merge(v1, v2, resultVec.begin());
         return resultVec;
     }
 
-    std::vector<DataType> mergeSimple()
+    std::vector<DataType> mergeSimple(const std::vector<DataType>& v1, const std::vector<DataType>& v2)
     {
-        const unsigned int size1 = vec1.size();
-        const unsigned int size2 = vec2.size();
+        const unsigned int size1 = v1.size();
+        const unsigned int size2 = v2.size();
 
         std::vector<DataType> resultVec(size1 + size2);
         unsigned int index1 = 0;
@@ -92,25 +90,25 @@ private:
 
         while (index1 < size1 && index2 < size2)
         {
-            if (vec1[index1] < vec2[index2])
+            if (v1[index1] < v2[index2])
             {
-                resultVec[index1+index2] = vec1[index1];
+                resultVec[index1+index2] = v1[index1];
                 index1++;
             }
             else
             {
-                resultVec[index1+index2] = vec2[index2];
+                resultVec[index1+index2] = v2[index2];
                 index2++;
             }
         }
         while (index1 < size1)
         {
-            resultVec[index1+index2] = vec1[index1];
+            resultVec[index1+index2] = v1[index1];
             index1++;
         }
         while (index2 < size2)
         {
-            resultVec[index1+index2] = vec2[index2];
+            resultVec[index1+index2] = v2[index2];
             index2++;
         }
         return resultVec;

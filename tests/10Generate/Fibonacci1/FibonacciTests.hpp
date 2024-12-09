@@ -6,15 +6,14 @@
 namespace tests::Generate::Fibonacci1tests
 {
 
-template <class Number>
-requires std::is_arithmetic_v<Number>
-struct FibonacciArgs : public GenerateTestStruct<Number>
+template <Fibonacci1::Addable DataType>
+struct FibonacciArgs : public GenerateTestStruct<DataType>
 {
     FibonacciArgs(
         const std::string& path,
-        Fibonacci1::FibonacciFunctor<Number> f, 
+        Fibonacci1::FibonacciFunctor<DataType> f, 
         unsigned int n, 
-        const std::vector<Number>& expectedResult);
+        const std::vector<DataType>& expectedResult);
 };
 
 class FibonacciIntFixture : public GenerateTestFixture<int>

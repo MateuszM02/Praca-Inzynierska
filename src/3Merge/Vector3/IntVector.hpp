@@ -20,10 +20,6 @@ public:
 
 class MyVector : public Merger<IntVector>
 {
-public:
-    MyVector(const std::vector<IntVector>& v1, const std::vector<IntVector>& v2)
-    : Merger(v1, v2)
-    { }
 };
 
 } // namespace src::Merge::Vector3

@@ -3,16 +3,15 @@
 namespace tests::Generate::Fibonacci1tests
 {
 
-template <class Number>
-requires std::is_arithmetic_v<Number>
-FibonacciArgs<Number>::FibonacciArgs(
+template <Fibonacci1::Addable DataType>
+FibonacciArgs<DataType>::FibonacciArgs(
     const std::string& path,
-    Fibonacci1::FibonacciFunctor<Number> f, 
+    Fibonacci1::FibonacciFunctor<DataType> f, 
     unsigned int n, 
-    const std::vector<Number>& expectedResult)
-: GenerateTestStruct<Number>(
+    const std::vector<DataType>& expectedResult)
+: GenerateTestStruct<DataType>(
     path,
-    std::make_shared<Fibonacci1::FibonacciFunctor<Number>>(f), 
+    std::make_shared<Fibonacci1::FibonacciFunctor<DataType>>(f), 
     n, expectedResult)
 { }
 
