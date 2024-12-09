@@ -12,11 +12,13 @@ namespace src::Merge
 {
 
 // Typ elementow przy scalaniu wektorow musi miec nastepujace operatory
+// = przypisania - aby mozna bylo elementy wektorow wejsciowych zapisac do wektora wynikowego
 // == rownosci - aby sprawdzic, czy poprawnie scalilismy 2 wektory w testach
 // < mniejszosci - domyslny comparator std::merge i boost::range::merge
 template <typename DataType> 
 concept Comparable = requires(DataType a, DataType b)
 {
+    { a = b } -> std::same_as<DataType&>;
     { a == b } -> std::convertible_to<bool>;
     { a < b } -> std::convertible_to<bool>;
 };

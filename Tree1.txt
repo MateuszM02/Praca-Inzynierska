@@ -1,0 +1,3 @@
+STL call time: 1.25e-05 seconds
+Boost call time: 5.4e-06 seconds
+Simple call time: 4.9e-06 seconds

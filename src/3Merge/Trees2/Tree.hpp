@@ -1,17 +1,24 @@
 #pragma once
 #include "../Merger.hpp"
 
-#include <memory> // std::unique_ptr
-
 // Przyklad 2. Glebokosc drzewa -----------------------------------------------------------------------------
 
-namespace src::Merge::Trees2 
+namespace src::Merge::Trees2
 {
 
 template <typename DataType>
-class TreeNode 
+requires std::is_arithmetic_v<DataType>
+class TreeNode
 {
 public:
+    // konstruktor domyslny potrzebny do stworzenia wektora elementow
+    TreeNode()
+    : value{DataType()}
+    , height{0}
+    , left{nullptr}
+    , right{nullptr}
+    { }
+
     TreeNode(const DataType& v) 
     : value{v}
     , height{1}
@@ -19,30 +26,50 @@ public:
     , right{nullptr}
     { }
 
+    // Operator przypisania potrzebny do scalania
+    TreeNode& operator=(const TreeNode& other)
+    {
+        if (this != &other)
+        {
+            this->value = other.value;
+            this->height = other.height;
+            this->left = other.left;
+            this->right = other.right;
+        }
+        return *this;
+    }
+
     bool operator==(const TreeNode<DataType>& other) const
     {
+        if (!this->left && other.left) return false; 
+        if (!this->right && other.right) return false; 
+        if (this->left && !other.left) return false; 
+        if (this->right && !other.right) return false;
+
         return  this->value == other.value &&
                 this->height == other.height &&
-                *(this->left.get()) == *(other.left.get()) &&
-                *(this->left.get()) == *(other.left.get());
+                (!this->left || *(this->left.get()) == *(other.left.get())) &&
+                (!this->right || *(this->right.get()) == *(other.right.get()));
     }
 
     // operator porownania - wysokosc drzewa
     bool operator<(const TreeNode<DataType>& other) const
     {
-        return this->height < other.height;
+        return this->value < other.value; //this->height < other.height;
     }
 
     DataType value;
     int height;
-    std::unique_ptr<TreeNode<DataType>> left;
-    std::unique_ptr<TreeNode<DataType>> right;
+    std::shared_ptr<TreeNode<DataType>> left;
+    std::shared_ptr<TreeNode<DataType>> right;
 };
 
 template <typename DataType>
-using TreeNodePtr = std::unique_ptr<TreeNode<DataType>>;
+requires std::is_arithmetic_v<DataType>
+using TreeNodePtr = std::shared_ptr<TreeNode<DataType>>;
 
 template <typename DataType>
+requires std::is_arithmetic_v<DataType>
 class Tree : public Merger<TreeNode<DataType>> 
 {
 public:
