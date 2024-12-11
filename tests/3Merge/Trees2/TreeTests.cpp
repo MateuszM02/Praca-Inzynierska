@@ -7,11 +7,13 @@ template <typename DataType>
 requires std::is_arithmetic_v<DataType>
 TreeArgs<DataType>::TreeArgs(
     const std::string& path,
-    const VectorStruct<Trees2::TreeNode<DataType>>& vectors)
+    VectorStruct<Trees2::TreeNode<DataType>> vectors)
 : MergeTestStruct<Trees2::TreeNode<DataType>>(
     path,
     std::make_shared<Trees2::Tree<DataType>>(),
-    vectors)
+    std::move(vectors.v1),
+    std::move(vectors.v2),
+    std::move(vectors.expectedResult))
 { }
 
 // TODO: Odkomentowac jak naprawie testy
@@ -20,15 +22,34 @@ TreeArgs<DataType>::TreeArgs(
 //     IntTreePrefix,
 //     IntTreeFixture,
 //     ::testing::Values(
-//         TreeArgs<int>(
-//             Path::Create(MergeTree, 1),
-//             IntTreeFixture::initTrees(IntTreeFixture::fmod3i3, IntTreeFixture::fmod9i64, 30, 20)),
-//         TreeArgs<int>(
-//             Path::Create(MergeTree, 2),
-//             IntTreeFixture::initTrees(IntTreeFixture::fmod3i3, IntTreeFixture::fmod9i64, 70, 30)),
-//         TreeArgs<int>(
-//             Path::Create(MergeTree, 3),
-//             IntTreeFixture::initTrees(IntTreeFixture::fmod3i3, IntTreeFixture::fmod9i64, 400, 100))
+//         std::move(TreeArgs<int>(
+//                     Path::Create(MergeTree, 1),
+//                     std::move(IntTreeFixture::initTestData(
+//                                 IntTreeFixture::fmod3i3,
+//                                 IntTreeFixture::fmod9i64,
+//                                 100,
+//                                 100)))),
+//         std::move(TreeArgs<int>(
+//                     Path::Create(MergeTree, 2),
+//                     std::move(IntTreeFixture::initTestData(
+//                                 IntTreeFixture::fmod3i3,
+//                                 IntTreeFixture::fmod9i64,
+//                                 150,
+//                                 50)))),
+//         std::move(TreeArgs<int>(
+//                     Path::Create(MergeTree, 3),
+//                     std::move(IntTreeFixture::initTestData(
+//                                 IntTreeFixture::fmod3i3,
+//                                 IntTreeFixture::fmod9i64,
+//                                 200,
+//                                 200)))),
+//         std::move(TreeArgs<int>(
+//                     Path::Create(MergeTree, 4),
+//                     std::move(IntTreeFixture::initTestData(
+//                                 IntTreeFixture::fmod3i3,
+//                                 IntTreeFixture::fmod9i64,
+//                                 300,
+//                                 100))))
 //     ));
 
 } // namespace tests::Merge::Tree2tests

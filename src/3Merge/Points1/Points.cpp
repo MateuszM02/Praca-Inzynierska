@@ -2,13 +2,46 @@
 
 namespace src::Merge::Points1
 {
-// Operator rownosci punktow do sprawdzania poprawnosci scalania
+
+// Konstruktor przenoszacy
+Point2D::Point2D(Point2D&& other)
+: x{other.x}
+, y{other.y}
+{ }
+
+// konstruktor kopiujacy
+Point2D::Point2D(const Point2D& other)
+: x{other.x}
+, y{other.y}
+{ }
+
+// Operator przenoszacy
+Point2D& Point2D::operator=(const Point2D&& other)
+{
+    if (this != &other)
+    {
+        this->x = other.x;
+        this->y = other.y;
+    }
+    return *this;
+}
+
+// Operator kopiujacy
+Point2D& Point2D::operator=(const Point2D& other)
+{
+    if (this != &other)
+    {
+        this->x = other.x;
+        this->y = other.y;
+    }
+    return *this;
+}
+
 bool Point2D::operator==(const Point2D& other) const
 {
     return this->x == other.x && this->y == other.y;
 }
 
-// Operator mniejszosci punktow potrzebny do scalania
 bool Point2D::operator<(const Point2D& other) const
 {
     return  this->x != other.x ? 

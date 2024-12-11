@@ -2,39 +2,54 @@
 
 namespace src::Merge::Vector3
 {
+
+// Konstruktor przenoszacy
+IntVector::IntVector(IntVector&& other)
+: values{std::move(other.values)}
+{ }
+
+// konstruktor kopiujacy
+IntVector::IntVector(const IntVector& other)
+: values{std::move(other.values)}
+{ }
+
+// Operator przenoszacy
+IntVector& IntVector::operator=(const IntVector&& other)
+{
+    if (this != &other)
+    {
+        this->values = std::move(other.values);
+    }
+    return *this;
+}
+
+// Operator kopiujacy
+IntVector& IntVector::operator=(const IntVector& other)
+{
+    if (this != &other)
+    {
+        this->values = other.values;
+    }
+    return *this;
+}
+
 bool IntVector::operator==(const IntVector& other) const
 {
     if (this->size() != other.size())
-        return this->size() < other.size();
+        return false;
     
-    for (unsigned int i = 0; i < this->size(); i++)
+    for (unsigned int i = 0; i < this->size(); ++i)
     {
         if (this->at(i) != other.at(i))
             return false;
     }
-    
     return true;
 }
 
-// this jest "mniejszym" wektorem od other kiedy:
-// 1. ma mniej elementow LUB
-// 2. jest wiecej indeksow i dla ktorych this[i] < other[i] niz j dla ktorych this[j] > other[j]
 bool IntVector::operator<(const IntVector& other) const
 {
-    if (this->size() != other.size())
-        return this->size() < other.size();
-    
-    unsigned int v1Smaller = 0;
-    unsigned int v1Bigger = 0;
-    
-    for (unsigned int i = 0; i < this->size(); i++)
-    {
-        if (this->at(i) < other.at(i))
-            v1Smaller++;
-        else if (this->at(i) > other.at(i))
-            v1Bigger++;
-    }
-    return v1Smaller < v1Bigger;
+    return std::lexicographical_compare(
+        this->values.begin(), this->values.end(), other.values.begin(), other.values.end());
 }
 
 } // namespace src::Merge::Vector3
