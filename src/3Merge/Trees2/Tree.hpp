@@ -1,6 +1,8 @@
 #pragma once
 #include "../Merger.hpp"
 
+#include <cassert>
+
 // Przyklad 2. Glebokosc drzewa -----------------------------------------------------------------------------
 
 namespace src::Merge::Trees2
@@ -8,9 +10,13 @@ namespace src::Merge::Trees2
 
 template <typename DataType>
 requires std::is_arithmetic_v<DataType>
-class TreeNode
+struct TreeNode
 {
-public:
+    DataType value;
+    int height;
+    std::shared_ptr<TreeNode<DataType>> left;
+    std::shared_ptr<TreeNode<DataType>> right;
+
     // konstruktor domyslny potrzebny do stworzenia wektora elementow
     TreeNode()
     : value{DataType()}
@@ -26,42 +32,18 @@ public:
     , right{nullptr}
     { }
 
-    // Operator przypisania potrzebny do scalania
-    TreeNode& operator=(const TreeNode& other)
-    {
-        if (this != &other)
-        {
-            this->value = other.value;
-            this->height = other.height;
-            this->left = other.left;
-            this->right = other.right;
-        }
-        return *this;
-    }
+    // konstruktor/operator przypisania przenoszacego
+    TreeNode(TreeNode<DataType>&& other);
+    TreeNode<DataType>& operator=(const TreeNode<DataType>&& other);
 
-    bool operator==(const TreeNode<DataType>& other) const
-    {
-        if (!this->left && other.left) return false; 
-        if (!this->right && other.right) return false; 
-        if (this->left && !other.left) return false; 
-        if (this->right && !other.right) return false;
-
-        return  this->value == other.value &&
-                this->height == other.height &&
-                (!this->left || *(this->left.get()) == *(other.left.get())) &&
-                (!this->right || *(this->right.get()) == *(other.right.get()));
-    }
-
-    // operator porownania - wysokosc drzewa
-    bool operator<(const TreeNode<DataType>& other) const
-    {
-        return this->value < other.value; //this->height < other.height;
-    }
-
-    DataType value;
-    int height;
-    std::shared_ptr<TreeNode<DataType>> left;
-    std::shared_ptr<TreeNode<DataType>> right;
+    // konstruktor/operator przypisania kopiujacego
+    TreeNode(const TreeNode<DataType>& other);
+    TreeNode<DataType>& operator=(const TreeNode<DataType>& other);
+    
+    // operatory potrzebne do scalania/sortowania
+    bool operator==(const TreeNode<DataType>& other) const;
+    bool operator<(const TreeNode<DataType>& other) const;
+    DataType getSum(const TreeNode<DataType>* node) const;
 };
 
 template <typename DataType>
@@ -77,11 +59,13 @@ public:
     bool find(const DataType& value) const;
     void remove(const DataType& value);
 
+    TreeNode<DataType> getRoot() const;
+
 private:
     TreeNodePtr<DataType> root;
 
-    int getHeight(TreeNode<DataType>* node) const;
-    int getBalance(TreeNode<DataType>* node) const;
+    int getHeight(const TreeNodePtr<DataType> node) const;
+    int getBalance(const TreeNodePtr<DataType> node) const;
 
     TreeNodePtr<DataType> rightRotate(TreeNodePtr<DataType> y);
     TreeNodePtr<DataType> leftRotate(TreeNodePtr<DataType> x);
@@ -90,7 +74,7 @@ private:
     TreeNodePtr<DataType> removeRec(TreeNodePtr<DataType> node, const DataType& value);
     
     bool findRec(const TreeNode<DataType>* node, const DataType& value) const;
-    TreeNode<DataType>* getMinNode(TreeNode<DataType>* node) const;
+    DataType getMinValue(const TreeNode<DataType>* node) const;
 };
 
 } // namespace src::Merge::Trees2

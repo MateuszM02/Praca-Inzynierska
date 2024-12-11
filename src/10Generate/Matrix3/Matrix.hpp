@@ -1,14 +1,9 @@
 #pragma once
 #include "../Functor.hpp"
+#include "../../Concepts.hpp"
 
 namespace src::Generate::Matrix3
 {
-
-template <typename DataType>
-concept Multiplicable = requires(DataType a, DataType b)
-{
-    { a *= b } -> std::convertible_to<DataType&>;
-};
 
 template <Multiplicable DataType> 
 using SquareMatrix = std::vector<std::vector<DataType>>;

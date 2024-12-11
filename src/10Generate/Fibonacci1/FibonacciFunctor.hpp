@@ -1,16 +1,11 @@
 #pragma once
 #include "../Functor.hpp"
+#include "../../Concepts.hpp"
 
 // Przyklad 1. Liczby Fibonacciego --------------------------------------------------------------------------
 
 namespace src::Generate::Fibonacci1
 {
-
-template <typename DataType>
-concept Addable = requires(DataType a, DataType b)
-{
-    { a + b } -> std::convertible_to<DataType>;
-};
 
 template <Addable DataType>
 class FibonacciFunctor : public Functor<DataType>

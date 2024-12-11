@@ -3,7 +3,7 @@
 namespace tests::Generate::Fibonacci1tests
 {
 
-template <Fibonacci1::Addable DataType>
+template <src::Addable DataType>
 FibonacciArgs<DataType>::FibonacciArgs(
     const std::string& path,
     Fibonacci1::FibonacciFunctor<DataType> f, 

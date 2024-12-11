@@ -3,7 +3,6 @@
 
 #include <algorithm> // std::generate
 #include <chrono> // mierzenie czasu wykonania testu
-#include <concepts> // concept (C++ 20)
 #include <iostream>
 #include <vector>
 

@@ -6,7 +6,7 @@
 namespace tests::Generate::Fibonacci1tests
 {
 
-template <Fibonacci1::Addable DataType>
+template <src::Addable DataType>
 struct FibonacciArgs : public GenerateTestStruct<DataType>
 {
     FibonacciArgs(
