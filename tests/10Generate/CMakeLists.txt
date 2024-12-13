@@ -1,23 +1,23 @@
-set(SRC_DIR "../../src/10Generate")
+set(SRC_DIR "../../src/Structures")
 
 # Dodaj pliki wykonywalne
 add_executable(
   FibonacciTests
   Fibonacci1/FibonacciTests.cpp
-  ${SRC_DIR}/Fibonacci1/FibonacciFunctor.cpp
+  ${SRC_DIR}/FibonacciFunctor.cpp
 )
 
 add_executable(
   RandomStringTests
   RandomString2/RandomStringTests.cpp
-  ${SRC_DIR}/RandomString2/RandomStringFunctor.cpp
+  ${SRC_DIR}/RandomStringFunctor.cpp
 )
 
 add_executable(
   MatrixTests
   Matrix3/MatrixTests.cpp
-  ${SRC_DIR}/Matrix3/MatrixFunctor.cpp
-  ${SRC_DIR}/Matrix3/Matrix.cpp
+  ${SRC_DIR}/MatrixFunctor.cpp
+  ${SRC_DIR}/Matrix.cpp
 )
 
 # Dodaj Boost i GTEST do kazdego execa 

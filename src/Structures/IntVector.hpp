@@ -1,9 +1,9 @@
 #pragma once
-#include "../Merger.hpp"
+#include "../Algorithms/Merger.hpp"
 
-// Przyklad 3. Wektory liczb --------------------------------------------------------------------------------
+using namespace src::Algorithms;
 
-namespace src::Merge::Vector3
+namespace src::Structures
 {
 
 struct IntVector
@@ -41,4 +41,4 @@ class MyVector : public Merger<IntVector>
 {
 };
 
-} // namespace src::Merge::Vector3
+} // namespace src::Structures

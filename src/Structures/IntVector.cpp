@@ -1,6 +1,6 @@
 #include "IntVector.hpp"
 
-namespace src::Merge::Vector3
+namespace src::Structures
 {
 
 // Konstruktor przenoszacy
@@ -52,4 +52,4 @@ bool IntVector::operator<(const IntVector& other) const
         this->values.begin(), this->values.end(), other.values.begin(), other.values.end());
 }
 
-} // namespace src::Merge::Vector3
+} // namespace src::Structures

@@ -1,6 +1,6 @@
 #include "FibonacciFunctor.hpp"
 
-namespace src::Generate::Fibonacci1
+namespace src::Structures
 {
 
 template <Addable DataType>
@@ -29,4 +29,4 @@ FibonacciFunctor<DataType>::clone() const
 template class FibonacciFunctor<int>;
 template class FibonacciFunctor<double>;
 
-} // namespace src::Generate::Fibonacci1
+} // namespace src::Structures

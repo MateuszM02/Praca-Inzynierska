@@ -1,6 +1,6 @@
 #pragma once
+#include "Concepts.hpp"
 #include "../MethodType.hpp"
-#include "../Concepts.hpp"
 
 #include <chrono> // mierzenie czasu wykonania testu
 #include <iostream>
@@ -8,7 +8,7 @@
 
 #include <boost/range/algorithm/merge.hpp> // boost::range::merge
 
-namespace src::Merge
+namespace src::Algorithms
 {
 
 // Klasa abstrakcyjna Merger, po ktorej dziedzicza klasy przykladowe
@@ -105,4 +105,4 @@ private:
     }
 };
 
-} // namespace src::Merge
+} // namespace src::Algorithms

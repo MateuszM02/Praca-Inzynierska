@@ -1,9 +1,11 @@
 #pragma once
 #include "../GenerateTestFixture.hpp"
 #include "../../Path.hpp"
-#include "../../../src/10Generate/RandomString2/RandomStringFunctor.hpp"
+#include "../../../src/Structures/RandomStringFunctor.hpp"
 
-namespace tests::Generate::RandomString2tests
+using namespace src::Structures;
+
+namespace tests::Generate
 {
 
 struct RandomStringArgs : public GenerateTestStruct<std::string>
@@ -17,4 +19,4 @@ class RandomStringFixture : public ::testing::TestWithParam<RandomStringArgs>
 { 
 };
 
-} // namespace tests::Generate::RandomString2tests
+} // namespace tests::Generate

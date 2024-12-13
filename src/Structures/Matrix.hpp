@@ -1,8 +1,10 @@
 #pragma once
-#include "../Functor.hpp"
-#include "../../Concepts.hpp"
+#include "../Algorithms/Functor.hpp"
+#include "../Algorithms/Concepts.hpp"
 
-namespace src::Generate::Matrix3
+using namespace src::Algorithms;
+
+namespace src::Structures
 {
 
 template <Multiplicable DataType> 
@@ -37,4 +39,4 @@ private:
     size_t n; 
     SquareMatrix<DataType> matrix;
 };
-} // namespace src::Generate::Matrix3
+} // namespace src::Structures

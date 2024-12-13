@@ -1,6 +1,6 @@
 #include "Matrix.hpp"
 
-namespace src::Generate::Matrix3
+namespace src::Structures
 {
 
 template <Multiplicable DataType>
@@ -80,4 +80,4 @@ template class Matrix<double>;
 template std::ostream& operator<< (std::ostream& os, const Matrix<int>& mat);
 template std::ostream& operator<< (std::ostream& os, const Matrix<double>& mat);
 
-} // namespace src::Generate::Matrix3
+} // namespace src::Structures

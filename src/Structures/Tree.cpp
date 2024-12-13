@@ -1,6 +1,6 @@
 #include "Tree.hpp"
 
-namespace src::Merge::Trees2
+namespace src::Structures
 {
 
 // TreeNode
@@ -325,4 +325,4 @@ DataType Tree<DataType>::getMinValue(const TreeNode<DataType>* node) const
 template class TreeNode<int>;
 template class Tree<int>;
 
-} // namespace src::Merge::Trees2
+} // namespace src::Structures

@@ -1,6 +1,6 @@
 #include "Points.hpp"
 
-namespace src::Merge::Points1
+namespace src::Structures
 {
 
 // Konstruktor przenoszacy
@@ -49,4 +49,4 @@ bool Point2D::operator<(const Point2D& other) const
             this->y < other.y;
 }
 
-} // namespace src::Merge::Points1
+} // namespace src::Structures

@@ -1,9 +1,9 @@
 #pragma once
 #include "Matrix.hpp"
 
-// Przyklad 3. Podnoszenie kwadratowej macierzy do potegi n-tej ---------------------------------------------
+using namespace src::Algorithms;
 
-namespace src::Generate::Matrix3
+namespace src::Structures
 {
 template <class Number>
 requires std::is_arithmetic_v<Number>
@@ -17,4 +17,4 @@ private:
     const Matrix<Number> originalMatrix;
     Matrix<Number> currentMatrix;
 };
-} // namespace src::Generate::Matrix3
+} // namespace src::Structures

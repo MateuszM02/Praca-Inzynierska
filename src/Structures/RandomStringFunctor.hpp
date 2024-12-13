@@ -1,11 +1,11 @@
 #pragma once
-#include "../Functor.hpp"
+#include "../Algorithms/Functor.hpp"
 
 #include <random>
 
-// Przyklad 2. Losowe slowa podanej dlugosci ----------------------------------------------------------------
+using namespace src::Algorithms;
 
-namespace src::Generate::RandomString2
+namespace src::Structures
 {
 class RandomStringFunctor : public Functor<std::string>
 {
@@ -18,4 +18,4 @@ private:
     std::mt19937 randomGenerator;
     std::uniform_int_distribution<> distribution;
 };
-} // namespace src::Generate::RandomString2
+} // namespace src::Structures

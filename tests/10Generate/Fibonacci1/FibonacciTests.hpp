@@ -1,17 +1,19 @@
 #pragma once
 #include "../GenerateTestFixture.hpp"
 #include "../../Path.hpp"
-#include "../../../src/10Generate/Fibonacci1/FibonacciFunctor.hpp"
+#include "../../../src/Structures/FibonacciFunctor.hpp"
 
-namespace tests::Generate::Fibonacci1tests
+using namespace src::Structures;
+
+namespace tests::Generate
 {
 
-template <src::Addable DataType>
+template <Addable DataType>
 struct FibonacciArgs : public GenerateTestStruct<DataType>
 {
     FibonacciArgs(
         const std::string& path,
-        Fibonacci1::FibonacciFunctor<DataType> f, 
+        FibonacciFunctor<DataType> f, 
         unsigned int n, 
         const std::vector<DataType>& expectedResult);
 };
@@ -32,4 +34,4 @@ TEST_P(FibonacciDoubleFixture, doubleTest)
     VerifyTest(GetParam());
 }
 
-} // namespace tests::Generate::Fibonacci1tests
+} // namespace tests::Generate

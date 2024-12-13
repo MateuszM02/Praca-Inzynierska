@@ -1,26 +1,28 @@
 #pragma once
 #include "../GenerateTestFixture.hpp"
 #include "../../Path.hpp"
-#include "../../../src/10Generate/Matrix3/MatrixFunctor.hpp"
+#include "../../../src/Structures/MatrixFunctor.hpp"
 
-namespace tests::Generate::Matrix3tests
+using namespace src::Structures;
+
+namespace tests::Generate
 {
 
 template <class Number>
 requires std::is_arithmetic_v<Number>
-struct MatrixArgs : public GenerateTestStruct<Matrix3::Matrix<Number>>
+struct MatrixArgs : public GenerateTestStruct<Matrix<Number>>
 {
     MatrixArgs(
         const std::string& path,
-        Matrix3::MatrixFunctor<Number> f, 
+        MatrixFunctor<Number> f, 
         unsigned int n, 
-        const std::vector<Matrix3::Matrix<Number>>& expectedResult);
+        const std::vector<Matrix<Number>>& expectedResult);
 };
 
-class MatrixIntFixture : public GenerateTestFixture<Matrix3::Matrix<int>>
+class MatrixIntFixture : public GenerateTestFixture<Matrix<int>>
 { };
 
-class MatrixDoubleFixture : public GenerateTestFixture<Matrix3::Matrix<double>>
+class MatrixDoubleFixture : public GenerateTestFixture<Matrix<double>>
 { };
 
 TEST_P(MatrixIntFixture, intTest)
@@ -33,4 +35,4 @@ TEST_P(MatrixDoubleFixture, doubleTest)
     VerifyTest(GetParam());
 }
 
-} // namespace tests::Generate::Matrix3tests
+} // namespace tests::Generate

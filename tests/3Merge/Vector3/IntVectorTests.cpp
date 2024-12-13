@@ -1,14 +1,14 @@
 #include "IntVectorTests.hpp"
 
-namespace tests::Merge::Vector3tests
+namespace tests::Merge
 {
 
 IntVectorArgs::IntVectorArgs(
     const std::string& path,
-    VectorStruct<Vector3::IntVector> vectors)
-: MergeTestStruct<Vector3::IntVector>(
+    VectorStruct<IntVector> vectors)
+: MergeTestStruct<IntVector>(
     path,
-    std::make_shared<Vector3::MyVector>(),
+    std::make_shared<MyVector>(),
     std::move(vectors.v1),
     std::move(vectors.v2),
     std::move(vectors.expectedResult))
@@ -62,4 +62,4 @@ INSTANTIATE_TEST_SUITE_P(
                                 1400))))
     ));
 
-} // namespace tests::Merge::Vector3tests
+} // namespace tests::Merge

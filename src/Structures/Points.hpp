@@ -1,9 +1,9 @@
 #pragma once
-#include "../Merger.hpp"
+#include "../Algorithms/Merger.hpp"
 
-// Przyklad 1. Para wartosci --------------------------------------------------------------------------------
+using namespace src::Algorithms;
 
-namespace src::Merge::Points1
+namespace src::Structures
 {
 
 struct Point2D
@@ -41,4 +41,4 @@ class Points : public Merger<Point2D>
 {
 };
 
-} // namespace src::Merge::Points1
+} // namespace src::Structures
