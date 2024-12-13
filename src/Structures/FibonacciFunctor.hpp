@@ -1,10 +1,9 @@
 #pragma once
-#include "../Functor.hpp"
-#include "../../Concepts.hpp"
+#include "../Algorithms/Functor.hpp"
 
-// Przyklad 1. Liczby Fibonacciego --------------------------------------------------------------------------
+using namespace src::Algorithms;
 
-namespace src::Generate::Fibonacci1
+namespace src::Structures
 {
 
 template <Addable DataType>
@@ -18,4 +17,4 @@ private:
     DataType a, b;
 };
 
-} // namespace src::Generate::Fibonacci1
+} // namespace src::Structures

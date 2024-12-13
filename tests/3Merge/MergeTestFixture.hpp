@@ -1,15 +1,16 @@
 #pragma once
-#include "../../src/3Merge/Merger.hpp"
+#include "../../src/Algorithms/Merger.hpp"
 
 #include <fstream>
+
 #include <gtest/gtest.h>
 
-using namespace src::Merge;
+using namespace src::Algorithms;
 
 namespace tests::Merge
 {
 
-template <src::Comparable DataType>
+template <Comparable DataType>
 struct VectorStruct
 {
     VectorStruct(
@@ -32,7 +33,7 @@ struct VectorStruct
     std::vector<DataType> expectedResult;
 };
 
-template <src::Comparable DataType>
+template <Comparable DataType>
 struct MergeTestStruct
 {
 public:
@@ -74,7 +75,7 @@ public:
 };
 
 // Klasa abstrakcyjna MergeTestFixture, po ktorej dziedzicza klasy testowe metod merge
-template <src::Comparable DataType>
+template <Comparable DataType>
 class MergeTestFixture : public ::testing::TestWithParam<MergeTestStruct<DataType>>
 {
 public:

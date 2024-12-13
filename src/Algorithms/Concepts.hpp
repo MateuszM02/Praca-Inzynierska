@@ -1,7 +1,7 @@
 #pragma once
 #include <concepts> // concept (C++ 20)
 
-namespace src
+namespace src::Algorithms
 {
 
 // typ pozwalajacy na dodawanie za pomoca operatora+ (nie musi posiadac operatora+= ale moze)
@@ -41,4 +41,4 @@ concept Comparable = requires(DataType a, DataType b)
     { a < b } -> std::convertible_to<bool>;
 } && Assignable<DataType> && Copyable<DataType>;
 
-} // namespace src
+} // namespace src::Algorithms

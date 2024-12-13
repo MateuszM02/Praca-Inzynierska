@@ -1,11 +1,11 @@
 #pragma once
-#include "../Merger.hpp"
+#include "../Algorithms/Merger.hpp"
 
 #include <cassert>
 
-// Przyklad 2. Glebokosc drzewa -----------------------------------------------------------------------------
+using namespace src::Algorithms;
 
-namespace src::Merge::Trees2
+namespace src::Structures
 {
 
 template <typename DataType>
@@ -77,4 +77,4 @@ private:
     DataType getMinValue(const TreeNode<DataType>* node) const;
 };
 
-} // namespace src::Merge::Trees2
+} // namespace src::Structures

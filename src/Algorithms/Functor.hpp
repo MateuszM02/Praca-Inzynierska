@@ -1,4 +1,5 @@
 #pragma once
+#include "Concepts.hpp"
 #include "../MethodType.hpp"
 
 #include <algorithm> // std::generate
@@ -8,7 +9,7 @@
 
 #include <boost/range/algorithm/generate.hpp> // boost::range::generate
 
-namespace src::Generate
+namespace src::Algorithms
 {
 
 // Klasa abstrakcyjna Functor, po ktorej dziedzicza klasy funktorowe
@@ -79,4 +80,4 @@ private:
     }
 };
 
-} // namespace src::Generate
+} // namespace src::Algorithms

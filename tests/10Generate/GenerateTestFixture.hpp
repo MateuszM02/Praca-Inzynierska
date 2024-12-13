@@ -1,10 +1,11 @@
 #pragma once
-#include "../../src/10Generate/Functor.hpp"
+#include "../../src/Algorithms/Functor.hpp"
 
 #include <fstream>
+
 #include <gtest/gtest.h>
 
-using namespace src::Generate;
+using namespace src::Algorithms;
 
 namespace tests::Generate
 {

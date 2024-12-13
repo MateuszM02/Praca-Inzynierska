@@ -1,6 +1,6 @@
 #include "MatrixFunctor.hpp"
 
-namespace src::Generate::Matrix3
+namespace src::Structures
 {
 template <class Number>
 requires std::is_arithmetic_v<Number>
@@ -30,4 +30,4 @@ MatrixFunctor<Number>::clone() const
 template class MatrixFunctor<int>;
 template class MatrixFunctor<double>;
 
-} // namespace src::Generate::Matrix3
+} // namespace src::Structures

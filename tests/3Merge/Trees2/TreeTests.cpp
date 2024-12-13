@@ -1,16 +1,16 @@
 #include "TreeTests.hpp"
 
-namespace tests::Merge::Tree2tests
+namespace tests::Merge
 {
 
 template <typename DataType>
 requires std::is_arithmetic_v<DataType>
 TreeArgs<DataType>::TreeArgs(
     const std::string& path,
-    VectorStruct<Trees2::TreeNode<DataType>> vectors)
-: MergeTestStruct<Trees2::TreeNode<DataType>>(
+    VectorStruct<TreeNode<DataType>> vectors)
+: MergeTestStruct<TreeNode<DataType>>(
     path,
-    std::make_shared<Trees2::Tree<DataType>>(),
+    std::make_shared<Tree<DataType>>(),
     std::move(vectors.v1),
     std::move(vectors.v2),
     std::move(vectors.expectedResult))
@@ -52,4 +52,4 @@ TreeArgs<DataType>::TreeArgs(
 //                                 100))))
 //     ));
 
-} // namespace tests::Merge::Tree2tests
+} // namespace tests::Merge

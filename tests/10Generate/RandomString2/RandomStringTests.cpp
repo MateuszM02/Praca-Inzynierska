@@ -1,6 +1,6 @@
 #include "RandomStringTests.hpp"
 
-namespace tests::Generate::RandomString2tests
+namespace tests::Generate
 {
 
 RandomStringArgs::RandomStringArgs(
@@ -10,7 +10,7 @@ RandomStringArgs::RandomStringArgs(
 : length{l}
 , GenerateTestStruct<std::string>(
     path,
-    std::make_shared<RandomString2::RandomStringFunctor>(RandomString2::RandomStringFunctor(l)), 
+    std::make_shared<RandomStringFunctor>(RandomStringFunctor(l)), 
     n, {})
 { }
 
@@ -48,4 +48,4 @@ INSTANTIATE_TEST_SUITE_P(
         RandomStringArgs(Path::Create(GenerateRandomString, 7), 1000000u, 1u)
 ));
 
-} // namespace tests::Generate::RandomString2tests
+} // namespace tests::Generate

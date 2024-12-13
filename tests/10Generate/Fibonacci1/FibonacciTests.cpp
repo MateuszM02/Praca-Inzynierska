@@ -1,17 +1,17 @@
 #include "FibonacciTests.hpp"
 
-namespace tests::Generate::Fibonacci1tests
+namespace tests::Generate
 {
 
-template <src::Addable DataType>
+template <Addable DataType>
 FibonacciArgs<DataType>::FibonacciArgs(
     const std::string& path,
-    Fibonacci1::FibonacciFunctor<DataType> f, 
+    FibonacciFunctor<DataType> f, 
     unsigned int n, 
     const std::vector<DataType>& expectedResult)
 : GenerateTestStruct<DataType>(
     path,
-    std::make_shared<Fibonacci1::FibonacciFunctor<DataType>>(f), 
+    std::make_shared<FibonacciFunctor<DataType>>(f), 
     n, expectedResult)
 { }
 
@@ -93,4 +93,4 @@ INSTANTIATE_TEST_SUITE_P(
                                                 774004377960.0, 1252365390980.5, 2026369768940.5, 3278735159921.0, 5305104928861.5 })
     ));
 
-} // namespace tests::Generate::Fibonacci1tests
+} // namespace tests::Generate

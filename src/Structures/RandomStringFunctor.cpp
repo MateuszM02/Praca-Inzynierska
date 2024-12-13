@@ -1,6 +1,6 @@
 #include "RandomStringFunctor.hpp"
 
-namespace src::Generate::RandomString2
+namespace src::Structures
 {
 RandomStringFunctor::RandomStringFunctor(const unsigned int l) 
 : length(l)
@@ -25,4 +25,4 @@ RandomStringFunctor::clone() const
     return std::make_shared<RandomStringFunctor>(*this);
 }
 
-} // namespace src::Generate::RandomString2
+} // namespace src::Structures

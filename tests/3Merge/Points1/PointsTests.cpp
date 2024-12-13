@@ -1,14 +1,14 @@
 #include "PointsTests.hpp"
 
-namespace tests::Merge::Points1tests
+namespace tests::Merge
 {
 
 PointsArgs::PointsArgs(
     const std::string& path,
-    VectorStruct<Points1::Point2D> vectors)
-: MergeTestStruct<Points1::Point2D>(
+    VectorStruct<Point2D> vectors)
+: MergeTestStruct<Point2D>(
     path,
-    std::make_shared<Points1::Points>(),
+    std::make_shared<Points>(),
     std::move(vectors.v1),
     std::move(vectors.v2),
     std::move(vectors.expectedResult))
@@ -41,4 +41,4 @@ INSTANTIATE_TEST_SUITE_P(
                                 1000000))))
     ));
 
-} // namespace tests::Merge::Points1tests
+} // namespace tests::Merge
