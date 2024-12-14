@@ -6,12 +6,12 @@ namespace tests::Generate
 template <Addable DataType>
 FibonacciArgs<DataType>::FibonacciArgs(
     const std::string& path,
-    FibonacciFunctor<DataType> f, 
-    unsigned int n, 
+    const std::pair<DataType, DataType>& initialPair,
+    unsigned int n,
     const std::vector<DataType>& expectedResult)
-: GenerateTestStruct<DataType>(
+: GenerateTestStruct<DataType, std::pair<DataType, DataType>>(
     path,
-    std::make_shared<FibonacciFunctor<DataType>>(f), 
+    std::move(src::Algorithms::FunctorImpl::createFibonacciFunctor(initialPair)), 
     n, expectedResult)
 { }
 
@@ -21,7 +21,7 @@ INSTANTIATE_TEST_SUITE_P(
     ::testing::Values(
         FibonacciArgs<int>(
             Path::Create(GenerateFibonacci, 1),
-            {1, 1},
+            std::make_pair(1, 1),
             45u,
             std::vector<int>{
                                         1, 2, 3, 5, 8, 
@@ -35,7 +35,7 @@ INSTANTIATE_TEST_SUITE_P(
                                         267914296, 433494437, 701408733, 1134903170, 1836311903}),
         FibonacciArgs<int>(
             Path::Create(GenerateFibonacci, 2),
-            {2, 2},
+            std::make_pair(2, 2),
             40u,
             std::vector<int>{
                                         2, 4, 6, 10, 16,
@@ -54,7 +54,7 @@ INSTANTIATE_TEST_SUITE_P(
     ::testing::Values(
         FibonacciArgs<double>(
             Path::Create(GenerateFibonacci, 3),
-            {1.0, 1.0},
+            std::make_pair(1.0, 1.0),
             80u,
             std::vector<double>{ 
                                                 1.0, 2.0, 3.0, 5.0, 8.0, 
@@ -76,7 +76,7 @@ INSTANTIATE_TEST_SUITE_P(
 
         FibonacciArgs<double>(
             Path::Create(GenerateFibonacci, 4),
-            {1.5, 2.5},
+            std::make_pair(1.5, 2.5),
             60u,
             std::vector<double>{ 
                                                 2.5, 4.0, 6.5, 10.5, 17.0, 

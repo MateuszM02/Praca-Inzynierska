@@ -5,12 +5,12 @@ namespace tests::Generate
 
 RandomStringArgs::RandomStringArgs(
     const std::string& path,
-    unsigned int l,
-    unsigned int n)
+    const unsigned int l,
+    const unsigned int n)
 : length{l}
-, GenerateTestStruct<std::string>(
+, GenerateTestStruct<std::string, RandomString>(
     path,
-    std::make_shared<RandomStringFunctor>(RandomStringFunctor(l)), 
+    std::move(src::Algorithms::FunctorImpl::createRandomStringFunctor(l)),
     n, {})
 { }
 

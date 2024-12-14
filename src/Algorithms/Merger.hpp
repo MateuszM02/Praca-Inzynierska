@@ -19,7 +19,7 @@ public:
     virtual ~Merger() = default;
 
     std::vector<DataType> callMerger(
-        const MethodType& methodType, 
+        const MethodType& methodType,
         const std::vector<DataType>& v1,
         const std::vector<DataType>& v2,
         std::ostream& os)
