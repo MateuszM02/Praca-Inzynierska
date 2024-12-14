@@ -3,9 +3,6 @@
 #include "../../Path.hpp"
 #include "../../../src/Structures/IntVector.hpp"
 
-#include <functional>
-#include <random>
-
 using namespace src::Structures;
 
 namespace tests::Merge
@@ -21,7 +18,7 @@ struct IntVectorArgs : public MergeTestStruct<IntVector>
 class IntVectorFixture : public MergeTestFixture<IntVector>
 {
 public:
-    static IntVector f10i_imod7(const int n)
+    static Mergeable<IntVector> f10i_imod7(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -29,11 +26,14 @@ public:
         {
             v.emplace_back(10*i + ((i+1) % 7));
         }
-        IntVector iv = { std::move(v) };
-        return std::move(iv);
+        IntVector iv(std::move(v));
+        return { std::move(iv),
+                 src::Algorithms::MergerImpl::intVectorEqFunc,
+                 src::Algorithms::MergerImpl::intVectorLessFunc,
+                 src::Algorithms::MergerImpl::intVectorCopyAssignFunc };
     }
 
-    static IntVector f10i_imod9(const int n)
+    static Mergeable<IntVector> f10i_imod9(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -41,8 +41,11 @@ public:
         {
             v.emplace_back(10*i + (i % 9));
         }
-        IntVector iv = { std::move(v) };
-        return std::move(iv);
+        IntVector iv(std::move(v));
+        return { std::move(iv),
+                 src::Algorithms::MergerImpl::intVectorEqFunc,
+                 src::Algorithms::MergerImpl::intVectorLessFunc,
+                 src::Algorithms::MergerImpl::intVectorCopyAssignFunc };
     }
 };
 
