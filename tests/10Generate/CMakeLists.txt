@@ -1,4 +1,3 @@
-set(ALG_DIR "../../src/Algorithms")
 set(STRUCT_DIR "../../src/Structures")
 
 # Dodaj pliki wykonywalne

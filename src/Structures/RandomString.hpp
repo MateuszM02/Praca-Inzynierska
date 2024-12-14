@@ -13,13 +13,6 @@ struct RandomString
     , distribution('a', 'z')
     { }
 
-    // konstruktor kopiujacy
-    // RandomString(const RandomString& other)
-    // : length(other.length)
-    // , randomGenerator(other.randomGenerator)
-    // , distribution(other.distribution)
-    // { }
-
     // operator przypisania kopiujacego
     RandomString& operator=(const RandomString& other)
     {

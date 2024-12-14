@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Concepts.hpp"
 #include "../MethodType.hpp"
 
@@ -11,43 +12,137 @@
 namespace src::Algorithms
 {
 
-// Klasa abstrakcyjna Merger, po ktorej dziedzicza klasy przykladowe
-template <Comparable DataType>
-class Merger
+// Klasa rozszerzajaca dowolny typ tak, aby dalo sie go porownywac
+template <typename DataType>
+class Mergeable final
 {
-public:
-    virtual ~Merger() = default;
+    public:
+    // Konstruktor domyslny aby dzialaly testy
+    Mergeable()
+    : data_(DataType())
+    , eqFunc_(
+        [](const DataType&, const DataType&) -> bool
+        {
+            throw std::invalid_argument("This default method should never be called!");
+        })
+    , lessFunc_(
+        [](const DataType&, const DataType&) -> bool
+        {
+            throw std::invalid_argument("This default method should never be called!");
+        })
+    , copyAssignFunc_(
+        [](DataType&, const DataType&) -> void
+        {
+            throw std::invalid_argument("This default method should never be called!");
+        })
+    { } 
+    
+    // Konstruktor dla typow nieporownywalnych
+    Mergeable(DataType data,
+        bool (*eqFunc)(const DataType&, const DataType&),
+        bool (*lessFunc)(const DataType&, const DataType&),
+        void (*copyAssignFunc)(DataType&, const DataType&))
+    : data_(std::move(data))
+    , eqFunc_(eqFunc)
+    , lessFunc_(lessFunc)
+    , copyAssignFunc_(copyAssignFunc)
+    { } 
+    
+    // Konstruktor dla typow, ktore spelniaja koncept Comparable
+    Mergeable(DataType data)
+    requires Comparable<DataType> && std::is_copy_assignable_v<DataType>
+    : data_(std::move(data))
+    , eqFunc_([](const DataType& lhs, const DataType& rhs) { return lhs == rhs; })
+    , lessFunc_([](const DataType& lhs, const DataType& rhs) { return lhs < rhs; })
+    , copyAssignFunc_([](DataType& dest, const DataType& src) { dest = src; })
+    { } 
+    
+    // Operator przypisania kopiujacego
+    Mergeable& operator=(const Mergeable& other)
+    {
+        if (this != &other)
+        {
+            eqFunc_ = other.eqFunc_;
+            lessFunc_ = other.lessFunc_;
+            copyAssignFunc_ = other.copyAssignFunc_;
+            copyAssignFunc_(data_, other.data_);
+        }
+        return *this;
+    }
+    
+    bool operator==(const Mergeable& other) const
+    {
+        return eqFunc_(data_, other.data_);
+    }
+    
+    bool operator<(const Mergeable& other) const
+    {
+        return lessFunc_(data_, other.data_);
+    }
+    
+private:
+    DataType data_;
+    bool (*eqFunc_)(const DataType&, const DataType&);
+    bool (*lessFunc_)(const DataType&, const DataType&);
+    void (*copyAssignFunc_)(DataType&, const DataType&);
+};
 
-    std::vector<DataType> callMerger(
-        const MethodType& methodType,
-        const std::vector<DataType>& v1,
-        const std::vector<DataType>& v2,
-        std::ostream& os)
+template <typename DataType>
+struct VectorStruct final
+{
+    using DataVector = std::vector<Mergeable<DataType>>;
+
+    VectorStruct(
+        DataVector vec1,
+        DataVector vec2,
+        DataVector result)
+    : v1_{std::move(vec1)}
+    , v2_{std::move(vec2)}
+    , expectedResult_{std::move(result)}
+    { }
+
+    DataVector v1_;
+    DataVector v2_;
+    DataVector expectedResult_;
+};
+
+// Klasa abstrakcyjna Merger, po ktorej dziedzicza klasy przykladowe
+template <typename DataType>
+class Merger final
+{
+
+using DataVector = std::vector<Mergeable<DataType>>;
+
+public:
+    Merger(VectorStruct<DataType> vectors)
+    : v1_(std::move(vectors.v1_))
+    , v2_(std::move(vectors.v2_))
+    , expectedResult_(std::move(vectors.expectedResult_))
+    { }
+
+    DataVector callMerger(const MethodType& methodType, std::ostream& os)
     {
         switch (methodType)
         {
             case MethodType::STL:
-                return measureExecutionTime(&mergeSTL, "STL", v1, v2, os);
+                return measureExecutionTime(&mergeSTL, "STL", os);
             case MethodType::Boost:
-                return measureExecutionTime(&mergeBoost, "Boost", v1, v2, os);
+                return measureExecutionTime(&mergeBoost, "Boost", os);
             case MethodType::Simple:
-                return measureExecutionTime(&mergeSimple, "Simple", v1, v2, os);
+                return measureExecutionTime(&mergeSimple, "Simple", os);
             default:
                 throw new std::invalid_argument("Zly typ metody!");
         }
     }
 
 private:
-    std::vector<DataType> measureExecutionTime(
-        std::vector<DataType>(Merger::*memberFunction)
-            (const std::vector<DataType>&, const std::vector<DataType>&),
+    DataVector measureExecutionTime(
+        DataVector(Merger::*memberFunction)(),
         const std::string& methodName,
-        const std::vector<DataType>& v1,
-        const std::vector<DataType>& v2,
         std::ostream& os)
     {
         auto start = std::chrono::high_resolution_clock::now();
-        std::vector<DataType> result = (this->*memberFunction)(v1, v2);
+        DataVector result = (this->*memberFunction)();
         auto end = std::chrono::high_resolution_clock::now();
 
         std::chrono::duration<double> duration = end - start;
@@ -55,54 +150,62 @@ private:
         return result;
     }
 
-    std::vector<DataType> mergeSTL(const std::vector<DataType>& v1, const std::vector<DataType>& v2)
+    DataVector mergeSTL()
     {
-        std::vector<DataType> resultVec(v1.size() + v2.size());
-        std::merge(v1.begin(), v1.end(), v2.begin(), v2.end(), resultVec.begin());
+        DataVector resultVec;
+        resultVec.resize(expectedResult_.size());
+        std::merge(v1_.begin(), v1_.end(), v2_.begin(), v2_.end(), resultVec.begin());
         return resultVec;
     }
 
-    std::vector<DataType> mergeBoost(const std::vector<DataType>& v1, const std::vector<DataType>& v2)
+    DataVector mergeBoost()
     {
-        std::vector<DataType> resultVec(v1.size() + v2.size());
-        boost::range::merge(v1, v2, resultVec.begin());
+        DataVector resultVec;
+        resultVec.resize(expectedResult_.size());
+        boost::range::merge(v1_, v2_, resultVec.begin());
         return resultVec;
     }
 
-    std::vector<DataType> mergeSimple(const std::vector<DataType>& v1, const std::vector<DataType>& v2)
+    DataVector mergeSimple()
     {
-        const unsigned int size1 = v1.size();
-        const unsigned int size2 = v2.size();
+        const unsigned int size1 = v1_.size();
+        const unsigned int size2 = v2_.size();
 
-        std::vector<DataType> resultVec(size1 + size2);
+        DataVector resultVec;
+        resultVec.resize(expectedResult_.size());
         unsigned int index1 = 0;
         unsigned int index2 = 0;
 
         while (index1 < size1 && index2 < size2)
         {
-            if (v1[index1] < v2[index2])
+            if (v1_[index1] < v2_[index2])
             {
-                resultVec[index1+index2] = v1[index1];
+                resultVec[index1+index2] = v1_[index1];
                 index1++;
             }
             else
             {
-                resultVec[index1+index2] = v2[index2];
+                resultVec[index1+index2] = v2_[index2];
                 index2++;
             }
         }
         while (index1 < size1)
         {
-            resultVec[index1+index2] = v1[index1];
+            resultVec[index1+index2] = v1_[index1];
             index1++;
         }
         while (index2 < size2)
         {
-            resultVec[index1+index2] = v2[index2];
+            resultVec[index1+index2] = v2_[index2];
             index2++;
         }
         return resultVec;
     }
+
+public:
+    DataVector v1_;
+    DataVector v2_;
+    DataVector expectedResult_;
 };
 
 } // namespace src::Algorithms

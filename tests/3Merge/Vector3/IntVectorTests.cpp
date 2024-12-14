@@ -8,10 +8,7 @@ IntVectorArgs::IntVectorArgs(
     VectorStruct<IntVector> vectors)
 : MergeTestStruct<IntVector>(
     path,
-    std::make_shared<MyVector>(),
-    std::move(vectors.v1),
-    std::move(vectors.v2),
-    std::move(vectors.expectedResult))
+    std::make_shared<Merger<IntVector>>(std::move(vectors)))
 { }
 
 INSTANTIATE_TEST_SUITE_P(

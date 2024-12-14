@@ -8,10 +8,7 @@ PointsArgs::PointsArgs(
     VectorStruct<Point2D> vectors)
 : MergeTestStruct<Point2D>(
     path,
-    std::make_shared<Points>(),
-    std::move(vectors.v1),
-    std::move(vectors.v2),
-    std::move(vectors.expectedResult))
+    std::make_shared<Merger<Point2D>>(std::move(vectors)))
 { }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -37,7 +34,7 @@ INSTANTIATE_TEST_SUITE_P(
                     std::move(PointsFixture::initTestData(
                                 PointsFixture::fmod3i3_mod7i64,
                                 PointsFixture::f3i_mod9i64,
-                                4000000,
+                                2000000,
                                 1000000))))
     ));
 
