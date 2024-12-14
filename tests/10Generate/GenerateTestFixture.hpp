@@ -1,5 +1,6 @@
 #pragma once
 #include "../../src/Algorithms/Functor.hpp"
+#include "../../src/Algorithms/FunctorImpl.hpp"
 
 #include <fstream>
 
@@ -10,21 +11,21 @@ using namespace src::Algorithms;
 namespace tests::Generate
 {
 
-template <typename DataType>
+template <typename GeneratedDataType, typename StateDataType = GeneratedDataType>
 struct GenerateTestStruct
 {
 public:
     const std::string filePath;
-    std::shared_ptr<Functor<DataType>> functorRef;
+    std::shared_ptr<Functor<GeneratedDataType, StateDataType>> functorRef;
     
     const unsigned int number;
-    const std::vector<DataType> expectedResult;
+    const std::vector<GeneratedDataType> expectedResult;
 
     GenerateTestStruct(
         const std::string& path,
-        std::shared_ptr<Functor<DataType>> f,
+        std::shared_ptr<Functor<GeneratedDataType, StateDataType>> f,
         const unsigned int n,
-        const std::vector<DataType>& v)
+        const std::vector<GeneratedDataType>& v)
     : filePath{path}
     , functorRef{f}
     , number{n}
@@ -33,20 +34,20 @@ public:
 };
 
 // Klasa abstrakcyjna GenerateTestFixture, po ktorej dziedzicza klasy testowe metod generate
-template <class DataType> 
-class GenerateTestFixture : public ::testing::TestWithParam<GenerateTestStruct<DataType>>
+template <typename GeneratedDataType, typename StateDataType = GeneratedDataType> 
+class GenerateTestFixture : public ::testing::TestWithParam<GenerateTestStruct<GeneratedDataType, StateDataType>>
 { 
 public:
-    void VerifyTest(const GenerateTestStruct<DataType>& args)
+    void VerifyTest(const GenerateTestStruct<GeneratedDataType, StateDataType>& args)
     {
-        const std::shared_ptr<Functor<DataType>> boostFunctor = args.functorRef->clone();
-        const std::shared_ptr<Functor<DataType>> simpleFunctor = args.functorRef->clone();
-
         std::ostringstream os; // Uzycie ostringstream do wypisywania wynikow testow
 
-        const std::vector<DataType>& stlResult = args.functorRef->callFunctor(args.number, src::MethodType::STL, os);
-        const std::vector<DataType>& boostResult = boostFunctor->callFunctor(args.number, src::MethodType::Boost, os);
-        const std::vector<DataType>& simpleResult = simpleFunctor->callFunctor(args.number, src::MethodType::Simple, os);
+        const std::vector<GeneratedDataType>& stlResult =
+            args.functorRef->callFunctor(args.number, src::MethodType::STL, os);
+        const std::vector<GeneratedDataType>& boostResult =
+            args.functorRef->callFunctor(args.number, src::MethodType::Boost, os);
+        const std::vector<GeneratedDataType>& simpleResult =
+            args.functorRef->callFunctor(args.number, src::MethodType::Simple, os);
 
         ::testing::internal::CaptureStdout(),
         ::testing::internal::CaptureStderr();

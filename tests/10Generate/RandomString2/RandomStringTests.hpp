@@ -1,16 +1,15 @@
 #pragma once
 #include "../GenerateTestFixture.hpp"
 #include "../../Path.hpp"
-#include "../../../src/Structures/RandomStringFunctor.hpp"
 
 using namespace src::Structures;
 
 namespace tests::Generate
 {
 
-struct RandomStringArgs : public GenerateTestStruct<std::string>
+struct RandomStringArgs : public GenerateTestStruct<std::string, RandomString>
 {
-    RandomStringArgs(const std::string& path, unsigned int l, unsigned int n);
+    RandomStringArgs(const std::string& path, const unsigned int l, const unsigned int n);
     
     const unsigned int length;
 };

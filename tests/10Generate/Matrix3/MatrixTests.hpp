@@ -1,7 +1,6 @@
 #pragma once
 #include "../GenerateTestFixture.hpp"
 #include "../../Path.hpp"
-#include "../../../src/Structures/MatrixFunctor.hpp"
 
 using namespace src::Structures;
 
@@ -14,8 +13,8 @@ struct MatrixArgs : public GenerateTestStruct<Matrix<Number>>
 {
     MatrixArgs(
         const std::string& path,
-        MatrixFunctor<Number> f, 
-        unsigned int n, 
+        const Matrix<Number>& initialMatrix,
+        unsigned int n,
         const std::vector<Matrix<Number>>& expectedResult);
 };
 
