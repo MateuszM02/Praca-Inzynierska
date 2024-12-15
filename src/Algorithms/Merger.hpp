@@ -50,7 +50,7 @@ class Mergeable final
     
     // Konstruktor dla typow, ktore spelniaja koncept Comparable
     Mergeable(DataType data)
-    requires Comparable<DataType> && std::is_copy_assignable_v<DataType>
+    requires Comparable<DataType>
     : data_(std::move(data))
     , eqFunc_([](const DataType& lhs, const DataType& rhs) { return lhs == rhs; })
     , lessFunc_([](const DataType& lhs, const DataType& rhs) { return lhs < rhs; })
@@ -106,7 +106,6 @@ struct VectorStruct final
     DataVector expectedResult_;
 };
 
-// Klasa abstrakcyjna Merger, po ktorej dziedzicza klasy przykladowe
 template <typename DataType>
 class Merger final
 {

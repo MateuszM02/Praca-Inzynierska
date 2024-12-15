@@ -4,7 +4,7 @@
 namespace tests::Generate
 {
 
-class Examples
+class Examples final
 {
 public:
     Examples() = delete;
