@@ -12,7 +12,7 @@ using SquareMatrix = std::vector<std::vector<DataType>>;
 
 // klasa trzymajaca 2-wymiarowa, kwadratowa macierz
 template <Multiplicable DataType>
-class Matrix
+class Matrix final
 { 
 public: 
     Matrix() : n(0), matrix({ { } }) { }

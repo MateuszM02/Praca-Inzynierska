@@ -11,12 +11,13 @@ enum TestType
     MergeTree,
     MergeIntVector,
     // TODO: typy 4, 5, 6, 7, 8, 9
+    RemoveEraseIfSequence,
     GenerateFibonacci,
     GenerateRandomString,
     GenerateMatrix
 };
 
-class Path
+class Path final
 {
 public:
     Path() = delete;
@@ -36,6 +37,7 @@ private:
             case TestType::MergeTree:               return "Tree";
             case TestType::MergeIntVector:          return "IntVector";
             // TODO: typy 4, 5, 6, 7, 8, 9
+            case TestType::RemoveEraseIfSequence:     return "Sequence";
             case TestType::GenerateFibonacci:       return "Fibonacci";
             case TestType::GenerateRandomString:    return "RandomString";
             case TestType::GenerateMatrix:          return "Matrix";

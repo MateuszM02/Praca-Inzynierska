@@ -18,6 +18,27 @@ concept Multiplicable = requires(DataType a, DataType b)
     { a *= b } -> std::convertible_to<DataType&>;
 };
 
+// Koncept sprawdzajacy, czy kontener obsluguje iteracje
+template <typename Container>
+concept Iterable = requires(Container c)
+{
+    typename Container::iterator;
+    { c.begin() } -> std::same_as<typename Container::iterator>;
+    { c.end() } -> std::same_as<typename Container::iterator>;
+};
+
+// Koncept sprawdzajacy, czy kontener ma metode erase
+template <typename Container>
+concept Erasable = requires(Container c, typename Container::const_iterator it)
+{
+    { c.erase(it) } -> std::same_as<typename Container::iterator>;
+    { c.erase(it, it) } -> std::same_as<typename Container::iterator>;
+};
+
+// Koncept sprawdzajacy, czy kontener nadaje sie do boost::remove_erase_if
+template <typename Container>
+concept Removable = Iterable<Container> && Erasable<Container>;
+
 // Typ elementow przy scalaniu wektorow musi miec nastepujace operatory
 // = przypisania - aby mozna bylo elementy wektorow wejsciowych przypisac do wektora wynikowego bez tworzenia kopii
 // == rownosci - aby sprawdzic, czy poprawnie scalilismy 2 wektory w testach

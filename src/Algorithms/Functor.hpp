@@ -2,7 +2,6 @@
 #include "Concepts.hpp"
 #include "../MethodType.hpp"
 
-#include <algorithm> // std::generate
 #include <chrono> // mierzenie czasu wykonania testu
 #include <iostream>
 #include <functional>
@@ -44,7 +43,6 @@ private:
     std::function<GeneratedDataType(const StateDataType&, StateDataType&)> generator;
 };
 
-// Klasa abstrakcyjna Functor, po ktorej dziedzicza klasy funktorowe
 template <typename GeneratedDataType, typename StateDataType = GeneratedDataType>
 class Functor final
 {
