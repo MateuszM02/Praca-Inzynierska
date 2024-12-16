@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../BaseTestFixture.hpp"
-#include "../../src/Algorithms/Generator.hpp"
-#include "../../src/Algorithms/GeneratorImpl.hpp"
+#include "../../src/Algorithms/10Generate/Generator.hpp"
+#include "../../src/Algorithms/10Generate/GeneratorImpl.hpp"
 
 #include <fstream>
 

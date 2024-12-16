@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Base.hpp"
+#include "../Base.hpp"
 #include "GeneratorHelper.hpp"
 
 #include <boost/range/algorithm/generate.hpp> // boost::range::generate
