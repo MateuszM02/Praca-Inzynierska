@@ -15,8 +15,8 @@ The methods will be:
 5. Sorting - unstable sort of data structure.
 6. Partial sort - unstable sort of first k elements that leave rest of elements in unspecified order.
 7. N-th element - moves n-th smallest element to n-th position in data structure. All elements before it are smaller and all after are bigger. Doesn't sort or keep order of those 2 subgroups.
-8. Copy if - copies all elements matching predicate to new data structure.
-9. Remove if - removes all elements matching predicate from given data structure.
+8. Regex - returns vector of all substrings matching pattern.
+9. Remove Erase if - removes all elements matching predicate from given data structure.
 10. Generate - fills data structure with successive results of calls to the operator()().
 
 In the future this repository will also have document describing results of tests done for each method.

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../BaseTestFixture.hpp"
-#include "../../src/Algorithms/Merger.hpp"
-#include "../../src/Algorithms/MergerImpl.hpp"
+#include "../../src/Algorithms/3Merge/Merger.hpp"
+#include "../../src/Algorithms/3Merge/MergerImpl.hpp"
 
 #include <fstream>
 

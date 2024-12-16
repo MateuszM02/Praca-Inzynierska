@@ -56,7 +56,7 @@ private:
     }
 
 public:
-    const Container expectedResult_;
+    Container expectedResult_;
 };
 
 } // namespace src::Algorithms

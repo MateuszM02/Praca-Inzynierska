@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Structures/IntVector.hpp"
-#include "../Structures/Points.hpp"
+#include "../../Structures/IntVector.hpp"
+#include "../../Structures/Points.hpp"
 
 template <typename DataType>
 using MergerPtr = std::shared_ptr<Merger<DataType>>;

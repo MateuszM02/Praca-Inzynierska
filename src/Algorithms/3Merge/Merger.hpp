@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Base.hpp"
+#include "../Base.hpp"
 #include "MergerHelper.hpp"
 
 #include <boost/range/algorithm/merge.hpp> // boost::range::merge

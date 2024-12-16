@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Structures/Matrix.hpp"
-#include "../Structures/RandomString.hpp"
+#include "../../Structures/Matrix.hpp"
+#include "../../Structures/RandomString.hpp"
 
 template <typename GeneratedDataType, typename StateDataType = GeneratedDataType>
 using GeneratorPtr = std::shared_ptr<Generator<GeneratedDataType, StateDataType>>;

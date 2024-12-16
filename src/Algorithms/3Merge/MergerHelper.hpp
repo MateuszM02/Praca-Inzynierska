@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Concepts.hpp"
+#include "../Concepts.hpp"
 
 namespace src::Algorithms
 {
