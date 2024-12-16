@@ -10,25 +10,26 @@ RandomStringArgs::RandomStringArgs(
 : length{l}
 , GenerateTestStruct<std::string, RandomString>(
     path,
-    std::move(src::Algorithms::FunctorImpl::createRandomStringFunctor(l)),
-    n, {})
+    std::move(src::Algorithms::GeneratorImpl::createRandomStringGenerator(n, l)))
 { }
 
 TEST_P(RandomStringFixture, RandomStringTest) 
-{ 
+{
     const RandomStringArgs args = GetParam();
     std::ostringstream os; // Uzycie ostringstream do wypisywania wynikow testow
 
-    const std::vector<std::string>& stlResult = args.functorRef->callFunctor(args.number, src::MethodType::STL, os);
-    const std::vector<std::string>& boostResult = args.functorRef->callFunctor(args.number, src::MethodType::Boost, os);
-    const std::vector<std::string>& simpleResult = args.functorRef->callFunctor(args.number, src::MethodType::Simple, os);
+    const std::vector<std::string>& stlResult = args.ref_->call(src::MethodType::STL, os);
+    const std::vector<std::string>& boostResult = args.ref_->call(src::MethodType::Boost, os);
+    const std::vector<std::string>& simpleResult = args.ref_->call(src::MethodType::Simple, os);
     
-    EXPECT_EQ(stlResult.size(), args.number) << "Rozmiar wyniku STL rozni sie od oczekiwanego."; 
-    EXPECT_EQ(boostResult.size(), args.number) << "Rozmiar wyniku Boost rozni sie od oczekiwanego."; 
-    EXPECT_EQ(simpleResult.size(), args.number) << "Rozmiar wyniku Simple rozni sie od oczekiwanego.";
+    const unsigned int size = args.ref_->size();
+
+    EXPECT_EQ(stlResult.size(), size) << "Rozmiar wyniku STL rozni sie od oczekiwanego."; 
+    EXPECT_EQ(boostResult.size(), size) << "Rozmiar wyniku Boost rozni sie od oczekiwanego."; 
+    EXPECT_EQ(simpleResult.size(), size) << "Rozmiar wyniku Simple rozni sie od oczekiwanego.";
 
     // Zapisywanie wynikow testu do pliku
-    std::ofstream outFile(args.filePath, std::ios::out | std::ios::trunc);
+    std::ofstream outFile(args.filePath_, std::ios::out | std::ios::trunc);
     if (outFile.is_open())
     {
         if (::testing::Test::HasFailure()) 
@@ -41,7 +42,7 @@ TEST_P(RandomStringFixture, RandomStringTest)
         }
         
         // Petla for do porownywania wynikow, jesli rozmiary sa rowne
-        for (unsigned int i = 0; i < args.number; ++i)
+        for (unsigned int i = 0; i < size; ++i)
         {
             EXPECT_EQ(stlResult[i].size(), args.length) << "Wynik STL rozni sie na indeksie " << i; 
             EXPECT_EQ(boostResult[i].size(), args.length) << "Wynik Boost rozni sie na indeksie " << i; 
@@ -52,7 +53,7 @@ TEST_P(RandomStringFixture, RandomStringTest)
     }
     else
     {
-        std::cerr << "Nie udalo sie zapisac wynikow testu do pliku: " << args.filePath << "\n";
+        std::cerr << "Nie udalo sie zapisac wynikow testu do pliku: " << args.filePath_ << "\n";
     }
 }
 

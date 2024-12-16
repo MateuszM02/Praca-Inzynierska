@@ -7,12 +7,11 @@ template <Addable DataType>
 FibonacciArgs<DataType>::FibonacciArgs(
     const std::string& path,
     const std::pair<DataType, DataType>& initialPair,
-    unsigned int n,
+    const unsigned int n,
     const std::vector<DataType>& expectedResult)
 : GenerateTestStruct<DataType, std::pair<DataType, DataType>>(
     path,
-    std::move(src::Algorithms::FunctorImpl::createFibonacciFunctor(initialPair)), 
-    n, expectedResult)
+    std::move(src::Algorithms::GeneratorImpl::createFibonacciGenerator(n, initialPair, expectedResult)))
 { }
 
 INSTANTIATE_TEST_SUITE_P(

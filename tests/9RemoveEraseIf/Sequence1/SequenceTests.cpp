@@ -10,10 +10,10 @@ namespace tests::RemoveEraseIf
 template <Removable Container>
 SequenceArgs<Container>::SequenceArgs(
     const std::string& path,
-    RemoveEraseIfData<unsigned int, Container> elements)
+    RemoverData<unsigned int, Container> elements)
 : RemoveEraseIfTestStruct<unsigned int>(
     path,
-    std::make_shared<Remover<unsigned int, Container>>(std::move(elements)))
+    std::move(std::make_shared<Remover<unsigned int, Container>>(std::move(elements))))
 { }
 
 INSTANTIATE_TEST_SUITE_P(

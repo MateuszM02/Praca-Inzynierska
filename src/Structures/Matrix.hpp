@@ -1,5 +1,5 @@
 #pragma once
-#include "../Algorithms/Functor.hpp"
+#include "../Algorithms/Generator.hpp"
 #include "../Algorithms/Concepts.hpp"
 
 using namespace src::Algorithms;
