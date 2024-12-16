@@ -8,7 +8,7 @@ namespace tests::Generate
 {
 
 template <Addable DataType>
-struct FibonacciArgs : public GenerateTestStruct<DataType, std::pair<DataType, DataType>>
+struct FibonacciArgs final : public GenerateTestStruct<DataType, std::pair<DataType, DataType>>
 {
     FibonacciArgs(
         const std::string& path,

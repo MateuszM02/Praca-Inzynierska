@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../MergeTestFixture.hpp"
 #include "../../Path.hpp"
 #include "../../../src/Structures/Points.hpp"
@@ -12,7 +13,7 @@ struct PointsArgs : public MergeTestStruct<Point2D>
 {
     PointsArgs(
         const std::string& path,
-        VectorStruct<Point2D> vectors);
+        MergerData<Point2D> vectors);
 };
 
 class PointsFixture : public MergeTestFixture<Point2D>

@@ -13,8 +13,7 @@ MatrixArgs<Number>::MatrixArgs(
         const std::vector<Matrix<Number>>& expectedResult)
 : GenerateTestStruct<Matrix<Number>>(
     path,
-    std::move(src::Algorithms::FunctorImpl::createMatrixFunctor(initialMatrix)),
-    n, expectedResult)
+    std::move(src::Algorithms::GeneratorImpl::createMatrixGenerator(n, initialMatrix, expectedResult)))
 { }
 
 INSTANTIATE_TEST_SUITE_P(

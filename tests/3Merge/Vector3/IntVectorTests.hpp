@@ -8,11 +8,11 @@ using namespace src::Structures;
 namespace tests::Merge
 {
 
-struct IntVectorArgs : public MergeTestStruct<IntVector>
+struct IntVectorArgs final : public MergeTestStruct<IntVector>
 {
     IntVectorArgs(
         const std::string& path,
-        VectorStruct<IntVector> vectors);
+        MergerData<IntVector> vectors);
 };
 
 class IntVectorFixture : public MergeTestFixture<IntVector>

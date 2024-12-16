@@ -8,11 +8,11 @@ namespace tests::RemoveEraseIf
 {
 
 template <Removable Container = std::vector<unsigned int>>
-struct SequenceArgs : public RemoveEraseIfTestStruct<unsigned int>
+struct SequenceArgs final : public RemoveEraseIfTestStruct<unsigned int>
 {
     SequenceArgs(
         const std::string& path,
-        RemoveEraseIfData<unsigned int, Container> elements);
+        RemoverData<unsigned int, Container> elements);
 };
 
 class SequenceIntFixture : public RemoveEraseIfTestFixture<unsigned int>

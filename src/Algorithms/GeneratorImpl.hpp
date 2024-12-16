@@ -4,39 +4,44 @@
 #include "../Structures/RandomString.hpp"
 
 template <typename GeneratedDataType, typename StateDataType = GeneratedDataType>
-using FunctorPtr = std::shared_ptr<Functor<GeneratedDataType, StateDataType>>;
+using GeneratorPtr = std::shared_ptr<Generator<GeneratedDataType, StateDataType>>;
 
 using namespace src::Structures;
 
 namespace src::Algorithms
 {
 
-class FunctorImpl
+class GeneratorImpl final
 {
 public:
-    FunctorImpl() = delete;
+    GeneratorImpl() = delete;
 
     template <Addable Number>
     using NumberPair = std::pair<Number, Number>;
 
     template <Addable Number>
-    static FunctorPtr<Number, NumberPair<Number>>
-    createFibonacciFunctor(const NumberPair<Number>& initialPair) 
+    static GeneratorPtr<Number, NumberPair<Number>>
+    createFibonacciGenerator(
+        const unsigned int n,
+        const NumberPair<Number>& initialPair,
+        std::vector<Number> expectedResult) 
     {
-        Callable<Number, NumberPair<Number>> callable(initialPair,
+        GeneratorData<Number, NumberPair<Number>> data(n, initialPair, std::move(expectedResult),
             [](const NumberPair<Number>& initialState, NumberPair<Number>& currentState)
             {
                 currentState = std::make_pair(currentState.second, currentState.first + currentState.second);
                 return currentState.first;
             });
-        return std::make_shared<Functor<Number, NumberPair<Number>>>(callable);
+        return std::make_shared<Generator<Number, NumberPair<Number>>>(std::move(data));
     }
 
-    static FunctorPtr<std::string, RandomString>
-    createRandomStringFunctor(const unsigned int length) 
+    static GeneratorPtr<std::string, RandomString>
+    createRandomStringGenerator(
+        const unsigned int n,
+        const unsigned int length) 
     {
         RandomString rs(length);
-        Callable<std::string, RandomString> callable(rs, 
+        GeneratorData<std::string, RandomString> data(n, rs, {},
             [](const RandomString& initialState, RandomString& currentState)
             {
                 std::string randomString;
@@ -47,19 +52,22 @@ public:
                 }
                 return randomString;
             });
-        return std::make_shared<Functor<std::string, RandomString>>(callable);
+        return std::make_shared<Generator<std::string, RandomString>>(std::move(data));
     }
 
     template <Multiplicable Number>
-    static FunctorPtr<Matrix<Number>> createMatrixFunctor(const Matrix<Number>& initialMatrix) 
+    static GeneratorPtr<Matrix<Number>> createMatrixGenerator(
+        const unsigned int n,
+        const Matrix<Number>& initialMatrix,
+        std::vector<Matrix<Number>> expectedResult) 
     {
-        Callable<Matrix<Number>> callable(initialMatrix, 
+        GeneratorData<Matrix<Number>> data(n, initialMatrix, std::move(expectedResult),
             [](const Matrix<Number>& initialState, Matrix<Number>& currentState) 
             {
                 currentState *= initialState;
                 return currentState;
             });
-        return std::make_shared<Functor<Matrix<Number>>>(callable);
+        return std::make_shared<Generator<Matrix<Number>>>(std::move(data));
     }
 };
 

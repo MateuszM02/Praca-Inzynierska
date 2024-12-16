@@ -5,10 +5,10 @@ namespace tests::Merge
 
 PointsArgs::PointsArgs(
     const std::string& path,
-    VectorStruct<Point2D> vectors)
+    MergerData<Point2D> vectors)
 : MergeTestStruct<Point2D>(
     path,
-    std::make_shared<Merger<Point2D>>(std::move(vectors)))
+    std::move(std::make_shared<Merger<Point2D>>(std::move(vectors))))
 { }
 
 INSTANTIATE_TEST_SUITE_P(
