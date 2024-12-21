@@ -1,6 +1,6 @@
 #pragma once
+
 #include "../GenerateTestFixture.hpp"
-#include "../../Path.hpp"
 
 using namespace src::Structures;
 
@@ -12,9 +12,12 @@ requires std::is_arithmetic_v<Number>
 struct MatrixArgs : public GenerateTestStruct<Matrix<Number>>
 {
     MatrixArgs(
-        const std::string& path,
         const Matrix<Number>& initialMatrix,
-        unsigned int n);
+        unsigned int n)
+    : GenerateTestStruct<Matrix<Number>>(
+    GenerateMatrix,
+    std::move(src::Algorithms::GeneratorImpl::createMatrixGenerator(n, initialMatrix)))
+    { }
 };
 
 class MatrixIntFixture : public GenerateTestFixture<Matrix<int>>

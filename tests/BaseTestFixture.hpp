@@ -1,8 +1,10 @@
 #pragma once
 
 #include "../src/Algorithms/Base.hpp"
+#include "Path.hpp"
 
 #include <fstream>
+#include <unordered_map>
 
 #include <gtest/gtest.h>
 
@@ -23,13 +25,20 @@ template <typename PtrType>
 struct BaseTestStruct
 {
 public:
-    BaseTestStruct(const std::string& path, std::shared_ptr<PtrType> f)
-    : filePath_{std::move(path)}
+    BaseTestStruct(const TestType testType, std::shared_ptr<PtrType> f)
+    : filePath_{createPath(testType)}
     , ref_{std::move(f)}
     { }
 
     const std::string filePath_;
     const std::shared_ptr<PtrType> ref_;
+
+protected:
+    std::string createPath(const TestType testType) const
+    {
+        static std::unordered_map<TestType, unsigned int> testIdMap;
+        return Path::Create(testType, ++testIdMap[testType]);
+    }
 };
 
 // Klasa abstrakcyjna BaseTestFixture, po ktorej dziedzicza klasy testowe metod generate

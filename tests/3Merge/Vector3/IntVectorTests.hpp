@@ -1,6 +1,6 @@
 #pragma once
+
 #include "../MergeTestFixture.hpp"
-#include "../../Path.hpp"
 #include "../../../src/Structures/IntVector.hpp"
 
 using namespace src::Structures;
@@ -11,8 +11,15 @@ namespace tests::Merge
 struct IntVectorArgs final : public MergeTestStruct<IntVector>
 {
     IntVectorArgs(
-        const std::string& path,
-        MergerData<IntVector> data);
+        Mergeable<IntVector> (*fun1)(const unsigned int),
+        Mergeable<IntVector> (*fun2)(const unsigned int),
+        const unsigned int n1,
+        const unsigned int n2)
+    : MergeTestStruct<IntVector>(
+        MergeIntVector,
+        std::move(std::make_shared<Merger<IntVector>>(
+            MergeTestFixture<IntVector>::initTestData(fun1, fun2, n1, n2))))
+    { }
 };
 
 class IntVectorFixture : public MergeTestFixture<IntVector>

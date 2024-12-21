@@ -18,9 +18,9 @@ struct MergeTestStruct : public BaseTestStruct<Merger<DataType>>
 {
 public:
     MergeTestStruct(
-        const std::string& path,
+        const TestType testType,
         std::shared_ptr<Merger<DataType>> f)
-    : BaseTestStruct<Merger<DataType>>(path, std::move(f))
+    : BaseTestStruct<Merger<DataType>>(testType, std::move(f))
     { }
 };
 
