@@ -5,10 +5,10 @@ namespace tests::Merge
 
 IntVectorArgs::IntVectorArgs(
     const std::string& path,
-    MergerData<IntVector> vectors)
+    MergerData<IntVector> data)
 : MergeTestStruct<IntVector>(
     path,
-    std::move(std::make_shared<Merger<IntVector>>(std::move(vectors))))
+    std::move(std::make_shared<Merger<IntVector>>(std::move(data))))
 { }
 
 INSTANTIATE_TEST_SUITE_P(

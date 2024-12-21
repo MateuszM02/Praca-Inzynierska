@@ -14,8 +14,7 @@ struct MatrixArgs : public GenerateTestStruct<Matrix<Number>>
     MatrixArgs(
         const std::string& path,
         const Matrix<Number>& initialMatrix,
-        unsigned int n,
-        const std::vector<Matrix<Number>>& expectedResult);
+        unsigned int n);
 };
 
 class MatrixIntFixture : public GenerateTestFixture<Matrix<int>>

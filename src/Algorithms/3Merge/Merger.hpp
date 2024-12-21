@@ -16,8 +16,7 @@ using DataVector = std::vector<Mergeable<DataType>>;
 
 public:
     Merger(MergerData<DataType> data)
-    : BaseClass<DataType, DataVector>(std::move(data.expectedResult_))
-    , v1_(std::move(data.v1_))
+    : v1_(std::move(data.v1_))
     , v2_(std::move(data.v2_))
     { }
 
@@ -27,7 +26,7 @@ private:
     DataVector executeSTL() override
     {
         DataVector resultVec;
-        resultVec.resize(this->expectedResult_.size());
+        resultVec.resize(v1_.size() + v2_.size());
         std::merge(v1_.begin(), v1_.end(), v2_.begin(), v2_.end(), resultVec.begin());
         return resultVec;
     }
@@ -35,7 +34,7 @@ private:
     DataVector executeBoost() override
     {
         DataVector resultVec;
-        resultVec.resize(this->expectedResult_.size());
+        resultVec.resize(v1_.size() + v2_.size());
         boost::range::merge(v1_, v2_, resultVec.begin());
         return resultVec;
     }
@@ -46,7 +45,7 @@ private:
         const unsigned int size2 = v2_.size();
 
         DataVector resultVec;
-        resultVec.resize(this->expectedResult_.size());
+        resultVec.resize(size1 + size2);
         unsigned int index1 = 0;
         unsigned int index2 = 0;
 

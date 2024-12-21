@@ -15,12 +15,10 @@ struct GeneratorData final
 {
     GeneratorData(const unsigned int n,
             const StateDataType& initialState,
-            std::vector<GeneratedDataType> result,
             std::function<GeneratedDataType(const StateDataType&, StateDataType&)> g)
     : n_{n}
     , initialState_{initialState}
     , currentState_{initialState}
-    , expectedResult_{std::move(result)}
     , generator_{std::move(g)}
     { }
 
@@ -37,7 +35,6 @@ struct GeneratorData final
     const unsigned int n_;
     const StateDataType initialState_;
     StateDataType currentState_;
-    const std::vector<GeneratedDataType> expectedResult_;
 
 private:
     std::function<GeneratedDataType(const StateDataType&, StateDataType&)> generator_;

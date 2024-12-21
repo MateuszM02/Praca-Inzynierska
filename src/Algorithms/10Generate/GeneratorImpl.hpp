@@ -23,10 +23,9 @@ public:
     static GeneratorPtr<Number, NumberPair<Number>>
     createFibonacciGenerator(
         const unsigned int n,
-        const NumberPair<Number>& initialPair,
-        std::vector<Number> expectedResult) 
+        const NumberPair<Number>& initialPair) 
     {
-        GeneratorData<Number, NumberPair<Number>> data(n, initialPair, std::move(expectedResult),
+        GeneratorData<Number, NumberPair<Number>> data(n, initialPair,
             [](const NumberPair<Number>& initialState, NumberPair<Number>& currentState)
             {
                 currentState = std::make_pair(currentState.second, currentState.first + currentState.second);
@@ -41,7 +40,7 @@ public:
         const unsigned int length) 
     {
         RandomString rs(length);
-        GeneratorData<std::string, RandomString> data(n, rs, {},
+        GeneratorData<std::string, RandomString> data(n, rs,
             [](const RandomString& initialState, RandomString& currentState)
             {
                 std::string randomString;
@@ -58,10 +57,9 @@ public:
     template <Multiplicable Number>
     static GeneratorPtr<Matrix<Number>> createMatrixGenerator(
         const unsigned int n,
-        const Matrix<Number>& initialMatrix,
-        std::vector<Matrix<Number>> expectedResult) 
+        const Matrix<Number>& initialMatrix) 
     {
-        GeneratorData<Matrix<Number>> data(n, initialMatrix, std::move(expectedResult),
+        GeneratorData<Matrix<Number>> data(n, initialMatrix,
             [](const Matrix<Number>& initialState, Matrix<Number>& currentState) 
             {
                 currentState *= initialState;

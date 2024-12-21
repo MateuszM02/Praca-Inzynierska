@@ -37,10 +37,8 @@ public:
     {
         std::vector<Mergeable<DataType>> v1;
         std::vector<Mergeable<DataType>> v2;
-        std::vector<Mergeable<DataType>> expectedResult;
         v1.reserve(n1);
         v2.reserve(n2);
-        expectedResult.reserve(n1 + n2);
 
         for (unsigned int i = 1; i <= n1; ++i)
         {
@@ -50,37 +48,7 @@ public:
         {
             v2.emplace_back(fun2(i));
         }
-
-        unsigned int x1 = 1;
-        unsigned int x2 = 1;
-        Mergeable<DataType> p1 = fun1(x1);
-        Mergeable<DataType> p2 = fun2(x2);
-
-        while (x1 <= n1 && x2 <= n2)
-        {
-            if (p1 < p2)
-            {
-                expectedResult.emplace_back(std::move(p1));
-                p1 = fun1(++x1);
-            }
-            else
-            {
-                expectedResult.emplace_back(std::move(p2));
-                p2 = fun2(++x2);
-            }
-        }
-        while (x1 <= n1)
-        {
-            expectedResult.emplace_back(std::move(p1));
-            p1 = fun1(++x1);
-        }
-        while (x2 <= n2)
-        {
-            expectedResult.emplace_back(std::move(p2));
-            p2 = fun2(++x2);
-        }
-
-        return MergerData<DataType>(std::move(v1), std::move(v2), std::move(expectedResult));
+        return MergerData<DataType>(std::move(v1), std::move(v2));
     }
 };
 

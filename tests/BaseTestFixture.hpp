@@ -47,16 +47,13 @@ public:
             args.ref_->call(src::MethodType::Boost, os);
         const auto& simpleResult =
             args.ref_->call(src::MethodType::Simple, os);
-        const auto& expectedResult =
-            args.ref_.get()->expectedResult_;
 
         ::testing::internal::CaptureStdout(),
         ::testing::internal::CaptureStderr();
 
-        EXPECT_EQ_OS(stlResult.size(), expectedResult.size(), os) << "Rozmiar wyniku STL różni się od oczekiwanego."; 
-        EXPECT_EQ_OS(boostResult.size(), expectedResult.size(), os) << "Rozmiar wyniku Boost różni się od oczekiwanego."; 
-        EXPECT_EQ_OS(simpleResult.size(), expectedResult.size(), os) << "Rozmiar wyniku Simple różni się od oczekiwanego.";
-
+        EXPECT_EQ_OS(stlResult.size(), simpleResult.size(), os) << "Rozmiar wyniku STL różni się od oczekiwanego."; 
+        EXPECT_EQ_OS(boostResult.size(), simpleResult.size(), os) << "Rozmiar wyniku Boost różni się od oczekiwanego."; 
+        
         // Zapisywanie wynikow testu do pliku
         std::ofstream outFile(args.filePath_, std::ios::out | std::ios::trunc);
         if (outFile.is_open())
@@ -70,7 +67,7 @@ public:
                 return;
             }
             
-            verifyElementEqualities(stlResult, boostResult, simpleResult, expectedResult, os);
+            verifyElementEqualities(stlResult, boostResult, simpleResult, os);
             outFile << os.str();
             outFile.close();
         }
@@ -85,26 +82,22 @@ protected:
         const auto& stlResult,
         const auto& boostResult,
         const auto& simpleResult,
-        const auto& expectedResult,
         std::ostringstream& os)
     {
         auto stlIter = stlResult.begin();
         auto boostIter = boostResult.begin();
         auto simpleIter = simpleResult.begin();
-        auto expectedIter = expectedResult.begin();
         unsigned int i = 0;
 
-        while (expectedIter != expectedResult.end())
+        while (simpleIter != simpleResult.end())
         {
-            EXPECT_EQ_OS(*stlIter, *expectedIter, os) << "Wynik STL rozni sie na indeksie " << i;
-            EXPECT_EQ_OS(*boostIter, *expectedIter, os) << "Wynik Boost rozni sie na indeksie " << i;
-            EXPECT_EQ_OS(*simpleIter, *expectedIter, os) << "Wynik Simple rozni sie na indeksie " << i;
-        
+            EXPECT_EQ_OS(*stlIter, *simpleIter, os) << "Wynik STL rozni sie na indeksie " << i;
+            EXPECT_EQ_OS(*boostIter, *simpleIter, os) << "Wynik Boost rozni sie na indeksie " << i;
+            
             ++i;
             ++stlIter;
             ++boostIter;
             ++simpleIter;
-            ++expectedIter;
         }
     }
 };

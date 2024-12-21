@@ -12,7 +12,7 @@ struct IntVectorArgs final : public MergeTestStruct<IntVector>
 {
     IntVectorArgs(
         const std::string& path,
-        MergerData<IntVector> vectors);
+        MergerData<IntVector> data);
 };
 
 class IntVectorFixture : public MergeTestFixture<IntVector>

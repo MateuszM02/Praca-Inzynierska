@@ -87,16 +87,13 @@ struct MergerData final
 
     MergerData(
         DataVector vec1,
-        DataVector vec2,
-        DataVector result)
+        DataVector vec2)
     : v1_{std::move(vec1)}
     , v2_{std::move(vec2)}
-    , expectedResult_{std::move(result)}
     { }
 
     DataVector v1_;
     DataVector v2_;
-    DataVector expectedResult_;
 };
 
 } // namespace src::Algorithms
