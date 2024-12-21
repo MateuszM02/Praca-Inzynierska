@@ -1,8 +1,10 @@
 #pragma once
 
 #include "../src/Algorithms/Base.hpp"
+#include "Path.hpp"
 
 #include <fstream>
+#include <unordered_map>
 
 #include <gtest/gtest.h>
 
@@ -30,6 +32,13 @@ public:
 
     const std::string filePath_;
     const std::shared_ptr<PtrType> ref_;
+
+protected:
+    std::string createPath(const TestType testType) const
+    {
+        static std::unordered_map<TestType, unsigned int> testIdMap;
+        return Path::Create(testType, ++testIdMap[testType]);
+    }
 };
 
 // Klasa abstrakcyjna BaseTestFixture, po ktorej dziedzicza klasy testowe metod generate

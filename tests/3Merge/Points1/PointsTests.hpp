@@ -12,8 +12,15 @@ namespace tests::Merge
 struct PointsArgs : public MergeTestStruct<Point2D>
 {
     PointsArgs(
-        const std::string& path,
-        MergerData<Point2D> data);
+        Mergeable<Point2D> (*fun1)(const unsigned int),
+        Mergeable<Point2D> (*fun2)(const unsigned int),
+        const unsigned int n1,
+        const unsigned int n2)
+    : MergeTestStruct<Point2D>(
+        this->createPath(MergePoints),
+        std::move(std::make_shared<Merger<Point2D>>(
+            MergeTestFixture<Point2D>::initTestData(fun1, fun2, n1, n2))))
+    { }
 };
 
 class PointsFixture : public MergeTestFixture<Point2D>
