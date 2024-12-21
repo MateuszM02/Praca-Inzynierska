@@ -30,26 +30,14 @@ public:
         const unsigned int n)
     {
         Container elements;
-        Container expectedResult;
         elements.reserve(n);
-        expectedResult.reserve(n);
 
-        DataType value;
         for (unsigned int i = 1; i <= n; ++i)
         {
-            value = generator(i);
-
-            if (predicate(value))
-                elements.emplace_back(std::move(value));
-            else
-            {
-                elements.emplace_back(value);
-                expectedResult.emplace_back(std::move(value));
-            }
+            elements.emplace_back(generator(i));
         }
 
-        return RemoverData<DataType, Container>(
-            std::move(elements), std::move(expectedResult), predicate);
+        return RemoverData<DataType, Container>(std::move(elements), predicate);
     }
 };
 

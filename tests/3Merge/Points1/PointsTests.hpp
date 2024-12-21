@@ -13,7 +13,7 @@ struct PointsArgs : public MergeTestStruct<Point2D>
 {
     PointsArgs(
         const std::string& path,
-        MergerData<Point2D> vectors);
+        MergerData<Point2D> data);
 };
 
 class PointsFixture : public MergeTestFixture<Point2D>

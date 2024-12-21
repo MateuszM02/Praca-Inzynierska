@@ -13,8 +13,7 @@ struct FibonacciArgs final : public GenerateTestStruct<DataType, std::pair<DataT
     FibonacciArgs(
         const std::string& path,
         const std::pair<DataType, DataType>& initialPair,
-        unsigned int n,
-        const std::vector<DataType>& expectedResult);
+        unsigned int n);
 };
 
 class FibonacciIntFixture : public GenerateTestFixture<int, std::pair<int, int>>

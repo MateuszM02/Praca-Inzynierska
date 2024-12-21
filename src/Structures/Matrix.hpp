@@ -15,14 +15,14 @@ template <Multiplicable DataType>
 class Matrix final
 { 
 public: 
-    Matrix() : n(0), matrix({ { } }) { }
+    Matrix() : n_(0), matrix_({ { } }) { }
 
     Matrix(const SquareMatrix<DataType>& values) 
-    : n(values.size())
-    , matrix(values) 
+    : n_(values.size())
+    , matrix_(values) 
     { } 
     
-    size_t size() const { return n; }            
+    size_t size() const { return n_; }            
     const DataType& at(size_t i, size_t j) const; 
 
     // Operator mnozenia macierzy 
@@ -36,7 +36,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Matrix<OtherDataType>& mat);
 
 private: 
-    size_t n; 
-    SquareMatrix<DataType> matrix;
+    size_t n_; 
+    SquareMatrix<DataType> matrix_;
 };
 } // namespace src::Structures

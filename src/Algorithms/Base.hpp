@@ -13,21 +13,18 @@ class BaseClass
 {
 public:
     virtual ~BaseClass() = default;
-    
-    BaseClass(Container result)
-    : expectedResult_(std::move(result))
-    { }
+    BaseClass() = default;
     
     Container call(const MethodType& methodType, std::ostream& os)
     {
         switch (methodType)
         {
             case MethodType::STL:
-                return this->measureExecutionTime(&BaseClass::executeSTL, "STL", os);
+                return measureExecutionTime(&BaseClass::executeSTL, "STL", os);
             case MethodType::Boost:
-                return this->measureExecutionTime(&BaseClass::executeBoost, "Boost", os);
+                return measureExecutionTime(&BaseClass::executeBoost, "Boost", os);
             case MethodType::Simple:
-                return this->measureExecutionTime(&BaseClass::executeSimple, "Simple", os);
+                return measureExecutionTime(&BaseClass::executeSimple, "Simple", os);
             default: throw std::invalid_argument("Zły typ metody!");
         }
     }
@@ -51,12 +48,9 @@ private:
         std::chrono::duration<double> duration = end - start;
         os << methodName << " call time: " << duration.count() << " seconds\n";
         
-        this->resetData();
+        resetData();
         return result;
     }
-
-public:
-    Container expectedResult_;
 };
 
 } // namespace src::Algorithms

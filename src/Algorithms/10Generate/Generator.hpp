@@ -13,11 +13,10 @@ class Generator final : public BaseClass<GeneratedDataType, std::vector<Generate
 {
 public:
     Generator(GeneratorData<GeneratedDataType, StateDataType> data)
-    : BaseClass<GeneratedDataType, std::vector<GeneratedDataType>>(std::move(data.expectedResult_))
-    , state_{std::move(data)}
+    : state_{std::move(data)}
     { }
 
-    unsigned int size() const { return this->state_.n_; }
+    unsigned int size() const { return state_.n_; }
 
 private:
     void resetData() override
@@ -27,24 +26,24 @@ private:
 
     std::vector<GeneratedDataType> executeSTL() override
     {
-        std::vector<GeneratedDataType> sequence(this->state_.n_);
-        std::generate(sequence.begin(), sequence.end(), [this]() { return this->state_(); });
+        std::vector<GeneratedDataType> sequence(state_.n_);
+        std::generate(sequence.begin(), sequence.end(), [this]() { return state_(); });
         return sequence;
     }
 
     std::vector<GeneratedDataType> executeBoost() override
     {
-        std::vector<GeneratedDataType> sequence(this->state_.n_);
-        boost::range::generate(sequence, [this]() { return this->state_(); });
+        std::vector<GeneratedDataType> sequence(state_.n_);
+        boost::range::generate(sequence, [this]() { return state_(); });
         return sequence;
     }
 
     std::vector<GeneratedDataType> executeSimple() override
     {
-        std::vector<GeneratedDataType> sequence(this->state_.n_);
+        std::vector<GeneratedDataType> sequence(state_.n_);
         for (GeneratedDataType& element : sequence)
         {
-            element = this->state_();
+            element = state_();
         }
         return sequence;
     }

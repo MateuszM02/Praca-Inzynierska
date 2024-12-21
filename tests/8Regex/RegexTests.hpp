@@ -9,6 +9,12 @@ using namespace src::Algorithms;
 namespace tests::Regex
 {
 
+enum ERegexTestType
+{
+    phone,
+    date
+};
+
 struct RegexTestStruct final : public BaseTestStruct<RegexEvaluator>
 {
 public:
@@ -23,13 +29,13 @@ class RegexTestFixture : public BaseTestFixture<RegexEvaluator>
 {
 public:
     // generatory wzorcow
-    static std::string datePatternGenerator(const unsigned int patternLength)
+    static std::string datePatternGenerator()
     {
         // data w formacie DD-MM-R* (uproszczona walidacja, dowolny rok o ile jest dodatni)
         return R"((0[1-9]|[12][0-9]|3[01])-([1-9]|1[0-2])-\d+)";
     }
 
-    static std::string phonePatternGenerator(const unsigned int patternLength)
+    static std::string phonePatternGenerator()
     {
         // wzorzec numeru telefonu w formacie "123 456 789"
         return R"(\d{3} \d{3} \d{3})";
@@ -101,15 +107,41 @@ public:
     // generuj tekst i wzorzec
     static std::shared_ptr<RegexEvaluator> initTestData(
         std::string(*textGenerator)(const unsigned int),
-        std::string(*patternGenerator)(const unsigned int),
-        const unsigned int textLength,
-        const unsigned int patternLength)
+        std::string(*patternGenerator)(),
+        const unsigned int textLength)
     {
         const std::string text = textGenerator(textLength);
-        const std::string pattern = patternGenerator(patternLength);
+        const std::string pattern = patternGenerator();
         const RegexData data(std::move(text), std::move(pattern));
 
         return std::make_shared<RegexEvaluator>(std::move(data));
+    }
+
+    static RegexTestStruct createTestStruct(const unsigned int textLength, const ERegexTestType testType)
+    {
+        static unsigned int testId = 1;
+        std::string path = Path::Create(RegexType, testId++);
+        std::string(*textGenerator)(const unsigned int);
+        std::string(*patternGenerator)();
+
+        switch (testType)
+        {
+            case date:
+                textGenerator = dateTextGenerator;
+                patternGenerator = datePatternGenerator;
+                break;
+            case phone:
+                textGenerator = phoneTextGenerator;
+                patternGenerator = phonePatternGenerator;
+                break;
+            default:
+                throw new std::invalid_argument("Zla wartosc enuma!");
+        }
+
+        std::shared_ptr<RegexEvaluator> evaluator =
+            initTestData(textGenerator, patternGenerator, textLength);
+            
+        return RegexTestStruct(std::move(path), std::move(evaluator));
     }
 };
 

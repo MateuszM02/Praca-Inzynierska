@@ -12,15 +12,12 @@ struct RemoverData final
 {
     RemoverData(
         Container elements,
-        Container expectedResult,
         bool (*predicate)(const DataType&))
     : elements_{std::move(elements)}
-    , expectedResult_{std::move(expectedResult)}
     , predicate_{predicate}
     { }
 
     Container elements_;
-    Container expectedResult_;
     bool (*predicate_)(const DataType&);
 };
 
@@ -29,8 +26,7 @@ class Remover final : public BaseClass<DataType, Container>
 {
 public:
     Remover(RemoverData<DataType> data)
-    : BaseClass<DataType, Container>(std::move(data.expectedResult_))
-    , elements_(data.elements_)
+    : elements_(data.elements_)
     , initialElements_(std::move(data.elements_))
     , predicate_(data.predicate_)
     { }
@@ -38,7 +34,7 @@ public:
 private:
     void resetData() override
     {
-        this->elements_ = this->initialElements_;
+        elements_ = initialElements_;
     }
 
     Container executeSTL() override

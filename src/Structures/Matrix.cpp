@@ -7,37 +7,37 @@ template <Multiplicable DataType>
 const DataType&
 Matrix<DataType>::at(size_t row, size_t col) const
 {
-    if (row >= n || col >= n)
+    if (row >= n_ || col >= n_)
     {
         throw std::out_of_range("Index out of range.");
     }
-    return matrix[row][col];
+    return matrix_[row][col];
 }
 
 template <Multiplicable DataType>
 Matrix<DataType>
 Matrix<DataType>::operator*=(const Matrix<DataType>& other)
 {
-    if (n != other.n) 
+    if (n_ != other.n_) 
     { 
         throw std::invalid_argument("Matrix dimensions must match for multiplication."); 
     }
 
-    SquareMatrix<DataType> result(n, std::vector<DataType>(n)); 
+    SquareMatrix<DataType> result(n_, std::vector<DataType>(n_)); 
 
-    for (size_t row = 0; row < n; ++row)
+    for (size_t row = 0; row < n_; ++row)
     {
-        for (size_t col = 0; col < n; ++col)
+        for (size_t col = 0; col < n_; ++col)
         {
             result[row][col] = 0;
-            for (size_t k = 0; k < n; ++k)
+            for (size_t k = 0; k < n_; ++k)
             {
-                result[row][col] += matrix[row][k] * other.matrix[k][col];
+                result[row][col] += matrix_[row][k] * other.matrix_[k][col];
             }
         }
     }
 
-    matrix = result;
+    matrix_ = result;
     return *this;
 }
 
@@ -45,11 +45,11 @@ template <Multiplicable DataType>
 bool
 Matrix<DataType>::operator==(const Matrix<DataType>& other) const
 {
-    if (this->n != other.n) return false;
+    if (this->n_ != other.n_) return false;
 
-    for (size_t row = 0; row < this->n; ++row)
+    for (size_t row = 0; row < this->n_; ++row)
     {
-        for (size_t col = 0; col < this->n; ++col)
+        for (size_t col = 0; col < this->n_; ++col)
         {
             if (this->at(row, col) != other.at(row, col))
                 return false;
