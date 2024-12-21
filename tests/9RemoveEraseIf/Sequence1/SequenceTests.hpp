@@ -2,17 +2,29 @@
 #include "../RemoveEraseIfTestFixture.hpp"
 #include "../../Path.hpp"
 
+#include <bits/stl_numeric.h>
 #include <cmath>
 
 namespace tests::RemoveEraseIf
 {
 
-template <Removable Container = std::vector<unsigned int>>
 struct SequenceArgs final : public RemoveEraseIfTestStruct<unsigned int>
 {
     SequenceArgs(
-        const std::string& path,
-        RemoverData<unsigned int, Container> elements);
+        const unsigned int n,
+        bool(*predicate)(const unsigned int&))
+    : RemoveEraseIfTestStruct<unsigned int>(
+        createPath(RemoveEraseIfSequence),
+        std::move(std::make_shared<Remover<unsigned int>>(RemoverData(initData(n), predicate))))
+    { }
+
+private:
+    static std::vector<unsigned int> initData(const unsigned int n)
+    {
+        std::vector<unsigned int> data(n);
+        std::iota(data.begin(), data.end(), 0);
+        return data;
+    }
 };
 
 class SequenceIntFixture : public RemoveEraseIfTestFixture<unsigned int>
@@ -55,17 +67,20 @@ public:
         }
     }
 
-    static bool hasAtMost4Divisors(const unsigned int& value)
+    static bool hasAtMost4Divisors(const unsigned int& value) 
     {
-        unsigned int divisors = 2;
+        if (value < 2) return false; 
+        unsigned int divisors = 2; 
         const unsigned int sqrtValue = std::sqrt(value);
-        for (unsigned int div = 2; div < sqrtValue; div++)
+        for (unsigned int div = 2; div <= sqrtValue; ++div)
         {
             if (value % div == 0)
-                divisors += 2;
+            {
+                if (div * div == value) divisors += 1;
+                else divisors += 2;
+            }
+            if (divisors > 4) return false;
         }
-        if (value % sqrtValue)
-            divisors++;
         return divisors <= 4;
     }
 

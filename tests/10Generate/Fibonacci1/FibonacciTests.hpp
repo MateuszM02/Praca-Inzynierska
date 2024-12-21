@@ -11,9 +11,12 @@ template <Addable DataType>
 struct FibonacciArgs final : public GenerateTestStruct<DataType, std::pair<DataType, DataType>>
 {
     FibonacciArgs(
-        const std::string& path,
         const std::pair<DataType, DataType>& initialPair,
-        unsigned int n);
+        unsigned int n)
+    : GenerateTestStruct<DataType, std::pair<DataType, DataType>>(
+        this->createPath(GenerateFibonacci),
+        std::move(src::Algorithms::GeneratorImpl::createFibonacciGenerator(n, initialPair)))
+    { }
 };
 
 class FibonacciIntFixture : public GenerateTestFixture<int, std::pair<int, int>>
