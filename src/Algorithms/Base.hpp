@@ -1,5 +1,5 @@
 #pragma once
-#include "Concepts.hpp"
+
 #include "../MethodType.hpp"
 
 #include <chrono> // mierzenie czasu wykonania testu

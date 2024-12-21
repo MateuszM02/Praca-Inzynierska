@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../../src/Structures/MatrixImpl.hpp"
 #include "../GenerateTestFixture.hpp"
 
 using namespace src::Structures;
@@ -16,7 +17,7 @@ struct MatrixArgs : public GenerateTestStruct<Matrix<Number>>
         unsigned int n)
     : GenerateTestStruct<Matrix<Number>>(
     GenerateMatrix,
-    std::move(src::Algorithms::GeneratorImpl::createMatrixGenerator(n, initialMatrix)))
+    std::move(MatrixImpl::createGenerator(n, initialMatrix)))
     { }
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../../src/Structures/RandomStringImpl.hpp"
 #include "../GenerateTestFixture.hpp"
 
 using namespace src::Structures;
@@ -13,7 +14,7 @@ struct RandomStringArgs : public GenerateTestStruct<std::string, RandomString>
     : length{l}
     , GenerateTestStruct<std::string, RandomString>(
         GenerateRandomString,
-        std::move(src::Algorithms::GeneratorImpl::createRandomStringGenerator(n, l)))
+        std::move(RandomStringImpl::createGenerator(n, l)))
     { }
     
     const unsigned int length;

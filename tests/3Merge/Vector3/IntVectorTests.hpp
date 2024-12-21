@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../MergeTestFixture.hpp"
-#include "../../../src/Structures/IntVector.hpp"
+#include "../../../src/Structures/IntVectorImpl.hpp"
 
 using namespace src::Structures;
 
@@ -35,9 +35,9 @@ public:
         }
         IntVector iv(std::move(v));
         return { std::move(iv),
-                 src::Algorithms::MergerImpl::intVectorEqFunc,
-                 src::Algorithms::MergerImpl::intVectorLessFunc,
-                 src::Algorithms::MergerImpl::intVectorCopyAssignFunc };
+                 IntVectorImpl::equal,
+                 IntVectorImpl::less,
+                 IntVectorImpl::copyAssign };
     }
 
     static Mergeable<IntVector> f10i_imod9(const unsigned int n)
@@ -50,9 +50,9 @@ public:
         }
         IntVector iv(std::move(v));
         return { std::move(iv),
-                 src::Algorithms::MergerImpl::intVectorEqFunc,
-                 src::Algorithms::MergerImpl::intVectorLessFunc,
-                 src::Algorithms::MergerImpl::intVectorCopyAssignFunc };
+                 IntVectorImpl::equal,
+                 IntVectorImpl::less,
+                 IntVectorImpl::copyAssign };
     }
 };
 

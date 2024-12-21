@@ -1,8 +1,9 @@
 #pragma once
 
+#include "../Concepts/DataTypeConcepts.hpp"
 #include "../Algorithms/10Generate/Generator.hpp"
 
-using namespace src::Algorithms;
+using namespace src::Concepts;
 
 namespace src::Structures
 {

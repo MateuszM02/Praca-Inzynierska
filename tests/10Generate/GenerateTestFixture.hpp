@@ -2,7 +2,6 @@
 
 #include "../BaseTestFixture.hpp"
 #include "../../src/Algorithms/10Generate/Generator.hpp"
-#include "../../src/Algorithms/10Generate/GeneratorImpl.hpp"
 
 #include <fstream>
 

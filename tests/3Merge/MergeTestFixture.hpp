@@ -2,7 +2,6 @@
 
 #include "../BaseTestFixture.hpp"
 #include "../../src/Algorithms/3Merge/Merger.hpp"
-#include "../../src/Algorithms/3Merge/MergerImpl.hpp"
 
 #include <fstream>
 

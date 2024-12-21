@@ -1,8 +1,6 @@
 #pragma once
 #include "../Algorithms/3Merge/Merger.hpp"
 
-using namespace src::Algorithms;
-
 namespace src::Structures
 {
 
