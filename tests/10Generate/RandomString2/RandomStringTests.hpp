@@ -1,6 +1,6 @@
 #pragma once
+
 #include "../GenerateTestFixture.hpp"
-#include "../../Path.hpp"
 
 using namespace src::Structures;
 
@@ -12,7 +12,7 @@ struct RandomStringArgs : public GenerateTestStruct<std::string, RandomString>
     RandomStringArgs(const unsigned int l, const unsigned int n)
     : length{l}
     , GenerateTestStruct<std::string, RandomString>(
-        this->createPath(GenerateRandomString),
+        GenerateRandomString,
         std::move(src::Algorithms::GeneratorImpl::createRandomStringGenerator(n, l)))
     { }
     

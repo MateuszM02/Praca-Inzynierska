@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../MergeTestFixture.hpp"
-#include "../../Path.hpp"
 #include "../../../src/Structures/Points.hpp"
 
 using namespace src::Structures;
@@ -17,7 +16,7 @@ struct PointsArgs : public MergeTestStruct<Point2D>
         const unsigned int n1,
         const unsigned int n2)
     : MergeTestStruct<Point2D>(
-        this->createPath(MergePoints),
+        MergePoints,
         std::move(std::make_shared<Merger<Point2D>>(
             MergeTestFixture<Point2D>::initTestData(fun1, fun2, n1, n2))))
     { }

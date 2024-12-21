@@ -1,6 +1,5 @@
 #pragma once
 
-#include <chrono>
 #include <random>
 
 namespace tests::Regex

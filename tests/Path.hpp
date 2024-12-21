@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 
 namespace tests
@@ -39,7 +40,7 @@ private:
             case TestType::MergeTree:               return "Tree";
             case TestType::MergeIntVector:          return "IntVector";
             // TODO: typy 4, 5, 6, 7
-            case TestType::RegexType:                   return "Regex";
+            case TestType::RegexType:               return "Regex";
             // TODO: typy 9
             case TestType::RemoveEraseIfSequence:   return "Sequence";
             case TestType::GenerateFibonacci:       return "Fibonacci";

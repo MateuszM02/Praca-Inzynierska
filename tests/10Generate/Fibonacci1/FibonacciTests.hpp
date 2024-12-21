@@ -1,6 +1,6 @@
 #pragma once
+
 #include "../GenerateTestFixture.hpp"
-#include "../../Path.hpp"
 
 using namespace src::Structures;
 
@@ -14,7 +14,7 @@ struct FibonacciArgs final : public GenerateTestStruct<DataType, std::pair<DataT
         const std::pair<DataType, DataType>& initialPair,
         unsigned int n)
     : GenerateTestStruct<DataType, std::pair<DataType, DataType>>(
-        this->createPath(GenerateFibonacci),
+        GenerateFibonacci,
         std::move(src::Algorithms::GeneratorImpl::createFibonacciGenerator(n, initialPair)))
     { }
 };

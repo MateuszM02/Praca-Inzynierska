@@ -25,8 +25,8 @@ template <typename PtrType>
 struct BaseTestStruct
 {
 public:
-    BaseTestStruct(const std::string& path, std::shared_ptr<PtrType> f)
-    : filePath_{std::move(path)}
+    BaseTestStruct(const TestType testType, std::shared_ptr<PtrType> f)
+    : filePath_{createPath(testType)}
     , ref_{std::move(f)}
     { }
 

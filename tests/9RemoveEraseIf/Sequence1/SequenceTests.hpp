@@ -1,6 +1,6 @@
 #pragma once
+
 #include "../RemoveEraseIfTestFixture.hpp"
-#include "../../Path.hpp"
 
 #include <bits/stl_numeric.h>
 #include <cmath>
@@ -14,7 +14,7 @@ struct SequenceArgs final : public RemoveEraseIfTestStruct<unsigned int>
         const unsigned int n,
         bool(*predicate)(const unsigned int&))
     : RemoveEraseIfTestStruct<unsigned int>(
-        createPath(RemoveEraseIfSequence),
+        RemoveEraseIfSequence,
         std::move(std::make_shared<Remover<unsigned int>>(RemoverData(initData(n), predicate))))
     { }
 

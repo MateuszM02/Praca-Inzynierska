@@ -1,6 +1,6 @@
 #pragma once
+
 #include "../Algorithms/10Generate/Generator.hpp"
-#include "../Algorithms/Concepts.hpp"
 
 using namespace src::Algorithms;
 

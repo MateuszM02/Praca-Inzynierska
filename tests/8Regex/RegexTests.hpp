@@ -2,7 +2,6 @@
 
 #include "../BaseTestFixture.hpp"
 #include "../../src/Algorithms/Regex.hpp"
-#include "../Path.hpp"
 #include "RegexGenerators.hpp"
 
 using namespace src::Algorithms;
@@ -20,7 +19,7 @@ struct RegexTestStruct final : public BaseTestStruct<RegexEvaluator>
 {
 public:
     RegexTestStruct(const unsigned int textLength, const ERegexTestType testType)
-    : BaseTestStruct<RegexEvaluator>(createPath(RegexType), createEvaluatorPtr(textLength, testType))
+    : BaseTestStruct<RegexEvaluator>(RegexType, createEvaluatorPtr(textLength, testType))
     { }
 
 private:

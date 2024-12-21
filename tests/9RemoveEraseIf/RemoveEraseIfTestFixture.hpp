@@ -13,9 +13,9 @@ struct RemoveEraseIfTestStruct : public BaseTestStruct<Remover<DataType, Contain
 {
 public:
     RemoveEraseIfTestStruct(
-        const std::string& path,
+        const TestType testType,
         std::shared_ptr<Remover<DataType, Container>> f)
-    : BaseTestStruct<Remover<DataType, Container>>(path, std::move(f))
+    : BaseTestStruct<Remover<DataType, Container>>(testType, std::move(f))
     { }
 };
 
