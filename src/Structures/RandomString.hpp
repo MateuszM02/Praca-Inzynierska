@@ -13,17 +13,17 @@ struct RandomString
     , distribution('a', 'z')
     { }
 
-    // operator przypisania kopiujacego
-    RandomString& operator=(const RandomString& other)
-    {
-        if (this != &other)
-        {
-            length = other.length;
-            randomGenerator = other.randomGenerator;
-            distribution = other.distribution;
-        }
-        return *this;
-    }
+    // // operator przypisania kopiujacego
+    // RandomString& operator=(const RandomString& other)
+    // {
+    //     if (this != &other)
+    //     {
+    //         length = other.length;
+    //         randomGenerator = other.randomGenerator;
+    //         distribution = other.distribution;
+    //     }
+    //     return *this;
+    // }
 
     unsigned int length;
     std::mt19937 randomGenerator;

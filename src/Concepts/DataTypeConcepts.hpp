@@ -1,7 +1,8 @@
 #pragma once
+
 #include <concepts> // concept (C++ 20)
 
-namespace src::Algorithms
+namespace src::Concepts
 {
 
 // typ pozwalajacy na dodawanie za pomoca operatora+ (nie musi posiadac operatora+= ale moze)
@@ -18,26 +19,12 @@ concept Multiplicable = requires(DataType a, DataType b)
     { a *= b } -> std::convertible_to<DataType&>;
 };
 
-// Koncept sprawdzajacy, czy kontener obsluguje iteracje
-template <typename Container>
-concept Iterable = requires(Container c)
+// Koncept sprawdzajacy, czy da sie zamienic 2 elementy
+template <typename DataType>
+concept Swappable = requires(DataType a, DataType b)
 {
-    typename Container::iterator;
-    { c.begin() } -> std::same_as<typename Container::iterator>;
-    { c.end() } -> std::same_as<typename Container::iterator>;
+    { std::swap(a, b) } -> std::same_as<void>;
 };
-
-// Koncept sprawdzajacy, czy kontener ma metode erase
-template <typename Container>
-concept Erasable = requires(Container c, typename Container::const_iterator it)
-{
-    { c.erase(it) } -> std::same_as<typename Container::iterator>;
-    { c.erase(it, it) } -> std::same_as<typename Container::iterator>;
-};
-
-// Koncept sprawdzajacy, czy kontener nadaje sie do boost::remove_erase_if
-template <typename Container>
-concept Removable = Iterable<Container> && Erasable<Container>;
 
 // Typ elementow przy scalaniu wektorow musi miec nastepujace operatory
 // = przypisania - aby mozna bylo elementy wektorow wejsciowych przypisac do wektora wynikowego bez tworzenia kopii
@@ -48,6 +35,12 @@ concept Comparable = requires(DataType a, DataType b)
 {
     { a == b } -> std::convertible_to<bool>;
     { a < b } -> std::convertible_to<bool>;
-} && std::is_copy_assignable_v<DataType>;
+};
 
-} // namespace src::Algorithms
+template <typename DataType>
+concept CopyComparable = Comparable<DataType> && std::is_copy_assignable_v<DataType>;
+
+template <typename DataType>
+concept MoveComparable = Comparable<DataType> && std::is_move_assignable_v<DataType>;
+
+} // namespace src::Concepts

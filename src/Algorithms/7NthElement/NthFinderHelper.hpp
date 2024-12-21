@@ -1,19 +1,21 @@
 #pragma once
 
-#include "../../Concepts/DataTypeConcepts.hpp"
+#include "../../Concepts/ContainerConcepts.hpp"
+
+#include <vector>
 
 using namespace src::Concepts;
 
 namespace src::Algorithms
 {
 
-// Klasa rozszerzajaca dowolny typ tak, aby dalo sie go porownywac
+// Klasa rozszerzajaca dowolny typ tak, aby dalo sie go porownywac i zamieniac pozycja z innymi
 template <typename DataType>
-class Mergeable final
+class Findable final
 {
-    public:
+public:
     // Konstruktor domyslny aby dzialaly testy
-    Mergeable()
+    Findable()
     : data_(DataType())
     , eqFunc_(
         [](const DataType&, const DataType&) -> bool
@@ -30,10 +32,10 @@ class Mergeable final
         {
             throw std::invalid_argument("This default method should never be called!");
         })
-    { } 
+    { }
     
     // Konstruktor dla typow nieporownywalnych
-    Mergeable(DataType data,
+    Findable(DataType data,
         bool (*eqFunc)(const DataType&, const DataType&),
         bool (*lessFunc)(const DataType&, const DataType&),
         void (*copyAssignFunc)(DataType&, const DataType&))
@@ -41,19 +43,19 @@ class Mergeable final
     , eqFunc_(eqFunc)
     , lessFunc_(lessFunc)
     , copyAssignFunc_(copyAssignFunc)
-    { } 
+    { }
     
     // Konstruktor dla typow, ktore spelniaja koncept CopyComparable
-    Mergeable(DataType data)
+    Findable(DataType data)
     requires CopyComparable<DataType>
     : data_(std::move(data))
     , eqFunc_([](const DataType& lhs, const DataType& rhs) { return lhs == rhs; })
     , lessFunc_([](const DataType& lhs, const DataType& rhs) { return lhs < rhs; })
     , copyAssignFunc_([](DataType& dest, const DataType& src) { dest = src; })
-    { } 
-    
-    // Operator przypisania kopiujacego
-    Mergeable& operator=(const Mergeable& other)
+    { }
+
+    // Operator przypisania kopiujacego (wymagane przez metode reset)
+    Findable& operator=(const Findable& other)
     {
         if (this != &other)
         {
@@ -65,12 +67,12 @@ class Mergeable final
         return *this;
     }
     
-    bool operator==(const Mergeable& other) const
+    bool operator==(const Findable& other) const
     {
         return eqFunc_(data_, other.data_);
     }
     
-    bool operator<(const Mergeable& other) const
+    bool operator<(const Findable& other) const
     {
         return lessFunc_(data_, other.data_);
     }
@@ -82,20 +84,16 @@ private:
     void (*copyAssignFunc_)(DataType&, const DataType&);
 };
 
-template <typename DataType>
-struct MergerData final
+template <typename DataType, NthElementCompatible Container = std::vector<Findable<DataType>>>
+struct NthFinderData final
 {
-    using DataVector = std::vector<Mergeable<DataType>>;
-
-    MergerData(
-        DataVector vec1,
-        DataVector vec2)
-    : v1_{std::move(vec1)}
-    , v2_{std::move(vec2)}
+    NthFinderData(Container elements, const unsigned int n)
+    : elements_{std::move(elements)}
+    , n_{n}
     { }
 
-    DataVector v1_;
-    DataVector v2_;
+    const Container elements_;
+    const unsigned int n_;
 };
 
 } // namespace src::Algorithms

@@ -1,8 +1,11 @@
 #pragma once
 
+#include "../Concepts/ContainerConcepts.hpp"
 #include "Base.hpp"
 
 #include <boost/range/algorithm_ext/erase.hpp> // boost::range::remove_erase_if
+
+using namespace src::Concepts;
 
 namespace src::Algorithms
 {

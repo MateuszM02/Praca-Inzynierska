@@ -12,6 +12,7 @@ enum TestType
     MergeTree,
     MergeIntVector,
     // TODO: typy 4, 5, 6, 7
+    NthElementPoints,
     RegexType,
     // TODO: typy 9
     RemoveEraseIfSequence,
@@ -40,6 +41,7 @@ private:
             case TestType::MergeTree:               return "Tree";
             case TestType::MergeIntVector:          return "IntVector";
             // TODO: typy 4, 5, 6, 7
+            case TestType::NthElementPoints:        return "Points";
             case TestType::RegexType:               return "Regex";
             // TODO: typy 9
             case TestType::RemoveEraseIfSequence:   return "Sequence";

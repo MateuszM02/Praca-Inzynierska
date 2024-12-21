@@ -1,7 +1,10 @@
 #pragma once
 
+#include "../../../src/Concepts/DataTypeConcepts.hpp"
+#include "../../../src/Structures/FibonacciImpl.hpp"
 #include "../GenerateTestFixture.hpp"
 
+using namespace src::Concepts;
 using namespace src::Structures;
 
 namespace tests::Generate
@@ -15,7 +18,7 @@ struct FibonacciArgs final : public GenerateTestStruct<DataType, std::pair<DataT
         unsigned int n)
     : GenerateTestStruct<DataType, std::pair<DataType, DataType>>(
         GenerateFibonacci,
-        std::move(src::Algorithms::GeneratorImpl::createFibonacciGenerator(n, initialPair)))
+        std::move(FibonacciImpl::createGenerator(n, initialPair)))
     { }
 };
 

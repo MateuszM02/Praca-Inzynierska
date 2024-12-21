@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../MergeTestFixture.hpp"
-#include "../../../src/Structures/Points.hpp"
+#include "../../../src/Structures/PointsImpl.hpp"
 
 using namespace src::Structures;
 
@@ -28,21 +28,21 @@ public:
     static Mergeable<Point2D> fmod3i3_mod7i64(const unsigned int i)
     {
         return { { 3*i + (i % 3), 7*i % 64 },
-                 src::Algorithms::MergerImpl::pointEqFunc,
-                 src::Algorithms::MergerImpl::pointLessFunc,
-                 src::Algorithms::MergerImpl::pointCopyAssignFunc };
+                 Point2DImpl::equal,
+                 Point2DImpl::less,
+                 Point2DImpl::copyAssign };
     }
 
     static Mergeable<Point2D> f3i_mod9i64(const unsigned int i)
     {
         return { { 3*i, 9*i % 64 },
-                 src::Algorithms::MergerImpl::pointEqFunc,
-                 src::Algorithms::MergerImpl::pointLessFunc,
-                 src::Algorithms::MergerImpl::pointCopyAssignFunc };
+                 Point2DImpl::equal,
+                 Point2DImpl::less,
+                 Point2DImpl::copyAssign };
     }
 };
 
-TEST_P(PointsFixture, pointsTest)
+TEST_P(PointsFixture, pointsMergeTest)
 { 
     VerifyTest(GetParam());
 }

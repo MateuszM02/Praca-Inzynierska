@@ -4,6 +4,7 @@
 #include "../../src/Algorithms/Remover.hpp"
 
 using namespace src::Algorithms;
+using namespace src::Concepts;
 
 namespace tests::RemoveEraseIf
 {
