@@ -1,14 +1,29 @@
 #pragma once
 
-#include "../Base.hpp"
-#include "NthFinderHelper.hpp"
+#include "Base.hpp"
+#include "DataWrapper.hpp"
+#include "../Concepts/ContainerConcepts.hpp"
 
 #include <boost/range/algorithm/nth_element.hpp> // boost::range::nth_element
+
+using namespace src::Concepts;
 
 namespace src::Algorithms
 {
 
-template <typename DataType, NthElementCompatible Container = std::vector<Findable<DataType>>>
+template <typename DataType, NthElementCompatible Container = std::vector<DataWrapper<DataType>>>
+struct NthFinderData final
+{
+    NthFinderData(Container elements, const unsigned int n)
+    : elements_{std::move(elements)}
+    , n_{n}
+    { }
+
+    const Container elements_;
+    const unsigned int n_;
+};
+
+template <typename DataType, NthElementCompatible Container = std::vector<DataWrapper<DataType>>>
 class NthFinder final : public BaseClass<DataType, Container>
 {
 public:
@@ -63,7 +78,7 @@ private:
     template<typename Iter>
     Iter partition(Iter low, Iter high)
     {
-        auto pivot = *high;
+        DataWrapper<DataType> pivot = *high;
         Iter i = low;
 
         for (Iter j = low; j < high; ++j)
@@ -83,14 +98,14 @@ private:
     {
         if (low == high)    return low;
 
-        Iter pivotIndex = partition(low, high);
+        Iter pivotIter = partition(low, high);
 
-        if (pivotIndex == nth)
-            return pivotIndex;
-        else if (nth < pivotIndex)
-            return quickselect(low, pivotIndex - 1, nth);
+        if (pivotIter == nth)
+            return pivotIter;
+        else if (nth < pivotIter)
+            return quickselect(low, pivotIter - 1, nth);
         else
-            return quickselect(pivotIndex + 1, high, nth);
+            return quickselect(pivotIter + 1, high, nth);
     }
 
     Container elements_;

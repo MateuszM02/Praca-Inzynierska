@@ -11,8 +11,8 @@ namespace tests::Merge
 struct IntVectorArgs final : public MergeTestStruct<IntVector>
 {
     IntVectorArgs(
-        Mergeable<IntVector> (*fun1)(const unsigned int),
-        Mergeable<IntVector> (*fun2)(const unsigned int),
+        DataWrapper<IntVector> (*fun1)(const unsigned int),
+        DataWrapper<IntVector> (*fun2)(const unsigned int),
         const unsigned int n1,
         const unsigned int n2)
     : MergeTestStruct<IntVector>(
@@ -25,7 +25,7 @@ struct IntVectorArgs final : public MergeTestStruct<IntVector>
 class IntVectorFixture : public MergeTestFixture<IntVector>
 {
 public:
-    static Mergeable<IntVector> f10i_imod7(const unsigned int n)
+    static DataWrapper<IntVector> f10i_imod7(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -33,14 +33,10 @@ public:
         {
             v.emplace_back(10*i + ((i+1) % 7));
         }
-        IntVector iv(std::move(v));
-        return { std::move(iv),
-                 IntVectorImpl::equal,
-                 IntVectorImpl::less,
-                 IntVectorImpl::copyAssign };
+        return { { std::move(v) }, IntVectorImpl::equal, IntVectorImpl::less };
     }
 
-    static Mergeable<IntVector> f10i_imod9(const unsigned int n)
+    static DataWrapper<IntVector> f10i_imod9(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -48,11 +44,7 @@ public:
         {
             v.emplace_back(10*i + (i % 9));
         }
-        IntVector iv(std::move(v));
-        return { std::move(iv),
-                 IntVectorImpl::equal,
-                 IntVectorImpl::less,
-                 IntVectorImpl::copyAssign };
+        return { { std::move(v) }, IntVectorImpl::equal, IntVectorImpl::less };
     }
 };
 

@@ -15,7 +15,8 @@ using SquareMatrix = std::vector<std::vector<DataType>>;
 template <Multiplicable DataType>
 class Matrix final
 { 
-public: 
+public:
+    // konstruktor domyslny potrzebny do stworzenia wektora elementow
     Matrix() : n_(0), matrix_({ { } }) { }
 
     Matrix(const SquareMatrix<DataType>& values) 

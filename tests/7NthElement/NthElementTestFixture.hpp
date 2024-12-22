@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../BaseTestFixture.hpp"
-#include "../../src/Algorithms/7NthElement/NthFinder.hpp"
+#include "../../src/Algorithms/NthFinder.hpp"
 
 using namespace src::Algorithms;
 using namespace src::Concepts;
@@ -9,7 +9,7 @@ using namespace src::Concepts;
 namespace tests::NthElement
 {
 
-template <typename DataType, NthElementCompatible Container = std::vector<Findable<DataType>>>
+template <typename DataType, NthElementCompatible Container = std::vector<DataWrapper<DataType>>>
 struct NthElementTestStruct : public BaseTestStruct<Container, NthFinder<DataType, Container>>
 {
 public:
@@ -21,12 +21,12 @@ public:
 };
 
 // Klasa abstrakcyjna NthElementTestFixture, po ktorej dziedzicza klasy testowe metod NthElement
-template <typename DataType, NthElementCompatible Container = std::vector<Findable<DataType>>>
+template <typename DataType, NthElementCompatible Container = std::vector<DataWrapper<DataType>>>
 class NthElementTestFixture : public BaseTestFixture<Container, NthFinder<DataType, Container>>
 {
 public:
     static NthFinderData<DataType, Container> initTestData(
-        Findable<DataType>(*generator)(const unsigned int),
+        DataWrapper<DataType>(*generator)(const unsigned int),
         const unsigned int n,
         const unsigned int vectorSize)
     {

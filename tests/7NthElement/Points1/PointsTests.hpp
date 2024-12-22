@@ -11,7 +11,7 @@ namespace tests::NthElement
 struct PointsArgs : public NthElementTestStruct<Point2D>
 {
     PointsArgs(
-        Findable<Point2D> (*fun)(const unsigned int),
+        DataWrapper<Point2D> (*fun)(const unsigned int),
         const unsigned int n,
         const unsigned int vectorSize)
     : NthElementTestStruct<Point2D>(
@@ -24,25 +24,19 @@ struct PointsArgs : public NthElementTestStruct<Point2D>
 class PointsNthElementFixture : public NthElementTestFixture<Point2D>
 {
 public:
-    static Findable<Point2D> fmod3i3_mod7i64(const unsigned int i)
+    static DataWrapper<Point2D> fmod3i3_mod7i64(const unsigned int i)
     {
-        return { { 3*i + (i % 3), 7*i % 64 },
-                 Point2DImpl::equal,
-                 Point2DImpl::less,
-                 Point2DImpl::copyAssign };
+        return { { 3*i + (i % 3), 7*i % 64 }, Point2DImpl::equal, Point2DImpl::less };
     }
 
-    static Findable<Point2D> f3i_mod9i64(const unsigned int i)
+    static DataWrapper<Point2D> f3i_mod9i64(const unsigned int i)
     {
-        return { { 3*i, 9*i % 64 },
-                 Point2DImpl::equal,
-                 Point2DImpl::less,
-                 Point2DImpl::copyAssign };
+        return { { 3*i, 9*i % 64 }, Point2DImpl::equal, Point2DImpl::less };
     }
 };
 
 TEST_P(PointsNthElementFixture, PointsNthElementTest)
-{ 
+{
     VerifyTestCustomFor7(GetParam());
 }
 

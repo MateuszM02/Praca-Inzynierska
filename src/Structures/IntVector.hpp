@@ -1,21 +1,29 @@
 #pragma once
-#include "../Algorithms/3Merge/Merger.hpp"
+#include "../Algorithms/Merger.hpp"
 
 namespace src::Structures
 {
 
 struct IntVector
 {
+public:
     // konstruktor domyslny potrzebny do stworzenia wektora elementow
     IntVector()
-    : values{{}}
+    : values_{{}}
     { }
 
-    IntVector(const std::vector<int>& v)
-    : values{std::move(v)}
+    IntVector(std::vector<int> v)
+    : values_{std::move(v)}
     { }
 
-    std::vector<int> values;
+    std::size_t size() const { return values_.size(); }
+    int at(const unsigned int index) const { return values_[index]; }
+
+    auto cbegin() const { return values_.cbegin(); }
+    auto cend() const { return values_.cend(); }
+
+private:
+    std::vector<int> values_;
 };
 
 } // namespace src::Structures
