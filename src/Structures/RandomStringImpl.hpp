@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Algorithms/7NthElement/NthFinder.hpp"
+#include "../Algorithms/NthFinder.hpp"
 #include "../Algorithms/10Generate/Generator.hpp"
 #include "RandomString.hpp"
 
@@ -45,10 +45,10 @@ public:
             createGeneratorData(vectorSize, length));
     }
 
-    template <NthElementCompatible Container = std::vector<Findable<std::string>>>
+    template <NthElementCompatible Container = std::vector<DataWrapper<std::string>>>
     using FinderPtr = std::shared_ptr<NthFinder<std::string, Container>>;
 
-    template <NthElementCompatible Container = std::vector<Findable<std::string>>>
+    template <NthElementCompatible Container = std::vector<DataWrapper<std::string>>>
     static FinderPtr<> createFinder(
         const unsigned int n,
         const unsigned int vectorSize,
@@ -59,7 +59,7 @@ public:
         elements.reserve(vectorSize);
         for (unsigned int i = 0; i < vectorSize; i++)
         {
-            elements.emplace_back(generator());
+            elements.emplace_back(generator(), std::equal_to<std::string>(), std::less<std::string>());
         }
 
         NthFinderData<std::string> data(std::move(elements), n);

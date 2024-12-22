@@ -1,5 +1,5 @@
 #pragma once
-#include "../Algorithms/3Merge/Merger.hpp"
+#include "../Algorithms/Merger.hpp"
 
 namespace src::Structures
 {

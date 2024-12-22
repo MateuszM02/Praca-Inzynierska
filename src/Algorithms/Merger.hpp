@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Base.hpp"
-#include "MergerHelper.hpp"
+#include "Base.hpp"
+#include "DataWrapper.hpp"
 
 #include <boost/range/algorithm/merge.hpp> // boost::range::merge
 
@@ -9,10 +9,26 @@ namespace src::Algorithms
 {
 
 template <typename DataType>
-class Merger final : public BaseClass<DataType, std::vector<Mergeable<DataType>>>
+struct MergerData final
+{
+    using DataVector = std::vector<DataWrapper<DataType>>;
+
+    MergerData(
+        DataVector vec1,
+        DataVector vec2)
+    : v1_{std::move(vec1)}
+    , v2_{std::move(vec2)}
+    { }
+
+    DataVector v1_;
+    DataVector v2_;
+};
+
+template <typename DataType>
+class Merger final : public BaseClass<DataType, std::vector<DataWrapper<DataType>>>
 {
 
-using DataVector = std::vector<Mergeable<DataType>>;
+using DataVector = std::vector<DataWrapper<DataType>>;
 
 public:
     Merger(MergerData<DataType> data)
@@ -25,16 +41,14 @@ private:
 
     DataVector executeSTL() override
     {
-        DataVector resultVec;
-        resultVec.resize(v1_.size() + v2_.size());
+        DataVector resultVec(v1_.size() + v2_.size(), DataWrapper<DataType>(DataType(), nullptr, nullptr));
         std::merge(v1_.begin(), v1_.end(), v2_.begin(), v2_.end(), resultVec.begin());
         return resultVec;
     }
 
     DataVector executeBoost() override
     {
-        DataVector resultVec;
-        resultVec.resize(v1_.size() + v2_.size());
+        DataVector resultVec(v1_.size() + v2_.size(), DataWrapper<DataType>(DataType(), nullptr, nullptr));
         boost::range::merge(v1_, v2_, resultVec.begin());
         return resultVec;
     }
@@ -44,8 +58,7 @@ private:
         const unsigned int size1 = v1_.size();
         const unsigned int size2 = v2_.size();
 
-        DataVector resultVec;
-        resultVec.resize(size1 + size2);
+        DataVector resultVec(size1 + size2, DataWrapper<DataType>(DataType(), nullptr, nullptr));
         unsigned int index1 = 0;
         unsigned int index2 = 0;
 
