@@ -21,7 +21,15 @@ public:
 private:
     void resetData() override
     {
-        elements_ = initialElements_;
+        auto elementIter = elements_.begin();
+        auto initialElementIter = initialElements_.begin();
+
+        while (elementIter != elements_.end())
+        {
+            *elementIter = *initialElementIter;
+            ++elementIter;
+            ++initialElementIter;
+        }
     }
 
     Container executeSTL() override
@@ -44,29 +52,51 @@ private:
 
     Container executeSimple() override
     {
-        auto otherIter = elements_.begin();
         auto nthIter = elements_.begin();
         std::advance(nthIter, n_);
 
-        while (otherIter != nthIter)
-        {
-            if (*nthIter < *otherIter)
-                std::swap(otherIter, nthIter);
-            ++otherIter;
-        }
-        ++otherIter;
-        while (otherIter != elements_.end())
-        {
-            if (*otherIter < *nthIter)
-                std::swap(otherIter, nthIter);
-            ++otherIter;
-        }
+        quickselect(elements_.begin(), elements_.end() - 1, nthIter);
+
         return elements_;
     }
 
-public:
+    template<typename Iter>
+    Iter partition(Iter low, Iter high)
+    {
+        auto pivot = *high;
+        Iter i = low;
+
+        for (Iter j = low; j < high; ++j)
+        {
+            if (*j < pivot)
+            {
+                std::iter_swap(i, j);
+                ++i;
+            }
+        }
+        std::iter_swap(i, high);
+        return i;
+    }
+
+    template<typename Iter>
+    Iter quickselect(Iter low, Iter high, Iter nth)
+    {
+        if (low == high)    return low;
+
+        Iter pivotIndex = partition(low, high);
+
+        if (pivotIndex == nth)
+            return pivotIndex;
+        else if (nth < pivotIndex)
+            return quickselect(low, pivotIndex - 1, nth);
+        else
+            return quickselect(pivotIndex + 1, high, nth);
+    }
+
     Container elements_;
     const Container initialElements_;
+
+public:
     const unsigned int n_;
 };
 

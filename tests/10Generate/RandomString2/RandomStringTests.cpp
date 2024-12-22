@@ -4,8 +4,8 @@ namespace tests::Generate
 {
 
 INSTANTIATE_TEST_SUITE_P(
-    RandomStringPrefix, 
-    RandomStringFixture,
+    RandomStringGeneratePrefix, 
+    RandomStringGenerateFixture,
     ::testing::Values( // dlugosc slowa, ilosc slow
         RandomStringArgs(1u, 1000000u),
         RandomStringArgs(20u, 50000u),

@@ -27,11 +27,6 @@ public:
         {
             throw std::invalid_argument("This default method should never be called!");
         })
-    , copyAssignFunc_(
-        [](DataType&, const DataType&) -> void
-        {
-            throw std::invalid_argument("This default method should never be called!");
-        })
     { }
     
     // Konstruktor dla typow nieporownywalnych
@@ -42,7 +37,6 @@ public:
     : data_(std::move(data))
     , eqFunc_(eqFunc)
     , lessFunc_(lessFunc)
-    , copyAssignFunc_(copyAssignFunc)
     { }
     
     // Konstruktor dla typow, ktore spelniaja koncept CopyComparable
@@ -51,21 +45,7 @@ public:
     : data_(std::move(data))
     , eqFunc_([](const DataType& lhs, const DataType& rhs) { return lhs == rhs; })
     , lessFunc_([](const DataType& lhs, const DataType& rhs) { return lhs < rhs; })
-    , copyAssignFunc_([](DataType& dest, const DataType& src) { dest = src; })
     { }
-
-    // Operator przypisania kopiujacego (wymagane przez metode reset)
-    Findable& operator=(const Findable& other)
-    {
-        if (this != &other)
-        {
-            eqFunc_ = other.eqFunc_;
-            lessFunc_ = other.lessFunc_;
-            copyAssignFunc_ = other.copyAssignFunc_;
-            copyAssignFunc_(data_, other.data_);
-        }
-        return *this;
-    }
     
     bool operator==(const Findable& other) const
     {
@@ -81,7 +61,6 @@ private:
     DataType data_;
     bool (*eqFunc_)(const DataType&, const DataType&);
     bool (*lessFunc_)(const DataType&, const DataType&);
-    void (*copyAssignFunc_)(DataType&, const DataType&);
 };
 
 template <typename DataType, NthElementCompatible Container = std::vector<Findable<DataType>>>

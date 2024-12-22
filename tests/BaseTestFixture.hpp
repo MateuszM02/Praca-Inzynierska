@@ -21,7 +21,7 @@ namespace tests
 {
 
 // PtrType musi byc postaci Doer<DataType, Container>
-template <typename PtrType>
+template <typename Container, typename PtrType>
 struct BaseTestStruct
 {
 public:
@@ -42,19 +42,28 @@ protected:
 };
 
 // Klasa abstrakcyjna BaseTestFixture, po ktorej dziedzicza klasy testowe metod generate
-template <typename PtrType> 
-class BaseTestFixture : public ::testing::TestWithParam<BaseTestStruct<PtrType>>
+template <typename Container, typename PtrType> 
+class BaseTestFixture : public ::testing::TestWithParam<BaseTestStruct<Container, PtrType>>
 { 
 public:
-    void VerifyTest(const BaseTestStruct<PtrType>& args)
+    void VerifyTest(const BaseTestStruct<Container, PtrType>& args)
+    {
+        using namespace std::placeholders;
+        auto checker = std::bind(&BaseTestFixture::verifyElementEqualities, this, _1, _2, _3, _4);
+        VerifyTest(args, checker);
+    }
+
+    void VerifyTest(const BaseTestStruct<Container, PtrType>& args,
+        std::function<void(const Container&, const Container&,
+            const Container&, std::ostringstream&)> checker)
     {
         std::ostringstream os; // Uzycie ostringstream do wypisywania wynikow testow
 
-        const auto& stlResult =
+        const Container& stlResult =
             args.ref_->call(src::MethodType::STL, os);
-        const auto& boostResult =
+        const Container& boostResult =
             args.ref_->call(src::MethodType::Boost, os);
-        const auto& simpleResult =
+        const Container& simpleResult =
             args.ref_->call(src::MethodType::Simple, os);
 
         ::testing::internal::CaptureStdout(),
@@ -76,7 +85,7 @@ public:
                 return;
             }
             
-            verifyElementEqualities(stlResult, boostResult, simpleResult, os);
+            checker(stlResult, boostResult, simpleResult, os);
             outFile << os.str();
             outFile.close();
         }
@@ -88,9 +97,9 @@ public:
 
 protected:
     void verifyElementEqualities(
-        const auto& stlResult,
-        const auto& boostResult,
-        const auto& simpleResult,
+        const Container& stlResult,
+        const Container& boostResult,
+        const Container& simpleResult,
         std::ostringstream& os)
     {
         auto stlIter = stlResult.begin();
