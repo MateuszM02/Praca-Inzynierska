@@ -25,7 +25,7 @@ concept Erasable = requires(Container c, typename Container::const_iterator it)
 // Koncept sprawdzajacy, czy kontener nadaje sie do std::nth_element
 template <typename Container> concept NthElementCompatible =
     Iterable<Container> &&
-    CopyComparable<typename Container::value_type> &&
+    Comparable<typename Container::value_type> &&
     Swappable<typename Container::value_type>;
 
 // Koncept sprawdzajacy, czy kontener nadaje sie do boost::remove_erase_if

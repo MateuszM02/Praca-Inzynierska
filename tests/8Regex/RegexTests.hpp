@@ -15,11 +15,11 @@ enum ERegexTestType
     date
 };
 
-struct RegexTestStruct final : public BaseTestStruct<RegexEvaluator>
+struct RegexTestStruct final : public BaseTestStruct<std::vector<std::string>, RegexEvaluator>
 {
 public:
     RegexTestStruct(const unsigned int textLength, const ERegexTestType testType)
-    : BaseTestStruct<RegexEvaluator>(RegexType, createEvaluatorPtr(textLength, testType))
+    : BaseTestStruct<std::vector<std::string>, RegexEvaluator>(RegexType, createEvaluatorPtr(textLength, testType))
     { }
 
 private:
@@ -52,7 +52,7 @@ private:
     }
 };
 
-class RegexTestFixture : public BaseTestFixture<RegexEvaluator>
+class RegexTestFixture : public BaseTestFixture<std::vector<std::string>, RegexEvaluator>
 {
 };
 

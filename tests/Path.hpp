@@ -13,6 +13,7 @@ enum TestType
     MergeIntVector,
     // TODO: typy 4, 5, 6, 7
     NthElementPoints,
+    NthElementRandomString,
     RegexType,
     // TODO: typy 9
     RemoveEraseIfSequence,
@@ -37,18 +38,19 @@ private:
         switch (type)
         {
             // TODO: typy 1, 2
-            case TestType::MergePoints:             return "Points";
-            case TestType::MergeTree:               return "Tree";
-            case TestType::MergeIntVector:          return "IntVector";
+            case MergePoints:               return "Points";
+            case MergeTree:                 return "Tree";
+            case MergeIntVector:            return "IntVector";
             // TODO: typy 4, 5, 6, 7
-            case TestType::NthElementPoints:        return "Points";
-            case TestType::RegexType:               return "Regex";
+            case NthElementPoints:          return "Points";
+            case NthElementRandomString:    return "RandomString";
+            case RegexType:                 return "Regex";
             // TODO: typy 9
-            case TestType::RemoveEraseIfSequence:   return "Sequence";
-            case TestType::GenerateFibonacci:       return "Fibonacci";
-            case TestType::GenerateRandomString:    return "RandomString";
-            case TestType::GenerateMatrix:          return "Matrix";
-            default:                                return "!!! Nieznany typ testu !!!";
+            case RemoveEraseIfSequence:     return "Sequence";
+            case GenerateFibonacci:         return "Fibonacci";
+            case GenerateRandomString:      return "RandomString";
+            case GenerateMatrix:            return "Matrix";
+            default:                        return "!!! Nieznany typ testu !!!";
         }
     }
 };
