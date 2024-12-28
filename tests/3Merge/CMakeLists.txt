@@ -22,4 +22,4 @@ target_link_libraries(IntVectorMergeTests GTest::gtest_main)
 # Dolacz testy GTEST
 include(GoogleTest)
 gtest_discover_tests(PointsMergeTests)
-gtest_discover_tests(IntVectorMergeTests DISCOVERY_TIMEOUT 30) # domyslnie jest 5 sekund
+gtest_discover_tests(IntVectorMergeTests)

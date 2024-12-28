@@ -15,18 +15,18 @@ namespace tests::NthElement
 {
 
 INSTANTIATE_TEST_SUITE_P(
-    RandomStringPrefix,
+    RandomStringNthElementPrefix,
     RandomStringNthElementFixture,
     ::testing::Values(
         // Mala ilosc napisow
-        RandomStringArgs(SMALL_N, FEW_STRINGS, STRING_LENGTH),
-        RandomStringArgs(MEDIUM_N, FEW_STRINGS, STRING_LENGTH),
+        RandomStringNthElementArgs(SMALL_N, FEW_STRINGS, STRING_LENGTH),
+        RandomStringNthElementArgs(MEDIUM_N, FEW_STRINGS, STRING_LENGTH),
         // Srednia ilosc napisow
-        RandomStringArgs(MEDIUM_N, MEDIUM_STRINGS, STRING_LENGTH),
-        RandomStringArgs(BIG_N, MEDIUM_STRINGS, STRING_LENGTH),
+        RandomStringNthElementArgs(MEDIUM_N, MEDIUM_STRINGS, STRING_LENGTH),
+        RandomStringNthElementArgs(BIG_N, MEDIUM_STRINGS, STRING_LENGTH),
         // Duza ilosc napisow
-        RandomStringArgs(BIG_N, MANY_STRINGS, STRING_LENGTH),
-        RandomStringArgs(HUGE_N, MANY_STRINGS, STRING_LENGTH)
+        RandomStringNthElementArgs(BIG_N, MANY_STRINGS, STRING_LENGTH),
+        RandomStringNthElementArgs(HUGE_N, MANY_STRINGS, STRING_LENGTH)
     ));
 
 } // namespace tests::NthElement

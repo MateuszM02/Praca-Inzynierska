@@ -3,10 +3,6 @@
 #include "../BaseTestFixture.hpp"
 #include "../../src/Algorithms/Merger.hpp"
 
-#include <fstream>
-
-#include <gtest/gtest.h>
-
 using namespace src::Algorithms;
 
 namespace tests::Merge

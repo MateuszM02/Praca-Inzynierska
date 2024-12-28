@@ -8,9 +8,9 @@ using namespace src::Structures;
 namespace tests::Merge
 {
 
-struct PointsArgs : public MergeTestStruct<Point2D>
+struct PointsMergeArgs : public MergeTestStruct<Point2D>
 {
-    PointsArgs(
+    PointsMergeArgs(
         DataWrapper<Point2D> (*fun1)(const unsigned int),
         DataWrapper<Point2D> (*fun2)(const unsigned int),
         const unsigned int n1,
@@ -22,7 +22,7 @@ struct PointsArgs : public MergeTestStruct<Point2D>
     { }
 };
 
-class PointsFixture : public MergeTestFixture<Point2D>
+class PointsMergeFixture : public MergeTestFixture<Point2D>
 {
 public:
     static DataWrapper<Point2D> fmod3i3_mod7i64(const unsigned int i)
@@ -36,7 +36,7 @@ public:
     }
 };
 
-TEST_P(PointsFixture, pointsMergeTest)
+TEST_P(PointsMergeFixture, PointsMergeTest)
 { 
     VerifyTest(GetParam());
 }

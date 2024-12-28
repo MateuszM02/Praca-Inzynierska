@@ -8,9 +8,9 @@ using namespace src::Structures;
 namespace tests::NthElement
 {
 
-struct RandomStringArgs : public NthElementTestStruct<std::string>
+struct RandomStringNthElementArgs : public NthElementTestStruct<std::string>
 {
-    RandomStringArgs(
+    RandomStringNthElementArgs(
         const unsigned int n,
         const unsigned int vectorSize,
         const unsigned int stringLength)

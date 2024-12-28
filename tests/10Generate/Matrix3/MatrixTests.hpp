@@ -10,9 +10,9 @@ namespace tests::Generate
 
 template <class Number>
 requires std::is_arithmetic_v<Number>
-struct MatrixArgs : public GenerateTestStruct<Matrix<Number>>
+struct MatrixGenerateArgs : public GenerateTestStruct<Matrix<Number>>
 {
-    MatrixArgs(
+    MatrixGenerateArgs(
         const Matrix<Number>& initialMatrix,
         unsigned int n)
     : GenerateTestStruct<Matrix<Number>>(
@@ -21,18 +21,18 @@ struct MatrixArgs : public GenerateTestStruct<Matrix<Number>>
     { }
 };
 
-class MatrixIntFixture : public GenerateTestFixture<Matrix<int>>
+class MatrixGenerateIntArgs : public GenerateTestFixture<Matrix<int>>
 { };
 
-class MatrixDoubleFixture : public GenerateTestFixture<Matrix<double>>
+class MatrixGenerateDoubleArgs : public GenerateTestFixture<Matrix<double>>
 { };
 
-TEST_P(MatrixIntFixture, intTest)
+TEST_P(MatrixGenerateIntArgs, intTest)
 { 
     VerifyTest(GetParam());
 }
 
-TEST_P(MatrixDoubleFixture, doubleTest)
+TEST_P(MatrixGenerateDoubleArgs, doubleTest)
 { 
     VerifyTest(GetParam());
 }

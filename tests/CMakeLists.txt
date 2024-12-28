@@ -1,4 +1,5 @@
 add_subdirectory(3Merge)
+add_subdirectory(5Sort)
 add_subdirectory(7NthElement)
 add_subdirectory(8Regex)
 add_subdirectory(9RemoveEraseIf)

@@ -27,6 +27,8 @@ template <typename DataType, NthElementCompatible Container = std::vector<DataWr
 class NthFinder final : public BaseClass<DataType, Container>
 {
 public:
+    using Iterator = typename Container::iterator;
+
     NthFinder(NthFinderData<DataType> data)
     : elements_(data.elements_)
     , initialElements_(std::move(data.elements_))
@@ -36,20 +38,12 @@ public:
 private:
     void resetData() override
     {
-        auto elementIter = elements_.begin();
-        auto initialElementIter = initialElements_.begin();
-
-        while (elementIter != elements_.end())
-        {
-            *elementIter = *initialElementIter;
-            ++elementIter;
-            ++initialElementIter;
-        }
+        elements_ = initialElements_;
     }
 
     Container executeSTL() override
     {
-        auto nthIter = elements_.begin();
+        Iterator nthIter = elements_.begin();
         std::advance(nthIter, n_);
         
         std::nth_element(elements_.begin(), nthIter, elements_.end());
@@ -58,7 +52,7 @@ private:
 
     Container executeBoost() override
     {
-        auto nthIter = elements_.begin();
+        Iterator nthIter = elements_.begin();
         std::advance(nthIter, n_);
 
         boost::range::nth_element(elements_, nthIter);
@@ -67,7 +61,7 @@ private:
 
     Container executeSimple() override
     {
-        auto nthIter = elements_.begin();
+        Iterator nthIter = elements_.begin();
         std::advance(nthIter, n_);
 
         quickselect(elements_.begin(), elements_.end() - 1, nthIter);
@@ -75,13 +69,36 @@ private:
         return elements_;
     }
 
-    template<typename Iter>
-    Iter partition(Iter low, Iter high)
+    Iterator quickselect(Iterator low, Iterator high, const Iterator& nth)
     {
-        DataWrapper<DataType> pivot = *high;
-        Iter i = low;
+        while (low < high)
+        {
+            Iterator pivotIter = partition(low, high);
+            if (pivotIter == nth)
+                return pivotIter;
+            else if (nth < pivotIter)
+                high = pivotIter - 1;
+            else
+                low = pivotIter + 1;
+        }
+        return low;
+    }
 
-        for (Iter j = low; j < high; ++j)
+    Iterator partition(Iterator low, Iterator high)
+    {
+        Iterator mid = low + std::distance(low, high) / 2;
+        if (*mid < *low)
+            std::iter_swap(low, mid);
+        if (*high < *low)
+            std::iter_swap(low, high);
+        if (*high < *mid)
+            std::iter_swap(mid, high);
+        
+        std::iter_swap(mid, high - 1);
+        DataWrapper<DataType> pivot = *(high - 1);
+        Iterator i = low;
+        
+        for (Iterator j = low; j < high - 1; ++j)
         {
             if (*j < pivot)
             {
@@ -89,23 +106,9 @@ private:
                 ++i;
             }
         }
-        std::iter_swap(i, high);
+        
+        std::iter_swap(i, high - 1);
         return i;
-    }
-
-    template<typename Iter>
-    Iter quickselect(Iter low, Iter high, Iter nth)
-    {
-        if (low == high)    return low;
-
-        Iter pivotIter = partition(low, high);
-
-        if (pivotIter == nth)
-            return pivotIter;
-        else if (nth < pivotIter)
-            return quickselect(low, pivotIter - 1, nth);
-        else
-            return quickselect(pivotIter + 1, high, nth);
     }
 
     Container elements_;
