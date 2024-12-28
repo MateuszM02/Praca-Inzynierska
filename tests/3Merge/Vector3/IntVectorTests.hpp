@@ -8,9 +8,9 @@ using namespace src::Structures;
 namespace tests::Merge
 {
 
-struct IntVectorArgs final : public MergeTestStruct<IntVector>
+struct IntVectorMergeArgs final : public MergeTestStruct<IntVector>
 {
-    IntVectorArgs(
+    IntVectorMergeArgs(
         DataWrapper<IntVector> (*fun1)(const unsigned int),
         DataWrapper<IntVector> (*fun2)(const unsigned int),
         const unsigned int n1,
@@ -22,7 +22,7 @@ struct IntVectorArgs final : public MergeTestStruct<IntVector>
     { }
 };
 
-class IntVectorFixture : public MergeTestFixture<IntVector>
+class IntVectorMergeFixture : public MergeTestFixture<IntVector>
 {
 public:
     static DataWrapper<IntVector> f10i_imod7(const unsigned int n)
@@ -48,7 +48,7 @@ public:
     }
 };
 
-TEST_P(IntVectorFixture, IntVectorTest)
+TEST_P(IntVectorMergeFixture, IntVectorTest)
 { 
     VerifyTest(GetParam());
 }

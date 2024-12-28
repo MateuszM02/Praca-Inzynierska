@@ -8,9 +8,9 @@ using namespace src::Structures;
 namespace tests::Generate
 {
 
-struct RandomStringArgs : public GenerateTestStruct<std::string, RandomString>
+struct RandomStringGenerateArgs : public GenerateTestStruct<std::string, RandomString>
 {
-    RandomStringArgs(const unsigned int l, const unsigned int n)
+    RandomStringGenerateArgs(const unsigned int l, const unsigned int n)
     : GenerateTestStruct<std::string, RandomString>(
         GenerateRandomString,
         std::move(RandomStringImpl::createGenerator(n, l)))
@@ -49,7 +49,7 @@ private:
     }
 };
 
-TEST_P(RandomStringGenerateFixture, RandomStringTest) 
+TEST_P(RandomStringGenerateFixture, RandomStringGenerateTest) 
 {
     VerifyTestCustomForRandomStringGenerator(GetParam());
 }

@@ -3,10 +3,6 @@
 #include "../BaseTestFixture.hpp"
 #include "../../src/Algorithms/10Generate/Generator.hpp"
 
-#include <fstream>
-
-#include <gtest/gtest.h>
-
 using namespace src::Algorithms;
 
 namespace tests::Generate

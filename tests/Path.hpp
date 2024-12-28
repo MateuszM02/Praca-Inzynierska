@@ -11,7 +11,10 @@ enum TestType
     MergePoints,
     MergeTree,
     MergeIntVector,
-    // TODO: typy 4, 5, 6, 7
+    // TODO: typy 4
+    SortPoints,
+    SortIntVector,
+    // TODO: typy 6
     NthElementPoints,
     NthElementRandomString,
     RegexType,
@@ -41,7 +44,10 @@ private:
             case MergePoints:               return "Points";
             case MergeTree:                 return "Tree";
             case MergeIntVector:            return "IntVector";
-            // TODO: typy 4, 5, 6, 7
+            // TODO: typy 4
+            case SortPoints:                return "Points";
+            case SortIntVector:             return "IntVector";
+            // TODO: typy 6
             case NthElementPoints:          return "Points";
             case NthElementRandomString:    return "RandomString";
             case RegexType:                 return "Regex";

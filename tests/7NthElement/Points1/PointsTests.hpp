@@ -8,9 +8,9 @@ using namespace src::Structures;
 namespace tests::NthElement
 {
 
-struct PointsArgs : public NthElementTestStruct<Point2D>
+struct PointsNthElementArgs : public NthElementTestStruct<Point2D>
 {
-    PointsArgs(
+    PointsNthElementArgs(
         DataWrapper<Point2D> (*fun)(const unsigned int),
         const unsigned int n,
         const unsigned int vectorSize)
