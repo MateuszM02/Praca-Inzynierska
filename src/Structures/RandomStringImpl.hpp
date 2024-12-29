@@ -1,10 +1,11 @@
 #pragma once
 
 #include "../Algorithms/NthFinder.hpp"
-#include "../Algorithms/10Generate/Generator.hpp"
+#include "../Algorithms/Generator.hpp"
 #include "RandomString.hpp"
 
 using namespace src::Algorithms;
+using namespace src::Wrappers;
 
 namespace src::Structures
 {
@@ -13,12 +14,12 @@ namespace src::Structures
 class RandomStringImpl final
 {
 private:
-    static GeneratorData<std::string, RandomString> createGeneratorData(
+    static GenerableWrapper<std::string, RandomString> createGeneratorData(
         const unsigned int vectorSize,
         const unsigned int length)
     {
         RandomString rs(length);
-        GeneratorData<std::string, RandomString> data(vectorSize, rs,
+        GenerableWrapper<std::string, RandomString> data(vectorSize, rs,
             [](const RandomString& initialState, RandomString& currentState)
             {
                 std::string randomString;
@@ -45,16 +46,16 @@ public:
             createGeneratorData(vectorSize, length));
     }
 
-    template <NthElementCompatible Container = std::vector<DataWrapper<std::string>>>
+    template <NthElementCompatible Container = std::vector<ComparableWrapper<std::string>>>
     using FinderPtr = std::shared_ptr<NthFinder<std::string, Container>>;
 
-    template <NthElementCompatible Container = std::vector<DataWrapper<std::string>>>
+    template <NthElementCompatible Container = std::vector<ComparableWrapper<std::string>>>
     static FinderPtr<> createFinder(
         const unsigned int n,
         const unsigned int vectorSize,
         const unsigned int length)
     {
-        GeneratorData<std::string, RandomString> generator = createGeneratorData(vectorSize, length);
+        GenerableWrapper<std::string, RandomString> generator = createGeneratorData(vectorSize, length);
         Container elements;
         elements.reserve(vectorSize);
         for (unsigned int i = 0; i < vectorSize; i++)

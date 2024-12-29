@@ -1,9 +1,11 @@
 #pragma once
 
-#include "../Base.hpp"
-#include "GeneratorHelper.hpp"
+#include "Base.hpp"
+#include "../Wrappers/GenerableWrapper.hpp"
 
 #include <boost/range/algorithm/generate.hpp> // boost::range::generate
+
+using namespace src::Wrappers;
 
 namespace src::Algorithms
 {
@@ -12,11 +14,11 @@ template <typename GeneratedDataType, typename StateDataType = GeneratedDataType
 class Generator final : public BaseClass<GeneratedDataType, std::vector<GeneratedDataType>>
 {
 public:
-    Generator(GeneratorData<GeneratedDataType, StateDataType> data)
+    Generator(GenerableWrapper<GeneratedDataType, StateDataType> data)
     : state_{std::move(data)}
     { }
 
-    unsigned int size() const { return state_.n_; }
+    unsigned int size() const { return state_.N(); }
 
 private:
     void resetData() override
@@ -26,21 +28,21 @@ private:
 
     std::vector<GeneratedDataType> executeSTL() override
     {
-        std::vector<GeneratedDataType> sequence(state_.n_);
+        std::vector<GeneratedDataType> sequence(state_.N());
         std::generate(sequence.begin(), sequence.end(), [this]() { return state_(); });
         return sequence;
     }
 
     std::vector<GeneratedDataType> executeBoost() override
     {
-        std::vector<GeneratedDataType> sequence(state_.n_);
+        std::vector<GeneratedDataType> sequence(state_.N());
         boost::range::generate(sequence, [this]() { return state_(); });
         return sequence;
     }
 
     std::vector<GeneratedDataType> executeSimple() override
     {
-        std::vector<GeneratedDataType> sequence(state_.n_);
+        std::vector<GeneratedDataType> sequence(state_.N());
         for (GeneratedDataType& element : sequence)
         {
             element = state_();
@@ -48,7 +50,7 @@ private:
         return sequence;
     }
 
-    GeneratorData<GeneratedDataType, StateDataType> state_;
+    GenerableWrapper<GeneratedDataType, StateDataType> state_;
 };
 
 } // namespace src::Algorithms

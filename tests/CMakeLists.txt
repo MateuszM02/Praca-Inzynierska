@@ -1,3 +1,4 @@
+add_subdirectory(2Accumulate)
 add_subdirectory(3Merge)
 add_subdirectory(5Sort)
 add_subdirectory(7NthElement)

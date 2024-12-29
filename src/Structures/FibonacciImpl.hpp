@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Algorithms/10Generate/Generator.hpp"
+#include "../Algorithms/Generator.hpp"
 #include "../Concepts/DataTypeConcepts.hpp"
 
 #include <memory>
@@ -29,7 +29,7 @@ public:
         const unsigned int n,
         const NumberPair<Number>& initialPair) 
     {
-        GeneratorData<Number, NumberPair<Number>> data(n, initialPair,
+        GenerableWrapper<Number, NumberPair<Number>> data(n, initialPair,
             [](const NumberPair<Number>& initialState, NumberPair<Number>& currentState)
             {
                 currentState = std::make_pair(currentState.second, currentState.first + currentState.second);

@@ -5,28 +5,29 @@
 
 using namespace src::Algorithms;
 using namespace src::Concepts;
+using namespace src::Wrappers;
 
 namespace tests::NthElement
 {
 
-template <typename DataType, NthElementCompatible Container = std::vector<DataWrapper<DataType>>>
-struct NthElementTestStruct : public BaseTestStruct<Container, NthFinder<DataType, Container>>
+template <typename DataType, NthElementCompatible Container = std::vector<ComparableWrapper<DataType>>>
+struct NthElementTestStruct : public BaseTestStruct<NthFinder<DataType, Container>>
 {
 public:
     NthElementTestStruct(
         const TestType testType,
         std::shared_ptr<NthFinder<DataType, Container>> f)
-    : BaseTestStruct<Container, NthFinder<DataType, Container>>(testType, std::move(f))
+    : BaseTestStruct<NthFinder<DataType, Container>>(testType, std::move(f))
     { }
 };
 
 // Klasa abstrakcyjna NthElementTestFixture, po ktorej dziedzicza klasy testowe metod NthElement
-template <typename DataType, NthElementCompatible Container = std::vector<DataWrapper<DataType>>>
+template <typename DataType, NthElementCompatible Container = std::vector<ComparableWrapper<DataType>>>
 class NthElementTestFixture : public BaseTestFixture<Container, NthFinder<DataType, Container>>
 {
 public:
     static NthFinderData<DataType, Container> initTestData(
-        DataWrapper<DataType>(*generator)(const unsigned int),
+        ComparableWrapper<DataType>(*generator)(const unsigned int),
         const unsigned int n,
         const unsigned int vectorSize)
     {
@@ -43,7 +44,7 @@ public:
         return NthFinderData<DataType, Container>(std::move(elements), n);
     }
 
-    void VerifyTestCustomFor7(const BaseTestStruct<Container, NthFinder<DataType, Container>>& args)
+    void VerifyTestCustomFor7(const BaseTestStruct<NthFinder<DataType, Container>>& args)
     {
         n_ = args.ref_->n_;
 

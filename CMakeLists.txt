@@ -20,9 +20,12 @@ FetchContent_MakeAvailable(googletest)
 # Wlacz testowanie za pomoca komend CMake
 enable_testing()
 
-# TODO: dynamiczne znajdowanie Boosta
-set(BOOST_ROOT "C:/boost_1_82_0") 
-include_directories(${BOOST_ROOT})
+# Sciezka do Boosta musi byc pod wartoscia zmiennej srodowiskowej BOOST_PATH
+if(DEFINED ENV{BOOST_PATH})
+  include_directories($ENV{BOOST_PATH})
+else()
+  message(FATAL_ERROR "BOOST_PATH environment variable is not set")
+endif()
 
 add_subdirectory(tests)
 

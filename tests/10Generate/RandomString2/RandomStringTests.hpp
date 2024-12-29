@@ -20,9 +20,8 @@ struct RandomStringGenerateArgs : public GenerateTestStruct<std::string, RandomS
 class RandomStringGenerateFixture : public GenerateTestFixture<std::string, RandomString>
 {
 public:
-    void VerifyTestCustomForRandomStringGenerator(const BaseTestStruct<
-        std::vector<std::string>,
-        Generator<std::string, RandomString>>& args)
+    void VerifyTestCustomForRandomStringGenerator(
+        const BaseTestStruct<Generator<std::string, RandomString>>& args)
     {
         using namespace std::placeholders;
         auto checker = std::bind(&RandomStringGenerateFixture::verifyRandomStringGenerator, this, _1, _2, _3, _4);

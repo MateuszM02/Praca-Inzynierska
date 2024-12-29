@@ -1,5 +1,3 @@
-set(SRC_DIR "../../src/Structures")
-
 # Dodaj pliki wykonywalne
 add_executable(
   PointsSortTests

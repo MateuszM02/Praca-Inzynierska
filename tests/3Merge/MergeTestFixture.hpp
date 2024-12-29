@@ -4,34 +4,35 @@
 #include "../../src/Algorithms/Merger.hpp"
 
 using namespace src::Algorithms;
+using namespace src::Wrappers;
 
 namespace tests::Merge
 {
 
 template <typename DataType>
-struct MergeTestStruct : public BaseTestStruct<std::vector<DataWrapper<DataType>>, Merger<DataType>>
+struct MergeTestStruct : public BaseTestStruct<Merger<DataType>>
 {
 public:
     MergeTestStruct(
         const TestType testType,
         std::shared_ptr<Merger<DataType>> f)
-    : BaseTestStruct<std::vector<DataWrapper<DataType>>, Merger<DataType>>(testType, std::move(f))
+    : BaseTestStruct<Merger<DataType>>(testType, std::move(f))
     { }
 };
 
 // Klasa abstrakcyjna MergeTestFixture, po ktorej dziedzicza klasy testowe metod merge
 template <typename DataType>
-class MergeTestFixture : public BaseTestFixture<std::vector<DataWrapper<DataType>>, Merger<DataType>>
+class MergeTestFixture : public BaseTestFixture<std::vector<ComparableWrapper<DataType>>, Merger<DataType>>
 {
 public:
     static MergerData<DataType> initTestData(
-        DataWrapper<DataType> (*fun1)(const unsigned int),
-        DataWrapper<DataType> (*fun2)(const unsigned int),
+        ComparableWrapper<DataType> (*fun1)(const unsigned int),
+        ComparableWrapper<DataType> (*fun2)(const unsigned int),
         const unsigned int n1,
         const unsigned int n2)
     {
-        std::vector<DataWrapper<DataType>> v1;
-        std::vector<DataWrapper<DataType>> v2;
+        std::vector<ComparableWrapper<DataType>> v1;
+        std::vector<ComparableWrapper<DataType>> v2;
         v1.reserve(n1);
         v2.reserve(n2);
 

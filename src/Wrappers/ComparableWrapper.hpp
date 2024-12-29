@@ -1,32 +1,35 @@
 #pragma once
 
+#include "../Concepts/DataTypeConcepts.hpp"
+#include "BaseWrapper.hpp"
+
 #include <functional>
 
-namespace src::Algorithms
+namespace src::Wrappers
 {
 
-// Klasa rozszerzajaca dowolny typ tak, aby dalo sie dynamicznie nadpisywac jego operatory
+// Klasa rozszerzajaca dowolny typ tak, aby dalo sie dynamicznie nadpisywac jego operatory< oraz ==
 template <typename DataType>
 requires std::is_move_assignable_v<DataType> &&
          std::is_copy_assignable_v<DataType> &&
          std::is_move_constructible_v<DataType>
-class DataWrapper final
+class ComparableWrapper : virtual public BaseWrapper<DataType>
 {
 public:
-    DataWrapper(DataType data,
+    ComparableWrapper(DataType data,
         std::function<bool(const DataType&, const DataType&)> equal,
         std::function<bool(const DataType&, const DataType&)> less)
-    : data_(std::move(data))
+    : BaseWrapper<DataType>(std::move(data))
     , equal_(std::move(equal))
     , less_(std::move(less))
     { }
 
     // Przypisanie przenoszace (potrzebne przy std::swap)
-    DataWrapper& operator=(DataWrapper&& other)
+    ComparableWrapper& operator=(ComparableWrapper&& other)
     {
         if (this != &other)
         {
-            this->data_ = std::move(other.data_);
+            this->setValue(other.getValue());
             this->equal_ = std::move(other.equal_);
             this->less_ = std::move(other.less_);
         }
@@ -34,18 +37,18 @@ public:
     }
 
     // Konstruktor kopiujacy (potrzebny do naiwnego nth_element::partition)
-    DataWrapper(const DataWrapper& other)
-    : data_(other.data_)
+    ComparableWrapper(const ComparableWrapper& other)
+    : BaseWrapper<DataType>(other.getValue())
     , equal_(other.equal_)
     , less_(other.less_)
     { }
 
     // Przypisanie kopiujace (potrzebne do resetData)
-    DataWrapper& operator=(const DataWrapper& other)
+    ComparableWrapper& operator=(const ComparableWrapper& other)
     {
         if (this != &other)
         {
-            this->data_ = other.data_;
+            this->setValue(other.getValue());
             this->equal_ = other.equal_;
             this->less_ = other.less_;
         }
@@ -53,20 +56,19 @@ public:
     }
     
     // Operatory
-    bool operator==(const DataWrapper& other) const
+    bool operator==(const ComparableWrapper& other) const
     {
-        return equal_(data_, other.data_);
+        return equal_(this->getValue(), other.getValue());
     }
 
-    bool operator<(const DataWrapper& other) const
+    bool operator<(const ComparableWrapper& other) const
     {
-        return less_(data_, other.data_);
+        return less_(this->getValue(), other.getValue());
     }
 
-private:
-    DataType data_;
+protected:
     std::function<bool(const DataType&, const DataType&)> equal_;
     std::function<bool(const DataType&, const DataType&)> less_;
 };
 
-} // namespace src::Algorithms
+} // namespace src::Wrappers
