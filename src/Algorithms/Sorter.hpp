@@ -1,18 +1,20 @@
 #pragma once
 
 #include "Base.hpp"
-#include "DataWrapper.hpp"
+#include "../Wrappers/ComparableWrapper.hpp"
 
 #include <boost/range/algorithm/sort.hpp> // boost::range::sort
+
+using namespace src::Wrappers;
 
 namespace src::Algorithms
 {
 
 template <typename DataType>
-class Sorter final : public BaseClass<DataType, std::vector<DataWrapper<DataType>>>
+class Sorter final : public BaseClass<DataType, std::vector<ComparableWrapper<DataType>>>
 {
 
-using DataVector = std::vector<DataWrapper<DataType>>;
+using DataVector = std::vector<ComparableWrapper<DataType>>;
 
 public:
     Sorter(DataVector elements)
@@ -73,7 +75,7 @@ private:
 
         std::swap(vec[mid], vec[high]);
 
-        DataWrapper<DataType> pivot = std::move(vec[high]);
+        ComparableWrapper<DataType> pivot = std::move(vec[high]);
         int i = low - 1;
         
         for (int j = low; j < high; ++j)
@@ -93,7 +95,7 @@ private:
     {
         for (int i = low + 1; i <= high; ++i)
         {
-            DataWrapper<DataType> key = std::move(vec[i]);
+            ComparableWrapper<DataType> key = std::move(vec[i]);
             int j = i - 1;
 
             while (j >= low && key < vec[j])

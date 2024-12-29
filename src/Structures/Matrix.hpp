@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Concepts/DataTypeConcepts.hpp"
-#include "../Algorithms/10Generate/Generator.hpp"
+#include "../Algorithms/Generator.hpp"
 
 using namespace src::Concepts;
 

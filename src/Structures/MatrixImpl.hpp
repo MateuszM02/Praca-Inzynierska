@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Algorithms/10Generate/Generator.hpp"
+#include "../Algorithms/Generator.hpp"
 #include "Matrix.hpp"
 
 using namespace src::Algorithms;
@@ -23,7 +23,7 @@ public:
         const unsigned int n,
         const Matrix<Number>& initialMatrix) 
     {
-        GeneratorData<Matrix<Number>> data(n, initialMatrix,
+        GenerableWrapper<Matrix<Number>> data(n, initialMatrix,
             [](const Matrix<Number>& initialState, Matrix<Number>& currentState) 
             {
                 currentState *= initialState;

@@ -1,5 +1,3 @@
-set(SRC_DIR "../../src/Structures")
-
 # Dodaj pliki wykonywalne
 add_executable(
   PointsMergeTests
@@ -22,4 +20,4 @@ target_link_libraries(IntVectorMergeTests GTest::gtest_main)
 # Dolacz testy GTEST
 include(GoogleTest)
 gtest_discover_tests(PointsMergeTests)
-gtest_discover_tests(IntVectorMergeTests)
+gtest_discover_tests(IntVectorMergeTests DISCOVERY_TIMEOUT 10) # domyslnie jest 5 sekund

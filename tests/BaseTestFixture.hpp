@@ -8,8 +8,6 @@
 
 #include <gtest/gtest.h>
 
-// os << "Wartosc " #val1 " (" << (val1) << ") rozni sie od wartosci " #val2 " (" << (val2) << ").\n"; \
-
 #define EXPECT_EQ_OS(val1, val2, os) \
     if ((val1) != (val2)) \
     { \
@@ -21,7 +19,7 @@ namespace tests
 {
 
 // PtrType musi byc postaci Doer<DataType, Container>
-template <typename Container, typename PtrType>
+template <typename PtrType>
 struct BaseTestStruct
 {
 public:
@@ -43,17 +41,17 @@ protected:
 
 // Klasa abstrakcyjna BaseTestFixture, po ktorej dziedzicza klasy testowe metod generate
 template <typename Container, typename PtrType> 
-class BaseTestFixture : public ::testing::TestWithParam<BaseTestStruct<Container, PtrType>>
+class BaseTestFixture : public ::testing::TestWithParam<BaseTestStruct<PtrType>>
 { 
 public:
-    void VerifyTest(const BaseTestStruct<Container, PtrType>& args)
+    void VerifyTest(const BaseTestStruct<PtrType>& args)
     {
         using namespace std::placeholders;
         auto checker = std::bind(&BaseTestFixture::verifyElementEqualities, this, _1, _2, _3, _4);
         VerifyTest(args, checker);
     }
 
-    void VerifyTest(const BaseTestStruct<Container, PtrType>& args,
+    void VerifyTest(const BaseTestStruct<PtrType>& args,
         std::function<void(const Container&, const Container&,
             const Container&, std::ostringstream&)> checker)
     {
@@ -64,27 +62,12 @@ public:
         const Container& boostResult =
             args.ref_->call(src::MethodType::Boost, os);
         const Container& simpleResult =
-            args.ref_->call(src::MethodType::Simple, os);
-
-        ::testing::internal::CaptureStdout(),
-        ::testing::internal::CaptureStderr();
-
-        EXPECT_EQ_OS(stlResult.size(), simpleResult.size(), os) << "Rozmiar wyniku STL różni się od oczekiwanego."; 
-        EXPECT_EQ_OS(boostResult.size(), simpleResult.size(), os) << "Rozmiar wyniku Boost różni się od oczekiwanego."; 
+            args.ref_->call(src::MethodType::Simple, os); 
         
         // Zapisywanie wynikow testu do pliku
         std::ofstream outFile(args.filePath_, std::ios::out | std::ios::trunc);
         if (outFile.is_open())
         {
-            if (::testing::Test::HasFailure()) 
-            {
-                outFile << "Rozmiary wynikow nie zgadzaja sie z oczekiwanymi.\n";
-                outFile << ::testing::internal::GetCapturedStdout();
-                outFile << ::testing::internal::GetCapturedStderr();
-                outFile.close();
-                return;
-            }
-            
             checker(stlResult, boostResult, simpleResult, os);
             outFile << os.str();
             outFile.close();
@@ -95,13 +78,21 @@ public:
         }
     }
 
-protected:
+private:
     void verifyElementEqualities(
         const Container& stlResult,
         const Container& boostResult,
         const Container& simpleResult,
         std::ostringstream& os)
     {
+        ::testing::internal::CaptureStdout(),
+        ::testing::internal::CaptureStderr();
+
+        EXPECT_EQ_OS(stlResult.size(), simpleResult.size(), os) << "Rozmiar wyniku STL rozni sie od oczekiwanego.";
+        EXPECT_EQ_OS(boostResult.size(), simpleResult.size(), os) << "Rozmiar wyniku Boost rozni sie od oczekiwanego.";
+
+        if (::testing::Test::HasFailure())  return;
+
         auto stlIter = stlResult.begin();
         auto boostIter = boostResult.begin();
         auto simpleIter = simpleResult.begin();

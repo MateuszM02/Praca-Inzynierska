@@ -4,6 +4,7 @@
 #include "../../../src/Structures/IntVectorImpl.hpp"
 
 using namespace src::Structures;
+using namespace src::Wrappers;
 
 namespace tests::Sort
 {
@@ -11,7 +12,7 @@ namespace tests::Sort
 struct IntVectorSortArgs final : public SortTestStruct<IntVector>
 {
     IntVectorSortArgs(
-        DataWrapper<IntVector> (*f)(const unsigned int),
+        ComparableWrapper<IntVector> (*f)(const unsigned int),
         const unsigned int n)
     : SortTestStruct<IntVector>(
         SortIntVector,
@@ -24,7 +25,7 @@ class IntVectorSortFixture : public SortTestFixture<IntVector>
 {
 public:
     // wektory roznia sie juz na pierwszej pozycji
-    static DataWrapper<IntVector> sortedFirstElementGenerator(const unsigned int n)
+    static ComparableWrapper<IntVector> sortedFirstElementGenerator(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -36,7 +37,7 @@ public:
     }
 
     // wektory roznia sie dopiero na ostatniej pozycji
-    static DataWrapper<IntVector> sortedLastElementGenerator(const unsigned int n)
+    static ComparableWrapper<IntVector> sortedLastElementGenerator(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -49,7 +50,7 @@ public:
     }
 
     // wektory losowe moga sie roznic na dowolnej pozycji
-    static DataWrapper<IntVector> randomGenerator(const unsigned int n)
+    static ComparableWrapper<IntVector> randomGenerator(const unsigned int n)
     {
         static std::random_device rd;
         static std::mt19937 gen(rd());

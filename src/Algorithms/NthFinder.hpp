@@ -1,17 +1,18 @@
 #pragma once
 
 #include "Base.hpp"
-#include "DataWrapper.hpp"
+#include "../Wrappers/ComparableWrapper.hpp"
 #include "../Concepts/ContainerConcepts.hpp"
 
 #include <boost/range/algorithm/nth_element.hpp> // boost::range::nth_element
 
 using namespace src::Concepts;
+using namespace src::Wrappers;
 
 namespace src::Algorithms
 {
 
-template <typename DataType, NthElementCompatible Container = std::vector<DataWrapper<DataType>>>
+template <typename DataType, NthElementCompatible Container = std::vector<ComparableWrapper<DataType>>>
 struct NthFinderData final
 {
     NthFinderData(Container elements, const unsigned int n)
@@ -23,7 +24,7 @@ struct NthFinderData final
     const unsigned int n_;
 };
 
-template <typename DataType, NthElementCompatible Container = std::vector<DataWrapper<DataType>>>
+template <typename DataType, NthElementCompatible Container = std::vector<ComparableWrapper<DataType>>>
 class NthFinder final : public BaseClass<DataType, Container>
 {
 public:
@@ -95,7 +96,7 @@ private:
             std::iter_swap(mid, high);
         
         std::iter_swap(mid, high - 1);
-        DataWrapper<DataType> pivot = *(high - 1);
+        ComparableWrapper<DataType> pivot = *(high - 1);
         Iterator i = low;
         
         for (Iterator j = low; j < high - 1; ++j)

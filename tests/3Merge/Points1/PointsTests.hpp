@@ -4,6 +4,7 @@
 #include "../../../src/Structures/PointsImpl.hpp"
 
 using namespace src::Structures;
+using namespace src::Wrappers;
 
 namespace tests::Merge
 {
@@ -11,8 +12,8 @@ namespace tests::Merge
 struct PointsMergeArgs : public MergeTestStruct<Point2D>
 {
     PointsMergeArgs(
-        DataWrapper<Point2D> (*fun1)(const unsigned int),
-        DataWrapper<Point2D> (*fun2)(const unsigned int),
+        ComparableWrapper<Point2D> (*fun1)(const unsigned int),
+        ComparableWrapper<Point2D> (*fun2)(const unsigned int),
         const unsigned int n1,
         const unsigned int n2)
     : MergeTestStruct<Point2D>(
@@ -25,12 +26,12 @@ struct PointsMergeArgs : public MergeTestStruct<Point2D>
 class PointsMergeFixture : public MergeTestFixture<Point2D>
 {
 public:
-    static DataWrapper<Point2D> fmod3i3_mod7i64(const unsigned int i)
+    static ComparableWrapper<Point2D> fmod3i3_mod7i64(const unsigned int i)
     {
         return { { 3*i + (i % 3), 7*i % 64 }, Point2DImpl::equal, Point2DImpl::less };
     }
 
-    static DataWrapper<Point2D> f3i_mod9i64(const unsigned int i)
+    static ComparableWrapper<Point2D> f3i_mod9i64(const unsigned int i)
     {
         return { { 3*i, 9*i % 64 }, Point2DImpl::equal, Point2DImpl::less };
     }

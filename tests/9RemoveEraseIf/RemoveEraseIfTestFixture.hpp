@@ -10,13 +10,13 @@ namespace tests::RemoveEraseIf
 {
 
 template <typename DataType, Removable Container = std::vector<DataType>>
-struct RemoveEraseIfTestStruct : public BaseTestStruct<Container, Remover<DataType, Container>>
+struct RemoveEraseIfTestStruct : public BaseTestStruct<Remover<DataType, Container>>
 {
 public:
     RemoveEraseIfTestStruct(
         const TestType testType,
         std::shared_ptr<Remover<DataType, Container>> f)
-    : BaseTestStruct<Container, Remover<DataType, Container>>(testType, std::move(f))
+    : BaseTestStruct<Remover<DataType, Container>>(testType, std::move(f))
     { }
 };
 

@@ -4,6 +4,7 @@
 #include "../../../src/Structures/PointsImpl.hpp"
 
 using namespace src::Structures;
+using namespace src::Wrappers;
 
 namespace tests::Sort
 {
@@ -11,7 +12,7 @@ namespace tests::Sort
 struct PointsSortArgs : public SortTestStruct<Point2D>
 {
     PointsSortArgs(
-        DataWrapper<Point2D> (*f)(const unsigned int),
+        ComparableWrapper<Point2D> (*f)(const unsigned int),
         const unsigned int n)
     : SortTestStruct<Point2D>(
         SortPoints,
@@ -23,17 +24,17 @@ struct PointsSortArgs : public SortTestStruct<Point2D>
 class PointsSortFixture : public SortTestFixture<Point2D>
 {
 public:
-    static DataWrapper<Point2D> sortedGenerator(const unsigned int i)
+    static ComparableWrapper<Point2D> sortedGenerator(const unsigned int i)
     {
         return { { i, i }, Point2DImpl::equal, Point2DImpl::less };
     }
 
-    static DataWrapper<Point2D> reverseSortedGenerator(const unsigned int i)
+    static ComparableWrapper<Point2D> reverseSortedGenerator(const unsigned int i)
     {
         return { { UINT32_MAX - i, UINT32_MAX - i }, Point2DImpl::equal, Point2DImpl::less };
     }
 
-    static DataWrapper<Point2D> randomGenerator(const unsigned int i)
+    static ComparableWrapper<Point2D> randomGenerator(const unsigned int i)
     {
         static std::random_device rd;
         static std::mt19937 gen(rd());

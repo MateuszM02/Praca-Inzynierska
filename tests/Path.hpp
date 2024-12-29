@@ -7,7 +7,8 @@ namespace tests
 
 enum TestType
 {
-    // TODO: typy 1,2
+    // TODO: typy 1, 2
+    AccumulateUint,
     MergePoints,
     MergeTree,
     MergeIntVector,
@@ -40,7 +41,9 @@ private:
     {
         switch (type)
         {
-            // TODO: typy 1, 2
+            // TODO: typy 1
+            case AccumulateUint:            return "UInt";
+            // TODO: typy 2
             case MergePoints:               return "Points";
             case MergeTree:                 return "Tree";
             case MergeIntVector:            return "IntVector";
