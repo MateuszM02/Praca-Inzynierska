@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Base.hpp"
-#include "../Wrappers/MixedWrappers.hpp"
+#include "../Wrappers/AccumulableWrapper.hpp"
 
 #include <numeric>
 #include <optional>
@@ -48,9 +48,9 @@ public:
     { }
 
 private:
-    void resetData() override { }
+    void resetData() const override { }
 
-    void FOR_ITER(const std::function<void(AccumulableWrapper<DataType>)>& f)
+    void FOR_ITER(const std::function<void(AccumulableWrapper<DataType>)>& f) const
     {
         for (auto it = data_.begin(); it != data_.end(); ++it)
         {
@@ -58,13 +58,13 @@ private:
         }
     }
 
-    template <typename StatsTags>
-    void FOR_ITER_ON_ACC(boost::accumulators::accumulator_set<AccumulableWrapper<DataType>, StatsTags>& acc)
+    template <typename AccumulatorSet>
+    void FOR_ITER_ON_ACC(AccumulatorSet& acc) const
     {
         FOR_ITER([&acc](const AccumulableWrapper<DataType>& wrapper) { acc(wrapper); });
     }
 
-    AccResults executeSTL() override
+    AccResults executeSTL() const override
     {
         AccResults results;
         AccumulableWrapper<DataType> accSum =
@@ -83,7 +83,7 @@ private:
         return results;
     }
 
-    AccResults executeBoost() override
+    AccResults executeBoost() const override
     {
         using namespace boost::accumulators;
         AccResults results;
@@ -133,7 +133,7 @@ private:
         return results;
     }
 
-    AccResults executeSimple() override
+    AccResults executeSimple() const override
     {
         AccResults results;
         AccumulableWrapper<DataType> accSum = AccumulableWrapper<DataType>();

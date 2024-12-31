@@ -37,12 +37,12 @@ public:
     { }
 
 private:
-    void resetData() override
+    void resetData() const override
     {
         elements_ = initialElements_;
     }
 
-    Container executeSTL() override
+    Container executeSTL() const override
     {
         Iterator nthIter = elements_.begin();
         std::advance(nthIter, n_);
@@ -51,7 +51,7 @@ private:
         return elements_;
     }
 
-    Container executeBoost() override
+    Container executeBoost() const override
     {
         Iterator nthIter = elements_.begin();
         std::advance(nthIter, n_);
@@ -60,7 +60,7 @@ private:
         return elements_;
     }
 
-    Container executeSimple() override
+    Container executeSimple() const override
     {
         Iterator nthIter = elements_.begin();
         std::advance(nthIter, n_);
@@ -70,7 +70,7 @@ private:
         return elements_;
     }
 
-    Iterator quickselect(Iterator low, Iterator high, const Iterator& nth)
+    Iterator quickselect(Iterator low, Iterator high, const Iterator& nth) const
     {
         while (low < high)
         {
@@ -85,7 +85,7 @@ private:
         return low;
     }
 
-    Iterator partition(Iterator low, Iterator high)
+    Iterator partition(Iterator low, Iterator high) const
     {
         Iterator mid = low + std::distance(low, high) / 2;
         if (*mid < *low)
@@ -112,7 +112,7 @@ private:
         return i;
     }
 
-    Container elements_;
+    mutable Container elements_;
     const Container initialElements_;
 
 public:

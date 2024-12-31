@@ -3,23 +3,19 @@
 
 #include "BaseWrapper.hpp"
 
-#include <functional>
-
 namespace src::Wrappers
 {
 
 // klasa przechowujaca stan obiektu modyfikowany operatorem()
 // podczas wywolywania std::generate/boost::range::generate
 template <typename GeneratedDataType, typename StateDataType = GeneratedDataType>
-// TODO: usunac to, moze dziedziczenie po wrapperze przenoszacym?
-requires std::is_move_assignable_v<StateDataType>
-class GenerableWrapper : virtual public BaseWrapper<StateDataType>
+class GenerableWrapper final : public BaseWrapper<StateDataType, ENABLE_MOVE, ENABLE_COPY>
 {
 public:
     GenerableWrapper(const unsigned int n,
             const StateDataType& initialState,
             std::function<GeneratedDataType(const StateDataType&, StateDataType&)> generator)
-    : BaseWrapper<StateDataType>(initialState)
+    : BaseWrapper<StateDataType, ENABLE_MOVE, ENABLE_COPY>(initialState)
     , n_{n}
     , currentState_{std::move(initialState)}
     , generator_{std::move(generator)}
@@ -30,7 +26,7 @@ public:
         return generator_(this->getValue(), currentState_);
     }
 
-    void reset()
+    void reset() const
     {
         currentState_ = this->getValue();
     }
@@ -38,9 +34,15 @@ public:
     unsigned int N() const { return n_; }
 
 private:
-    const unsigned int n_;
-    StateDataType currentState_;
+    unsigned int n_;
+    mutable StateDataType currentState_;
     std::function<GeneratedDataType(const StateDataType&, StateDataType&)> generator_;
+
+protected:
+    std::vector<void*> getClassFields() override
+    {
+        return { &n_, &currentState_, &generator_ };
+    }
 };
 
 } // namespace src::Wrappers

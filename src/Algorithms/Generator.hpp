@@ -21,26 +21,26 @@ public:
     unsigned int size() const { return state_.N(); }
 
 private:
-    void resetData() override
+    void resetData() const override
     {
         state_.reset();
     }
 
-    std::vector<GeneratedDataType> executeSTL() override
+    std::vector<GeneratedDataType> executeSTL() const override
     {
         std::vector<GeneratedDataType> sequence(state_.N());
         std::generate(sequence.begin(), sequence.end(), [this]() { return state_(); });
         return sequence;
     }
 
-    std::vector<GeneratedDataType> executeBoost() override
+    std::vector<GeneratedDataType> executeBoost() const override
     {
         std::vector<GeneratedDataType> sequence(state_.N());
         boost::range::generate(sequence, [this]() { return state_(); });
         return sequence;
     }
 
-    std::vector<GeneratedDataType> executeSimple() override
+    std::vector<GeneratedDataType> executeSimple() const override
     {
         std::vector<GeneratedDataType> sequence(state_.N());
         for (GeneratedDataType& element : sequence)
@@ -50,7 +50,7 @@ private:
         return sequence;
     }
 
-    GenerableWrapper<GeneratedDataType, StateDataType> state_;
+    mutable GenerableWrapper<GeneratedDataType, StateDataType> state_;
 };
 
 } // namespace src::Algorithms

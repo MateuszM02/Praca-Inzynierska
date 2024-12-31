@@ -29,12 +29,12 @@ public:
     { }
 
 private:
-    void resetData() override
+    void resetData() const override
     {
         matchedSubstrings_ = {};
     }
 
-    std::vector<std::string> executeSTL() override
+    std::vector<std::string> executeSTL() const override
     {
         std::regex regex(pattern_);
         auto it = std::sregex_iterator(text_.cbegin(), text_.cend(), regex);
@@ -46,7 +46,7 @@ private:
         return matchedSubstrings_;
     }
 
-    std::vector<std::string> executeBoost() override
+    std::vector<std::string> executeBoost() const override
     {
         boost::regex regex(pattern_);
         auto it = boost::sregex_iterator(text_.cbegin(), text_.cend(), regex);
@@ -58,7 +58,7 @@ private:
         return matchedSubstrings_;
     }
 
-    std::vector<std::string> executeSimple() override
+    std::vector<std::string> executeSimple() const override
     {
         std::regex regex(pattern_);
         std::string::const_iterator searchStart(text_.cbegin());
@@ -74,7 +74,7 @@ private:
     }
 
 private:
-    std::vector<std::string> matchedSubstrings_;
+    mutable std::vector<std::string> matchedSubstrings_;
     const std::string text_;
     const std::string pattern_;
 };

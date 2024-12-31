@@ -35,12 +35,12 @@ public:
     { }
 
 private:
-    void resetData() override
+    void resetData() const override
     {
         elements_ = initialElements_;
     }
 
-    Container executeSTL() override
+    Container executeSTL() const override
     {
         elements_.erase(
             std::remove_if(elements_.begin(), elements_.end(), predicate_),
@@ -48,13 +48,13 @@ private:
         return elements_;
     }
 
-    Container executeBoost() override
+    Container executeBoost() const override
     {
         boost::range::remove_erase_if(elements_, predicate_);
         return elements_;
     }
 
-    Container executeSimple() override
+    Container executeSimple() const override
     {
         auto first = elements_.begin();
         for (auto current = elements_.begin(); current != elements_.end(); ++current)
@@ -72,7 +72,7 @@ private:
         return elements_;
     }
 
-    Container elements_;
+    mutable Container elements_;
     const Container initialElements_;
     bool (*const predicate_)(const DataType&);
 };
