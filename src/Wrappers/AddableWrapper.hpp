@@ -13,12 +13,12 @@ template <typename DataType>
 class AddableWrapper : virtual public BaseWrapper<DataType>
 {
 public:
-    AddableWrapper(DataType data,
+    AddableWrapper(const DataType data,
         std::function<DataType(const DataType&, const DataType&)> add)
     : BaseWrapper<DataType>(std::move(data))
     , add_(std::move(add))
     { }
-    
+
     AddableWrapper operator+(const AddableWrapper& other) const
     {
         return AddableWrapper<DataType>(

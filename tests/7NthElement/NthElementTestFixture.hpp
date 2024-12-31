@@ -46,10 +46,8 @@ public:
 
     void VerifyTestCustomFor7(const BaseTestStruct<NthFinder<DataType, Container>>& args)
     {
-        n_ = args.ref_->n_;
-
         using namespace std::placeholders;
-        auto checker = std::bind(&NthElementTestFixture::verifyCustomFor7, this, _1, _2, _3, _4);
+        auto checker = std::bind(&NthElementTestFixture::verifyCustomFor7, this, _1, _2, _3, _4, args.ref_->n_);
         this->VerifyTest(args, checker);
     }
 
@@ -58,7 +56,8 @@ private:
         const Container& stlResult,
         const Container& boostResult,
         const Container& simpleResult,
-        std::ostringstream& os)
+        std::ostringstream& os,
+        const unsigned int n)
     {
         // Petla for do porownywania wynikow, jesli rozmiary sa rowne
         auto stlIter = stlResult.begin();
@@ -69,9 +68,9 @@ private:
         auto stlNthIter = stlResult.begin();
         auto boostNthIter = boostResult.begin();
         auto simpleNthIter = simpleResult.begin();
-        std::advance(stlNthIter, n_);
-        std::advance(boostNthIter, n_);
-        std::advance(simpleNthIter, n_);
+        std::advance(stlNthIter, n);
+        std::advance(boostNthIter, n);
+        std::advance(simpleNthIter, n);
 
         // n-ty element musi byc taki sam
         EXPECT_EQ_OS(*stlNthIter, *boostNthIter, os) << "Wynik STL rozni sie od Boost na n-tej pozycji";
@@ -109,8 +108,6 @@ private:
             ++simpleIter;
         }
     }
-
-    unsigned int n_;
 };
 
 } // namespace tests::NthElement

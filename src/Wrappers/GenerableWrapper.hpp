@@ -11,8 +11,8 @@ namespace src::Wrappers
 // klasa przechowujaca stan obiektu modyfikowany operatorem()
 // podczas wywolywania std::generate/boost::range::generate
 template <typename GeneratedDataType, typename StateDataType = GeneratedDataType>
-requires std::is_copy_assignable_v<GeneratedDataType> &&
-         std::is_copy_assignable_v<StateDataType>
+// TODO: usunac to, moze dziedziczenie po wrapperze przenoszacym?
+requires std::is_move_assignable_v<StateDataType>
 class GenerableWrapper : virtual public BaseWrapper<StateDataType>
 {
 public:

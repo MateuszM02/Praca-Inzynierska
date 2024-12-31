@@ -20,4 +20,4 @@ target_link_libraries(IntVectorSortTests GTest::gtest_main)
 # Dolacz testy GTEST
 include(GoogleTest)
 gtest_discover_tests(PointsSortTests)
-gtest_discover_tests(IntVectorSortTests DISCOVERY_TIMEOUT 10) # domyslnie jest 5 sekund
+gtest_discover_tests(IntVectorSortTests DISCOVERY_TIMEOUT 15) # domyslnie jest 5 sekund

@@ -23,7 +23,7 @@ public:
     , ComparableWrapper<DataType>(DataType(), std::equal_to<DataType>(), std::less<DataType>())
     { }
 
-    AccumulableWrapper(DataType data,
+    AccumulableWrapper(const DataType data,
         std::function<DataType(const DataType&, const DataType&)> add,
         std::function<bool(const DataType&, const DataType&)> equal,
         std::function<bool(const DataType&, const DataType&)> less)
@@ -78,8 +78,7 @@ class numeric_limits<src::Wrappers::AccumulableWrapper<DataType>>
 public:
     static const bool is_specialized = true;
 
-
-    static src::Wrappers::AccumulableWrapper<DataType> min() noexcept
+    static src::Wrappers::AccumulableWrapper<DataType> min()
     {
         return src::Wrappers::AccumulableWrapper<DataType>(
             std::numeric_limits<DataType>::min(),
@@ -88,7 +87,7 @@ public:
             std::less<DataType>());
     }
     
-    static src::Wrappers::AccumulableWrapper<DataType> max() noexcept
+    static src::Wrappers::AccumulableWrapper<DataType> max()
     {
         return src::Wrappers::AccumulableWrapper<DataType>(
             std::numeric_limits<DataType>::max(),
@@ -97,7 +96,7 @@ public:
             std::less<DataType>());
     }
     
-    static src::Wrappers::AccumulableWrapper<DataType> lowest() noexcept
+    static src::Wrappers::AccumulableWrapper<DataType> lowest()
     {
         return src::Wrappers::AccumulableWrapper<DataType>(
             std::numeric_limits<DataType>::lowest(),

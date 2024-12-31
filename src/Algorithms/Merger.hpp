@@ -22,8 +22,8 @@ struct MergerData final
     , v2_{std::move(vec2)}
     { }
 
-    DataVector v1_;
-    DataVector v2_;
+    const DataVector v1_;
+    const DataVector v2_;
 };
 
 template <typename DataType>
@@ -90,9 +90,8 @@ private:
         return resultVec;
     }
 
-public:
-    DataVector v1_;
-    DataVector v2_;
+    const DataVector v1_;
+    const DataVector v2_;
 };
 
 } // namespace src::Algorithms

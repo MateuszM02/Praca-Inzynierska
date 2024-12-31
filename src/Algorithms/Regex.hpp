@@ -10,9 +10,7 @@ namespace src::Algorithms
 
 struct RegexData final
 {
-    RegexData(
-        const std::string& text,
-        const std::string& pattern)
+    RegexData(const std::string& text, const std::string& pattern)
     : text_{text}
     , pattern_{pattern}
     { }
@@ -24,7 +22,7 @@ struct RegexData final
 class RegexEvaluator final : public BaseClass<std::string, std::vector<std::string>>
 {
 public:
-    RegexEvaluator(RegexData data)
+    RegexEvaluator(const RegexData data)
     : text_(std::move(data.text_))
     , pattern_(std::move(data.pattern_))
     , matchedSubstrings_({})
@@ -75,7 +73,7 @@ private:
         return matchedSubstrings_;
     }
 
-public:
+private:
     std::vector<std::string> matchedSubstrings_;
     const std::string text_;
     const std::string pattern_;

@@ -165,7 +165,7 @@ private:
         return results;
     }
 
-public:
+private:
     const DataVector data_;
     const AccType accType_;
 };
