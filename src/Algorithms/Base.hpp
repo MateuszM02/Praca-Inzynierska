@@ -15,7 +15,7 @@ public:
     virtual ~BaseClass() = default;
     BaseClass() = default;
     
-    Container call(const MethodType& methodType, std::ostream& os)
+    Container call(const MethodType& methodType, std::ostream& os) const
     {
         switch (methodType)
         {
@@ -30,22 +30,22 @@ public:
     }
     
 protected:
-    virtual void resetData() = 0;
-    virtual Container executeSTL() = 0;
-    virtual Container executeBoost() = 0;
-    virtual Container executeSimple() = 0;
+    virtual void resetData() const = 0;
+    virtual Container executeSTL() const = 0;
+    virtual Container executeBoost() const = 0;
+    virtual Container executeSimple() const = 0;
 
 private:
     Container measureExecutionTime(
-        Container(BaseClass::*memberFunction)(),
+        Container(BaseClass::*memberFunction)() const,
         const std::string& methodName,
-        std::ostream& os)
+        std::ostream& os) const
     {
-        auto start = std::chrono::high_resolution_clock::now();
-        Container result = (this->*memberFunction)();
-        auto end = std::chrono::high_resolution_clock::now();
+        const auto start = std::chrono::high_resolution_clock::now();
+        const Container result = (this->*memberFunction)();
+        const auto end = std::chrono::high_resolution_clock::now();
 
-        std::chrono::duration<double> duration = end - start;
+        const std::chrono::duration<double> duration = end - start;
         os << methodName << " call time: " << duration.count() << " seconds\n";
         
         resetData();

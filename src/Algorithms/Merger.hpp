@@ -39,23 +39,23 @@ public:
     { }
 
 private:
-    void resetData() override { }
+    void resetData() const override { }
 
-    DataVector executeSTL() override
+    DataVector executeSTL() const override
     {
         DataVector resultVec(v1_.size() + v2_.size(), ComparableWrapper<DataType>(DataType(), nullptr, nullptr));
         std::merge(v1_.begin(), v1_.end(), v2_.begin(), v2_.end(), resultVec.begin());
         return resultVec;
     }
 
-    DataVector executeBoost() override
+    DataVector executeBoost() const override
     {
         DataVector resultVec(v1_.size() + v2_.size(), ComparableWrapper<DataType>(DataType(), nullptr, nullptr));
         boost::range::merge(v1_, v2_, resultVec.begin());
         return resultVec;
     }
 
-    DataVector executeSimple() override
+    DataVector executeSimple() const override
     {
         const unsigned int size1 = v1_.size();
         const unsigned int size2 = v2_.size();

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "AddableWrapper.hpp"
-#include "ComparableWrapper.hpp"
+#include "../Concepts/DataTypeConcepts.hpp"
+#include "BaseWrapper.hpp"
 
 #include <limits>
 
@@ -12,47 +12,59 @@ namespace src::Wrappers
 
 // ComparableWrapper rozbudowany o operatory potrzebne do testow accumulate
 template <typename DataType>
-class AccumulableWrapper final : public AddableWrapper<DataType>, public ComparableWrapper<DataType>
+class AccumulableWrapper final : public BaseWrapper<DataType, ENABLE_MOVE, ENABLE_COPY>
 {
 public:
-    // potrzebne do accumulate
+    // potrzebne jako poczatkowa wartosc std::accumulate
     AccumulableWrapper()
     requires Addable<DataType> && Comparable<DataType>
-    : BaseWrapper<DataType>(DataType())
-    , AddableWrapper<DataType>(DataType(), std::plus<DataType>())
-    , ComparableWrapper<DataType>(DataType(), std::equal_to<DataType>(), std::less<DataType>())
+    : BaseWrapper<DataType, ENABLE_MOVE, ENABLE_COPY>(DataType())
+    , add_(std::plus<DataType>())
+    , equal_(std::equal_to<DataType>())
+    , less_(std::less<DataType>())
     { }
 
-    AccumulableWrapper(const DataType data,
+    AccumulableWrapper(const DataType& data,
         std::function<DataType(const DataType&, const DataType&)> add,
         std::function<bool(const DataType&, const DataType&)> equal,
         std::function<bool(const DataType&, const DataType&)> less)
-    : BaseWrapper<DataType>(std::move(data))
-    , AddableWrapper<DataType>(DataType(), std::move(add))
-    , ComparableWrapper<DataType>(DataType(), std::move(equal), std::move(less))
+    : BaseWrapper<DataType, ENABLE_MOVE, ENABLE_COPY>(data)
+    , add_(std::move(add))
+    , equal_(std::move(equal))
+    , less_(std::move(less))
     { }
 
     // suma wszystkich elementow
     AccumulableWrapper operator+(const AccumulableWrapper& other) const
     {
         return AccumulableWrapper<DataType>(
-            this->add_(this->getValue(), other.getValue()),
-            this->add_,
-            this->equal_,
-            this->less_);
+            add_(this->getValue(), other.getValue()),
+            add_, equal_, less_);
+    }
+
+    // minimalny/maksymalny element
+    bool operator==(const AccumulableWrapper& other) const
+    {
+        return equal_(this->getValue(), other.getValue());
+    }
+
+    // minimalny/maksymalny element
+    bool operator<(const AccumulableWrapper& other) const
+    {
+        return less_(this->getValue(), other.getValue());
     }
 
     // boost::accumulator_set - tagi sum & mean
     bool operator>(const AccumulableWrapper& other) const
     {
-        return !this->less_(this->getValue(), other.getValue()) && 
-            !this->equal_(this->getValue(), other.getValue());
+        return  !less_(this->getValue(), other.getValue()) && 
+                !equal_(this->getValue(), other.getValue());
     }
 
     // boost::accumulator_set - tagi sum & mean
     AccumulableWrapper& operator+=(const AccumulableWrapper& other)
     {
-        this->setValue(this->add_(this->getValue(), other.getValue()));
+        this->setValue(add_(this->getValue(), other.getValue()));
         return *this;
     }
 
@@ -61,9 +73,17 @@ public:
     {
         return AccumulableWrapper<DataType>(
             static_cast<double>(this->getValue()) / x,
-            this->add_,
-            this->equal_,
-            this->less_);
+            add_, equal_, less_);
+    }
+
+protected:
+    std::function<DataType(const DataType&, const DataType&)> add_;
+    std::function<bool(const DataType&, const DataType&)> equal_;
+    std::function<bool(const DataType&, const DataType&)> less_;
+
+    std::vector<void*> getClassFields() override
+    {
+        return { &add_, &equal_, &less_};
     }
 };
 

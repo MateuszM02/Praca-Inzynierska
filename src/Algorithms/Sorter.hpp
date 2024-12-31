@@ -23,30 +23,30 @@ public:
     { }
 
 private:
-    void resetData() override
+    void resetData() const override
     {
         sortedElements_ = initialElements_;
     }
 
-    DataVector executeSTL() override
+    DataVector executeSTL() const override
     {
         std::sort(sortedElements_.begin(), sortedElements_.end());
         return sortedElements_;
     }
 
-    DataVector executeBoost() override
+    DataVector executeBoost() const override
     {
         boost::range::sort(sortedElements_);
         return sortedElements_;
     }
 
-    DataVector executeSimple() override
+    DataVector executeSimple() const override
     {
         quicksort(sortedElements_, 0, sortedElements_.size() - 1);
         return sortedElements_;
     }
     
-    void quicksort(DataVector& vec, int low, int high)
+    void quicksort(DataVector& vec, int low, int high) const
     {
         if (low < high)
         {
@@ -63,7 +63,7 @@ private:
         }
     }
     
-    int medianOfThreePartition(DataVector& vec, int low, int high)
+    int medianOfThreePartition(DataVector& vec, int low, int high) const
     {
         int mid = low + (high - low) / 2;
         if (vec[mid] < vec[low])
@@ -91,7 +91,7 @@ private:
         return i + 1;
     }
 
-    void insertionSort(DataVector& vec, int low, int high)
+    void insertionSort(DataVector& vec, int low, int high) const
     {
         for (int i = low + 1; i <= high; ++i)
         {
@@ -108,7 +108,7 @@ private:
     }
 
     const DataVector initialElements_;
-    DataVector sortedElements_;
+    mutable DataVector sortedElements_;
 };
 
 } // namespace src::Algorithms
