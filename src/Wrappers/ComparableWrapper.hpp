@@ -10,13 +10,14 @@ namespace src::Wrappers
 
 // Klasa rozszerzajaca dowolny typ tak, aby dalo sie dynamicznie nadpisywac jego operatory< oraz ==
 template <typename DataType>
+// TODO: usunac to, moze dziedziczenie po wrapperach przenoszacych/kopiujacych?
 requires std::is_move_assignable_v<DataType> &&
          std::is_copy_assignable_v<DataType> &&
          std::is_move_constructible_v<DataType>
 class ComparableWrapper : virtual public BaseWrapper<DataType>
 {
 public:
-    ComparableWrapper(DataType data,
+    ComparableWrapper(const DataType data,
         std::function<bool(const DataType&, const DataType&)> equal,
         std::function<bool(const DataType&, const DataType&)> less)
     : BaseWrapper<DataType>(std::move(data))

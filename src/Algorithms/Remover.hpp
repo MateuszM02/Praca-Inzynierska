@@ -14,14 +14,14 @@ template <typename DataType, typename Container = std::vector<DataType>>
 struct RemoverData final
 {
     RemoverData(
-        Container elements,
-        bool (*predicate)(const DataType&))
+        const Container elements,
+        bool (*const predicate)(const DataType&))
     : elements_{std::move(elements)}
     , predicate_{predicate}
     { }
 
-    Container elements_;
-    bool (*predicate_)(const DataType&);
+    const Container elements_;
+    bool (*const predicate_)(const DataType&);
 };
 
 template <typename DataType, Removable Container = std::vector<DataType>>
@@ -72,10 +72,9 @@ private:
         return elements_;
     }
 
-public:
     Container elements_;
     const Container initialElements_;
-    bool (*predicate_)(const DataType&);
+    bool (*const predicate_)(const DataType&);
 };
 
 } // namespace src::Algorithms

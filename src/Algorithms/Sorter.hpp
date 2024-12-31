@@ -17,7 +17,7 @@ class Sorter final : public BaseClass<DataType, std::vector<ComparableWrapper<Da
 using DataVector = std::vector<ComparableWrapper<DataType>>;
 
 public:
-    Sorter(DataVector elements)
+    Sorter(const DataVector elements)
     : initialElements_(elements)
     , sortedElements_(std::move(elements))
     { }
@@ -107,8 +107,7 @@ private:
         }
     }
 
-public:
-    DataVector initialElements_;
+    const DataVector initialElements_;
     DataVector sortedElements_;
 };
 

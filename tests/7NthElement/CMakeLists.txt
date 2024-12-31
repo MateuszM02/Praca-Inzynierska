@@ -20,4 +20,4 @@ target_link_libraries(RandomStringNthElementTests GTest::gtest_main)
 # Dolacz testy GTEST
 include(GoogleTest)
 gtest_discover_tests(PointsNthElementTests)
-gtest_discover_tests(RandomStringNthElementTests)
+gtest_discover_tests(RandomStringNthElementTests DISCOVERY_TIMEOUT 15) # domyslnie jest 5 sekund
