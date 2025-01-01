@@ -2,20 +2,38 @@
 
 #include <random>
 
+#include "BaseWrapper.hpp"
+
+using namespace src::Structures;
+
 namespace src::Structures
 {
 
-struct RandomString
+class RandomString final : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>
 {
-    RandomString(const unsigned int l) 
-    : length(l)
-    , randomGenerator(std::random_device{}())
-    , distribution('a', 'z')
+public:
+    RandomString(const unsigned int l)
+    : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>({ &length_, &randomGenerator_, &distribution_ })
+    , length_(l)
+    , randomGenerator_(std::random_device{}())
+    , distribution_('a', 'z')
     { }
 
-    unsigned int length;
-    std::mt19937 randomGenerator;
-    std::uniform_int_distribution<> distribution;
+    std::string operator()() const
+    {
+        std::string randomString;
+        randomString.reserve(length_);
+        for (unsigned int i = 0; i < length_; ++i)
+        {
+            randomString += distribution_(randomGenerator_);
+        }
+        return randomString;
+    }
+
+private:
+    unsigned int length_;
+    mutable std::mt19937 randomGenerator_;
+    mutable std::uniform_int_distribution<char> distribution_;
 };
 
 } // namespace src::Structures

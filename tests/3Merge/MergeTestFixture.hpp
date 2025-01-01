@@ -4,7 +4,6 @@
 #include "../../src/Algorithms/Merger.hpp"
 
 using namespace src::Algorithms;
-using namespace src::Wrappers;
 
 namespace tests::Merge
 {
@@ -22,17 +21,17 @@ public:
 
 // Klasa abstrakcyjna MergeTestFixture, po ktorej dziedzicza klasy testowe metod merge
 template <typename DataType>
-class MergeTestFixture : public BaseTestFixture<std::vector<ComparableWrapper<DataType>>, Merger<DataType>>
+class MergeTestFixture : public BaseTestFixture<std::vector<DataType>, Merger<DataType>>
 {
 public:
     static MergerData<DataType> initTestData(
-        ComparableWrapper<DataType> (*fun1)(const unsigned int),
-        ComparableWrapper<DataType> (*fun2)(const unsigned int),
+        DataType (*fun1)(const unsigned int),
+        DataType (*fun2)(const unsigned int),
         const unsigned int n1,
         const unsigned int n2)
     {
-        std::vector<ComparableWrapper<DataType>> v1;
-        std::vector<ComparableWrapper<DataType>> v2;
+        std::vector<DataType> v1;
+        std::vector<DataType> v2;
         v1.reserve(n1);
         v2.reserve(n2);
 

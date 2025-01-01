@@ -3,8 +3,6 @@
 #include "../Algorithms/Generator.hpp"
 #include "../Concepts/DataTypeConcepts.hpp"
 
-#include <memory>
-
 using namespace src::Algorithms;
 using namespace src::Concepts;
 
@@ -18,24 +16,24 @@ public:
     FibonacciImpl() = delete;
 
     template <Addable Number>
-    using NumberPair = std::pair<Number, Number>;
+    using State = std::pair<Number, Number>;
 
     template <Addable Number>
-    using GeneratorPtr = std::shared_ptr<Generator<Number, NumberPair<Number>>>;
+    using FibonacciGenerator = Generator<Number, State<Number>>;
 
     template <Addable Number>
-    static GeneratorPtr<Number>
-    createGenerator(
-        const unsigned int n,
-        const NumberPair<Number>& initialPair) 
+    static Number creator(const State<Number>& initialState, State<Number>& currentState)
     {
-        GenerableWrapper<Number, NumberPair<Number>> data(n, initialPair,
-            [](const NumberPair<Number>& initialState, NumberPair<Number>& currentState)
-            {
-                currentState = std::make_pair(currentState.second, currentState.first + currentState.second);
-                return currentState.first;
-            });
-        return std::make_shared<Generator<Number, NumberPair<Number>>>(std::move(data));
+        currentState = std::make_pair(currentState.second, currentState.first + currentState.second);
+        return currentState.first;
+    }
+
+    template <Addable Number>
+    static std::shared_ptr<FibonacciGenerator<Number>>
+    createGenerator(const unsigned int n, const State<Number>& initialPair) 
+    {
+        const FibonacciGenerator<Number> generator(n, initialPair, creator);
+        return std::make_shared<FibonacciGenerator<Number>>(std::move(generator));
     }
 };
 

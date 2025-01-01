@@ -2,8 +2,8 @@
 
 #include "../RemoveEraseIfTestFixture.hpp"
 
-#include <bits/stl_numeric.h>
-#include <cmath>
+#include <bits/stl_numeric.h> // std::iota
+#include <cmath> // std::pow, std::sqrt
 
 namespace tests::RemoveEraseIf
 {

@@ -16,20 +16,18 @@ public:
     MatrixImpl() = delete;
 
     template <Multiplicable Number>
-    using GeneratorPtr = std::shared_ptr<Generator<Matrix<Number>, Matrix<Number>>>;
+    static Matrix<Number> creator(const Matrix<Number>& initialState, Matrix<Number>& currentState)
+    {
+        currentState *= initialState;
+        return currentState;
+    }
 
     template <Multiplicable Number>
-    static GeneratorPtr<Number> createGenerator(
-        const unsigned int n,
-        const Matrix<Number>& initialMatrix) 
+    static std::shared_ptr<Generator<Matrix<Number>>>
+    createGenerator(const unsigned int n, const Matrix<Number>& initialMatrix) 
     {
-        GenerableWrapper<Matrix<Number>> data(n, initialMatrix,
-            [](const Matrix<Number>& initialState, Matrix<Number>& currentState) 
-            {
-                currentState *= initialState;
-                return currentState;
-            });
-        return std::make_shared<Generator<Matrix<Number>>>(std::move(data));
+        const Generator<Matrix<Number>> generator(n, initialMatrix, creator);
+        return std::make_shared<Generator<Matrix<Number>>>(std::move(generator));
     }
 };
 

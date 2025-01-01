@@ -4,7 +4,6 @@
 #include "../../../src/Structures/IntVectorImpl.hpp"
 
 using namespace src::Structures;
-using namespace src::Wrappers;
 
 namespace tests::Sort
 {
@@ -12,7 +11,7 @@ namespace tests::Sort
 struct IntVectorSortArgs final : public SortTestStruct<IntVector>
 {
     IntVectorSortArgs(
-        ComparableWrapper<IntVector> (*f)(const unsigned int),
+        IntVector (*f)(const unsigned int),
         const unsigned int n)
     : SortTestStruct<IntVector>(
         SortIntVector,
@@ -25,7 +24,7 @@ class IntVectorSortFixture : public SortTestFixture<IntVector>
 {
 public:
     // wektory roznia sie juz na pierwszej pozycji
-    static ComparableWrapper<IntVector> sortedFirstElementGenerator(const unsigned int n)
+    static IntVector sortedFirstElementGenerator(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -33,11 +32,11 @@ public:
         {
             v.emplace_back(i + n);
         }
-        return { { std::move(v) }, IntVectorImpl::equal, IntVectorImpl::less };
+        return { std::move(v) };
     }
 
     // wektory roznia sie dopiero na ostatniej pozycji
-    static ComparableWrapper<IntVector> sortedLastElementGenerator(const unsigned int n)
+    static IntVector sortedLastElementGenerator(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -46,11 +45,11 @@ public:
             v.emplace_back(i);
         }
         v.emplace_back(n);
-        return { { std::move(v) }, IntVectorImpl::equal, IntVectorImpl::less };
+        return { std::move(v) };
     }
 
     // wektory losowe moga sie roznic na dowolnej pozycji
-    static ComparableWrapper<IntVector> randomGenerator(const unsigned int n)
+    static IntVector randomGenerator(const unsigned int n)
     {
         static std::random_device rd;
         static std::mt19937 gen(rd());
@@ -62,7 +61,7 @@ public:
         {
             v.emplace_back(dis(gen));
         }
-        return { { std::move(v) }, IntVectorImpl::equal, IntVectorImpl::less };
+        return { std::move(v) };
     }
 };
 

@@ -1,16 +1,15 @@
 #pragma once
 
-#include "../BaseTestFixture.hpp"
 #include "../../src/Algorithms/Accumulator.hpp"
+#include "../BaseTestFixture.hpp"
 
 using namespace src::Algorithms;
-using namespace src::Wrappers;
 
 namespace tests::Accumulate
 {
 
 template <typename DataType>
-using DataVector = std::vector<AccumulableWrapper<DataType>>;
+using DataVector = std::vector<DataType>;
 
 template <typename DataType>
 struct AccumulateTestStruct : public BaseTestStruct<Accumulator<DataType>>
@@ -25,11 +24,11 @@ public:
 
 // Klasa abstrakcyjna AccumulateTestFixture, po ktorej dziedzicza klasy testowe metod Accumulate
 template <typename DataType>
-class AccumulateTestFixture : public BaseTestFixture<AccResults, Accumulator<DataType>>
+class AccumulateTestFixture : public BaseTestFixture<AccResults<DataType>, Accumulator<DataType>>
 {
 public:
     static DataVector<DataType> initTestData(
-        AccumulableWrapper<DataType> (*f)(const unsigned int),
+        DataType (*f)(const unsigned int),
         const unsigned int n)
     {
         DataVector<DataType> v;
@@ -51,9 +50,9 @@ public:
 
 private:
     void verifyCustomFor2(
-        const AccResults& stlResult,
-        const AccResults& boostResult,
-        const AccResults& simpleResult,
+        const AccResults<DataType>& stlResult,
+        const AccResults<DataType>& boostResult,
+        const AccResults<DataType>& simpleResult,
         std::ostringstream& os)
     {
         EXPECT_EQ_OS(stlResult.sum, boostResult.sum, os) << "Sumy STL i Boost roznia sie";

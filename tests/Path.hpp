@@ -7,8 +7,10 @@ namespace tests
 
 enum TestType
 {
-    // TODO: typy 1, 2
+    // TODO: typy 1
     AccumulateUint,
+    AccumulatePoints,
+    AccumulateMatrix,
     MergePoints,
     MergeTree,
     MergeIntVector,
@@ -19,7 +21,7 @@ enum TestType
     NthElementPoints,
     NthElementRandomString,
     RegexType,
-    // TODO: typy 9
+    // TODO: wiecej typow 9
     RemoveEraseIfSequence,
     GenerateFibonacci,
     GenerateRandomString,
@@ -43,7 +45,8 @@ private:
         {
             // TODO: typy 1
             case AccumulateUint:            return "UInt";
-            // TODO: typy 2
+            case AccumulatePoints:          return "Points";
+            case AccumulateMatrix:          return "Matrix";
             case MergePoints:               return "Points";
             case MergeTree:                 return "Tree";
             case MergeIntVector:            return "IntVector";
@@ -54,7 +57,7 @@ private:
             case NthElementPoints:          return "Points";
             case NthElementRandomString:    return "RandomString";
             case RegexType:                 return "Regex";
-            // TODO: typy 9
+            // TODO: wiecej typow 9
             case RemoveEraseIfSequence:     return "Sequence";
             case GenerateFibonacci:         return "Fibonacci";
             case GenerateRandomString:      return "RandomString";

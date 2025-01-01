@@ -1,7 +1,10 @@
 #pragma once
 
+#include <ostream>
+#include <vector>
+
 #include "../Concepts/DataTypeConcepts.hpp"
-#include "../Algorithms/Generator.hpp"
+#include "BaseWrapper.hpp"
 
 using namespace src::Concepts;
 
@@ -13,14 +16,19 @@ using SquareMatrix = std::vector<std::vector<DataType>>;
 
 // klasa trzymajaca 2-wymiarowa, kwadratowa macierz
 template <Multiplicable DataType>
-class Matrix final
+class Matrix final : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>
 { 
 public:
     // konstruktor domyslny potrzebny do stworzenia wektora elementow
-    Matrix() : n_(0), matrix_({ { } }) { }
+    Matrix()
+    : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>({ &n_, &matrix_ })
+    , n_(0)
+    , matrix_({ { } })
+    { }
 
     Matrix(const SquareMatrix<DataType>& values) 
-    : n_(values.size())
+    : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>({ &n_, &matrix_ })
+    , n_(values.size())
     , matrix_(values) 
     { } 
     

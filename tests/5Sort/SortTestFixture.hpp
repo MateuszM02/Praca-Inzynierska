@@ -6,7 +6,6 @@
 #include <random>
 
 using namespace src::Algorithms;
-using namespace src::Wrappers;
 
 namespace tests::Sort
 {
@@ -24,14 +23,14 @@ public:
 
 // Klasa abstrakcyjna SortTestFixture, po ktorej dziedzicza klasy testowe metod sort
 template <typename DataType>
-class SortTestFixture : public BaseTestFixture<std::vector<ComparableWrapper<DataType>>, Sorter<DataType>>
+class SortTestFixture : public BaseTestFixture<std::vector<DataType>, Sorter<DataType>>
 {
 public:
-    static std::vector<ComparableWrapper<DataType>> initTestData(
-        ComparableWrapper<DataType> (*f)(const unsigned int),
+    static std::vector<DataType> initTestData(
+        DataType (*f)(const unsigned int),
         const unsigned int n)
     {
-        std::vector<ComparableWrapper<DataType>> v;
+        std::vector<DataType> v;
         v.reserve(n);
 
         for (unsigned int i = 1; i <= n; ++i)

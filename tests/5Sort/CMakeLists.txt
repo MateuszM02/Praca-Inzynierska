@@ -17,7 +17,7 @@ target_include_directories(IntVectorSortTests PRIVATE ${Boost_INCLUDE_DIRS} ${gt
 target_link_libraries(PointsSortTests GTest::gtest_main)
 target_link_libraries(IntVectorSortTests GTest::gtest_main)
 
-# Dolacz testy GTEST
+# Dolacz testy GTEST (domyslnie jest 5 sekund timeout)
 include(GoogleTest)
-gtest_discover_tests(PointsSortTests)
-gtest_discover_tests(IntVectorSortTests DISCOVERY_TIMEOUT 15) # domyslnie jest 5 sekund
+gtest_discover_tests(PointsSortTests DISCOVERY_TIMEOUT 15)
+gtest_discover_tests(IntVectorSortTests DISCOVERY_TIMEOUT 15)

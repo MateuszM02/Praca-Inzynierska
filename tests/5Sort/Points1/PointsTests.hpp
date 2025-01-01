@@ -4,7 +4,6 @@
 #include "../../../src/Structures/PointsImpl.hpp"
 
 using namespace src::Structures;
-using namespace src::Wrappers;
 
 namespace tests::Sort
 {
@@ -12,7 +11,7 @@ namespace tests::Sort
 struct PointsSortArgs : public SortTestStruct<Point2D>
 {
     PointsSortArgs(
-        ComparableWrapper<Point2D> (*f)(const unsigned int),
+        Point2D (*f)(const unsigned int),
         const unsigned int n)
     : SortTestStruct<Point2D>(
         SortPoints,
@@ -24,17 +23,17 @@ struct PointsSortArgs : public SortTestStruct<Point2D>
 class PointsSortFixture : public SortTestFixture<Point2D>
 {
 public:
-    static ComparableWrapper<Point2D> sortedGenerator(const unsigned int i)
+    static Point2D sortedGenerator(const unsigned int i)
     {
-        return { { i, i }, Point2DImpl::equal, Point2DImpl::less };
+        return { i, i };
     }
 
-    static ComparableWrapper<Point2D> reverseSortedGenerator(const unsigned int i)
+    static Point2D reverseSortedGenerator(const unsigned int i)
     {
-        return { { UINT32_MAX - i, UINT32_MAX - i }, Point2DImpl::equal, Point2DImpl::less };
+        return { UINT32_MAX - i, UINT32_MAX - i };
     }
 
-    static ComparableWrapper<Point2D> randomGenerator(const unsigned int i)
+    static Point2D randomGenerator(const unsigned int i)
     {
         static std::random_device rd;
         static std::mt19937 gen(rd());
@@ -42,7 +41,7 @@ public:
         
         unsigned int x = dis(gen);
         unsigned int y = dis(gen);
-        return { { x, y }, Point2DImpl::equal, Point2DImpl::less };
+        return { x, y };
     }
 };
 
