@@ -27,8 +27,7 @@ bool operator<(const IntVector& v1, const IntVector& v2)
 
 bool operator>(const IntVector& v1, const IntVector& v2)
 {
-    return std::lexicographical_compare(
-        v2.cbegin(), v2.cend(), v1.cbegin(), v1.cend());
+    return v2 < v1;
 }
 
 } // namespace src::Structures

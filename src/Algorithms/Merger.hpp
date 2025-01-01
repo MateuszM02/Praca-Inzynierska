@@ -10,25 +10,18 @@ namespace src::Algorithms
 template <typename DataType>
 struct MergerData final
 {
-    using DataVector = std::vector<DataType>;
-
-    MergerData(
-        DataVector vec1,
-        DataVector vec2)
+    MergerData(std::vector<DataType> vec1, std::vector<DataType> vec2)
     : v1_{std::move(vec1)}
     , v2_{std::move(vec2)}
     { }
 
-    const DataVector v1_;
-    const DataVector v2_;
+    const std::vector<DataType> v1_;
+    const std::vector<DataType> v2_;
 };
 
 template <typename DataType>
 class Merger final : public BaseClass<DataType, std::vector<DataType>>
 {
-
-using DataVector = std::vector<DataType>;
-
 public:
     Merger(MergerData<DataType> data)
     : v1_(std::move(data.v1_))
@@ -38,26 +31,26 @@ public:
 private:
     void resetData() const override { }
 
-    DataVector executeSTL() const override
+    std::vector<DataType> executeSTL() const override
     {
-        DataVector resultVec(v1_.size() + v2_.size(), DataType());
+        std::vector<DataType> resultVec(v1_.size() + v2_.size(), DataType());
         std::merge(v1_.begin(), v1_.end(), v2_.begin(), v2_.end(), resultVec.begin());
         return resultVec;
     }
 
-    DataVector executeBoost() const override
+    std::vector<DataType> executeBoost() const override
     {
-        DataVector resultVec(v1_.size() + v2_.size(), DataType());
+        std::vector<DataType> resultVec(v1_.size() + v2_.size(), DataType());
         boost::range::merge(v1_, v2_, resultVec.begin());
         return resultVec;
     }
 
-    DataVector executeSimple() const override
+    std::vector<DataType> executeSimple() const override
     {
         const unsigned int size1 = v1_.size();
         const unsigned int size2 = v2_.size();
 
-        DataVector resultVec(size1 + size2, DataType());
+        std::vector<DataType> resultVec(size1 + size2, DataType());
         unsigned int index1 = 0;
         unsigned int index2 = 0;
 
@@ -87,8 +80,8 @@ private:
         return resultVec;
     }
 
-    const DataVector v1_;
-    const DataVector v2_;
+    const std::vector<DataType> v1_;
+    const std::vector<DataType> v2_;
 };
 
 } // namespace src::Algorithms

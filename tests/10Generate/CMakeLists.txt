@@ -1,5 +1,3 @@
-set(STRUCT_DIR "../../src/Structures")
-
 # Dodaj pliki wykonywalne
 add_executable(
   FibonacciGenerateTests
@@ -14,7 +12,6 @@ add_executable(
 add_executable(
   MatrixGenerateTests
   Matrix3/MatrixTests.cpp
-  ${STRUCT_DIR}/Matrix.cpp
 )
 
 # Dodaj Boost i GTEST do kazdego execa 

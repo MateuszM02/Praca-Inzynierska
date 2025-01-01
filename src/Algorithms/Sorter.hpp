@@ -10,11 +10,8 @@ namespace src::Algorithms
 template <typename DataType>
 class Sorter final : public BaseClass<DataType, std::vector<DataType>>
 {
-
-using DataVector = std::vector<DataType>;
-
 public:
-    Sorter(const DataVector elements)
+    Sorter(const std::vector<DataType> elements)
     : initialElements_(elements)
     , sortedElements_(std::move(elements))
     { }
@@ -25,25 +22,25 @@ private:
         sortedElements_ = initialElements_;
     }
 
-    DataVector executeSTL() const override
+    std::vector<DataType> executeSTL() const override
     {
         std::sort(sortedElements_.begin(), sortedElements_.end());
         return sortedElements_;
     }
 
-    DataVector executeBoost() const override
+    std::vector<DataType> executeBoost() const override
     {
         boost::range::sort(sortedElements_);
         return sortedElements_;
     }
 
-    DataVector executeSimple() const override
+    std::vector<DataType> executeSimple() const override
     {
         quicksort(sortedElements_, 0, sortedElements_.size() - 1);
         return sortedElements_;
     }
     
-    void quicksort(DataVector& vec, int low, int high) const
+    void quicksort(std::vector<DataType>& vec, int low, int high) const
     {
         if (low < high)
         {
@@ -60,7 +57,7 @@ private:
         }
     }
     
-    int medianOfThreePartition(DataVector& vec, int low, int high) const
+    int medianOfThreePartition(std::vector<DataType>& vec, int low, int high) const
     {
         int mid = low + (high - low) / 2;
         if (vec[mid] < vec[low])
@@ -88,7 +85,7 @@ private:
         return i + 1;
     }
 
-    void insertionSort(DataVector& vec, int low, int high) const
+    void insertionSort(std::vector<DataType>& vec, int low, int high) const
     {
         for (int i = low + 1; i <= high; ++i)
         {
@@ -104,8 +101,8 @@ private:
         }
     }
 
-    const DataVector initialElements_;
-    mutable DataVector sortedElements_;
+    const std::vector<DataType> initialElements_;
+    mutable std::vector<DataType> sortedElements_;
 };
 
 } // namespace src::Algorithms

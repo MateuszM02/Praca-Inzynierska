@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Base.hpp"
+#include "../Concepts/DataTypeConcepts.hpp"
 
 #include <bits/stl_numeric.h> // std::accumulate
 #include <optional>
@@ -12,6 +13,8 @@
 #include <boost/accumulators/statistics/mean.hpp>
 #include <boost/accumulators/statistics/stats.hpp>
 #include <boost/accumulators/statistics/sum.hpp>
+
+using namespace src::Concepts;
 
 namespace src::Algorithms
 {
@@ -40,14 +43,11 @@ struct AccResults
     std::optional<DataType> mean;
 };
 
-template <typename DataType>
+template <IsAccumulable DataType>
 class Accumulator final : public BaseClass<DataType, AccResults<DataType>>
 {
-
-using DataVector = std::vector<DataType>;
-
 public:
-    Accumulator(DataVector data, AccType accType)
+    Accumulator(std::vector<DataType> data, AccType accType)
     : data_(std::move(data))
     , accType_(accType)
     { }
@@ -166,7 +166,7 @@ private:
     }
 
 private:
-    const DataVector data_;
+    const std::vector<DataType> data_;
     const AccType accType_;
 };
 

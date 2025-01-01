@@ -1,7 +1,7 @@
 #include "UIntTests.hpp"
 
-#define SMALL_TEST 50'000
-#define MEDIUM_TEST 250'000
+#define SMALL_TEST 75'000
+#define MEDIUM_TEST 500'000
 
 namespace tests::Accumulate
 {
