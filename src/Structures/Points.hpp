@@ -1,19 +1,25 @@
 #pragma once
-#include "../Algorithms/Merger.hpp"
+
+#include "BaseWrapper.hpp"
+
+using namespace src::Structures;
 
 namespace src::Structures
 {
 
-struct Point2D
+class Point2D final : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>
 {
+public:
     // konstruktor domyslny potrzebny do stworzenia wektora elementow
     Point2D()
-    : x{0}
+    : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &x, &y })
+    , x{0}
     , y{0}
     { }
 
     Point2D(const unsigned int first, const unsigned int second)
-    : x{first}
+    : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &x, &y })
+    , x{first}
     , y{second}
     { }
 

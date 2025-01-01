@@ -1,11 +1,8 @@
 #pragma once
 
 #include "Base.hpp"
-#include "../Wrappers/ComparableWrapper.hpp"
 
 #include <boost/range/algorithm/merge.hpp> // boost::range::merge
-
-using namespace src::Wrappers;
 
 namespace src::Algorithms
 {
@@ -13,7 +10,7 @@ namespace src::Algorithms
 template <typename DataType>
 struct MergerData final
 {
-    using DataVector = std::vector<ComparableWrapper<DataType>>;
+    using DataVector = std::vector<DataType>;
 
     MergerData(
         DataVector vec1,
@@ -27,10 +24,10 @@ struct MergerData final
 };
 
 template <typename DataType>
-class Merger final : public BaseClass<DataType, std::vector<ComparableWrapper<DataType>>>
+class Merger final : public BaseClass<DataType, std::vector<DataType>>
 {
 
-using DataVector = std::vector<ComparableWrapper<DataType>>;
+using DataVector = std::vector<DataType>;
 
 public:
     Merger(MergerData<DataType> data)
@@ -43,14 +40,14 @@ private:
 
     DataVector executeSTL() const override
     {
-        DataVector resultVec(v1_.size() + v2_.size(), ComparableWrapper<DataType>(DataType(), nullptr, nullptr));
+        DataVector resultVec(v1_.size() + v2_.size(), DataType());
         std::merge(v1_.begin(), v1_.end(), v2_.begin(), v2_.end(), resultVec.begin());
         return resultVec;
     }
 
     DataVector executeBoost() const override
     {
-        DataVector resultVec(v1_.size() + v2_.size(), ComparableWrapper<DataType>(DataType(), nullptr, nullptr));
+        DataVector resultVec(v1_.size() + v2_.size(), DataType());
         boost::range::merge(v1_, v2_, resultVec.begin());
         return resultVec;
     }
@@ -60,7 +57,7 @@ private:
         const unsigned int size1 = v1_.size();
         const unsigned int size2 = v2_.size();
 
-        DataVector resultVec(size1 + size2, ComparableWrapper<DataType>(DataType(), nullptr, nullptr));
+        DataVector resultVec(size1 + size2, DataType());
         unsigned int index1 = 0;
         unsigned int index2 = 0;
 

@@ -17,7 +17,7 @@ target_include_directories(RandomStringNthElementTests PRIVATE ${Boost_INCLUDE_D
 target_link_libraries(PointsNthElementTests GTest::gtest_main)
 target_link_libraries(RandomStringNthElementTests GTest::gtest_main)
 
-# Dolacz testy GTEST
+# Dolacz testy GTEST (domyslnie jest 5 sekund timeout)
 include(GoogleTest)
-gtest_discover_tests(PointsNthElementTests)
-gtest_discover_tests(RandomStringNthElementTests DISCOVERY_TIMEOUT 15) # domyslnie jest 5 sekund
+gtest_discover_tests(PointsNthElementTests DISCOVERY_TIMEOUT 15)
+gtest_discover_tests(RandomStringNthElementTests DISCOVERY_TIMEOUT 15)

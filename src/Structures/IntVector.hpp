@@ -1,19 +1,22 @@
 #pragma once
-#include "../Algorithms/Merger.hpp"
+
+#include "BaseWrapper.hpp"
 
 namespace src::Structures
 {
 
-struct IntVector
+class IntVector final : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>
 {
 public:
     // konstruktor domyslny potrzebny do stworzenia wektora elementow
     IntVector()
-    : values_{{}}
+    : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>({ &values_ })
+    , values_{{}}
     { }
 
     IntVector(std::vector<int> v)
-    : values_{std::move(v)}
+    : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>({ &values_ })
+    , values_{std::move(v)}
     { }
 
     std::size_t size() const { return values_.size(); }

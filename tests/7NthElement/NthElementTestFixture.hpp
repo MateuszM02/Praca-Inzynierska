@@ -5,12 +5,11 @@
 
 using namespace src::Algorithms;
 using namespace src::Concepts;
-using namespace src::Wrappers;
 
 namespace tests::NthElement
 {
 
-template <typename DataType, NthElementCompatible Container = std::vector<ComparableWrapper<DataType>>>
+template <typename DataType, NthElementCompatible Container = std::vector<DataType>>
 struct NthElementTestStruct : public BaseTestStruct<NthFinder<DataType, Container>>
 {
 public:
@@ -22,16 +21,16 @@ public:
 };
 
 // Klasa abstrakcyjna NthElementTestFixture, po ktorej dziedzicza klasy testowe metod NthElement
-template <typename DataType, NthElementCompatible Container = std::vector<ComparableWrapper<DataType>>>
+template <typename DataType, NthElementCompatible Container = std::vector<DataType>>
 class NthElementTestFixture : public BaseTestFixture<Container, NthFinder<DataType, Container>>
 {
 public:
     static NthFinderData<DataType, Container> initTestData(
-        ComparableWrapper<DataType>(*generator)(const unsigned int),
+        DataType(*generator)(const unsigned int),
         const unsigned int n,
         const unsigned int vectorSize)
     {
-        assert(n < vectorSize && "n must be less than vectorSize");
+        assert(n < vectorSize && "n must be smaller than vectorSize");
 
         Container elements;
         elements.reserve(vectorSize);

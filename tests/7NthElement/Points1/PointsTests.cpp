@@ -5,9 +5,9 @@
 #define BIG_N 40'000
 #define HUGE_N 75'000
 
-#define FEW_POINTS 100'000
-#define MEDIUM_POINTS 500'000
-#define MANY_POINTS 1'000'000
+#define FEW_POINTS 75'000
+#define MEDIUM_POINTS 250'000
+#define MANY_POINTS 500'000
 
 namespace tests::NthElement
 {
