@@ -9,7 +9,7 @@
 #include <gtest/gtest.h>
 
 #define EXPECT_EQ_OS(val1, val2, os) \
-    if ((val1) != (val2)) \
+    if (not ((val1) == (val2))) \
     { \
         os << "Wartosc " #val1 " rozni sie od wartosci " #val2 ".\n"; \
     } \

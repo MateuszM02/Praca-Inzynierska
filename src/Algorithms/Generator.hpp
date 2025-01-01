@@ -11,7 +11,7 @@ template <typename GeneratedDataType, typename StateDataType = GeneratedDataType
 class Generator final : public BaseClass<GeneratedDataType, std::vector<GeneratedDataType>>
 {
 public:
-    Generator(const unsigned int n,
+    Generator(const std::size_t n,
         const StateDataType& initialState,
         GeneratedDataType(*const generator)(const StateDataType&, StateDataType&))
     : n_{n}
@@ -25,7 +25,7 @@ public:
         return generator_(initialState_, currentState_);
     }
 
-    unsigned int size() const { return n_; }
+    std::size_t size() const noexcept { return n_; }
 
 private:
     void resetData() const override
@@ -57,7 +57,7 @@ private:
         return sequence;
     }
 
-    unsigned int n_;
+    std::size_t n_;
     StateDataType initialState_;
     mutable StateDataType currentState_;
     GeneratedDataType(*const generator_)(const StateDataType&, StateDataType&);

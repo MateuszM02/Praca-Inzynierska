@@ -1,7 +1,7 @@
 #pragma once
-#include "../../../src/Structures/Matrix.hpp"
+#include "../src/Structures/Matrix.hpp"
 
-namespace tests::Generate
+namespace tests
 {
 
 class Examples final
@@ -13,7 +13,11 @@ public:
 
     static const Matrix<int>& a1()
     {
-        static const Matrix<int> instance({ { 1, 1, 0 }, { 0, 1, 0 }, { 0, 0, 1 } });
+        static const std::vector<std::vector<int>> values{
+            { 1, 1, 0 },
+            { 0, 1, 0 },
+            { 0, 0, 1 } };
+        static const Matrix<int> instance{ std::move(values) };
         return instance;
     }
 
@@ -49,4 +53,4 @@ public:
     }
 };
 
-} // namespace tests::Generate
+} // namespace tests

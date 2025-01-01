@@ -7,10 +7,6 @@ using namespace src::Algorithms;
 
 namespace tests::Accumulate
 {
-
-template <typename DataType>
-using DataVector = std::vector<DataType>;
-
 template <typename DataType>
 struct AccumulateTestStruct : public BaseTestStruct<Accumulator<DataType>>
 {
@@ -27,11 +23,11 @@ template <typename DataType>
 class AccumulateTestFixture : public BaseTestFixture<AccResults<DataType>, Accumulator<DataType>>
 {
 public:
-    static DataVector<DataType> initTestData(
+    static std::vector<DataType> initTestData(
         DataType (*f)(const unsigned int),
         const unsigned int n)
     {
-        DataVector<DataType> v;
+        std::vector<DataType> v;
         v.reserve(n);
 
         for (unsigned int i = 1; i <= n; ++i)

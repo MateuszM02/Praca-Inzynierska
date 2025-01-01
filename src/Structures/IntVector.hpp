@@ -19,7 +19,7 @@ public:
     , values_{std::move(v)}
     { }
 
-    std::size_t size() const { return values_.size(); }
+    std::size_t size() const noexcept { return values_.size(); }
     int at(const unsigned int index) const { return values_[index]; }
 
     auto cbegin() const { return values_.cbegin(); }

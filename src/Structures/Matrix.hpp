@@ -11,42 +11,59 @@ using namespace src::Concepts;
 namespace src::Structures
 {
 
-template <Multiplicable DataType> 
-using SquareMatrix = std::vector<std::vector<DataType>>;
+template <typename DataType>
+concept SquareMatrix = requires(DataType matrix)
+{
+    { matrix.size() } -> std::convertible_to<std::size_t>;
+    { matrix[0].size() } -> std::convertible_to<std::size_t>;
+    { matrix.size() == matrix[0].size() } -> std::convertible_to<bool>;
+    requires std::is_same_v<
+        typename DataType::value_type,
+        std::vector<typename DataType::value_type::value_type>>;
+};
 
 // klasa trzymajaca 2-wymiarowa, kwadratowa macierz
-template <Multiplicable DataType>
-class Matrix final : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>
-{ 
+template <typename DataType>
+class Matrix final : BaseWrapper<DISABLE_MOVE, ENABLE_COPY>
+{
 public:
     // konstruktor domyslny potrzebny do stworzenia wektora elementow
     Matrix()
-    : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>({ &n_, &matrix_ })
+    : BaseWrapper<DISABLE_MOVE, ENABLE_COPY>({ &n_, &matrix_ })
     , n_(0)
     , matrix_({ { } })
     { }
 
-    Matrix(const SquareMatrix<DataType>& values) 
-    : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>({ &n_, &matrix_ })
+    template <SquareMatrix MatrixVector> 
+    Matrix(const MatrixVector& values)
+    : BaseWrapper<DISABLE_MOVE, ENABLE_COPY>({ &n_, &matrix_ })
     , n_(values.size())
-    , matrix_(values) 
-    { } 
+    , matrix_(values)
+    { }
     
-    size_t size() const { return n_; }            
-    const DataType& at(size_t i, size_t j) const; 
+    std::size_t size() const noexcept { return n_; }
 
-    // Operator mnozenia macierzy 
-    Matrix<DataType> operator*=(const Matrix<DataType>& other);
+    const DataType& get(const size_t row, const size_t col) const
+    {
+        if (row >= n_ || col >= n_)
+        {
+            throw std::out_of_range("Index out of range.");
+        }
+        return matrix_[row][col];
+    }
 
-    // Operator rownosci elementow macierzy
-    bool operator==(const Matrix<DataType>& other) const;
+    void set(const size_t row, const size_t col, const DataType& newValue) const
+    {
+        if (row >= n_ || col >= n_)
+        {
+            throw std::out_of_range("Index out of range.");
+        }
+        matrix_[row][col] = std::move(newValue);
+    }
 
-    // operator do wypisywania wartosci macierzy
-    template <Multiplicable OtherDataType>
-    friend std::ostream& operator<<(std::ostream& os, const Matrix<OtherDataType>& mat);
-
-private: 
-    size_t n_; 
-    SquareMatrix<DataType> matrix_;
+private:
+    std::size_t n_;
+    mutable std::vector<std::vector<DataType>> matrix_;
 };
+
 } // namespace src::Structures

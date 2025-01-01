@@ -28,7 +28,7 @@ template <typename DataType, Removable Container = std::vector<DataType>>
 class Remover final : public BaseClass<DataType, Container>
 {
 public:
-    Remover(RemoverData<DataType> data)
+    Remover(RemoverData<DataType, Container> data)
     : elements_(data.elements_)
     , initialElements_(std::move(data.elements_))
     , predicate_(data.predicate_)
@@ -59,7 +59,7 @@ private:
         auto first = elements_.begin();
         for (auto current = elements_.begin(); current != elements_.end(); ++current)
         {
-            if (!predicate_(*current))
+            if (not predicate_(*current))
             {
                 if (first != current)
                 {

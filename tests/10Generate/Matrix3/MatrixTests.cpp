@@ -1,5 +1,5 @@
 #include "MatrixTests.hpp"
-#include "ExampleMatrixes.hpp"
+#include "../../ExampleMatrixes.hpp"
 
 namespace tests::Generate
 {
