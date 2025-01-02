@@ -11,13 +11,13 @@ class Point2D final : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>
 {
 public:
     // konstruktor domyslny potrzebny do stworzenia wektora elementow
-    Point2D()
+    explicit Point2D()
     : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &x, &y })
     , x{0}
     , y{0}
     { }
 
-    Point2D(const unsigned int first, const unsigned int second)
+    explicit Point2D(const unsigned int first, const unsigned int second)
     : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &x, &y })
     , x{first}
     , y{second}

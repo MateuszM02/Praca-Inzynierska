@@ -14,8 +14,8 @@ struct GenerateTestStruct : public BaseTestStruct<Generator<GeneratedDataType, S
 public:
     GenerateTestStruct(
         const TestType testType,
-        const std::shared_ptr<Generator<GeneratedDataType, StateDataType>> f)
-    : BaseTestStruct<Generator<GeneratedDataType, StateDataType>>(testType, std::move(f))
+        const std::shared_ptr<Generator<GeneratedDataType, StateDataType>>& f)
+    : BaseTestStruct<Generator<GeneratedDataType, StateDataType>>(testType, f)
     { }
 };
 

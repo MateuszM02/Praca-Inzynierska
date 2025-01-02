@@ -13,11 +13,11 @@ namespace src::Algorithms
 template <typename DataType, typename Container = std::vector<DataType>>
 struct RemoverData final
 {
-    RemoverData(
-        const Container elements,
-        bool (*const predicate)(const DataType&))
+    explicit RemoverData(
+        const Container& elements,
+        bool (*const predicate)(const DataType&)&)
     : elements_{std::move(elements)}
-    , predicate_{predicate}
+    , predicate_{std::move(predicate)}
     { }
 
     const Container elements_;
@@ -28,10 +28,10 @@ template <typename DataType, Removable Container = std::vector<DataType>>
 class Remover final : public BaseClass<DataType, Container>
 {
 public:
-    Remover(RemoverData<DataType, Container> data)
+    explicit Remover(const RemoverData<DataType, Container>& data)
     : elements_(data.elements_)
     , initialElements_(std::move(data.elements_))
-    , predicate_(data.predicate_)
+    , predicate_(std::move(data.predicate_))
     { }
 
 private:

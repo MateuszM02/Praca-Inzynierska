@@ -10,7 +10,7 @@ namespace src::Algorithms
 template <typename DataType>
 struct MergerData final
 {
-    MergerData(std::vector<DataType> vec1, std::vector<DataType> vec2)
+    explicit MergerData(const std::vector<DataType>& vec1, const std::vector<DataType>& vec2)
     : v1_{std::move(vec1)}
     , v2_{std::move(vec2)}
     { }
@@ -23,7 +23,7 @@ template <typename DataType>
 class Merger final : public BaseClass<DataType, std::vector<DataType>>
 {
 public:
-    Merger(MergerData<DataType> data)
+    explicit Merger(const MergerData<DataType>& data)
     : v1_(std::move(data.v1_))
     , v2_(std::move(data.v2_))
     { }

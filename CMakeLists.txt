@@ -27,6 +27,9 @@ else()
   message(FATAL_ERROR "BOOST_PATH environment variable is not set")
 endif()
 
+# Dodanie flag kompilatora globalnie
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -Wfatal-errors -O2 -g")
+
 add_subdirectory(tests)
 
 # komendy do wywolywania w glownym folderze (nie wewnatrz build)

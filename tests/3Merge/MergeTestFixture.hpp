@@ -14,8 +14,8 @@ struct MergeTestStruct : public BaseTestStruct<Merger<DataType>>
 public:
     MergeTestStruct(
         const TestType testType,
-        std::shared_ptr<Merger<DataType>> f)
-    : BaseTestStruct<Merger<DataType>>(testType, std::move(f))
+        const std::shared_ptr<Merger<DataType>>& f)
+    : BaseTestStruct<Merger<DataType>>(testType, f)
     { }
 };
 
@@ -25,8 +25,8 @@ class MergeTestFixture : public BaseTestFixture<std::vector<DataType>, Merger<Da
 {
 public:
     static MergerData<DataType> initTestData(
-        DataType (*fun1)(const unsigned int),
-        DataType (*fun2)(const unsigned int),
+        DataType (*fun1)(const unsigned int)&,
+        DataType (*fun2)(const unsigned int)&,
         const unsigned int n1,
         const unsigned int n2)
     {
@@ -37,13 +37,13 @@ public:
 
         for (unsigned int i = 1; i <= n1; ++i)
         {
-            v1.emplace_back(std::move(fun1(i)));
+            v1.emplace_back(fun1(i));
         }
         for (unsigned int i = 1; i <= n2; ++i)
         {
-            v2.emplace_back(std::move(fun2(i)));
+            v2.emplace_back(fun2(i));
         }
-        return MergerData<DataType>(std::move(v1), std::move(v2));
+        return MergerData<DataType>(v1, v2);
     }
 };
 

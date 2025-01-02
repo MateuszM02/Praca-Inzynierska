@@ -16,7 +16,7 @@ struct RandomStringNthElementArgs : public NthElementTestStruct<std::string>
         const unsigned int stringLength)
     : NthElementTestStruct<std::string>(
         NthElementRandomString,
-        std::move(RandomStringImpl::createFinder(n, vectorSize, stringLength)))
+        RandomStringImpl::createFinder(n, vectorSize, stringLength))
     { }
 };
 

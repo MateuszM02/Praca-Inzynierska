@@ -1,5 +1,13 @@
 #pragma once
 
+// boost::accumulators::accumulators uzywa przestarzalych metod,
+// wiec dla tego pliku wylaczymy warning [-Werror=deprecated-copy]
+#ifdef __GNUC__
+    #pragma GCC diagnostic ignored "-Wdeprecated-copy"
+#elif defined(_MSC_VER)
+    #pragma warning(disable : 4996)
+#endif
+
 #include "Base.hpp"
 #include "../Concepts/DataTypeConcepts.hpp"
 
@@ -30,7 +38,7 @@ enum AccType
 template <typename DataType>
 struct AccResults
 {
-    AccResults()
+    explicit AccResults()
     : sum(DataType())
     , minimum(std::nullopt)
     , maximum(std::nullopt)
@@ -47,7 +55,7 @@ template <IsAccumulable DataType>
 class Accumulator final : public BaseClass<DataType, AccResults<DataType>>
 {
 public:
-    Accumulator(std::vector<DataType> data, AccType accType)
+    explicit Accumulator(const std::vector<DataType>& data, AccType accType)
     : data_(std::move(data))
     , accType_(accType)
     { }

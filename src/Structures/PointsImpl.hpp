@@ -1,6 +1,7 @@
 #pragma once
 
 #include <limits>
+#include <ostream>
 
 #include "Points.hpp"
 
@@ -10,12 +11,12 @@ namespace src::Structures
 // implementacja operatorow potrzebnych do testow na klasie Point2D
 Point2D operator+(const Point2D& p1, const Point2D& p2)
 {
-    return { p1.x + p2.x, p1.y + p2.y };
+    return Point2D(p1.x + p2.x, p1.y + p2.y);
 }
 
 Point2D operator/(const Point2D& p, const unsigned int div)
 {
-    return { p.x / div, p.y / div };
+    return Point2D(p.x / div, p.y / div);
 }
 
 Point2D& operator+=(Point2D& p1, const Point2D& p2)
@@ -40,6 +41,12 @@ bool operator<(const Point2D& p1, const Point2D& p2)
 bool operator>(const Point2D& p1, const Point2D& p2)
 {
     return p2 < p1;
+}
+
+std::ostream& operator<<(std::ostream& os, const Point2D& p) 
+{
+    os << "(" << p.x << ", " << p.y << ")\n";
+    return os;
 }
 
 } // namespace src::Structures
