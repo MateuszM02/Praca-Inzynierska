@@ -28,7 +28,7 @@ concept Addable = requires(DataType a, DataType b)
 template <typename DataType>
 concept DivisibleByConst = requires(DataType a, unsigned int div)
 {
-    { a / div } -> std::same_as<DataType>;
+    { a / div } -> std::convertible_to<DataType>;
 };
 
 // typ pozwalajacy na mnozenie za pomoca operatora* (nie musi posiadac operatora*= ale moze)

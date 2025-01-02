@@ -9,11 +9,11 @@ using namespace src::Structures;
 namespace src::Structures
 {
 
-class RandomString final : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>
+class RandomString final : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>
 {
 public:
-    RandomString(const unsigned int l)
-    : BaseWrapper<DISABLE_MOVE, DISABLE_COPY>({ &length_, &randomGenerator_, &distribution_ })
+    explicit RandomString(const unsigned int l)
+    : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &length_, &randomGenerator_, &distribution_ })
     , length_(l)
     , randomGenerator_(std::random_device{}())
     , distribution_('a', 'z')

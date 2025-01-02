@@ -9,7 +9,7 @@ namespace tests::Accumulate
 struct UIntAccumulateArgs : public AccumulateTestStruct<unsigned int>
 {
     UIntAccumulateArgs(
-        unsigned int (*f)(const unsigned int),
+        unsigned int (*f)(const unsigned int)&,
         const unsigned int n,
         AccType accType)
     : AccumulateTestStruct<unsigned int>(

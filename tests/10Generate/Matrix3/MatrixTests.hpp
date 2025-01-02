@@ -14,25 +14,30 @@ struct MatrixGenerateArgs : public GenerateTestStruct<Matrix<Number>>
 {
     MatrixGenerateArgs(
         const Matrix<Number>& initialMatrix,
-        unsigned int n)
+        const unsigned int n)
     : GenerateTestStruct<Matrix<Number>>(
     GenerateMatrix,
-    std::move(MatrixImpl::createGenerator(n, initialMatrix)))
+    std::make_shared<Generator<Matrix<Number>>>(n, initialMatrix,
+        [initialState = initialMatrix](Matrix<Number>& currentState)
+        {
+            currentState *= initialState;
+            return currentState;
+        }))
     { }
 };
 
-class MatrixGenerateIntArgs : public GenerateTestFixture<Matrix<int>>
+class MatrixGenerateIntFixture : public GenerateTestFixture<Matrix<int>>
 { };
 
-class MatrixGenerateDoubleArgs : public GenerateTestFixture<Matrix<double>>
+class MatrixGenerateDoubleFixture : public GenerateTestFixture<Matrix<double>>
 { };
 
-TEST_P(MatrixGenerateIntArgs, intTest)
+TEST_P(MatrixGenerateIntFixture, intTest)
 { 
     VerifyTest(GetParam());
 }
 
-TEST_P(MatrixGenerateDoubleArgs, doubleTest)
+TEST_P(MatrixGenerateDoubleFixture, doubleTest)
 { 
     VerifyTest(GetParam());
 }

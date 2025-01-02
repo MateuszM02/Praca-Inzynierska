@@ -15,8 +15,8 @@ struct NthElementTestStruct : public BaseTestStruct<NthFinder<DataType, Containe
 public:
     NthElementTestStruct(
         const TestType testType,
-        std::shared_ptr<NthFinder<DataType, Container>> f)
-    : BaseTestStruct<NthFinder<DataType, Container>>(testType, std::move(f))
+        const std::shared_ptr<NthFinder<DataType, Container>>& f)
+    : BaseTestStruct<NthFinder<DataType, Container>>(testType, f)
     { }
 };
 
@@ -26,7 +26,7 @@ class NthElementTestFixture : public BaseTestFixture<Container, NthFinder<DataTy
 {
 public:
     static NthFinderData<DataType, Container> initTestData(
-        DataType(*generator)(const unsigned int),
+        DataType(*generator)(const unsigned int)&,
         const unsigned int n,
         const unsigned int vectorSize)
     {
@@ -40,7 +40,7 @@ public:
             elements.emplace_back(generator(i));
         }
 
-        return NthFinderData<DataType, Container>(std::move(elements), n);
+        return NthFinderData<DataType, Container>(elements, n);
     }
 
     void VerifyTestCustomFor7(const BaseTestStruct<NthFinder<DataType, Container>>& args)

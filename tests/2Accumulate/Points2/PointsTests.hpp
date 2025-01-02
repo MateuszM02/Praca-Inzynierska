@@ -11,7 +11,7 @@ namespace tests::Accumulate
 struct PointsAccumulateArgs : public AccumulateTestStruct<Point2D>
 {
     PointsAccumulateArgs(
-        Point2D (*f)(const unsigned int),
+        Point2D (*f)(const unsigned int)&,
         const unsigned int n,
         AccType accType)
     : AccumulateTestStruct<Point2D>(
@@ -27,12 +27,12 @@ class PointsAccumulateFixture : public AccumulateTestFixture<Point2D>
 public:
     static Point2D sortedGenerator(const unsigned int i)
     {
-        return { i, i };
+        return Point2D(i, i);
     }
 
     static Point2D reverseSortedGenerator(const unsigned int i)
     {
-        return { UINT32_MAX - i, i };
+        return Point2D(UINT32_MAX - i, i);
     }
 };
 

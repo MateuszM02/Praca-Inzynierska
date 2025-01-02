@@ -10,9 +10,14 @@ namespace tests::Sort
 
 struct PointsSortArgs : public SortTestStruct<Point2D>
 {
-    PointsSortArgs(
-        Point2D (*f)(const unsigned int),
-        const unsigned int n)
+    PointsSortArgs(Point2D (*f)()&, const unsigned int n)
+    : SortTestStruct<Point2D>(
+        SortPoints,
+        std::make_shared<Sorter<Point2D>>(
+            SortTestFixture<Point2D>::initTestData(f, n)))
+    { }
+
+    PointsSortArgs(Point2D (*f)(const unsigned int)&, const unsigned int n)
     : SortTestStruct<Point2D>(
         SortPoints,
         std::make_shared<Sorter<Point2D>>(
@@ -25,15 +30,15 @@ class PointsSortFixture : public SortTestFixture<Point2D>
 public:
     static Point2D sortedGenerator(const unsigned int i)
     {
-        return { i, i };
+        return Point2D(i, i);
     }
 
     static Point2D reverseSortedGenerator(const unsigned int i)
     {
-        return { UINT32_MAX - i, UINT32_MAX - i };
+        return Point2D(UINT32_MAX - i, UINT32_MAX - i);
     }
 
-    static Point2D randomGenerator(const unsigned int i)
+    static Point2D randomGenerator()
     {
         static std::random_device rd;
         static std::mt19937 gen(rd());
@@ -41,7 +46,7 @@ public:
         
         unsigned int x = dis(gen);
         unsigned int y = dis(gen);
-        return { x, y };
+        return Point2D(x, y);
     }
 };
 

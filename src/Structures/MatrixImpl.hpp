@@ -33,8 +33,7 @@ Matrix<DataType> operator+(const Matrix<DataType>& m1, const Matrix<DataType>& m
     return newMatrix;
 }
 
-// TODO: zmienic na koncept DivisibleByConst, ktory na razie nie dziala
-template <typename DataType>
+template <DivisibleByConst DataType>
 Matrix<DataType> operator/(const Matrix<DataType>& m, const unsigned int div)
 {
     Matrix<DataType> newMatrix(m);
@@ -122,40 +121,20 @@ bool operator>(const Matrix<DataType>& m1, const Matrix<DataType>& m2)
     return m2 < m1;
 }
 
-// TODO: stworzyc koncept Printable?
-template <typename OtherDataType>
-std::ostream& operator<<(std::ostream& os, const Matrix<OtherDataType>& m) 
+template <Printable DataType>
+std::ostream& operator<<(std::ostream& os, const Matrix<DataType>& m) 
 {
     for (size_t row = 0; row < m.size(); ++row)
     {
+        os << "[";
         for (size_t col = 0; col < m.size(); ++col)
         {
-            os << m.get(row, col) << " ";
+            os << m.get(row, col) << ", ";
         }
+        os << "]\n";
     }
     return os;
 }
-
-class MatrixImpl final
-{
-public:
-    MatrixImpl() = delete;
-
-    template <Multiplicable Number>
-    static Matrix<Number> creator(const Matrix<Number>& initialState, Matrix<Number>& currentState)
-    {
-        currentState *= initialState;
-        return currentState;
-    }
-
-    template <Multiplicable Number>
-    static std::shared_ptr<Generator<Matrix<Number>>>
-    createGenerator(const unsigned int n, const Matrix<Number>& initialMatrix) 
-    {
-        const Generator<Matrix<Number>> generator(n, initialMatrix, creator);
-        return std::make_shared<Generator<Matrix<Number>>>(std::move(generator));
-    }
-};
 
 } // namespace src::Structures
 
@@ -163,33 +142,36 @@ namespace std
 {
 
 template <HasNumericLimits DataType>
-class numeric_limits<src::Structures::Matrix<DataType>>
+struct numeric_limits<src::Structures::Matrix<DataType>>
 {
-public:
-    static const bool is_specialized = true;
+    static constexpr bool is_specialized = true;
     
-    static src::Structures::Matrix<DataType> min()
+    static src::Structures::Matrix<DataType> min() noexcept
     {
-        return src::Structures::Matrix<DataType>(
-            std::numeric_limits<std::vector<std::vector<DataType>>>::min());
+        static vector<vector<DataType>> v = { { numeric_limits<DataType>::min() } };
+        static src::Structures::Matrix<DataType> m(v);
+        return m;
+    } 
+    
+    static src::Structures::Matrix<DataType> max() noexcept
+    {
+        static vector<vector<DataType>> v = { { numeric_limits<DataType>::max() } };
+        static src::Structures::Matrix<DataType> m(v);
+        return m;
     }
     
-    static src::Structures::Matrix<DataType> max()
+    static src::Structures::Matrix<DataType> lowest() noexcept
     {
-        return src::Structures::Matrix<DataType>(
-            std::numeric_limits<std::vector<std::vector<DataType>>>::max());
+        static vector<vector<DataType>> v = { { numeric_limits<DataType>::lowest() } };
+        static src::Structures::Matrix<DataType> m(v);
+        return m;
     }
     
-    static src::Structures::Matrix<DataType> lowest()
+    static src::Structures::Matrix<DataType> epsilon() noexcept
     {
-        return src::Structures::Matrix<DataType>(
-            std::numeric_limits<std::vector<std::vector<DataType>>>::lowest());
-    }
-    
-    static src::Structures::Matrix<DataType> epsilon()
-    {
-        return src::Structures::Matrix<DataType>(
-            std::numeric_limits<std::vector<std::vector<DataType>>>::epsilon());
+        static vector<vector<DataType>> v = { { numeric_limits<DataType>::epsilon() } };
+        static src::Structures::Matrix<DataType> m(v);
+        return m;
     }
 };
 

@@ -16,8 +16,8 @@ struct SortTestStruct : public BaseTestStruct<Sorter<DataType>>
 public:
     SortTestStruct(
         const TestType testType,
-        std::shared_ptr<Sorter<DataType>> f)
-    : BaseTestStruct<Sorter<DataType>>(testType, std::move(f))
+        const std::shared_ptr<Sorter<DataType>>& f)
+    : BaseTestStruct<Sorter<DataType>>(testType, f)
     { }
 };
 
@@ -25,20 +25,6 @@ public:
 template <typename DataType>
 class SortTestFixture : public BaseTestFixture<std::vector<DataType>, Sorter<DataType>>
 {
-public:
-    static std::vector<DataType> initTestData(
-        DataType (*f)(const unsigned int),
-        const unsigned int n)
-    {
-        std::vector<DataType> v;
-        v.reserve(n);
-
-        for (unsigned int i = 1; i <= n; ++i)
-        {
-            v.emplace_back(std::move(f(i)));
-        }
-        return v;
-    }
 };
 
 } // namespace tests::Sort

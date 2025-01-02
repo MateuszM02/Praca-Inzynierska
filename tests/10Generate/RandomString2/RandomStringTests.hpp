@@ -13,7 +13,7 @@ struct RandomStringGenerateArgs : public GenerateTestStruct<std::string, RandomS
     RandomStringGenerateArgs(const unsigned int l, const unsigned int n)
     : GenerateTestStruct<std::string, RandomString>(
         GenerateRandomString,
-        std::move(RandomStringImpl::createGenerator(n, l)))
+        RandomStringImpl::createGenerator(n, l))
     { }
 };
 
@@ -38,12 +38,12 @@ private:
         // Petla for do porownywania wynikow, jesli rozmiary sa rowne
         for (unsigned int i = 0; i < simpleResult.size(); ++i)
         {
-            EXPECT_EQ(stlResult[i].size(), boostResult[i].size()) <<
-                "Rozmiar STL rozni sie od rozmiaru Boost na indeksie " << i; 
-            EXPECT_EQ(stlResult[i].size(), simpleResult[i].size()) <<
-                "Rozmiar STL rozni sie od rozmiaru Simple na indeksie " << i; 
-            EXPECT_EQ(boostResult[i].size(), simpleResult[i].size()) <<
-                "Rozmiar Boost rozni sie od rozmiaru Simple na indeksie " << i; 
+            EXPECT_EQ_OS(stlResult[i].size(), boostResult[i].size(), os)
+                << "Rozmiar STL rozni sie od rozmiaru Boost na indeksie " << i;
+            EXPECT_EQ_OS(stlResult[i].size(), simpleResult[i].size(), os)
+                << "Rozmiar STL rozni sie od rozmiaru Simple na indeksie " << i;
+            EXPECT_EQ_OS(boostResult[i].size(), simpleResult[i].size(), os)
+                << "Rozmiar Boost rozni sie od rozmiaru Simple na indeksie " << i;
         }
     }
 };

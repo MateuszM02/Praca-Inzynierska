@@ -11,7 +11,7 @@ namespace tests::Sort
 struct IntVectorSortArgs final : public SortTestStruct<IntVector>
 {
     IntVectorSortArgs(
-        IntVector (*f)(const unsigned int),
+        IntVector (*f)(const unsigned int)&,
         const unsigned int n)
     : SortTestStruct<IntVector>(
         SortIntVector,
@@ -32,7 +32,7 @@ public:
         {
             v.emplace_back(i + n);
         }
-        return { std::move(v) };
+        return IntVector(v);
     }
 
     // wektory roznia sie dopiero na ostatniej pozycji
@@ -45,7 +45,7 @@ public:
             v.emplace_back(i);
         }
         v.emplace_back(n);
-        return { std::move(v) };
+        return IntVector(v);
     }
 
     // wektory losowe moga sie roznic na dowolnej pozycji
@@ -61,7 +61,7 @@ public:
         {
             v.emplace_back(dis(gen));
         }
-        return { std::move(v) };
+        return IntVector(v);
     }
 };
 
