@@ -1,9 +1,18 @@
 #pragma once
 
+#include <iostream>
+
 #include "MathConcepts.hpp"
 
 namespace src::Concepts
 {
+
+// Koncept sprawdzajacy, czy da sie wypisac na ekranie wartosc elementu
+template <typename DataType>
+concept Printable = requires(DataType a, std::ostream& os)
+{
+    { os << a } -> std::convertible_to<std::ostream&>;
+};
 
 // Koncept sprawdzajacy, czy da sie zamienic 2 elementy
 template <typename DataType>
@@ -20,12 +29,6 @@ concept Comparable = requires(DataType a, DataType b)
     { a < b } -> std::same_as<bool>;
     { a > b } -> std::same_as<bool>;
 };
-
-// template <typename DataType>
-// concept CopyComparable = Comparable<DataType> && std::is_copy_assignable_v<DataType>;
-
-// template <typename DataType>
-// concept MoveComparable = Comparable<DataType> && std::is_move_assignable_v<DataType>;
 
 // Sprawdza, czy typ nadaje sie do 2Accumulable
 template <typename DataType>

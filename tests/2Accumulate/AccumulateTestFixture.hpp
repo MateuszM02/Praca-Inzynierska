@@ -13,8 +13,8 @@ struct AccumulateTestStruct : public BaseTestStruct<Accumulator<DataType>>
 public:
     AccumulateTestStruct(
         const TestType testType,
-        std::shared_ptr<Accumulator<DataType>> f)
-    : BaseTestStruct<Accumulator<DataType>>(testType, std::move(f))
+        const std::shared_ptr<Accumulator<DataType>>& f)
+    : BaseTestStruct<Accumulator<DataType>>(testType, f)
     { }
 };
 
@@ -23,20 +23,6 @@ template <typename DataType>
 class AccumulateTestFixture : public BaseTestFixture<AccResults<DataType>, Accumulator<DataType>>
 {
 public:
-    static std::vector<DataType> initTestData(
-        DataType (*f)(const unsigned int),
-        const unsigned int n)
-    {
-        std::vector<DataType> v;
-        v.reserve(n);
-
-        for (unsigned int i = 1; i <= n; ++i)
-        {
-            v.emplace_back(std::move(f(i)));
-        }
-        return v;
-    }
-
     void VerifyTestCustomFor2(const BaseTestStruct<Accumulator<DataType>>& args)
     {
         using namespace std::placeholders;

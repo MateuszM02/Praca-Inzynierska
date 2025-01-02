@@ -15,7 +15,7 @@ struct SequenceArgs final : public RemoveEraseIfTestStruct<unsigned int>
         bool(*predicate)(const unsigned int&))
     : RemoveEraseIfTestStruct<unsigned int>(
         RemoveEraseIfSequence,
-        std::move(std::make_shared<Remover<unsigned int>>(RemoverData(initData(n), predicate))))
+        std::make_shared<Remover<unsigned int>>(RemoverData<unsigned int>(initData(n), predicate)))
     { }
 
 private:

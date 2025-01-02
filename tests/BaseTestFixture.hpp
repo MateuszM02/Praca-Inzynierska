@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../src/Algorithms/Base.hpp"
+#include "../src/Concepts/DataTypeConcepts.hpp"
 #include "Path.hpp"
 
 #include <fstream>
@@ -12,6 +13,15 @@
     if (not ((val1) == (val2))) \
     { \
         os << "Wartosc " #val1 " rozni sie od wartosci " #val2 ".\n"; \
+        if constexpr (src::Concepts::Printable<decltype(val1)> && \
+            src::Concepts::Printable<decltype(val2)>) \
+        { \
+            os << "Wartosc " #val1 ":\n"; \
+            os << val1; \
+            os << "Wartosc " #val2 ":\n"; \
+            os << val2; \
+            os << "--------------------------------------------------\n"; \
+        } \
     } \
     EXPECT_EQ(val1, val2)
 
@@ -23,7 +33,7 @@ template <typename PtrType>
 struct BaseTestStruct
 {
 public:
-    BaseTestStruct(const TestType testType, std::shared_ptr<PtrType> f)
+    BaseTestStruct(const TestType testType, const std::shared_ptr<PtrType>& f)
     : filePath_{createPath(testType)}
     , ref_{std::move(f)}
     { }
@@ -42,7 +52,7 @@ protected:
 // Klasa abstrakcyjna BaseTestFixture, po ktorej dziedzicza klasy testowe metod generate
 template <typename Container, typename PtrType> 
 class BaseTestFixture : public ::testing::TestWithParam<BaseTestStruct<PtrType>>
-{ 
+{
 public:
     void VerifyTest(const BaseTestStruct<PtrType>& args)
     {
@@ -52,8 +62,8 @@ public:
     }
 
     void VerifyTest(const BaseTestStruct<PtrType>& args,
-        std::function<void(const Container&, const Container&,
-            const Container&, std::ostringstream&)> checker)
+        const std::function<void(const Container&, const Container&,
+            const Container&, std::ostringstream&)>& checker)
     {
         std::ostringstream os; // Uzycie ostringstream do wypisywania wynikow testow
 
@@ -76,6 +86,34 @@ public:
         {
             std::cerr << "Nie udalo sie zapisac wynikow testu do pliku: " << args.filePath_ << "\n";
         }
+    }
+
+    template <typename DataType>
+    static std::vector<DataType>
+    initTestData(DataType (*generator)()&, const unsigned int n)
+    {
+        std::vector<DataType> v;
+        v.reserve(n);
+
+        for (unsigned int i = 1; i <= n; ++i)
+        {
+            v.emplace_back(generator());
+        }
+        return v;
+    }
+    
+    template <typename DataType>
+    static std::vector<DataType>
+    initTestData(DataType (*generator)(const unsigned int)&, const unsigned int n)
+    {
+        std::vector<DataType> v;
+        v.reserve(n);
+
+        for (unsigned int i = 1; i <= n; ++i)
+        {
+            v.emplace_back(generator(i));
+        }
+        return v;
     }
 
 private:

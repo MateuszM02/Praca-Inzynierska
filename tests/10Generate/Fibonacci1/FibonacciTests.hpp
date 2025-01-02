@@ -1,11 +1,9 @@
 #pragma once
 
 #include "../../../src/Concepts/DataTypeConcepts.hpp"
-#include "../../../src/Structures/FibonacciImpl.hpp"
 #include "../GenerateTestFixture.hpp"
 
 using namespace src::Concepts;
-using namespace src::Structures;
 
 namespace tests::Generate
 {
@@ -18,7 +16,12 @@ struct FibonacciGenerateArgs final : public GenerateTestStruct<DataType, std::pa
         unsigned int n)
     : GenerateTestStruct<DataType, std::pair<DataType, DataType>>(
         GenerateFibonacci,
-        std::move(FibonacciImpl::createGenerator(n, initialPair)))
+        std::make_shared<Generator<DataType, std::pair<DataType, DataType>>>(n, initialPair,
+            [](std::pair<DataType, DataType>& currentState)
+            {
+                currentState = std::make_pair(currentState.second, currentState.first + currentState.second);
+                return currentState.first;
+            }))
     { }
 };
 

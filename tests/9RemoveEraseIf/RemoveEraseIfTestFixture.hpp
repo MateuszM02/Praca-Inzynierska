@@ -15,8 +15,8 @@ struct RemoveEraseIfTestStruct : public BaseTestStruct<Remover<DataType, Contain
 public:
     RemoveEraseIfTestStruct(
         const TestType testType,
-        std::shared_ptr<Remover<DataType, Container>> f)
-    : BaseTestStruct<Remover<DataType, Container>>(testType, std::move(f))
+        const std::shared_ptr<Remover<DataType, Container>>& f)
+    : BaseTestStruct<Remover<DataType, Container>>(testType, f)
     { }
 };
 
@@ -26,8 +26,8 @@ class RemoveEraseIfTestFixture : public BaseTestFixture<Container, Remover<DataT
 {
 public:
     static RemoverData<DataType, Container> initTestData(
-        DataType(*generator)(const unsigned int),
-        bool (*predicate)(const DataType&),
+        DataType(*generator)(const unsigned int)&,
+        bool (*predicate)(const DataType&)&,
         const unsigned int n)
     {
         Container elements;
@@ -38,7 +38,7 @@ public:
             elements.emplace_back(generator(i));
         }
 
-        return RemoverData<DataType, Container>(std::move(elements), predicate);
+        return RemoverData<DataType, Container>(elements, predicate);
     }
 };
 

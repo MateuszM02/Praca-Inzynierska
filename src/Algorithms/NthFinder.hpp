@@ -13,7 +13,7 @@ namespace src::Algorithms
 template <typename DataType, typename Container = std::vector<DataType>>
 struct NthFinderData final
 {
-    NthFinderData(Container elements, const size_t n)
+    explicit NthFinderData(const Container& elements, const size_t n)
     : elements_{std::move(elements)}
     , n_{n}
     { }
@@ -28,7 +28,7 @@ class NthFinder final : public BaseClass<DataType, Container>
 public:
     using Iterator = typename Container::iterator;
 
-    NthFinder(NthFinderData<DataType, Container> data)
+    explicit NthFinder(const NthFinderData<DataType, Container>& data)
     : elements_(data.elements_)
     , initialElements_(std::move(data.elements_))
     , n_(data.n_)

@@ -11,14 +11,14 @@ namespace tests::Merge
 struct IntVectorMergeArgs final : public MergeTestStruct<IntVector>
 {
     IntVectorMergeArgs(
-        IntVector (*fun1)(const unsigned int),
-        IntVector (*fun2)(const unsigned int),
+        IntVector (*fun1)(const unsigned int)&,
+        IntVector (*fun2)(const unsigned int)&,
         const unsigned int n1,
         const unsigned int n2)
     : MergeTestStruct<IntVector>(
         MergeIntVector,
-        std::move(std::make_shared<Merger<IntVector>>(
-            MergeTestFixture<IntVector>::initTestData(fun1, fun2, n1, n2))))
+        std::make_shared<Merger<IntVector>>(
+            MergeTestFixture<IntVector>::initTestData(fun1, fun2, n1, n2)))
     { }
 };
 
@@ -33,7 +33,7 @@ public:
         {
             v.emplace_back(10*i + ((i+1) % 7));
         }
-        return { std::move(v) };
+        return IntVector(v);
     }
 
     static IntVector f10i_imod9(const unsigned int n)
@@ -44,7 +44,7 @@ public:
         {
             v.emplace_back(10*i + (i % 9));
         }
-        return { std::move(v) };
+        return IntVector(v);
     }
 };
 

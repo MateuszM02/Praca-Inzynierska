@@ -44,11 +44,11 @@ private:
         }
 
         // generuj tekst i wzorzec
-        const std::string text = textGenerator(textLength);
-        const std::string pattern = patternGenerator();
-        const RegexData data(std::move(text), std::move(pattern));
+        const std::string& text = textGenerator(textLength);
+        const std::string& pattern = patternGenerator();
+        const RegexData data(text, pattern);
 
-        return std::make_shared<RegexEvaluator>(std::move(data));
+        return std::make_shared<RegexEvaluator>(data);
     }
 };
 

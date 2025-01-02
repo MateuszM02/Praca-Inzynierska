@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Base.hpp"
-
+#include <functional>
 #include <boost/range/algorithm/generate.hpp> // boost::range::generate
 
 namespace src::Algorithms
@@ -11,9 +11,9 @@ template <typename GeneratedDataType, typename StateDataType = GeneratedDataType
 class Generator final : public BaseClass<GeneratedDataType, std::vector<GeneratedDataType>>
 {
 public:
-    Generator(const std::size_t n,
+    explicit Generator(const std::size_t n,
         const StateDataType& initialState,
-        GeneratedDataType(*const generator)(const StateDataType&, StateDataType&))
+        const std::function<GeneratedDataType(StateDataType&)>& generator)
     : n_{n}
     , initialState_{initialState}
     , currentState_{std::move(initialState)}
@@ -22,7 +22,7 @@ public:
 
     GeneratedDataType create() const
     {
-        return generator_(initialState_, currentState_);
+        return generator_(currentState_);
     }
 
     std::size_t size() const noexcept { return n_; }
@@ -60,7 +60,7 @@ private:
     std::size_t n_;
     StateDataType initialState_;
     mutable StateDataType currentState_;
-    GeneratedDataType(*const generator_)(const StateDataType&, StateDataType&);
+    std::function<GeneratedDataType(StateDataType&)> generator_;
 };
 
 } // namespace src::Algorithms

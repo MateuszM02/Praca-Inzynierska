@@ -16,7 +16,7 @@ class RandomStringImpl final
 private:
     using StrGenerator = Generator<std::string, RandomString>;
     
-    static std::string creator(const RandomString& initialState, RandomString& currentState)
+    static std::string creator(RandomString& currentState)
     {
         return currentState();
     }
@@ -24,7 +24,7 @@ private:
     static StrGenerator
     createGeneratorData(const unsigned int vectorSize, const unsigned int length)
     {
-        return { vectorSize, { length }, creator };
+        return StrGenerator(vectorSize, RandomString(length), creator);
     }
 
 public:
@@ -33,8 +33,8 @@ public:
     static std::shared_ptr<StrGenerator> 
     createGenerator(const unsigned int vectorSize, const unsigned int length)
     {
-        const StrGenerator generator = createGeneratorData(vectorSize, length);
-        return std::make_shared<StrGenerator>(std::move(generator));
+        const StrGenerator& generator = createGeneratorData(vectorSize, length);
+        return std::make_shared<StrGenerator>(generator);
     }
 
     template <NthElementCompatible Container = std::vector<std::string>>
@@ -46,7 +46,7 @@ public:
         const unsigned int vectorSize,
         const unsigned int length)
     {
-        const StrGenerator generator = createGeneratorData(vectorSize, length);
+        const StrGenerator& generator = createGeneratorData(vectorSize, length);
         Container elements;
         elements.reserve(vectorSize);
         for (unsigned int i = 0; i < vectorSize; i++)
@@ -54,8 +54,8 @@ public:
             elements.emplace_back(generator.create());
         }
 
-        NthFinderData<std::string> data(std::move(elements), n);
-        return std::make_shared<NthFinder<std::string>>(std::move(data));
+        NthFinderData<std::string> data(elements, n);
+        return std::make_shared<NthFinder<std::string>>(data);
     }
 };
 
