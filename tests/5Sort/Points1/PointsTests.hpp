@@ -8,20 +8,18 @@ using namespace src::Structures;
 namespace tests::Sort
 {
 
-struct PointsSortArgs : public SortTestStruct<Point2D>
+struct PointsSortArgs final : public SortTestStruct<Point2D>
 {
-    PointsSortArgs(Point2D (*f)()&, const unsigned int n)
+    explicit PointsSortArgs(Point2D (*f)()&, const unsigned int n)
     : SortTestStruct<Point2D>(
-        SortPoints,
-        std::make_shared<Sorter<Point2D>>(
-            SortTestFixture<Point2D>::initTestData(f, n)))
+        TestType::SortPoints,
+        std::make_shared<Sorter<Point2D>>(initTestData(f, n)))
     { }
 
     PointsSortArgs(Point2D (*f)(const unsigned int)&, const unsigned int n)
     : SortTestStruct<Point2D>(
-        SortPoints,
-        std::make_shared<Sorter<Point2D>>(
-            SortTestFixture<Point2D>::initTestData(f, n)))
+        TestType::SortPoints,
+        std::make_shared<Sorter<Point2D>>(initTestData(f, n)))
     { }
 };
 

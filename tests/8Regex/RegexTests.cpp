@@ -10,10 +10,10 @@ INSTANTIATE_TEST_SUITE_P(
     RegexPrefix,
     RegexTestFixture,
     ::testing::Values(
-        RegexTestStruct(SMALL_TEXT_SIZE, date),
-        RegexTestStruct(MEDIUM_TEXT_SIZE, date),
-        RegexTestStruct(SMALL_TEXT_SIZE, phone),
-        RegexTestStruct(MEDIUM_TEXT_SIZE, phone)
+        RegexTestStruct(SMALL_TEXT_SIZE, ERegexTestType::date),
+        RegexTestStruct(MEDIUM_TEXT_SIZE, ERegexTestType::date),
+        RegexTestStruct(SMALL_TEXT_SIZE, ERegexTestType::phone),
+        RegexTestStruct(MEDIUM_TEXT_SIZE, ERegexTestType::phone)
     ));
 
 } // namespace tests::Regex

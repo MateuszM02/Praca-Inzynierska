@@ -10,11 +10,10 @@ namespace tests::Accumulate
 template <typename DataType>
 struct AccumulateTestStruct : public BaseTestStruct<Accumulator<DataType>>
 {
-public:
-    AccumulateTestStruct(
-        const TestType testType,
-        const std::shared_ptr<Accumulator<DataType>>& f)
-    : BaseTestStruct<Accumulator<DataType>>(testType, f)
+protected:
+    explicit AccumulateTestStruct(const TestType testType,
+        std::shared_ptr<Accumulator<DataType>>&& f)
+    : BaseTestStruct<Accumulator<DataType>>(testType, std::move(f))
     { }
 };
 
@@ -22,7 +21,9 @@ public:
 template <typename DataType>
 class AccumulateTestFixture : public BaseTestFixture<AccResults<DataType>, Accumulator<DataType>>
 {
-public:
+protected:
+    AccumulateTestFixture() = default;
+
     void VerifyTestCustomFor2(const BaseTestStruct<Accumulator<DataType>>& args)
     {
         using namespace std::placeholders;

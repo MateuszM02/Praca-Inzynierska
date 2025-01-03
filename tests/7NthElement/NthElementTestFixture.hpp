@@ -12,19 +12,13 @@ namespace tests::NthElement
 template <typename DataType, NthElementCompatible Container = std::vector<DataType>>
 struct NthElementTestStruct : public BaseTestStruct<NthFinder<DataType, Container>>
 {
-public:
-    NthElementTestStruct(
+protected:
+    explicit NthElementTestStruct(
         const TestType testType,
-        const std::shared_ptr<NthFinder<DataType, Container>>& f)
-    : BaseTestStruct<NthFinder<DataType, Container>>(testType, f)
+        std::shared_ptr<NthFinder<DataType, Container>>&& f)
+    : BaseTestStruct<NthFinder<DataType, Container>>(testType, std::move(f))
     { }
-};
 
-// Klasa abstrakcyjna NthElementTestFixture, po ktorej dziedzicza klasy testowe metod NthElement
-template <typename DataType, NthElementCompatible Container = std::vector<DataType>>
-class NthElementTestFixture : public BaseTestFixture<Container, NthFinder<DataType, Container>>
-{
-public:
     static NthFinderData<DataType, Container> initTestData(
         DataType(*generator)(const unsigned int)&,
         const unsigned int n,
@@ -42,11 +36,18 @@ public:
 
         return NthFinderData<DataType, Container>(elements, n);
     }
+};
 
+// Klasa abstrakcyjna NthElementTestFixture, po ktorej dziedzicza klasy testowe metod NthElement
+template <typename DataType, NthElementCompatible Container = std::vector<DataType>>
+class NthElementTestFixture : public BaseTestFixture<Container, NthFinder<DataType, Container>>
+{
+protected:
     void VerifyTestCustomFor7(const BaseTestStruct<NthFinder<DataType, Container>>& args)
     {
         using namespace std::placeholders;
-        auto checker = std::bind(&NthElementTestFixture::verifyCustomFor7, this, _1, _2, _3, _4, args.ref_->n_);
+        const std::size_t n = args.get(&NthFinder<DataType, Container>::n_);
+        auto checker = std::bind(&NthElementTestFixture::verifyCustomFor7, this, _1, _2, _3, _4, n);
         this->VerifyTest(args, checker);
     }
 

@@ -8,18 +8,18 @@ using namespace src::Structures;
 namespace tests::Accumulate
 {
 
-template <class Number>
+template <typename Number>
 requires std::is_arithmetic_v<Number>
-struct MatrixAccumulateArgs : public AccumulateTestStruct<Matrix<Number>>
+struct MatrixAccumulateArgs final : public AccumulateTestStruct<Matrix<Number>>
 {
-    MatrixAccumulateArgs(
+    explicit MatrixAccumulateArgs(
         Matrix<Number>(*f)()&,
         const unsigned int n,
         AccType accType)
     : AccumulateTestStruct<Matrix<Number>>(
-        AccumulateMatrix,
+        TestType::AccumulateMatrix,
         std::make_shared<Accumulator<Matrix<Number>>>(
-            AccumulateTestFixture<Matrix<Number>>::initTestData(f, n),
+            this->initTestData(f, n),
             accType))
     { }
 };

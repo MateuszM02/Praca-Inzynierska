@@ -10,13 +10,12 @@ namespace tests::Sort
 
 struct IntVectorSortArgs final : public SortTestStruct<IntVector>
 {
-    IntVectorSortArgs(
+    explicit IntVectorSortArgs(
         IntVector (*f)(const unsigned int)&,
         const unsigned int n)
     : SortTestStruct<IntVector>(
-        SortIntVector,
-        std::make_shared<Sorter<IntVector>>(
-            SortTestFixture<IntVector>::initTestData(f, n)))
+        TestType::SortIntVector,
+        std::make_shared<Sorter<IntVector>>(initTestData(f, n)))
     { }
 };
 

@@ -8,14 +8,14 @@ using namespace src::Structures;
 namespace tests::NthElement
 {
 
-struct RandomStringNthElementArgs : public NthElementTestStruct<std::string>
+struct RandomStringNthElementArgs final : public NthElementTestStruct<std::string>
 {
-    RandomStringNthElementArgs(
+    explicit RandomStringNthElementArgs(
         const unsigned int n,
         const unsigned int vectorSize,
         const unsigned int stringLength)
     : NthElementTestStruct<std::string>(
-        NthElementRandomString,
+        TestType::NthElementRandomString,
         RandomStringImpl::createFinder(n, vectorSize, stringLength))
     { }
 };

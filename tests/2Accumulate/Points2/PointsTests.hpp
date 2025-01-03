@@ -8,16 +8,16 @@ using namespace src::Structures;
 namespace tests::Accumulate
 {
 
-struct PointsAccumulateArgs : public AccumulateTestStruct<Point2D>
+struct PointsAccumulateArgs final : public AccumulateTestStruct<Point2D>
 {
-    PointsAccumulateArgs(
+    explicit PointsAccumulateArgs(
         Point2D (*f)(const unsigned int)&,
         const unsigned int n,
         AccType accType)
     : AccumulateTestStruct<Point2D>(
-        AccumulatePoints,
+        TestType::AccumulatePoints,
         std::make_shared<Accumulator<Point2D>>(
-            AccumulateTestFixture<Point2D>::initTestData(f, n),
+            initTestData(f, n),
             accType))
     { }
 };

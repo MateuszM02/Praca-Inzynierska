@@ -8,16 +8,15 @@ using namespace src::Structures;
 namespace tests::NthElement
 {
 
-struct PointsNthElementArgs : public NthElementTestStruct<Point2D>
+struct PointsNthElementArgs final : public NthElementTestStruct<Point2D>
 {
-    PointsNthElementArgs(
+    explicit PointsNthElementArgs(
         Point2D (*fun)(const unsigned int)&,
         const unsigned int n,
         const unsigned int vectorSize)
     : NthElementTestStruct<Point2D>(
-        NthElementPoints,
-        std::make_shared<NthFinder<Point2D>>(
-            NthElementTestFixture<Point2D>::initTestData(fun, n, vectorSize)))
+        TestType::NthElementPoints,
+        std::make_shared<NthFinder<Point2D>>(initTestData(fun, n, vectorSize)))
     { }
 };
 

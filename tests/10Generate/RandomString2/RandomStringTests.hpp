@@ -8,11 +8,11 @@ using namespace src::Structures;
 namespace tests::Generate
 {
 
-struct RandomStringGenerateArgs : public GenerateTestStruct<std::string, RandomString>
+struct RandomStringGenerateArgs final : public GenerateTestStruct<std::string, RandomString>
 {
-    RandomStringGenerateArgs(const unsigned int l, const unsigned int n)
+    explicit RandomStringGenerateArgs(const unsigned int l, const unsigned int n)
     : GenerateTestStruct<std::string, RandomString>(
-        GenerateRandomString,
+        TestType::GenerateRandomString,
         RandomStringImpl::createGenerator(n, l))
     { }
 };

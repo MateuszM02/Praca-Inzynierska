@@ -13,11 +13,10 @@ namespace tests::Sort
 template <typename DataType>
 struct SortTestStruct : public BaseTestStruct<Sorter<DataType>>
 {
-public:
-    SortTestStruct(
-        const TestType testType,
-        const std::shared_ptr<Sorter<DataType>>& f)
-    : BaseTestStruct<Sorter<DataType>>(testType, f)
+protected:
+    explicit SortTestStruct(const TestType testType,
+        std::shared_ptr<Sorter<DataType>>&& f)
+    : BaseTestStruct<Sorter<DataType>>(testType, std::move(f))
     { }
 };
 
@@ -25,6 +24,8 @@ public:
 template <typename DataType>
 class SortTestFixture : public BaseTestFixture<std::vector<DataType>, Sorter<DataType>>
 {
+protected:
+    SortTestFixture() = default;
 };
 
 } // namespace tests::Sort

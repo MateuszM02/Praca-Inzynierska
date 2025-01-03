@@ -142,8 +142,9 @@ namespace std
 {
 
 template <HasNumericLimits DataType>
-struct numeric_limits<src::Structures::Matrix<DataType>>
+class numeric_limits<src::Structures::Matrix<DataType>>
 {
+public:
     static constexpr bool is_specialized = true;
     
     static src::Structures::Matrix<DataType> min() noexcept

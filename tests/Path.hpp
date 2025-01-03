@@ -5,14 +5,13 @@
 namespace tests
 {
 
-enum TestType
+enum class TestType : unsigned char
 {
     // TODO: typy 1
     AccumulateUint,
     AccumulatePoints,
     AccumulateMatrix,
     MergePoints,
-    MergeTree,
     MergeIntVector,
     // TODO: typy 4
     SortPoints,
@@ -44,24 +43,23 @@ private:
         switch (type)
         {
             // TODO: typy 1
-            case AccumulateUint:            return "UInt";
-            case AccumulatePoints:          return "Points";
-            case AccumulateMatrix:          return "Matrix";
-            case MergePoints:               return "Points";
-            case MergeTree:                 return "Tree";
-            case MergeIntVector:            return "IntVector";
+            case TestType::AccumulateUint:            return "UInt";
+            case TestType::AccumulatePoints:          return "Points";
+            case TestType::AccumulateMatrix:          return "Matrix";
+            case TestType::MergePoints:               return "Points";
+            case TestType::MergeIntVector:            return "IntVector";
             // TODO: typy 4
-            case SortPoints:                return "Points";
-            case SortIntVector:             return "IntVector";
+            case TestType::SortPoints:                return "Points";
+            case TestType::SortIntVector:             return "IntVector";
             // TODO: typy 6
-            case NthElementPoints:          return "Points";
-            case NthElementRandomString:    return "RandomString";
-            case RegexType:                 return "Regex";
+            case TestType::NthElementPoints:          return "Points";
+            case TestType::NthElementRandomString:    return "RandomString";
+            case TestType::RegexType:                 return "Regex";
             // TODO: wiecej typow 9
-            case RemoveEraseIfSequence:     return "Sequence";
-            case GenerateFibonacci:         return "Fibonacci";
-            case GenerateRandomString:      return "RandomString";
-            case GenerateMatrix:            return "Matrix";
+            case TestType::RemoveEraseIfSequence:     return "Sequence";
+            case TestType::GenerateFibonacci:         return "Fibonacci";
+            case TestType::GenerateRandomString:      return "RandomString";
+            case TestType::GenerateMatrix:            return "Matrix";
             default:                        return "!!! Nieznany typ testu !!!";
         }
     }

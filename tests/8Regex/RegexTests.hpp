@@ -9,7 +9,7 @@ using namespace src::Algorithms;
 namespace tests::Regex
 {
 
-enum ERegexTestType
+enum class ERegexTestType : unsigned char
 {
     phone,
     date
@@ -18,8 +18,8 @@ enum ERegexTestType
 struct RegexTestStruct final : public BaseTestStruct<RegexEvaluator>
 {
 public:
-    RegexTestStruct(const unsigned int textLength, const ERegexTestType testType)
-    : BaseTestStruct<RegexEvaluator>(RegexType, createEvaluatorPtr(textLength, testType))
+    explicit RegexTestStruct(const unsigned int textLength, const ERegexTestType testType)
+    : BaseTestStruct<RegexEvaluator>(TestType::RegexType, createEvaluatorPtr(textLength, testType))
     { }
 
 private:
@@ -31,11 +31,11 @@ private:
 
         switch (testType)
         {
-            case date:
+            case ERegexTestType::date:
                 textGenerator = RegexGenerators::dateTextGenerator;
                 patternGenerator = RegexGenerators::datePatternGenerator;
                 break;
-            case phone:
+            case ERegexTestType::phone:
                 textGenerator = RegexGenerators::phoneTextGenerator;
                 patternGenerator = RegexGenerators::phonePatternGenerator;
                 break;

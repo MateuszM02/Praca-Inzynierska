@@ -10,11 +10,10 @@ namespace tests::RemoveEraseIf
 
 struct SequenceArgs final : public RemoveEraseIfTestStruct<unsigned int>
 {
-    SequenceArgs(
-        const unsigned int n,
+    explicit SequenceArgs(const unsigned int n,
         bool(*predicate)(const unsigned int&))
     : RemoveEraseIfTestStruct<unsigned int>(
-        RemoveEraseIfSequence,
+        TestType::RemoveEraseIfSequence,
         std::make_shared<Remover<unsigned int>>(RemoverData<unsigned int>(initData(n), predicate)))
     { }
 
