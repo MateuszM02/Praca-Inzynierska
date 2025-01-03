@@ -6,16 +6,16 @@
 namespace tests::Accumulate
 {
 
-struct UIntAccumulateArgs : public AccumulateTestStruct<unsigned int>
+struct UIntAccumulateArgs final : public AccumulateTestStruct<unsigned int>
 {
-    UIntAccumulateArgs(
+    explicit UIntAccumulateArgs(
         unsigned int (*f)(const unsigned int)&,
         const unsigned int n,
         AccType accType)
     : AccumulateTestStruct<unsigned int>(
-        AccumulateUint,
+        TestType::AccumulateUint,
         std::make_shared<Accumulator<unsigned int>>(
-            AccumulateTestFixture<unsigned int>::initTestData(f, n),
+            initTestData(f, n),
             accType))
     { }
 };

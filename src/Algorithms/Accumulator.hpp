@@ -27,7 +27,7 @@ using namespace src::Concepts;
 namespace src::Algorithms
 {
 
-enum AccType
+enum class AccType : unsigned char
 {
     SumOnly,
     SumAndMean,
@@ -36,7 +36,7 @@ enum AccType
 };
 
 template <typename DataType>
-struct AccResults
+struct AccResults final
 {
     explicit AccResults()
     : sum(DataType())
@@ -82,12 +82,12 @@ private:
         AccResults<DataType> results;
         results.sum = std::accumulate(data_.begin(), data_.end(), DataType());
 
-        if (accType_ == SumAndExtremes || accType_ == DoItAll)
+        if (accType_ == AccType::SumAndExtremes || accType_ == AccType::DoItAll)
         {
             results.minimum = *std::min_element(data_.begin(), data_.end());
             results.maximum = *std::max_element(data_.begin(), data_.end());
         }
-        if (accType_ == SumAndMean || accType_ == DoItAll)
+        if (accType_ == AccType::SumAndMean || accType_ == AccType::DoItAll)
         {
             results.mean = (results.sum / data_.size());
         }
@@ -101,14 +101,14 @@ private:
         
         switch (accType_)
         {
-            case SumOnly:
+            case AccType::SumOnly:
             {
                 accumulator_set<DataType, stats<tag::sum>> acc1;
                 FOR_ITER_ON_ACC(acc1);
                 results.sum = sum(acc1);
                 return results;
             }
-            case SumAndExtremes:
+            case AccType::SumAndExtremes:
             {
                 accumulator_set<DataType,
                     stats<tag::sum, tag::min, tag::max>> acc2;
@@ -118,7 +118,7 @@ private:
                 results.maximum = max(acc2);
                 return results;
             }
-            case SumAndMean:
+            case AccType::SumAndMean:
             {
                 accumulator_set<DataType,
                     stats<tag::sum, tag::mean>> acc3;
@@ -127,7 +127,7 @@ private:
                 results.mean = mean(acc3);
                 return results;
             }
-            case DoItAll:
+            case AccType::DoItAll:
             {
                 accumulator_set<DataType,
                     stats<tag::sum, tag::min, tag::max, tag::mean>> acc4;
@@ -148,11 +148,11 @@ private:
     {
         AccResults<DataType> results;
 
-        if (accType_ == SumOnly || accType_ == SumAndMean)
+        if (accType_ == AccType::SumOnly || accType_ == AccType::SumAndMean)
         {
             FOR_ITER([&results](const DataType& wrapper) { results.sum += wrapper; });
         }
-        else // SumAndExtremes, DoItAll
+        else // AccType::SumAndExtremes, AccType::DoItAll
         {
             results.minimum = *data_.begin();
             results.maximum = *data_.begin();
@@ -166,7 +166,7 @@ private:
             });
         }
 
-        if (accType_ == SumAndMean || accType_ == DoItAll)
+        if (accType_ == AccType::SumAndMean || accType_ == AccType::DoItAll)
         {
             results.mean = (results.sum / data_.size());
         }

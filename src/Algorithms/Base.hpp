@@ -12,10 +12,7 @@ template <typename DataType, typename Container = std::vector<DataType>>
 class BaseClass
 {
 public:
-    virtual ~BaseClass() = default;
-    BaseClass() = default;
-    
-    Container call(const MethodType& methodType, std::ostream& os) const
+    Container call(const MethodType& methodType, std::ostringstream& os) const
     {
         switch (methodType)
         {
@@ -30,6 +27,8 @@ public:
     }
     
 protected:
+    BaseClass() = default;
+    virtual ~BaseClass() = default;
     virtual void resetData() const = 0;
     virtual Container executeSTL() const = 0;
     virtual Container executeBoost() const = 0;
@@ -39,7 +38,7 @@ private:
     Container measureExecutionTime(
         Container(BaseClass::*memberFunction)() const,
         const std::string& methodName,
-        std::ostream& os) const
+        std::ostringstream& os) const
     {
         const auto start = std::chrono::high_resolution_clock::now();
         const Container result = (this->*memberFunction)();

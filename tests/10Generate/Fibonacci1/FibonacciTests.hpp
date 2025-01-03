@@ -11,11 +11,11 @@ namespace tests::Generate
 template <Addable DataType>
 struct FibonacciGenerateArgs final : public GenerateTestStruct<DataType, std::pair<DataType, DataType>>
 {
-    FibonacciGenerateArgs(
+    explicit FibonacciGenerateArgs(
         const std::pair<DataType, DataType>& initialPair,
         unsigned int n)
     : GenerateTestStruct<DataType, std::pair<DataType, DataType>>(
-        GenerateFibonacci,
+        TestType::GenerateFibonacci,
         std::make_shared<Generator<DataType, std::pair<DataType, DataType>>>(n, initialPair,
             [](std::pair<DataType, DataType>& currentState)
             {

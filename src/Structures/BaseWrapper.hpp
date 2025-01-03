@@ -15,7 +15,7 @@ namespace src::Structures
 template <bool EnableMove, bool EnableCopy>
 class BaseWrapper
 {
-public:
+protected:
     explicit BaseWrapper(const std::vector<std::any>& classFields)
     : classFields_(classFields) 
     { }

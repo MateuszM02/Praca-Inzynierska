@@ -13,7 +13,7 @@ namespace src::Algorithms
 template <typename DataType, typename Container = std::vector<DataType>>
 struct NthFinderData final
 {
-    explicit NthFinderData(const Container& elements, const size_t n)
+    explicit NthFinderData(const Container& elements, const std::size_t n)
     : elements_{std::move(elements)}
     , n_{n}
     { }
@@ -114,7 +114,7 @@ private:
     const Container initialElements_;
 
 public:
-    std::size_t n_;
+    const std::size_t n_;
 };
 
 } // namespace src::Algorithms

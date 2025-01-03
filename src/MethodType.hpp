@@ -2,10 +2,12 @@
 
 namespace src
 {
-enum MethodType
+
+enum class MethodType : unsigned char
 {
     STL,
     Boost,
     Simple,
 };
+
 } // namespace src

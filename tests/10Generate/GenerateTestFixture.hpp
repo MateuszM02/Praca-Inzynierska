@@ -11,11 +11,10 @@ namespace tests::Generate
 template <typename GeneratedDataType, typename StateDataType = GeneratedDataType>
 struct GenerateTestStruct : public BaseTestStruct<Generator<GeneratedDataType, StateDataType>>
 {
-public:
-    GenerateTestStruct(
-        const TestType testType,
-        const std::shared_ptr<Generator<GeneratedDataType, StateDataType>>& f)
-    : BaseTestStruct<Generator<GeneratedDataType, StateDataType>>(testType, f)
+protected:
+    explicit GenerateTestStruct(const TestType testType,
+        std::shared_ptr<Generator<GeneratedDataType, StateDataType>>&& f)
+    : BaseTestStruct<Generator<GeneratedDataType, StateDataType>>(testType, std::move(f))
     { }
 };
 
@@ -25,6 +24,8 @@ class GenerateTestFixture : public BaseTestFixture<
     std::vector<GeneratedDataType>,
     Generator<GeneratedDataType, StateDataType>>
 {
+protected:
+    GenerateTestFixture() = default;
 };
 
 } // namespace tests::Generate

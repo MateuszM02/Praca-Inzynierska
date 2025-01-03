@@ -32,60 +32,17 @@ namespace tests
 template <typename PtrType>
 struct BaseTestStruct
 {
-public:
-    BaseTestStruct(const TestType testType, const std::shared_ptr<PtrType>& f)
+protected:
+    explicit BaseTestStruct(const TestType testType, std::shared_ptr<PtrType>&& f)
     : filePath_{createPath(testType)}
     , ref_{std::move(f)}
     { }
-
-    const std::string filePath_;
-    const std::shared_ptr<PtrType> ref_;
 
 protected:
     std::string createPath(const TestType testType) const
     {
         static std::unordered_map<TestType, unsigned int> testIdMap;
         return Path::Create(testType, ++testIdMap[testType]);
-    }
-};
-
-// Klasa abstrakcyjna BaseTestFixture, po ktorej dziedzicza klasy testowe metod generate
-template <typename Container, typename PtrType> 
-class BaseTestFixture : public ::testing::TestWithParam<BaseTestStruct<PtrType>>
-{
-public:
-    void VerifyTest(const BaseTestStruct<PtrType>& args)
-    {
-        using namespace std::placeholders;
-        auto checker = std::bind(&BaseTestFixture::verifyElementEqualities, this, _1, _2, _3, _4);
-        VerifyTest(args, checker);
-    }
-
-    void VerifyTest(const BaseTestStruct<PtrType>& args,
-        const std::function<void(const Container&, const Container&,
-            const Container&, std::ostringstream&)>& checker)
-    {
-        std::ostringstream os; // Uzycie ostringstream do wypisywania wynikow testow
-
-        const Container& stlResult =
-            args.ref_->call(src::MethodType::STL, os);
-        const Container& boostResult =
-            args.ref_->call(src::MethodType::Boost, os);
-        const Container& simpleResult =
-            args.ref_->call(src::MethodType::Simple, os); 
-        
-        // Zapisywanie wynikow testu do pliku
-        std::ofstream outFile(args.filePath_, std::ios::out | std::ios::trunc);
-        if (outFile.is_open())
-        {
-            checker(stlResult, boostResult, simpleResult, os);
-            outFile << os.str();
-            outFile.close();
-        }
-        else
-        {
-            std::cerr << "Nie udalo sie zapisac wynikow testu do pliku: " << args.filePath_ << "\n";
-        }
     }
 
     template <typename DataType>
@@ -114,6 +71,60 @@ public:
             v.emplace_back(generator(i));
         }
         return v;
+    }
+
+public:
+    // Zdobadz wartosc danego pola obiektu trzymanego przez ref_
+    template <typename FieldType>
+    FieldType get(FieldType PtrType::*field) const
+    {
+        return ref_.get()->*field;
+    }
+
+private:
+    std::string filePath_;
+    std::shared_ptr<PtrType> ref_; // TODO: zmienic na unique_ptr
+
+    template <typename, typename>
+    friend class BaseTestFixture;
+};
+
+// Klasa abstrakcyjna BaseTestFixture, po ktorej dziedzicza klasy testowe metod generate
+template <typename Container, typename PtrType> 
+class BaseTestFixture : public ::testing::TestWithParam<BaseTestStruct<PtrType>>
+{
+protected:
+    BaseTestFixture() = default;
+
+    void VerifyTest(const BaseTestStruct<PtrType>& args)
+    {
+        using namespace std::placeholders;
+        auto checker = std::bind(&BaseTestFixture::verifyElementEqualities, this, _1, _2, _3, _4);
+        VerifyTest(args, checker);
+    }
+
+    void VerifyTest(const BaseTestStruct<PtrType>& args,
+        const std::function<void(const Container&, const Container&,
+            const Container&, std::ostringstream&)>& checker)
+    {
+        std::ostringstream os; // Uzycie ostringstream do wypisywania wynikow testow
+
+        const Container& stlResult = args.ref_->call(src::MethodType::STL, os);
+        const Container& boostResult = args.ref_->call(src::MethodType::Boost, os);
+        const Container& simpleResult = args.ref_->call(src::MethodType::Simple, os);
+
+        // Zapisywanie wynikow testu do pliku
+        std::ofstream outFile(args.filePath_, std::ios::out | std::ios::trunc);
+        if (outFile.is_open())
+        {
+            checker(stlResult, boostResult, simpleResult, os);
+            outFile << os.str();
+            outFile.close();
+        }
+        else
+        {
+            std::cerr << "Nie udalo sie zapisac wynikow testu do pliku: " << args.filePath_ << "\n";
+        }
     }
 
 private:

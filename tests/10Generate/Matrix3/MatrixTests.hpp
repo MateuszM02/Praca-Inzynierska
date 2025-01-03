@@ -8,15 +8,15 @@ using namespace src::Structures;
 namespace tests::Generate
 {
 
-template <class Number>
+template <typename Number>
 requires std::is_arithmetic_v<Number>
-struct MatrixGenerateArgs : public GenerateTestStruct<Matrix<Number>>
+struct MatrixGenerateArgs final : public GenerateTestStruct<Matrix<Number>>
 {
-    MatrixGenerateArgs(
+    explicit MatrixGenerateArgs(
         const Matrix<Number>& initialMatrix,
         const unsigned int n)
     : GenerateTestStruct<Matrix<Number>>(
-    GenerateMatrix,
+    TestType::GenerateMatrix,
     std::make_shared<Generator<Matrix<Number>>>(n, initialMatrix,
         [initialState = initialMatrix](Matrix<Number>& currentState)
         {
