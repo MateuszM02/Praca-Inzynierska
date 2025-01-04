@@ -8,7 +8,7 @@ namespace src::Algorithms
 {
 
 template <typename GeneratedDataType, typename StateDataType = GeneratedDataType>
-class Generator final : public BaseClass<GeneratedDataType, std::vector<GeneratedDataType>>
+class Generator final : public BaseClass<std::vector<GeneratedDataType>>
 {
 public:
     explicit Generator(const std::size_t n,

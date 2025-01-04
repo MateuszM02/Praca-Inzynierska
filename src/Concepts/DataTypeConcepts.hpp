@@ -21,11 +21,18 @@ concept Swappable = requires(DataType a, DataType b)
     { std::swap(a, b) } -> std::same_as<void>;
 };
 
-// Koncept sprawdzajacy, czy typ ma operatory ==, <, >
+// Koncept sprawdzajacy, czy typ ma operator ==
 template <typename DataType>
-concept Comparable = requires(DataType a, DataType b)
+concept EqualityComparable = requires(DataType a, DataType b)
 {
     { a == b } -> std::same_as<bool>;
+};
+
+// Koncept sprawdzajacy, czy typ ma operatory ==, <, >
+template <typename DataType>
+concept Comparable = EqualityComparable<DataType> &&
+    requires(DataType a, DataType b)
+{
     { a < b } -> std::same_as<bool>;
     { a > b } -> std::same_as<bool>;
 };

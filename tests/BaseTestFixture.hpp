@@ -9,12 +9,14 @@
 
 #include <gtest/gtest.h>
 
+using namespace src::Algorithms;
+using namespace src::Concepts;
+
 #define EXPECT_EQ_OS(val1, val2, os) \
     if (not ((val1) == (val2))) \
     { \
         os << "Wartosc " #val1 " rozni sie od wartosci " #val2 ".\n"; \
-        if constexpr (src::Concepts::Printable<decltype(val1)> && \
-            src::Concepts::Printable<decltype(val2)>) \
+        if constexpr (Printable<decltype(val1)> && Printable<decltype(val2)>) \
         { \
             os << "Wartosc " #val1 ":\n"; \
             os << val1; \
@@ -28,24 +30,19 @@
 namespace tests
 {
 
-// PtrType musi byc postaci Doer<DataType, Container>
-template <typename PtrType>
+template <typename Container>
 struct BaseTestStruct
 {
 protected:
-    explicit BaseTestStruct(const TestType testType, std::shared_ptr<PtrType>&& f)
+    explicit BaseTestStruct(const TestType testType,
+        std::shared_ptr<BaseClass<Container>>&& f)
     : filePath_{createPath(testType)}
     , ref_{std::move(f)}
     { }
 
 protected:
-    std::string createPath(const TestType testType) const
-    {
-        static std::unordered_map<TestType, unsigned int> testIdMap;
-        return Path::Create(testType, ++testIdMap[testType]);
-    }
-
     template <typename DataType>
+    requires std::is_move_constructible_v<DataType>
     static std::vector<DataType>
     initTestData(DataType (*generator)()&, const unsigned int n)
     {
@@ -60,6 +57,7 @@ protected:
     }
     
     template <typename DataType>
+    requires std::is_move_constructible_v<DataType>
     static std::vector<DataType>
     initTestData(DataType (*generator)(const unsigned int)&, const unsigned int n)
     {
@@ -75,35 +73,48 @@ protected:
 
 public:
     // Zdobadz wartosc danego pola obiektu trzymanego przez ref_
-    template <typename FieldType>
-    FieldType get(FieldType PtrType::*field) const
+    template <typename FieldType, typename Derived>
+    FieldType getField(FieldType Derived::*field) const
     {
-        return ref_.get()->*field;
+        static_assert(std::is_base_of_v<BaseClass<Container>, Derived>,
+            "Derived must be derived from BaseClass<Container>");
+        using ptrType = decltype(ref_.get());
+        static_assert(std::is_pointer_v<ptrType>, "ref_ must be a pointer");
+        static_assert(std::is_convertible_v<ptrType, BaseClass<Container>*>,
+            "ref_ must be convertible to BaseClass<Container>*");
+
+        return static_cast<Derived*>(ref_.get())->*field;
     }
 
 private:
-    std::string filePath_;
-    std::shared_ptr<PtrType> ref_; // TODO: zmienic na unique_ptr
+    std::string createPath(const TestType testType) const
+    {
+        static std::unordered_map<TestType, unsigned int> testIdMap;
+        return Path::Create(testType, ++testIdMap[testType]);
+    }
 
-    template <typename, typename>
+    const std::string filePath_;
+    const std::shared_ptr<BaseClass<Container>> ref_;
+
+    template <typename>
     friend class BaseTestFixture;
 };
 
 // Klasa abstrakcyjna BaseTestFixture, po ktorej dziedzicza klasy testowe metod generate
-template <typename Container, typename PtrType> 
-class BaseTestFixture : public ::testing::TestWithParam<BaseTestStruct<PtrType>>
+template <typename Container> 
+class BaseTestFixture : public ::testing::TestWithParam<BaseTestStruct<Container>>
 {
 protected:
     BaseTestFixture() = default;
 
-    void VerifyTest(const BaseTestStruct<PtrType>& args)
+    void VerifyTest(const BaseTestStruct<Container>& args)
     {
         using namespace std::placeholders;
         auto checker = std::bind(&BaseTestFixture::verifyElementEqualities, this, _1, _2, _3, _4);
         VerifyTest(args, checker);
     }
 
-    void VerifyTest(const BaseTestStruct<PtrType>& args,
+    void VerifyTest(const BaseTestStruct<Container>& args,
         const std::function<void(const Container&, const Container&,
             const Container&, std::ostringstream&)>& checker)
     {
@@ -132,7 +143,8 @@ private:
         const Container& stlResult,
         const Container& boostResult,
         const Container& simpleResult,
-        std::ostringstream& os)
+        std::ostringstream& os) const
+    requires EqualityComparable<typename Container::value_type>
     {
         ::testing::internal::CaptureStdout(),
         ::testing::internal::CaptureStderr();

@@ -20,7 +20,7 @@ struct MergerData final
 };
 
 template <typename DataType>
-class Merger final : public BaseClass<DataType, std::vector<DataType>>
+class Merger final : public BaseClass<std::vector<DataType>>
 {
 public:
     explicit Merger(const MergerData<DataType>& data)

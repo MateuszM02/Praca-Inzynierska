@@ -9,12 +9,12 @@ namespace tests::Merge
 {
 
 template <typename DataType>
-struct MergeTestStruct : public BaseTestStruct<Merger<DataType>>
+struct MergeTestStruct : public BaseTestStruct<std::vector<DataType>>
 {
 protected:
     explicit MergeTestStruct(const TestType testType,
         std::shared_ptr<Merger<DataType>>&& f)
-    : BaseTestStruct<Merger<DataType>>(testType, std::move(f))
+    : BaseTestStruct<std::vector<DataType>>(testType, std::move(f))
     { }
 
     static MergerData<DataType> initTestData(
@@ -42,7 +42,7 @@ protected:
 
 // Klasa abstrakcyjna MergeTestFixture, po ktorej dziedzicza klasy testowe metod merge
 template <typename DataType>
-class MergeTestFixture : public BaseTestFixture<std::vector<DataType>, Merger<DataType>>
+class MergeTestFixture : public BaseTestFixture<std::vector<DataType>>
 {
 protected:
     MergeTestFixture() = default;

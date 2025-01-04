@@ -8,7 +8,7 @@ namespace src::Algorithms
 {
 
 template <typename DataType>
-class Sorter final : public BaseClass<DataType, std::vector<DataType>>
+class Sorter final : public BaseClass<std::vector<DataType>>
 {
 public:
     explicit Sorter(const std::vector<DataType>& elements)

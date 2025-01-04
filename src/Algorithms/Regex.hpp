@@ -19,7 +19,7 @@ struct RegexData final
     const std::string pattern_;
 };
 
-class RegexEvaluator final : public BaseClass<std::string, std::vector<std::string>>
+class RegexEvaluator final : public BaseClass<std::vector<std::string>>
 {
 public:
     explicit RegexEvaluator(const RegexData& data)

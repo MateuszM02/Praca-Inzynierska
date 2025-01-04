@@ -25,7 +25,7 @@ struct RemoverData final
 };
 
 template <typename DataType, Removable Container = std::vector<DataType>>
-class Remover final : public BaseClass<DataType, Container>
+class Remover final : public BaseClass<Container>
 {
 public:
     explicit Remover(const RemoverData<DataType, Container>& data)
