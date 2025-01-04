@@ -8,23 +8,23 @@ using namespace src::Algorithms;
 namespace tests::Accumulate
 {
 template <typename DataType>
-struct AccumulateTestStruct : public BaseTestStruct<Accumulator<DataType>>
+struct AccumulateTestStruct : public BaseTestStruct<AccResults<DataType>>
 {
 protected:
     explicit AccumulateTestStruct(const TestType testType,
         std::shared_ptr<Accumulator<DataType>>&& f)
-    : BaseTestStruct<Accumulator<DataType>>(testType, std::move(f))
+    : BaseTestStruct<AccResults<DataType>>(testType, std::move(f))
     { }
 };
 
 // Klasa abstrakcyjna AccumulateTestFixture, po ktorej dziedzicza klasy testowe metod Accumulate
 template <typename DataType>
-class AccumulateTestFixture : public BaseTestFixture<AccResults<DataType>, Accumulator<DataType>>
+class AccumulateTestFixture : public BaseTestFixture<AccResults<DataType>>
 {
 protected:
     AccumulateTestFixture() = default;
 
-    void VerifyTestCustomFor2(const BaseTestStruct<Accumulator<DataType>>& args)
+    void VerifyTestCustomFor2(const BaseTestStruct<AccResults<DataType>>& args)
     {
         using namespace std::placeholders;
         auto checker = std::bind(&AccumulateTestFixture::verifyCustomFor2, this, _1, _2, _3, _4);
@@ -37,6 +37,7 @@ private:
         const AccResults<DataType>& boostResult,
         const AccResults<DataType>& simpleResult,
         std::ostringstream& os)
+    requires EqualityComparable<DataType>
     {
         EXPECT_EQ_OS(stlResult.sum, boostResult.sum, os) << "Sumy STL i Boost roznia sie";
         EXPECT_EQ_OS(stlResult.sum, simpleResult.sum, os) << "Sumy STL i Simple roznia sie";

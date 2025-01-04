@@ -10,13 +10,13 @@ namespace tests::NthElement
 {
 
 template <typename DataType, NthElementCompatible Container = std::vector<DataType>>
-struct NthElementTestStruct : public BaseTestStruct<NthFinder<DataType, Container>>
+struct NthElementTestStruct : public BaseTestStruct<Container>
 {
 protected:
     explicit NthElementTestStruct(
         const TestType testType,
         std::shared_ptr<NthFinder<DataType, Container>>&& f)
-    : BaseTestStruct<NthFinder<DataType, Container>>(testType, std::move(f))
+    : BaseTestStruct<Container>(testType, std::move(f))
     { }
 
     static NthFinderData<DataType, Container> initTestData(
@@ -40,13 +40,13 @@ protected:
 
 // Klasa abstrakcyjna NthElementTestFixture, po ktorej dziedzicza klasy testowe metod NthElement
 template <typename DataType, NthElementCompatible Container = std::vector<DataType>>
-class NthElementTestFixture : public BaseTestFixture<Container, NthFinder<DataType, Container>>
+class NthElementTestFixture : public BaseTestFixture<Container>
 {
 protected:
-    void VerifyTestCustomFor7(const BaseTestStruct<NthFinder<DataType, Container>>& args)
+    void VerifyTestCustomFor7(const BaseTestStruct<Container>& args)
     {
         using namespace std::placeholders;
-        const std::size_t n = args.get(&NthFinder<DataType, Container>::n_);
+        const std::size_t n = args.getField(&NthFinder<DataType, Container>::n_);
         auto checker = std::bind(&NthElementTestFixture::verifyCustomFor7, this, _1, _2, _3, _4, n);
         this->VerifyTest(args, checker);
     }
@@ -58,6 +58,7 @@ private:
         const Container& simpleResult,
         std::ostringstream& os,
         const unsigned int n)
+    requires EqualityComparable<DataType>
     {
         // Petla for do porownywania wynikow, jesli rozmiary sa rowne
         auto stlIter = stlResult.begin();

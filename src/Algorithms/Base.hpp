@@ -8,7 +8,7 @@
 namespace src::Algorithms
 {
 
-template <typename DataType, typename Container = std::vector<DataType>>
+template <typename Container>
 class BaseClass
 {
 public:

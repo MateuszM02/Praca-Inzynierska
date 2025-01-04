@@ -21,7 +21,7 @@ class RandomStringGenerateFixture : public GenerateTestFixture<std::string, Rand
 {
 public:
     void VerifyTestCustomForRandomStringGenerator(
-        const BaseTestStruct<Generator<std::string, RandomString>>& args)
+        const BaseTestStruct<std::vector<std::string>>& args)
     {
         using namespace std::placeholders;
         auto checker = std::bind(&RandomStringGenerateFixture::verifyRandomStringGenerator, this, _1, _2, _3, _4);

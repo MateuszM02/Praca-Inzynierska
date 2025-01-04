@@ -23,7 +23,7 @@ struct NthFinderData final
 };
 
 template <typename DataType, NthElementCompatible Container = std::vector<DataType>>
-class NthFinder final : public BaseClass<DataType, Container>
+class NthFinder final : public BaseClass<Container>
 {
 public:
     using Iterator = typename Container::iterator;

@@ -52,7 +52,8 @@ struct AccResults final
 };
 
 template <IsAccumulable DataType>
-class Accumulator final : public BaseClass<DataType, AccResults<DataType>>
+requires std::is_move_constructible_v<DataType>
+class Accumulator final : public BaseClass<AccResults<DataType>>
 {
 public:
     explicit Accumulator(const std::vector<DataType>& data, AccType accType)
