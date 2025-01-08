@@ -19,8 +19,8 @@ protected:
     : BaseTestStruct<Container>(testType, std::move(f))
     { }
 
-    static NthFinderData<DataType, Container> initTestData(
-        DataType(*generator)(const unsigned int)&,
+    static NthFinderData<DataType, Container> initTestData7(
+        DataType(*generator)(const unsigned int),
         const unsigned int n,
         const unsigned int vectorSize)
     {

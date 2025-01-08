@@ -10,16 +10,16 @@ namespace tests::Sort
 
 struct PointsSortArgs final : public SortTestStruct<Point2D>
 {
-    explicit PointsSortArgs(Point2D (*f)()&, const unsigned int n)
+    explicit PointsSortArgs(Point2D (*f)(), const unsigned int n)
     : SortTestStruct<Point2D>(
         TestType::SortPoints,
-        std::make_shared<Sorter<Point2D>>(initTestData(f, n)))
+        std::make_shared<Sorter<Point2D>>(initTestData<std::vector<Point2D>>(f, n)))
     { }
 
-    PointsSortArgs(Point2D (*f)(const unsigned int)&, const unsigned int n)
+    PointsSortArgs(Point2D (*f)(const unsigned int), const unsigned int n)
     : SortTestStruct<Point2D>(
         TestType::SortPoints,
-        std::make_shared<Sorter<Point2D>>(initTestData(f, n)))
+        std::make_shared<Sorter<Point2D>>(initTestData<std::vector<Point2D>>(f, n)))
     { }
 };
 

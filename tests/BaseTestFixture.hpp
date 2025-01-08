@@ -20,15 +20,20 @@ using namespace src::Concepts;
         { \
             os << "Wartosc " #val1 ":\n"; \
             os << val1; \
-            os << "Wartosc " #val2 ":\n"; \
+            os << "\nWartosc " #val2 ":\n"; \
             os << val2; \
-            os << "--------------------------------------------------\n"; \
+            os << "\n--------------------------------------------------\n"; \
         } \
     } \
     EXPECT_EQ(val1, val2)
 
 namespace tests
 {
+
+class enabler_t {};
+
+template <typename GivenReturnType, typename ExpectedReturnType>
+using IsOfType = std::enable_if_t<std::is_same_v<GivenReturnType, ExpectedReturnType>>;
 
 template <typename Container>
 struct BaseTestStruct
@@ -40,13 +45,11 @@ protected:
     , ref_{std::move(f)}
     { }
 
-protected:
-    template <typename DataType>
-    requires std::is_move_constructible_v<DataType>
-    static std::vector<DataType>
-    initTestData(DataType (*generator)()&, const unsigned int n)
+    template <typename ReturnType, typename = IsOfType<ReturnType, std::vector<typename ReturnType::value_type>>>
+    std::vector<typename ReturnType::value_type>
+    initTestData(ReturnType::value_type (*generator)(), const unsigned int n)
     {
-        std::vector<DataType> v;
+        std::vector<typename ReturnType::value_type> v;
         v.reserve(n);
 
         for (unsigned int i = 1; i <= n; ++i)
@@ -55,13 +58,24 @@ protected:
         }
         return v;
     }
-    
-    template <typename DataType>
-    requires std::is_move_constructible_v<DataType>
-    static std::vector<DataType>
-    initTestData(DataType (*generator)(const unsigned int)&, const unsigned int n)
+
+    template <typename ReturnType, typename = IsOfType<ReturnType, std::set<typename ReturnType::value_type>>>
+    std::set<typename ReturnType::value_type>
+    initTestData(ReturnType::value_type (*generator)(const unsigned int), const unsigned int n)
     {
-        std::vector<DataType> v;
+        std::set<typename ReturnType::value_type> v;
+        for (unsigned int i = 1; i <= n; ++i)
+        {
+            v.insert(generator(i));
+        }
+        return v;
+    }
+
+    template <typename ReturnType, typename = IsOfType<ReturnType, std::vector<typename ReturnType::value_type>>>
+    std::vector<typename ReturnType::value_type>
+    initTestData(ReturnType::value_type (*generator)(const unsigned int), const unsigned int n)
+    {
+        std::vector<typename ReturnType::value_type> v;
         v.reserve(n);
 
         for (unsigned int i = 1; i <= n; ++i)

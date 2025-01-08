@@ -10,6 +10,7 @@ template <typename Container>
 concept Iterable = requires(Container c)
 {
     typename Container::iterator;
+    typename Container::value_type;
     { c.begin() } -> std::same_as<typename Container::iterator>;
     { c.end() } -> std::same_as<typename Container::iterator>;
 };

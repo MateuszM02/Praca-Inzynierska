@@ -9,13 +9,13 @@ namespace tests::Accumulate
 struct UIntAccumulateArgs final : public AccumulateTestStruct<unsigned int>
 {
     explicit UIntAccumulateArgs(
-        unsigned int (*f)(const unsigned int)&,
+        unsigned int (*f)(const unsigned int),
         const unsigned int n,
         AccType accType)
     : AccumulateTestStruct<unsigned int>(
         TestType::AccumulateUint,
         std::make_shared<Accumulator<unsigned int>>(
-            initTestData(f, n),
+            initTestData<std::vector<unsigned int>>(f, n),
             accType))
     { }
 };
