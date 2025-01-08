@@ -11,13 +11,13 @@ namespace tests::Accumulate
 struct PointsAccumulateArgs final : public AccumulateTestStruct<Point2D>
 {
     explicit PointsAccumulateArgs(
-        Point2D (*f)(const unsigned int)&,
+        Point2D (*f)(const unsigned int),
         const unsigned int n,
         AccType accType)
     : AccumulateTestStruct<Point2D>(
         TestType::AccumulatePoints,
         std::make_shared<Accumulator<Point2D>>(
-            initTestData(f, n),
+            initTestData<std::vector<Point2D>>(f, n),
             accType))
     { }
 };

@@ -17,9 +17,9 @@ protected:
     : BaseTestStruct<std::vector<DataType>>(testType, std::move(f))
     { }
 
-    static MergerData<DataType> initTestData(
-        DataType (*fun1)(const unsigned int)&,
-        DataType (*fun2)(const unsigned int)&,
+    static MergerData<DataType> initTestData3(
+        DataType (*fun1)(const unsigned int),
+        DataType (*fun2)(const unsigned int),
         const unsigned int n1,
         const unsigned int n2)
     {

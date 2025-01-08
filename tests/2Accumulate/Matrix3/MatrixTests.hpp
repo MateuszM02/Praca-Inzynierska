@@ -13,13 +13,13 @@ requires std::is_arithmetic_v<Number>
 struct MatrixAccumulateArgs final : public AccumulateTestStruct<Matrix<Number>>
 {
     explicit MatrixAccumulateArgs(
-        Matrix<Number>(*f)()&,
+        Matrix<Number>(*f)(),
         const unsigned int n,
         AccType accType)
     : AccumulateTestStruct<Matrix<Number>>(
         TestType::AccumulateMatrix,
         std::make_shared<Accumulator<Matrix<Number>>>(
-            this->initTestData(f, n),
+            this->template initTestData<std::vector<Matrix<Number>>>(f, n),
             accType))
     { }
 };

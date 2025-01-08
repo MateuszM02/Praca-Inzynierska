@@ -1,39 +1,28 @@
 #pragma once
 
-#include "../SortTestFixture.hpp"
 #include "../../../src/Structures/IntVectorImpl.hpp"
+#include "../MinMaxTestFixture.hpp"
 
 using namespace src::Structures;
 
-namespace tests::Sort
+namespace tests::MinMax
 {
 
-struct IntVectorSortArgs final : public SortTestStruct<IntVector>
+struct VectorOfVectorsMinMaxArgs final : public MinMaxTestStruct<std::vector<IntVector>>
 {
-    explicit IntVectorSortArgs(
+    explicit VectorOfVectorsMinMaxArgs(
         IntVector (*f)(const unsigned int),
         const unsigned int n)
-    : SortTestStruct<IntVector>(
-        TestType::SortIntVector,
-        std::make_shared<Sorter<IntVector>>(initTestData<std::vector<IntVector>>(f, n)))
+    : MinMaxTestStruct<std::vector<IntVector>>(
+        TestType::MinMaxVectorOfVectors,
+        std::make_shared<MinMaxFinder<std::vector<IntVector>>>(
+            initTestData<std::vector<IntVector>>(f, n)))
     { }
 };
 
-class IntVectorSortFixture : public SortTestFixture<IntVector>
+class VectorOfVectorsMinMaxFixture : public MinMaxTestFixture<std::vector<IntVector>>
 {
 public:
-    // wektory roznia sie juz na pierwszej pozycji
-    static IntVector sortedFirstElementGenerator(const unsigned int n)
-    {
-        std::vector<int> v;
-        v.reserve(n);
-        for (unsigned int i = 0; i < n; ++i)
-        {
-            v.emplace_back(i + n);
-        }
-        return IntVector(v);
-    }
-
     // wektory roznia sie dopiero na ostatniej pozycji
     static IntVector sortedLastElementGenerator(const unsigned int n)
     {
@@ -64,9 +53,9 @@ public:
     }
 };
 
-TEST_P(IntVectorSortFixture, IntVectorSortTest)
+TEST_P(VectorOfVectorsMinMaxFixture, VectorOfVectorsMinMaxTest)
 { 
     VerifyTest(GetParam());
 }
 
-} // namespace tests::Sort
+} // namespace tests::MinMax

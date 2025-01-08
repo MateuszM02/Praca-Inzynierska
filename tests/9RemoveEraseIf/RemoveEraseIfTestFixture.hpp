@@ -19,8 +19,8 @@ protected:
     { }
 
     static RemoverData<DataType, Container> initTestData(
-        DataType(*generator)(const unsigned int)&,
-        bool (*predicate)(const DataType&)&,
+        DataType(*generator)(const unsigned int),
+        bool (*predicate)(const DataType&),
         const unsigned int n)
     {
         Container elements;

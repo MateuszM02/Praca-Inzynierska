@@ -28,7 +28,7 @@ else()
 endif()
 
 # Dodanie flag kompilatora globalnie
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -Wfatal-errors -O2 -g")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -O2 -g")
 
 add_subdirectory(tests)
 
