@@ -30,8 +30,6 @@ using namespace src::Concepts;
 namespace tests
 {
 
-class enabler_t {};
-
 template <typename GivenReturnType, typename ExpectedReturnType>
 using IsOfType = std::enable_if_t<std::is_same_v<GivenReturnType, ExpectedReturnType>>;
 

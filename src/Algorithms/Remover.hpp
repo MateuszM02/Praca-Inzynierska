@@ -10,9 +10,11 @@ using namespace src::Concepts;
 namespace src::Algorithms
 {
 
-template <typename DataType, typename Container = std::vector<DataType>>
+template <typename Container>
 struct RemoverData final
 {
+    using DataType = typename Container::value_type;
+
     explicit RemoverData(
         const Container& elements,
         bool (*const predicate)(const DataType&)&)
@@ -24,14 +26,16 @@ struct RemoverData final
     bool (*const predicate_)(const DataType&);
 };
 
-template <typename DataType, Removable Container = std::vector<DataType>>
+template <Removable Container>
 class Remover final : public BaseClass<Container>
 {
 public:
-    explicit Remover(const RemoverData<DataType, Container>& data)
-    : elements_(data.elements_)
-    , initialElements_(std::move(data.elements_))
-    , predicate_(std::move(data.predicate_))
+    using DataType = typename Container::value_type;
+
+    explicit Remover(const RemoverData<Container>& data)
+    : elements_{data.elements_}
+    , initialElements_{std::move(data.elements_)}
+    , predicate_{std::move(data.predicate_)}
     { }
 
 private:

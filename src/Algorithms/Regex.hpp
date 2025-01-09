@@ -24,8 +24,8 @@ class RegexEvaluator final : public BaseClass<std::vector<std::string>>
 public:
     explicit RegexEvaluator(const RegexData& data)
     : matchedSubstrings_({})
-    , text_(std::move(data.text_))
-    , pattern_(std::move(data.pattern_))
+    , text_{std::move(data.text_)}
+    , pattern_{std::move(data.pattern_)}
     { }
 
 private:

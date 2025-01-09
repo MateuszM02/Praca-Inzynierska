@@ -9,16 +9,18 @@ using namespace src::Concepts;
 namespace tests::RemoveEraseIf
 {
 
-template <typename DataType, Removable Container = std::vector<DataType>>
+template <typename Container>
 struct RemoveEraseIfTestStruct : public BaseTestStruct<Container>
 {
 protected:
+    using DataType = typename Container::value_type;
+
     explicit RemoveEraseIfTestStruct(const TestType testType,
-        std::shared_ptr<Remover<DataType, Container>>&& f)
+        std::shared_ptr<Remover<Container>>&& f)
     : BaseTestStruct<Container>(testType, std::move(f))
     { }
 
-    static RemoverData<DataType, Container> initTestData(
+    static RemoverData<Container> initTestData(
         DataType(*generator)(const unsigned int),
         bool (*predicate)(const DataType&),
         const unsigned int n)
@@ -31,12 +33,12 @@ protected:
             elements.emplace_back(generator(i));
         }
 
-        return RemoverData<DataType, Container>(elements, predicate);
+        return RemoverData<Container>(elements, predicate);
     }
 };
 
 // Klasa abstrakcyjna RemoveEraseIfTestFixture, po ktorej dziedzicza klasy testowe metod RemoveEraseIf
-template <typename DataType, Removable Container = std::vector<DataType>>
+template <typename Container>
 class RemoveEraseIfTestFixture : public BaseTestFixture<Container>
 {
 protected:

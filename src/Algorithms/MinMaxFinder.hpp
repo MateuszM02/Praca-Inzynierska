@@ -17,7 +17,7 @@ public:
     using DataType = typename Container::value_type;
 
     explicit MinMaxFinder(const Container& elements)
-    : elements_(std::move(elements))
+    : elements_{std::move(elements)}
     { }
 
 private:

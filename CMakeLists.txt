@@ -1,10 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 project(Praca-Inzynierska)
 
-# GoogleTest wymaga co najmniej C++14 ale potrzeba C++20 do konceptow
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 # URL Commit hasha to https://github.com/google/googletest/pull/4662/commits
 include(FetchContent)
 FetchContent_Declare(
@@ -28,7 +24,8 @@ else()
 endif()
 
 # Dodanie flag kompilatora globalnie
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -O2 -g")
+# GoogleTest wymaga co najmniej C++14 ale potrzeba C++20 do konceptow
+set(CMAKE_CXX_FLAGS "-std=c++20 -Wall -Wextra -Werror -Wunused -Wuninitialized -O2 -g")
 
 add_subdirectory(tests)
 

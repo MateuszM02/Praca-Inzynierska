@@ -11,7 +11,7 @@ public:
     // konstruktor domyslny potrzebny do stworzenia wektora elementow
     explicit IntVector()
     : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &values_ })
-    , values_{{}}
+    , values_({})
     { }
 
     explicit IntVector(const std::vector<int>& v)

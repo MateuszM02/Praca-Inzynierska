@@ -1,3 +1,11 @@
+# Ustal nazwy plikow wykonywalnych
+set(TEST_EXECUTABLES
+  BasicVectorMinMaxTests
+  VectorOfVectorsMinMaxTests
+  BasicSetMinMaxTests
+  VectorSetMinMaxTests
+)
+
 # Dodaj pliki wykonywalne
 add_executable(
   BasicVectorMinMaxTests
@@ -19,21 +27,10 @@ add_executable(
   VectorSet4/IntVectorTests.cpp
 )
 
-# Dodaj Boost i GTEST do kazdego execa 
-target_include_directories(BasicVectorMinMaxTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
-target_include_directories(VectorOfVectorsMinMaxTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
-target_include_directories(BasicSetMinMaxTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
-target_include_directories(VectorSetMinMaxTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
-
-# Polacz z GTEST_main
-target_link_libraries(BasicVectorMinMaxTests GTest::gtest_main)
-target_link_libraries(VectorOfVectorsMinMaxTests GTest::gtest_main)
-target_link_libraries(BasicSetMinMaxTests GTest::gtest_main)
-target_link_libraries(VectorSetMinMaxTests GTest::gtest_main)
-
-# Dolacz testy GTEST
+# Dodaj Boost i GTEST do kazdego execa, polacz z GTEST_main oraz dodaj testy
 include(GoogleTest)
-gtest_discover_tests(BasicVectorMinMaxTests)
-gtest_discover_tests(VectorOfVectorsMinMaxTests)
-gtest_discover_tests(BasicSetMinMaxTests)
-gtest_discover_tests(VectorSetMinMaxTests)
+foreach(TEST_EXEC ${TEST_EXECUTABLES})
+  target_include_directories(${TEST_EXEC} PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
+  target_link_libraries(${TEST_EXEC} GTest::gtest_main)
+  gtest_discover_tests(${TEST_EXEC})
+endforeach()
