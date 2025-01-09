@@ -17,19 +17,19 @@ class BaseWrapper
 {
 protected:
     explicit BaseWrapper(const std::vector<std::any>& classFields)
-    : classFields_(classFields) 
+    : classFields_{classFields}
     { }
 
     template <typename std::enable_if<EnableCopy, int>::type = 0>
     BaseWrapper(const BaseWrapper& other)
-    : classFields_(other.classFields_)
+    : classFields_{other.classFields_}
     {
         copyFields(other);
     }
 
     template <typename std::enable_if<EnableMove, int>::type = 0>
     BaseWrapper(BaseWrapper&& other) noexcept
-    : classFields_(std::move(other.classFields_))
+    : classFields_{std::move(other.classFields_)}
     {
         moveFields(std::move(other));
     }

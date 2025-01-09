@@ -57,8 +57,8 @@ class Accumulator final : public BaseClass<AccResults<DataType>>
 {
 public:
     explicit Accumulator(const std::vector<DataType>& data, AccType accType)
-    : data_(std::move(data))
-    , accType_(accType)
+    : data_{std::move(data)}
+    , accType_{accType}
     { }
 
 private:

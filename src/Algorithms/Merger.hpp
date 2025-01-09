@@ -24,8 +24,8 @@ class Merger final : public BaseClass<std::vector<DataType>>
 {
 public:
     explicit Merger(const MergerData<DataType>& data)
-    : v1_(std::move(data.v1_))
-    , v2_(std::move(data.v2_))
+    : v1_{std::move(data.v1_)}
+    , v2_{std::move(data.v2_)}
     { }
 
 private:

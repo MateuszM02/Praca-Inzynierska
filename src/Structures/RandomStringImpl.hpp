@@ -37,25 +37,21 @@ public:
         return std::make_shared<StrGenerator>(generator);
     }
 
-    template <NthElementCompatible Container = std::vector<std::string>>
-    using FinderPtr = std::shared_ptr<NthFinder<std::string, Container>>;
-
-    template <NthElementCompatible Container = std::vector<std::string>>
-    static FinderPtr<> createFinder(
+    static std::shared_ptr<NthFinder<std::vector<std::string>>> createFinder(
         const unsigned int n,
         const unsigned int vectorSize,
         const unsigned int length)
     {
         const StrGenerator& generator = createGeneratorData(vectorSize, length);
-        Container elements;
+        std::vector<std::string> elements;
         elements.reserve(vectorSize);
         for (unsigned int i = 0; i < vectorSize; i++)
         {
             elements.emplace_back(generator.create());
         }
 
-        NthFinderData<std::string> data(elements, n);
-        return std::make_shared<NthFinder<std::string>>(data);
+        NthFinderData<std::vector<std::string>> data(elements, n);
+        return std::make_shared<NthFinder<std::vector<std::string>>>(data);
     }
 };
 

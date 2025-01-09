@@ -10,7 +10,7 @@ using namespace src::Concepts;
 namespace src::Algorithms
 {
 
-template <typename DataType, typename Container = std::vector<DataType>>
+template <typename Container>
 struct NthFinderData final
 {
     explicit NthFinderData(const Container& elements, const std::size_t n)
@@ -22,16 +22,17 @@ struct NthFinderData final
     const std::size_t n_;
 };
 
-template <typename DataType, NthElementCompatible Container = std::vector<DataType>>
+template <NthElementCompatible Container>
 class NthFinder final : public BaseClass<Container>
 {
 public:
+    using DataType = typename Container::value_type;
     using Iterator = typename Container::iterator;
 
-    explicit NthFinder(const NthFinderData<DataType, Container>& data)
-    : elements_(data.elements_)
-    , initialElements_(std::move(data.elements_))
-    , n_(data.n_)
+    explicit NthFinder(const NthFinderData<Container>& data)
+    : elements_{data.elements_}
+    , initialElements_{std::move(data.elements_)}
+    , n_{data.n_}
     { }
 
 private:

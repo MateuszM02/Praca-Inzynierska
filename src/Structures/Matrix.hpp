@@ -39,15 +39,15 @@ public:
     // konstruktor domyslny potrzebny do stworzenia wektora elementow
     explicit Matrix()
     : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &n_, &matrix_ })
-    , n_(0)
+    , n_{0}
     , matrix_({ { } })
     { }
 
     template <SquareMatrix MatrixVector> 
     explicit Matrix(const MatrixVector& values)
     : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &n_, &matrix_ })
-    , n_(values.size())
-    , matrix_(values)
+    , n_{values.size()}
+    , matrix_{values}
     { }
     
     std::size_t size() const noexcept { return n_; }

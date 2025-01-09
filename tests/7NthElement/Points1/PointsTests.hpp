@@ -8,19 +8,19 @@ using namespace src::Structures;
 namespace tests::NthElement
 {
 
-struct PointsNthElementArgs final : public NthElementTestStruct<Point2D>
+struct PointsNthElementArgs final : public NthElementTestStruct<std::vector<Point2D>>
 {
     explicit PointsNthElementArgs(
         Point2D (*fun)(const unsigned int),
         const unsigned int n,
         const unsigned int vectorSize)
-    : NthElementTestStruct<Point2D>(
+    : NthElementTestStruct<std::vector<Point2D>>(
         TestType::NthElementPoints,
-        std::make_shared<NthFinder<Point2D>>(initTestData7(fun, n, vectorSize)))
+        std::make_shared<NthFinder<std::vector<Point2D>>>(initTestData7(fun, n, vectorSize)))
     { }
 };
 
-class PointsNthElementFixture : public NthElementTestFixture<Point2D>
+class PointsNthElementFixture : public NthElementTestFixture<std::vector<Point2D>>
 {
 public:
     static Point2D fmod3i3_mod7i64(const unsigned int i)

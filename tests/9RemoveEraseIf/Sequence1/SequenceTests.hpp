@@ -8,13 +8,14 @@
 namespace tests::RemoveEraseIf
 {
 
-struct SequenceArgs final : public RemoveEraseIfTestStruct<unsigned int>
+struct SequenceArgs final : public RemoveEraseIfTestStruct<std::vector<unsigned int>>
 {
     explicit SequenceArgs(const unsigned int n,
         bool(*predicate)(const unsigned int&))
-    : RemoveEraseIfTestStruct<unsigned int>(
+    : RemoveEraseIfTestStruct<std::vector<unsigned int>>(
         TestType::RemoveEraseIfSequence,
-        std::make_shared<Remover<unsigned int>>(RemoverData<unsigned int>(initData(n), predicate)))
+        std::make_shared<Remover<std::vector<unsigned int>>>(
+            RemoverData<std::vector<unsigned int>>(initData(n), predicate)))
     { }
 
 private:
@@ -26,7 +27,7 @@ private:
     }
 };
 
-class SequenceIntFixture : public RemoveEraseIfTestFixture<unsigned int>
+class SequenceIntFixture : public RemoveEraseIfTestFixture<std::vector<unsigned int>>
 {
 public:
     static unsigned int identity(const unsigned int n)
