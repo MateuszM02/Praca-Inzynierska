@@ -41,7 +41,7 @@ public:
         static std::random_device rd;
         static std::mt19937 gen(rd());
         static std::uniform_int_distribution<unsigned int> dis(0, UINT32_MAX);
-        
+
         unsigned int x = dis(gen);
         unsigned int y = dis(gen);
         return Point2D(x, y);
@@ -49,7 +49,7 @@ public:
 };
 
 TEST_P(PointsSortFixture, pointsSortTest)
-{ 
+{
     VerifyTest(GetParam());
 }
 

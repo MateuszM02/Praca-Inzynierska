@@ -42,7 +42,7 @@ public:
         static std::random_device rd;
         static std::mt19937 gen(rd());
         static std::uniform_int_distribution<unsigned int> dis(0, UINT32_MAX);
-        
+
         std::vector<int> v;
         v.reserve(n);
         for (unsigned int i = 0; i < n; ++i)
@@ -54,7 +54,7 @@ public:
 };
 
 TEST_P(VectorSetMinMaxFixture, VectorSetMinMaxTest)
-{ 
+{
     VerifyTest(GetParam());
 }
 

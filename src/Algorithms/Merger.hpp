@@ -33,15 +33,17 @@ private:
 
     std::vector<DataType> executeSTL() const override
     {
-        std::vector<DataType> resultVec(v1_.size() + v2_.size(), DataType());
-        std::merge(v1_.begin(), v1_.end(), v2_.begin(), v2_.end(), resultVec.begin());
+        std::vector<DataType> resultVec;
+        resultVec.reserve(v1_.size() + v2_.size());
+        std::merge(v1_.begin(), v1_.end(), v2_.begin(), v2_.end(), std::back_inserter(resultVec));
         return resultVec;
     }
 
     std::vector<DataType> executeBoost() const override
     {
-        std::vector<DataType> resultVec(v1_.size() + v2_.size(), DataType());
-        boost::range::merge(v1_, v2_, resultVec.begin());
+        std::vector<DataType> resultVec;
+        resultVec.reserve(v1_.size() + v2_.size());
+        boost::range::merge(v1_, v2_, std::back_inserter(resultVec));
         return resultVec;
     }
 
@@ -50,7 +52,8 @@ private:
         const unsigned int size1 = v1_.size();
         const unsigned int size2 = v2_.size();
 
-        std::vector<DataType> resultVec(size1 + size2, DataType());
+        std::vector<DataType> resultVec;
+        resultVec.reserve(size1 + size2);
         unsigned int index1 = 0;
         unsigned int index2 = 0;
 
@@ -58,23 +61,23 @@ private:
         {
             if (v1_[index1] < v2_[index2])
             {
-                resultVec[index1+index2] = v1_[index1];
+                resultVec.emplace_back(v1_[index1]);
                 index1++;
             }
             else
             {
-                resultVec[index1+index2] = v2_[index2];
+                resultVec.emplace_back(v2_[index2]);
                 index2++;
             }
         }
         while (index1 < size1)
         {
-            resultVec[index1+index2] = v1_[index1];
+            resultVec.emplace_back(v1_[index1]);
             index1++;
         }
         while (index2 < size2)
         {
-            resultVec[index1+index2] = v2_[index2];
+            resultVec.emplace_back(v2_[index2]);
             index2++;
         }
         return resultVec;

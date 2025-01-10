@@ -2,7 +2,6 @@
 
 #include "../AccumulateTestFixture.hpp"
 
-
 namespace tests::Accumulate
 {
 
@@ -35,7 +34,7 @@ public:
 };
 
 TEST_P(UIntAccumulateFixture, UIntAccumulateTest)
-{ 
+{
     VerifyTestCustomFor2(GetParam());
 }
 

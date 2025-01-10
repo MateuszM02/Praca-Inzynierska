@@ -8,12 +8,6 @@ namespace src::Structures
 class IntVector final : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>
 {
 public:
-    // konstruktor domyslny potrzebny do stworzenia wektora elementow
-    explicit IntVector()
-    : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &values_ })
-    , values_({})
-    { }
-
     explicit IntVector(const std::vector<int>& v)
     : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &values_ })
     , values_{std::move(v)}

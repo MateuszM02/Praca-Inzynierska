@@ -41,7 +41,7 @@ private:
         DataType min = *iter;
         DataType max = *iter;
         ++iter;
-        
+
         while (iter != elements_.end())
         {
             if (*iter < min)

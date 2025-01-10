@@ -73,7 +73,6 @@ private:
         return matchedSubstrings;
     }
 
-private:
     const std::string text_;
     const std::string pattern_;
 };

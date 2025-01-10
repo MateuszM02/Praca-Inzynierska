@@ -36,7 +36,7 @@ public:
 };
 
 TEST_P(PointsMergeFixture, PointsMergeTest)
-{ 
+{
     VerifyTest(GetParam());
 }
 

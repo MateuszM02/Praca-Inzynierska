@@ -54,7 +54,7 @@ public:
 };
 
 TEST_P(MatrixToIntVectorTransformFixture, MatrixToIntVectorTransformTest)
-{ 
+{
     VerifyTest(GetParam());
 }
 

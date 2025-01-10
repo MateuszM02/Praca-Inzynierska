@@ -36,13 +36,14 @@ enum class AccType : unsigned char
 };
 
 template <typename DataType>
+requires std::is_default_constructible_v<DataType>
 struct AccResults final
 {
     explicit AccResults()
-    : sum(DataType())
-    , minimum(std::nullopt)
-    , maximum(std::nullopt)
-    , mean(std::nullopt)
+    : sum{DataType()}
+    , minimum{std::nullopt}
+    , maximum{std::nullopt}
+    , mean{std::nullopt}
     { }
 
     DataType sum;
@@ -81,7 +82,7 @@ private:
     AccResults<DataType> executeSTL() const override
     {
         AccResults<DataType> results;
-        results.sum = std::accumulate(data_.begin(), data_.end(), DataType());
+        results.sum = std::accumulate(data_.begin(), data_.end(), results.sum);
 
         if (accType_ == AccType::SumAndExtremes || accType_ == AccType::DoItAll)
         {
@@ -99,7 +100,7 @@ private:
     {
         using namespace boost::accumulators;
         AccResults<DataType> results;
-        
+
         switch (accType_)
         {
             case AccType::SumOnly:
@@ -174,7 +175,6 @@ private:
         return results;
     }
 
-private:
     const std::vector<DataType> data_;
     const AccType accType_;
 };

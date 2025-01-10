@@ -69,7 +69,7 @@ private:
         auto boostIter = boostResult.begin();
         auto simpleIter = simpleResult.begin();
         unsigned int i = 0;
-        
+
         auto stlNthIter = stlResult.begin();
         auto boostNthIter = boostResult.begin();
         auto simpleNthIter = simpleResult.begin();
@@ -88,7 +88,7 @@ private:
             EXPECT_LT(*stlIter, *stlNthIter) << "Wynik STL rozni sie na indeksie " << i;
             EXPECT_LT(*boostIter, *boostNthIter) << "Wynik Boost rozni sie na indeksie " << i;
             EXPECT_LT(*simpleIter, *simpleNthIter) << "Wynik Boost rozni sie na indeksie " << i;
-            
+
             ++i;
             ++stlIter;
             ++boostIter;
@@ -106,7 +106,7 @@ private:
             EXPECT_LT(*stlNthIter, *stlIter) << "Wynik STL rozni sie na indeksie " << i;
             EXPECT_LT(*boostNthIter, *boostIter) << "Wynik Boost rozni sie na indeksie " << i;
             EXPECT_LT(*simpleNthIter, *simpleIter) << "Wynik Boost rozni sie na indeksie " << i;
-            
+
             ++i;
             ++stlIter;
             ++boostIter;

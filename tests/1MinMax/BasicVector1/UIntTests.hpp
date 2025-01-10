@@ -32,7 +32,7 @@ public:
 };
 
 TEST_P(BasicVectorMinMaxFixture, BasicVectorMinMaxTest)
-{ 
+{
     VerifyTest(GetParam());
 }
 
