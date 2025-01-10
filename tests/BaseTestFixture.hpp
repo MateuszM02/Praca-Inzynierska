@@ -175,7 +175,7 @@ private:
         {
             EXPECT_EQ_OS(*stlIter, *simpleIter, os) << "Wynik STL rozni sie na indeksie " << i;
             EXPECT_EQ_OS(*boostIter, *simpleIter, os) << "Wynik Boost rozni sie na indeksie " << i;
-            
+
             ++i;
             ++stlIter;
             ++boostIter;

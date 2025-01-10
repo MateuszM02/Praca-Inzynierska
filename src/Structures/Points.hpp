@@ -10,7 +10,7 @@ namespace src::Structures
 class Point2D final : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>
 {
 public:
-    // konstruktor domyslny potrzebny do stworzenia wektora elementow
+    // potrzebne do 2Accumulate
     explicit Point2D()
     : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &x, &y })
     , x{0}

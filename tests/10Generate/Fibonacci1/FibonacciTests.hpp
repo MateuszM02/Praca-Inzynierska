@@ -32,12 +32,12 @@ class FibonacciGenerateDoubleFixture : public GenerateTestFixture<double, std::p
 { };
 
 TEST_P(FibonacciGenerateIntFixture, intTest)
-{ 
+{
     VerifyTest(GetParam());
 }
 
 TEST_P(FibonacciGenerateDoubleFixture, doubleTest)
-{ 
+{
     VerifyTest(GetParam());
 }
 

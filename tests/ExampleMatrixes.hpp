@@ -31,7 +31,7 @@ public:
         std::vector<std::vector<double>> matrix_values(n, std::vector<double>(n, 0.0));
         matrix_values[0][1] = 1.0;
         matrix_values[1][0] = 1.0;
-        
+
         for (size_t i = 0; i < n; ++i)
         {
             matrix_values[i][i] = 1.0;
@@ -61,7 +61,7 @@ public:
         std::vector<std::vector<int>> matrix_values(MATRIX_SIZE, std::vector<int>(MATRIX_SIZE, 0));
         static std::mt19937 gen(0);
         static std::uniform_int_distribution<> dis(1, 10);
-        
+
         for (size_t i = 0; i < MATRIX_SIZE; ++i)
         {
             for (size_t j = 0; j < MATRIX_SIZE; ++j)
@@ -78,7 +78,7 @@ public:
         std::vector<std::vector<double>> matrix_values(MATRIX_SIZE, std::vector<double>(MATRIX_SIZE, 0.0));
         static std::mt19937 gen(0);
         static std::uniform_real_distribution<> dis(1.0, 10.0);
-        
+
         for (size_t i = 0; i < MATRIX_SIZE; ++i)
         {
             for (size_t j = 0; j < MATRIX_SIZE; ++j)

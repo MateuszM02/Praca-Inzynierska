@@ -45,7 +45,7 @@ private:
     {
         Iterator nthIter = elements_.begin();
         std::advance(nthIter, n_);
-        
+
         std::nth_element(elements_.begin(), nthIter, elements_.end());
         return elements_;
     }
@@ -93,11 +93,11 @@ private:
             std::iter_swap(low, high);
         if (*high < *mid)
             std::iter_swap(mid, high);
-        
+
         std::iter_swap(mid, high - 1);
         DataType pivot = *(high - 1);
         Iterator i = low;
-        
+
         for (Iterator j = low; j < high - 1; ++j)
         {
             if (*j < pivot)
@@ -106,7 +106,7 @@ private:
                 ++i;
             }
         }
-        
+
         std::iter_swap(i, high - 1);
         return i;
     }

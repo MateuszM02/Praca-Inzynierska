@@ -36,7 +36,7 @@ template <typename DataType>
 class Matrix final : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>
 {
 public:
-    // konstruktor domyslny potrzebny do stworzenia wektora elementow
+    // potrzebne do 2Accumulate
     explicit Matrix()
     : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &n_, &matrix_ })
     , n_{0}

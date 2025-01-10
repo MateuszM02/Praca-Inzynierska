@@ -29,7 +29,7 @@ public:
         int day = std::rand() % 31 + 1;
         int month = std::rand() % 12 + 1;
         int year = std::rand() % 100 + 2000;
-        
+
         char buffer[11];
         snprintf(buffer, sizeof(buffer), "%02d-%02d-%d", day, month, year);
         return std::string(buffer);
@@ -40,7 +40,7 @@ public:
         int part1 = rand() % 1000;
         int part2 = rand() % 1000;
         int part3 = rand() % 1000;
-        
+
         char buffer[12];
         snprintf(buffer, sizeof(buffer), "%03d %03d %03d", part1, part2, part3);
         return std::string(buffer);
@@ -70,7 +70,7 @@ public:
     {
         std::srand(std::time(0));
         std::string text;
-        
+
         while (text.size() < textLength)
         {
             if (std::rand() % 500 == 0)

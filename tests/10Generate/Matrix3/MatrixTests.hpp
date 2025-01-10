@@ -33,12 +33,12 @@ class MatrixGenerateDoubleFixture : public GenerateTestFixture<Matrix<double>>
 { };
 
 TEST_P(MatrixGenerateIntFixture, intTest)
-{ 
+{
     VerifyTest(GetParam());
 }
 
 TEST_P(MatrixGenerateDoubleFixture, doubleTest)
-{ 
+{
     VerifyTest(GetParam());
 }
 

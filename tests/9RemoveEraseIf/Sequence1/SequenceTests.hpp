@@ -56,12 +56,12 @@ public:
         while (true)
         {
             unsigned int mersenneNumber = std::pow(2, p) - 1;
-            
+
             if (mersenneNumber == value)
                 return true;
             else if (mersenneNumber > value)
                 return false;
-            
+
             p++;
             while (isNotPrime(p))   p++;
         }
@@ -91,7 +91,7 @@ public:
         {
             sum = (sum + i) % 2;
         }
-        
+
         return sum == 0;
     }
 };

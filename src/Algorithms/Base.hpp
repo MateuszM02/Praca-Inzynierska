@@ -25,7 +25,7 @@ public:
             default: throw std::invalid_argument("Zły typ metody!");
         }
     }
-    
+
 protected:
     BaseClass() = default;
     virtual ~BaseClass() = default;
@@ -46,7 +46,7 @@ private:
 
         const std::chrono::duration<double> duration = end - start;
         os << methodName << " call time: " << duration.count() << " seconds\n";
-        
+
         resetData();
         return result;
     }
