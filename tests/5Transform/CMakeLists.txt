@@ -1,12 +1,12 @@
 # Ustal nazwy plikow wykonywalnych
 set(TEST_EXECUTABLES
-  SequenceRemoveEraseIfTests
+  TransformMatrixToIntVector
 )
 
 # Dodaj pliki wykonywalne
 add_executable(
-  SequenceRemoveEraseIfTests
-  Sequence1/SequenceTests.cpp
+  TransformMatrixToIntVector
+  MatrixToIntVector1/TransformTests.cpp
 )
 
 # Dodaj Boost i GTEST do kazdego execa, polacz z GTEST_main oraz dodaj testy

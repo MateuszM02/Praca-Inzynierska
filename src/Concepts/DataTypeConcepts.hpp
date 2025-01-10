@@ -1,6 +1,8 @@
 #pragma once
 
 #include <iostream>
+#include <ranges>
+#include <vector>
 
 #include "MathConcepts.hpp"
 
@@ -45,5 +47,11 @@ concept IsAccumulable =
     DivisibleByConst<DataType> &&
     NoCopyAddable<DataType> &&
     Comparable<DataType>;
+
+// Concept sprawdzajacy, czy typ spelnia warunki do 5Transformer
+template <typename DataType>
+concept Transformable = 
+    (std::copyable<DataType> || std::movable<DataType>) &&
+    std::ranges::range<std::vector<DataType>>;
 
 } // namespace src::Concepts

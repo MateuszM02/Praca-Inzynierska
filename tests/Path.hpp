@@ -16,9 +16,10 @@ enum class TestType : unsigned char
     AccumulateMatrix,
     MergePoints,
     MergeIntVector,
-    // TODO: typy 4
     SortPoints,
     SortIntVector,
+    // TODO: wiecej typow 5
+    TransformMatrixToIntVector,
     // TODO: typy 6
     NthElementPoints,
     NthElementRandomString,
@@ -54,9 +55,10 @@ private:
             case TestType::AccumulateMatrix:            return "Matrix";
             case TestType::MergePoints:                 return "Points";
             case TestType::MergeIntVector:              return "IntVector";
-            // TODO: typy 4
             case TestType::SortPoints:                  return "Points";
             case TestType::SortIntVector:               return "IntVector";
+            // TODO: wiecej typow 5
+            case TestType::TransformMatrixToIntVector:  return "MatrixToIntVector";
             // TODO: typy 6
             case TestType::NthElementPoints:            return "Points";
             case TestType::NthElementRandomString:      return "RandomString";
