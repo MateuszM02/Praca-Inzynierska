@@ -52,14 +52,14 @@ public:
     
     std::size_t size() const noexcept { return n_; }
 
-    const DataType& get(const size_t row, const size_t col) const
+    DataType get(const size_t row, const size_t col) const
     {
         ASSERT_INDEX(row);
         ASSERT_INDEX(col);
         return matrix_[row][col];
     }
 
-    void set(const size_t row, const size_t col, const DataType& newValue) const
+    void update(const size_t row, const size_t col, const DataType& newValue) const
     {
         ASSERT_INDEX(row);
         ASSERT_INDEX(col);

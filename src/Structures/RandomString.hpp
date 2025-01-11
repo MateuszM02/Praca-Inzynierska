@@ -28,6 +28,26 @@ public:
         return randomString;
     }
 
+    // potrzebne do testow konstruktorow/operatorow kopiujacych/przenoszacych
+    bool operator==(const RandomString& other) const
+    {
+        return  this->length_ == other.length_ &&
+                this->randomGenerator_ == other.randomGenerator_ &&
+                this->distribution_.a() == other.distribution_.a() &&
+                this->distribution_.b() == other.distribution_.b();
+    }
+
+    bool operator!=(const RandomString& other) const
+    {
+        return !(*this == other);
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const RandomString& rs)
+    {
+        os << "[RandomString (word length: " << rs.length_ << ")]";
+        return os;
+    }
+
 private:
     unsigned int length_;
     mutable std::mt19937 randomGenerator_;

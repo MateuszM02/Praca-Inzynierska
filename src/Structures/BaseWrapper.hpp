@@ -1,6 +1,7 @@
 #pragma once
 
 #include <any>
+#include <cassert>
 #include <vector>
 #include <type_traits> // std::enable_if
 
@@ -12,54 +13,83 @@
 namespace src::Structures
 {
 
-template <bool EnableMove, bool EnableCopy>
-class BaseWrapper
+template <bool EnableMove, bool EnableCopy> class BaseWrapper;
+
+// Wersja 1/4 - brak przesuniecia i kopii ---------------------------------------------------------
+
+template <>
+class BaseWrapper<DISABLE_MOVE, DISABLE_COPY>
+{
+protected:
+    explicit BaseWrapper(const std::vector<std::any>& classFields)
+    : classFields_{classFields}
+    { }
+    
+    BaseWrapper(BaseWrapper&& other) = delete;
+    BaseWrapper& operator=(BaseWrapper&& other) = delete;
+    BaseWrapper(const BaseWrapper& other) = delete;
+    BaseWrapper& operator=(const BaseWrapper& other) = delete;
+
+private:
+    std::vector<std::any> classFields_;
+};
+
+// Wersja 2/4 - tylko przesuniecie ----------------------------------------------------------------
+
+template <>
+class BaseWrapper<ENABLE_MOVE, DISABLE_COPY>
 {
 protected:
     explicit BaseWrapper(const std::vector<std::any>& classFields)
     : classFields_{classFields}
     { }
 
-    template <typename std::enable_if<EnableCopy, int>::type = 0>
-    BaseWrapper(const BaseWrapper& other)
+    BaseWrapper(BaseWrapper&& other)
     : classFields_{other.classFields_}
     {
-        copyFields(other);
+        for (size_t i = 0; i < classFields_.size(); ++i)
+        {
+            if (classFields_[i].has_value() && other.classFields_[i].has_value())
+                classFields_[i] = std::move(other.classFields_[i]);
+        }
     }
 
-    template <typename std::enable_if<EnableMove, int>::type = 0>
-    BaseWrapper(BaseWrapper&& other) noexcept
-    : classFields_{std::move(other.classFields_)}
-    {
-        moveFields(std::move(other));
-    }
-
-    template <typename std::enable_if<EnableCopy, int>::type = 0>
-    BaseWrapper& operator=(const BaseWrapper& other)
+    BaseWrapper& operator=(BaseWrapper&& other)
     {
         if (this != &other)
         {
             classFields_ = other.classFields_;
-            copyFields(other);
+            for (size_t i = 0; i < classFields_.size(); ++i)
+            {
+                if (classFields_[i].has_value() && other.classFields_[i].has_value())
+                    classFields_[i] = std::move(other.classFields_[i]);
+            }
         }
         return *this;
     }
 
-    template <typename std::enable_if<EnableMove, int>::type = 0>
-    BaseWrapper& operator=(BaseWrapper&& other) noexcept
-    {
-        if (this != &other)
-        {
-            classFields_ = std::move(other.classFields_);
-            moveFields(std::move(other));
-        }
-        return *this;
-    }
+    BaseWrapper(const BaseWrapper& other) = delete;
+    BaseWrapper& operator=(const BaseWrapper& other) = delete;
 
 private:
     std::vector<std::any> classFields_;
+};
 
-    void copyFields(const BaseWrapper& other)
+// Wersja 3/4 - tylko kopiowanie ------------------------------------------------------------------
+
+template <>
+class BaseWrapper<DISABLE_MOVE, ENABLE_COPY>
+{
+protected:
+    explicit BaseWrapper(const std::vector<std::any>& classFields)
+    : classFields_{classFields}
+    { }
+
+    BaseWrapper(BaseWrapper&& other) = delete;
+    BaseWrapper& operator=(BaseWrapper&& other) = delete;
+
+    BaseWrapper(const BaseWrapper& other)
+    : classFields_{other.classFields_}
     {
         for (size_t i = 0; i < classFields_.size(); ++i)
         {
@@ -68,7 +98,36 @@ private:
         }
     }
 
-    void moveFields(BaseWrapper&& other)
+    BaseWrapper& operator=(const BaseWrapper& other)
+    {
+        if (this != &other)
+        {
+            classFields_ = other.classFields_;
+            for (size_t i = 0; i < classFields_.size(); ++i)
+            {
+                if (classFields_[i].has_value() && other.classFields_[i].has_value())
+                    classFields_[i] = other.classFields_[i];
+            }
+        }
+        return *this;
+    }
+
+private:
+    std::vector<std::any> classFields_;
+};
+
+// Wersja 4/4 - przenoszenie i kopiowanie ---------------------------------------------------------
+
+template <>
+class BaseWrapper<ENABLE_MOVE, ENABLE_COPY>
+{
+protected:
+    explicit BaseWrapper(const std::vector<std::any>& classFields)
+    : classFields_{classFields}
+    { }
+
+    BaseWrapper(BaseWrapper&& other)
+    : classFields_{other.classFields_}
     {
         for (size_t i = 0; i < classFields_.size(); ++i)
         {
@@ -76,6 +135,47 @@ private:
                 classFields_[i] = std::move(other.classFields_[i]);
         }
     }
+
+    BaseWrapper& operator=(BaseWrapper&& other)
+    {
+        if (this != &other)
+        {
+            classFields_ = other.classFields_;
+            for (size_t i = 0; i < classFields_.size(); ++i)
+            {
+                if (classFields_[i].has_value() && other.classFields_[i].has_value())
+                    classFields_[i] = std::move(other.classFields_[i]);
+            }
+        }
+        return *this;
+    }
+
+    BaseWrapper(const BaseWrapper& other)
+    : classFields_{other.classFields_}
+    {
+        for (size_t i = 0; i < classFields_.size(); ++i)
+        {
+            if (classFields_[i].has_value() && other.classFields_[i].has_value())
+                classFields_[i] = other.classFields_[i];
+        }
+    }
+
+    BaseWrapper& operator=(const BaseWrapper& other)
+    {
+        if (this != &other)
+        {
+            classFields_ = other.classFields_;
+            for (size_t i = 0; i < classFields_.size(); ++i)
+            {
+                if (classFields_[i].has_value() && other.classFields_[i].has_value())
+                    classFields_[i] = other.classFields_[i];
+            }
+        }
+        return *this;
+    }
+
+private:
+    std::vector<std::any> classFields_;
 };
 
 } // namespace src::Structures

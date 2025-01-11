@@ -22,6 +22,11 @@ bool operator==(const IntVector& v1, const IntVector& v2)
     return true;
 }
 
+bool operator!=(const IntVector& v1, const IntVector& v2)
+{
+    return !(v1 == v2);
+}
+
 bool operator<(const IntVector& v1, const IntVector& v2)
 {
     return std::lexicographical_compare(
@@ -40,7 +45,7 @@ std::ostream& operator<<(std::ostream& os, const IntVector& iv)
     {
         os << iv.get(i) << ", ";
     }
-    os << "]\n";
+    os << "]";
     return os;
 }
 

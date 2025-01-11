@@ -27,7 +27,7 @@ Matrix<DataType> operator+(const Matrix<DataType>& m1, const Matrix<DataType>& m
     {
         for (size_t col = 0; col < m1.size(); ++col)
         {
-            newMatrix.set(row, col, m1.get(row, col) + m2.get(row, col));
+            newMatrix.update(row, col, m1.get(row, col) + m2.get(row, col));
         }
     }
     return newMatrix;
@@ -41,7 +41,7 @@ Matrix<DataType> operator/(const Matrix<DataType>& m, const unsigned int div)
     {
         for (size_t col = 0; col < m.size(); ++col)
         {
-            newMatrix.set(row, col, m.get(row, col) / div);
+            newMatrix.update(row, col, m.get(row, col) / div);
         }
     }
     return newMatrix;
@@ -55,7 +55,7 @@ Matrix<DataType>& operator+=(Matrix<DataType>& m1, const Matrix<DataType>& m2)
     {
         for (size_t col = 0; col < m1.size(); ++col)
         {
-            m1.set(row, col, m1.get(row, col) + m2.get(row, col));
+            m1.update(row, col, m1.get(row, col) + m2.get(row, col));
         }
     }
     return m1;
@@ -74,7 +74,7 @@ Matrix<DataType>& operator*=(Matrix<DataType>& m1, const Matrix<DataType>& m2)
             {
                 value += m1.get(row, k) * m2.get(k, col);
             }
-            m1.set(row, col, value);
+            m1.update(row, col, value);
         }
     }
 
@@ -85,6 +85,9 @@ template <Comparable DataType>
 requires SameShape<Matrix<DataType>>
 bool operator==(const Matrix<DataType>& m1, const Matrix<DataType>& m2)
 {
+    if (m1.size() != m2.size())
+        return false;
+
     for (size_t row = 0; row < m1.size(); ++row)
     {
         for (size_t col = 0; col < m1.size(); ++col)
@@ -95,6 +98,12 @@ bool operator==(const Matrix<DataType>& m1, const Matrix<DataType>& m2)
     }
 
     return true;
+}
+
+template <typename DataType>
+bool operator!=(const Matrix<DataType>& m1, const Matrix<DataType>& m2)
+{
+    return !(m1 == m2);
 }
 
 template <Comparable DataType>
@@ -126,12 +135,12 @@ std::ostream& operator<<(std::ostream& os, const Matrix<DataType>& m)
 {
     for (size_t row = 0; row < m.size(); ++row)
     {
-        os << "[";
+        os << "\n[";
         for (size_t col = 0; col < m.size(); ++col)
         {
             os << m.get(row, col) << ", ";
         }
-        os << "]\n";
+        os << "]";
     }
     return os;
 }

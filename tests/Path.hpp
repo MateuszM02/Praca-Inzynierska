@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <unordered_map>
 
 namespace tests
 {
@@ -36,15 +37,16 @@ class Path final
 public:
     Path() = delete;
 
-    static std::string Create(const TestType type, const unsigned int id)
+    static std::string Create(const TestType testType)
     {
-        return Convert(type) + std::to_string(id) + ".txt";
+        static std::unordered_map<TestType, unsigned int> testIdMap;
+        return Convert(testType) + std::to_string(++testIdMap[testType]) + ".txt";
     }
 
 private:
-    static std::string Convert(const TestType type)
+    static std::string Convert(const TestType testType)
     {
-        switch (type)
+        switch (testType)
         {
             case TestType::MinMaxBasicVector:           return "BasicVector";
             case TestType::MinMaxVectorOfVectors:       return "VectorOfVectors";
