@@ -5,7 +5,6 @@
 #include "Path.hpp"
 
 #include <fstream>
-#include <unordered_map>
 
 #include <gtest/gtest.h>
 
@@ -39,7 +38,7 @@ struct BaseTestStruct
 protected:
     explicit BaseTestStruct(const TestType testType,
         std::shared_ptr<BaseClass<Container>>&& f)
-    : filePath_{createPath(testType)}
+    : filePath_{Path::Create(testType)}
     , ref_{std::move(f)}
     { }
 
@@ -99,12 +98,6 @@ public:
     }
 
 private:
-    std::string createPath(const TestType testType) const
-    {
-        static std::unordered_map<TestType, unsigned int> testIdMap;
-        return Path::Create(testType, ++testIdMap[testType]);
-    }
-
     const std::string filePath_;
     const std::shared_ptr<BaseClass<Container>> ref_;
 
@@ -112,8 +105,8 @@ private:
     friend class BaseTestFixture;
 };
 
-// Klasa abstrakcyjna BaseTestFixture, po ktorej dziedzicza klasy testowe metod generate
-template <typename Container> 
+// Klasa abstrakcyjna BaseTestFixture, po ktorej dziedzicza klasy testowe
+template <typename Container>
 class BaseTestFixture : public ::testing::TestWithParam<BaseTestStruct<Container>>
 {
 protected:

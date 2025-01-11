@@ -31,6 +31,11 @@ bool operator==(const Point2D& p1, const Point2D& p2)
     return p1.x == p2.x && p1.y == p2.y;
 }
 
+bool operator!=(const Point2D& p1, const Point2D& p2)
+{
+    return !(p1 == p2);
+}
+
 bool operator<(const Point2D& p1, const Point2D& p2)
 {
     return  p1.x != p2.x ?
@@ -45,7 +50,7 @@ bool operator>(const Point2D& p1, const Point2D& p2)
 
 std::ostream& operator<<(std::ostream& os, const Point2D& p) 
 {
-    os << "(" << p.x << ", " << p.y << ")\n";
+    os << "(" << p.x << ", " << p.y << ")";
     return os;
 }
 
