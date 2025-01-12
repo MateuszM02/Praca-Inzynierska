@@ -26,8 +26,23 @@ public:
         }
     }
 
+    std::tuple<Container, Container, Container> callEach() const
+    {
+        const Container& stlResult = executeSTL();
+        const Container& boostResult = executeBoost();
+        const Container& simpleResult = executeSimple();
+        return { stlResult, boostResult, simpleResult };
+    }
+
 protected:
     BaseClass() = default;
+
+    // tylko przenoszenie
+    BaseClass(BaseClass&&) = default;
+    BaseClass& operator=(BaseClass&&) = default;
+    BaseClass(const BaseClass&) = delete;
+    BaseClass& operator=(const BaseClass&) = delete;
+
     virtual ~BaseClass() = default;
     virtual void resetData() const = 0;
     virtual Container executeSTL() const = 0;

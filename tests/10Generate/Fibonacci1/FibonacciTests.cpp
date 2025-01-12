@@ -4,19 +4,19 @@ namespace tests::Generate
 {
 
 INSTANTIATE_TEST_SUITE_P(
-    FibonacciGenerateIntPrefix,
+    GeneratePrefix,
     FibonacciGenerateIntFixture,
     ::testing::Values(
-        FibonacciGenerateArgs<int>(std::make_pair(1, 1), 45u),
-        FibonacciGenerateArgs<int>(std::make_pair(2, 2), 40u)
+        std::make_shared<FibonacciGenerateArgs<int>>(std::make_pair(1, 1), 45u),
+        std::make_shared<FibonacciGenerateArgs<int>>(std::make_pair(2, 2), 40u)
     ));
 
 INSTANTIATE_TEST_SUITE_P(
-    FibonacciGenerateDoublePrefix, 
+    GeneratePrefix, 
     FibonacciGenerateDoubleFixture,
     ::testing::Values(
-        FibonacciGenerateArgs<double>(std::make_pair(1.0, 1.0), 80u),
-        FibonacciGenerateArgs<double>(std::make_pair(1.5, 2.5), 60u)
+        std::make_shared<FibonacciGenerateArgs<double>>(std::make_pair(1.0, 1.0), 80u),
+        std::make_shared<FibonacciGenerateArgs<double>>(std::make_pair(1.5, 2.5), 60u)
     ));
 
 } // namespace tests::Generate

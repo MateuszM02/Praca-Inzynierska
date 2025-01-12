@@ -11,12 +11,15 @@ namespace tests::NthElement
 struct PointsNthElementArgs final : public NthElementTestStruct<std::vector<Point2D>>
 {
     explicit PointsNthElementArgs(
-        Point2D (*fun)(const unsigned int),
+        Point2D (*dataCreator)(const unsigned int),
         const unsigned int n,
         const unsigned int vectorSize)
     : NthElementTestStruct<std::vector<Point2D>>(
         TestType::NthElementPoints,
-        std::make_shared<NthFinder<std::vector<Point2D>>>(initTestData7(fun, n, vectorSize)))
+        [dataCreator, n, vectorSize]()
+        {
+            return initTestData7(dataCreator, n, vectorSize);
+        })
     { }
 };
 

@@ -15,18 +15,18 @@ namespace tests::NthElement
 {
 
 INSTANTIATE_TEST_SUITE_P(
-    RandomStringNthElementPrefix,
+    NthElementPrefix,
     RandomStringNthElementFixture,
     ::testing::Values(
         // Mala ilosc napisow
-        RandomStringNthElementArgs(SMALL_N, FEW_STRINGS, STRING_LENGTH),
-        RandomStringNthElementArgs(MEDIUM_N, FEW_STRINGS, STRING_LENGTH),
+        std::make_shared<RandomStringNthElementArgs>(SMALL_N, FEW_STRINGS, STRING_LENGTH),
+        std::make_shared<RandomStringNthElementArgs>(MEDIUM_N, FEW_STRINGS, STRING_LENGTH),
         // Srednia ilosc napisow
-        RandomStringNthElementArgs(MEDIUM_N, MEDIUM_STRINGS, STRING_LENGTH),
-        RandomStringNthElementArgs(BIG_N, MEDIUM_STRINGS, STRING_LENGTH),
+        std::make_shared<RandomStringNthElementArgs>(MEDIUM_N, MEDIUM_STRINGS, STRING_LENGTH),
+        std::make_shared<RandomStringNthElementArgs>(BIG_N, MEDIUM_STRINGS, STRING_LENGTH),
         // Duza ilosc napisow
-        RandomStringNthElementArgs(BIG_N, MANY_STRINGS, STRING_LENGTH),
-        RandomStringNthElementArgs(HUGE_N, MANY_STRINGS, STRING_LENGTH)
+        std::make_shared<RandomStringNthElementArgs>(BIG_N, MANY_STRINGS, STRING_LENGTH),
+        std::make_shared<RandomStringNthElementArgs>(HUGE_N, MANY_STRINGS, STRING_LENGTH)
     ));
 
 } // namespace tests::NthElement

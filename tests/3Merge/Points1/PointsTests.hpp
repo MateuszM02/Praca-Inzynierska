@@ -11,13 +11,16 @@ namespace tests::Merge
 struct PointsMergeArgs final : public MergeTestStruct<Point2D>
 {
     explicit PointsMergeArgs(
-        Point2D (*fun1)(const unsigned int),
-        Point2D (*fun2)(const unsigned int),
+        Point2D (*dataCreator1)(const unsigned int),
+        Point2D (*dataCreator2)(const unsigned int),
         const unsigned int n1,
         const unsigned int n2)
     : MergeTestStruct<Point2D>(
         TestType::MergePoints,
-        std::make_shared<Merger<Point2D>>(initTestData3(fun1, fun2, n1, n2)))
+        [dataCreator1, dataCreator2, n1, n2]()
+        {
+            return initTestData3(dataCreator1, dataCreator2, n1, n2);
+        })
     { }
 };
 

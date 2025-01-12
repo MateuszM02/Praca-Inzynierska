@@ -11,12 +11,16 @@ namespace tests::MinMax
 struct VectorOfVectorsMinMaxArgs final : public MinMaxTestStruct<std::vector<IntVector>>
 {
     explicit VectorOfVectorsMinMaxArgs(
-        IntVector (*f)(const unsigned int),
+        IntVector (*dataCreator)(const unsigned int),
         const unsigned int n)
     : MinMaxTestStruct<std::vector<IntVector>>(
         TestType::MinMaxVectorOfVectors,
-        std::make_shared<MinMaxFinder<std::vector<IntVector>>>(
-            initTestData<std::vector<IntVector>>(f, n)))
+        [dataCreator, n]()
+        {
+            std::vector<IntVector> data =
+                BaseTestStruct::initTestData<std::vector<IntVector>>(dataCreator, n);
+            return std::make_shared<MinMaxFinder<std::vector<IntVector>>>(std::move(data));
+        })
     { }
 };
 

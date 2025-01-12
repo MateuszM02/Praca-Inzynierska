@@ -14,8 +14,8 @@ struct MinMaxTestStruct : public BaseTestStruct<Container>
 {
 protected:
     explicit MinMaxTestStruct(const TestType testType,
-        std::shared_ptr<MinMaxFinder<Container>>&& f)
-    : BaseTestStruct<Container>(testType, std::move(f))
+        Callback<MinMaxFinder<Container>>&& callback)
+    : BaseTestStruct<Container>(testType, std::move(callback))
     { }
 };
 

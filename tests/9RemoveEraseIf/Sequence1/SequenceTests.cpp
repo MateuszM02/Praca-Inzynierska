@@ -11,9 +11,9 @@ INSTANTIATE_TEST_SUITE_P(
     SequencePrefix,
     SequenceIntFixture,
     ::testing::Values(
-        SequenceArgs(MERSENNE_TEST_SIZE, SequenceIntFixture::isMersenneNumber),
-        SequenceArgs(DIVISORS_TEST_SIZE, SequenceIntFixture::hasAtMost4Divisors),
-        SequenceArgs(SUM_TEST_SIZE, SequenceIntFixture::is1toNSumOdd)
+        std::make_shared<SequenceArgs>(MERSENNE_TEST_SIZE, SequenceIntFixture::isMersenneNumber),
+        std::make_shared<SequenceArgs>(DIVISORS_TEST_SIZE, SequenceIntFixture::hasAtMost4Divisors),
+        std::make_shared<SequenceArgs>(SUM_TEST_SIZE, SequenceIntFixture::is1toNSumOdd)
     ));
 
 } // namespace tests::RemoveEraseIf

@@ -13,8 +13,8 @@ struct GenerateTestStruct : public BaseTestStruct<std::vector<GeneratedDataType>
 {
 protected:
     explicit GenerateTestStruct(const TestType testType,
-        std::shared_ptr<Generator<GeneratedDataType, StateDataType>>&& f)
-    : BaseTestStruct<std::vector<GeneratedDataType>>(testType, std::move(f))
+        Callback<Generator<GeneratedDataType, StateDataType>>&& callback)
+    : BaseTestStruct<std::vector<GeneratedDataType>>(testType, std::move(callback))
     { }
 };
 

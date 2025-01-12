@@ -7,43 +7,44 @@ namespace tests::Accumulate
 {
 
 INSTANTIATE_TEST_SUITE_P(
-    UIntAccumulatePrefix,
+    AccumulatePrefix,
     UIntAccumulateFixture,
     ::testing::Values(
         // generator rosnacych liczb
-        UIntAccumulateArgs(UIntAccumulateFixture::sortedGenerator,
-                   SMALL_TEST, AccType::SumOnly),
-        UIntAccumulateArgs(UIntAccumulateFixture::sortedGenerator,
-                   SMALL_TEST, AccType::SumAndExtremes),
-        UIntAccumulateArgs(UIntAccumulateFixture::sortedGenerator,
-                   SMALL_TEST, AccType::SumAndMean),
-        UIntAccumulateArgs(UIntAccumulateFixture::sortedGenerator,
-                   SMALL_TEST, AccType::DoItAll),
-        UIntAccumulateArgs(UIntAccumulateFixture::sortedGenerator,
-                   MEDIUM_TEST, AccType::SumOnly),
-        UIntAccumulateArgs(UIntAccumulateFixture::sortedGenerator,
-                   MEDIUM_TEST, AccType::SumAndExtremes),
-        UIntAccumulateArgs(UIntAccumulateFixture::sortedGenerator,
-                   MEDIUM_TEST, AccType::SumAndMean),
-        UIntAccumulateArgs(UIntAccumulateFixture::sortedGenerator,
-                   MEDIUM_TEST, AccType::DoItAll),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::sortedGenerator, SMALL_TEST, AccType::SumOnly),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::sortedGenerator, SMALL_TEST, AccType::SumAndExtremes),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::sortedGenerator, SMALL_TEST, AccType::SumAndMean),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::sortedGenerator, SMALL_TEST, AccType::DoItAll),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::sortedGenerator, MEDIUM_TEST, AccType::SumOnly),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::sortedGenerator, MEDIUM_TEST, AccType::SumAndExtremes),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::sortedGenerator, MEDIUM_TEST, AccType::SumAndMean),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::sortedGenerator, MEDIUM_TEST, AccType::DoItAll),
+
         // generator malejacych liczb
-        UIntAccumulateArgs(UIntAccumulateFixture::reverseSortedGenerator,
-                   SMALL_TEST, AccType::SumOnly),
-        UIntAccumulateArgs(UIntAccumulateFixture::reverseSortedGenerator,
-                   SMALL_TEST, AccType::SumAndExtremes),
-        UIntAccumulateArgs(UIntAccumulateFixture::reverseSortedGenerator,
-                   SMALL_TEST, AccType::SumAndMean),
-        UIntAccumulateArgs(UIntAccumulateFixture::reverseSortedGenerator,
-                   SMALL_TEST, AccType::DoItAll),
-        UIntAccumulateArgs(UIntAccumulateFixture::reverseSortedGenerator,
-                   MEDIUM_TEST, AccType::SumOnly),
-        UIntAccumulateArgs(UIntAccumulateFixture::reverseSortedGenerator,
-                   MEDIUM_TEST, AccType::SumAndExtremes),
-        UIntAccumulateArgs(UIntAccumulateFixture::reverseSortedGenerator,
-                   MEDIUM_TEST, AccType::SumAndMean),
-        UIntAccumulateArgs(UIntAccumulateFixture::reverseSortedGenerator,
-                   MEDIUM_TEST, AccType::DoItAll)
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::reverseSortedGenerator, SMALL_TEST, AccType::SumOnly),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::reverseSortedGenerator, SMALL_TEST, AccType::SumAndExtremes),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::reverseSortedGenerator, SMALL_TEST, AccType::SumAndMean),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::reverseSortedGenerator, SMALL_TEST, AccType::DoItAll),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::reverseSortedGenerator, MEDIUM_TEST, AccType::SumOnly),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::reverseSortedGenerator, MEDIUM_TEST, AccType::SumAndExtremes),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::reverseSortedGenerator, MEDIUM_TEST, AccType::SumAndMean),
+        std::make_shared<UIntAccumulateArgs>(
+            UIntAccumulateFixture::reverseSortedGenerator, MEDIUM_TEST, AccType::DoItAll)
     ));
 
 } // namespace tests::Accumulate

@@ -16,11 +16,11 @@ protected:
     using DataType = typename Container::value_type;
 
     explicit RemoveEraseIfTestStruct(const TestType testType,
-        std::shared_ptr<Remover<Container>>&& f)
-    : BaseTestStruct<Container>(testType, std::move(f))
+        Callback<Remover<Container>>&& callback)
+    : BaseTestStruct<Container>(testType, std::move(callback))
     { }
 
-    static RemoverData<Container> initTestData(
+    static std::shared_ptr<Remover<Container>> initTestData9(
         DataType(*generator)(const unsigned int),
         bool (*predicate)(const DataType&),
         const unsigned int n)
@@ -33,7 +33,8 @@ protected:
             elements.emplace_back(generator(i));
         }
 
-        return RemoverData<Container>(elements, predicate);
+        RemoverData<Container> data(std::move(elements), predicate);
+        return std::make_shared<Remover<Container>>(std::move(data));
     }
 };
 

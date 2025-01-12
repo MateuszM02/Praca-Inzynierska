@@ -19,11 +19,13 @@ struct RegexTestStruct final : public BaseTestStruct<std::vector<std::string>>
 {
 public:
     explicit RegexTestStruct(const unsigned int textLength, const ERegexTestType testType)
-    : BaseTestStruct<std::vector<std::string>>(TestType::RegexType, createEvaluatorPtr(textLength, testType))
+    : BaseTestStruct<std::vector<std::string>>(TestType::RegexType,
+        [textLength, testType]()
+        { return initTestData8(textLength, testType); })
     { }
 
 private:
-    static std::shared_ptr<RegexEvaluator> createEvaluatorPtr(
+    static std::shared_ptr<RegexEvaluator> initTestData8(
         const unsigned int textLength, const ERegexTestType testType)
     {
         std::string(*textGenerator)(const unsigned int);

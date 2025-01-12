@@ -33,8 +33,8 @@ public:
     static std::shared_ptr<StrGenerator> 
     createGenerator(const unsigned int vectorSize, const unsigned int length)
     {
-        const StrGenerator& generator = createGeneratorData(vectorSize, length);
-        return std::make_shared<StrGenerator>(generator);
+        StrGenerator generator = createGeneratorData(vectorSize, length);
+        return std::make_shared<StrGenerator>(std::move(generator));
     }
 
     static std::shared_ptr<NthFinder<std::vector<std::string>>> createFinder(
@@ -50,8 +50,8 @@ public:
             elements.emplace_back(generator.create());
         }
 
-        NthFinderData<std::vector<std::string>> data(elements, n);
-        return std::make_shared<NthFinder<std::vector<std::string>>>(data);
+        NthFinderData<std::vector<std::string>> data(std::move(elements), n);
+        return std::make_shared<NthFinder<std::vector<std::string>>>(std::move(data));
     }
 };
 

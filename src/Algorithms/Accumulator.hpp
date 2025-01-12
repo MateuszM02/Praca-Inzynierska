@@ -65,18 +65,18 @@ public:
 private:
     void resetData() const override { }
 
-    void FOR_ITER(const std::function<void(DataType)>& f) const
+    void FOR_ITER(const std::function<void(DataType)>& dataCallback) const
     {
         for (auto it = data_.begin(); it != data_.end(); ++it)
         {
-            f(*it);
+            dataCallback(*it);
         }
     }
 
     template <typename AccumulatorSet>
     void FOR_ITER_ON_ACC(AccumulatorSet& acc) const
     {
-        FOR_ITER([&acc](const DataType& wrapper) { acc(wrapper); });
+        FOR_ITER([&acc](const DataType& value) { acc(value); });
     }
 
     AccResults<DataType> executeSTL() const override
@@ -152,19 +152,19 @@ private:
 
         if (accType_ == AccType::SumOnly || accType_ == AccType::SumAndMean)
         {
-            FOR_ITER([&results](const DataType& wrapper) { results.sum += wrapper; });
+            FOR_ITER([&results](const DataType& value) { results.sum += value; });
         }
         else // AccType::SumAndExtremes, AccType::DoItAll
         {
             results.minimum = *data_.begin();
             results.maximum = *data_.begin();
-            FOR_ITER([&results](const DataType& wrapper)
+            FOR_ITER([&results](const DataType& value)
             {
-                results.sum += wrapper;
-                if (wrapper < results.minimum)
-                    results.minimum = wrapper;
-                else if (wrapper > results.maximum)
-                    results.maximum = wrapper;
+                results.sum += value;
+                if (value < results.minimum)
+                    results.minimum = value;
+                else if (value > results.maximum)
+                    results.maximum = value;
             });
         }
 

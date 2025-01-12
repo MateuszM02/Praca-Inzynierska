@@ -8,12 +8,16 @@ namespace tests::MinMax
 struct BasicVectorMinMaxArgs final : public MinMaxTestStruct<std::vector<unsigned int>>
 {
     explicit BasicVectorMinMaxArgs(
-        unsigned int (*f)(const unsigned int),
+        unsigned int (*dataCreator)(const unsigned int),
         const unsigned int n)
     : MinMaxTestStruct<std::vector<unsigned int>>(
         TestType::MinMaxBasicVector,
-        std::make_shared<MinMaxFinder<std::vector<unsigned int>>>(
-            initTestData<std::vector<unsigned int>>(f, n)))
+        [dataCreator, n]()
+        {
+            std::vector<unsigned int> data =
+                BaseTestStruct::initTestData<std::vector<unsigned int>>(dataCreator, n);
+            return std::make_shared<MinMaxFinder<std::vector<unsigned int>>>(std::move(data));
+        })
     { }
 };
 

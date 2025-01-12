@@ -16,13 +16,17 @@ struct MatrixGenerateArgs final : public GenerateTestStruct<Matrix<Number>>
         const Matrix<Number>& initialMatrix,
         const unsigned int n)
     : GenerateTestStruct<Matrix<Number>>(
-    TestType::GenerateMatrix,
-    std::make_shared<Generator<Matrix<Number>>>(n, initialMatrix,
-        [initialState = initialMatrix](Matrix<Number>& currentState)
+        TestType::GenerateMatrix,
+        [initialMatrix, n]()
         {
-            currentState *= initialState;
-            return currentState;
-        }))
+            auto stateCreator = [initialMatrix](Matrix<Number>& currentState)
+            {
+                currentState *= initialMatrix;
+                return currentState;
+            };
+
+            return std::make_shared<Generator<Matrix<Number>>>(n, initialMatrix, stateCreator);
+        })
     { }
 };
 

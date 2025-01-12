@@ -11,12 +11,16 @@ namespace tests::MinMax
 struct VectorSetMinMaxArgs final : public MinMaxTestStruct<std::set<IntVector>>
 {
     explicit VectorSetMinMaxArgs(
-        IntVector (*f)(const unsigned int),
+        IntVector (*dataCreator)(const unsigned int),
         const unsigned int n)
     : MinMaxTestStruct<std::set<IntVector>>(
         TestType::MinMaxVectorSet,
-        std::make_shared<MinMaxFinder<std::set<IntVector>>>(
-            initTestData<std::set<IntVector>>(f, n)))
+        [dataCreator, n]()
+        {
+            std::set<IntVector> data =
+                BaseTestStruct::initTestData<std::set<IntVector>>(dataCreator, n);
+            return std::make_shared<MinMaxFinder<std::set<IntVector>>>(std::move(data));
+        })
     { }
 };
 

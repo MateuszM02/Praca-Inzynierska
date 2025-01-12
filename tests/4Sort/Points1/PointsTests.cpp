@@ -8,18 +8,18 @@ namespace tests::Sort
 {
 
 INSTANTIATE_TEST_SUITE_P(
-    PointsSortPrefix,
+    SortPrefix,
     PointsSortFixture,
     ::testing::Values(
-        PointsSortArgs(PointsSortFixture::sortedGenerator, SMALL_TEST),
-        PointsSortArgs(PointsSortFixture::sortedGenerator, MEDIUM_TEST),
-        PointsSortArgs(PointsSortFixture::sortedGenerator, BIG_TEST),
-        PointsSortArgs(PointsSortFixture::reverseSortedGenerator, SMALL_TEST),
-        PointsSortArgs(PointsSortFixture::reverseSortedGenerator, MEDIUM_TEST),
-        PointsSortArgs(PointsSortFixture::reverseSortedGenerator, BIG_TEST),
-        PointsSortArgs(PointsSortFixture::randomGenerator, SMALL_TEST),
-        PointsSortArgs(PointsSortFixture::randomGenerator, MEDIUM_TEST),
-        PointsSortArgs(PointsSortFixture::randomGenerator, BIG_TEST)
+        std::make_shared<PointsSortArgs>(PointsSortFixture::sortedGenerator, SMALL_TEST),
+        std::make_shared<PointsSortArgs>(PointsSortFixture::sortedGenerator, MEDIUM_TEST),
+        std::make_shared<PointsSortArgs>(PointsSortFixture::sortedGenerator, BIG_TEST),
+        std::make_shared<PointsSortArgs>(PointsSortFixture::reverseSortedGenerator, SMALL_TEST),
+        std::make_shared<PointsSortArgs>(PointsSortFixture::reverseSortedGenerator, MEDIUM_TEST),
+        std::make_shared<PointsSortArgs>(PointsSortFixture::reverseSortedGenerator, BIG_TEST),
+        std::make_shared<PointsSortArgs>(PointsSortFixture::randomGenerator, SMALL_TEST),
+        std::make_shared<PointsSortArgs>(PointsSortFixture::randomGenerator, MEDIUM_TEST),
+        std::make_shared<PointsSortArgs>(PointsSortFixture::randomGenerator, BIG_TEST)
     ));
 
 } // namespace tests::Sort

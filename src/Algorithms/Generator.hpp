@@ -57,8 +57,8 @@ private:
         return sequence;
     }
 
-    const std::size_t n_;
-    const StateDataType initialState_;
+    std::size_t n_;
+    StateDataType initialState_;
     mutable StateDataType currentState_;
     std::function<GeneratedDataType(StateDataType&)> generator_;
 };
