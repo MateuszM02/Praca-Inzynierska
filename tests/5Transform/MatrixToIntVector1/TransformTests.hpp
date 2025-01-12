@@ -12,13 +12,18 @@ namespace tests::Transform
 struct MatrixToIntVectorTransformArgs final : public TransformTestStruct<Matrix<int>, std::vector<IntVector>>
 {
     explicit MatrixToIntVectorTransformArgs(
-        Matrix<int> (*f)(const unsigned int),
+        Matrix<int> (*dataCreator)(const unsigned int),
         const unsigned int n)
     : TransformTestStruct<Matrix<int>, std::vector<IntVector>>(
         TestType::TransformMatrixToIntVector,
-        std::make_shared<Transformer<Matrix<int>, std::vector<IntVector>>>(
-            initTestData<std::vector<Matrix<int>>>(f, n),
-            &transformer))
+        [dataCreator, n]()
+        {
+            std::vector<Matrix<int>> inData =
+                initTestData<std::vector<Matrix<int>>>(dataCreator, n);
+            return std::make_shared<Transformer<Matrix<int>, std::vector<IntVector>>>(
+                std::move(inData),
+                &transformer);
+        })
     { }
 
     static std::vector<IntVector> transformer(const Matrix<int>& matrix)

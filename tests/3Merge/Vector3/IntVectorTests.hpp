@@ -11,13 +11,16 @@ namespace tests::Merge
 struct IntVectorMergeArgs final : public MergeTestStruct<IntVector>
 {
     explicit IntVectorMergeArgs(
-        IntVector (*fun1)(const unsigned int),
-        IntVector (*fun2)(const unsigned int),
+        IntVector (*dataCreator1)(const unsigned int),
+        IntVector (*dataCreator2)(const unsigned int),
         const unsigned int n1,
         const unsigned int n2)
     : MergeTestStruct<IntVector>(
         TestType::MergeIntVector,
-        std::make_shared<Merger<IntVector>>(initTestData3(fun1, fun2, n1, n2)))
+        [dataCreator1, dataCreator2, n1, n2]()
+        {
+            return initTestData3(dataCreator1, dataCreator2, n1, n2);
+        })
     { }
 };
 

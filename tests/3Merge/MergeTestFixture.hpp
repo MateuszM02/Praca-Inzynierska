@@ -13,13 +13,13 @@ struct MergeTestStruct : public BaseTestStruct<std::vector<DataType>>
 {
 protected:
     explicit MergeTestStruct(const TestType testType,
-        std::shared_ptr<Merger<DataType>>&& f)
-    : BaseTestStruct<std::vector<DataType>>(testType, std::move(f))
+        Callback<Merger<DataType>>&& callback)
+    : BaseTestStruct<std::vector<DataType>>(testType, std::move(callback))
     { }
 
-    static MergerData<DataType> initTestData3(
-        DataType (*fun1)(const unsigned int),
-        DataType (*fun2)(const unsigned int),
+    static std::shared_ptr<Merger<DataType>> initTestData3(
+        DataType (*dataCreator1)(const unsigned int),
+        DataType (*dataCreator2)(const unsigned int),
         const unsigned int n1,
         const unsigned int n2)
     {
@@ -30,13 +30,14 @@ protected:
 
         for (unsigned int i = 1; i <= n1; ++i)
         {
-            v1.emplace_back(fun1(i));
+            v1.emplace_back(dataCreator1(i));
         }
         for (unsigned int i = 1; i <= n2; ++i)
         {
-            v2.emplace_back(fun2(i));
+            v2.emplace_back(dataCreator2(i));
         }
-        return MergerData<DataType>(v1, v2);
+        MergerData<DataType> data(v1, v2);
+        return std::make_shared<Merger<DataType>>(std::move(data));
     }
 };
 

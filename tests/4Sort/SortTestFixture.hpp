@@ -15,8 +15,8 @@ struct SortTestStruct : public BaseTestStruct<std::vector<DataType>>
 {
 protected:
     explicit SortTestStruct(const TestType testType,
-        std::shared_ptr<Sorter<DataType>>&& f)
-    : BaseTestStruct<std::vector<DataType>>(testType, std::move(f))
+        Callback<Sorter<DataType>>&& callback)
+    : BaseTestStruct<std::vector<DataType>>(testType, std::move(callback))
     { }
 };
 

@@ -32,18 +32,34 @@ namespace tests
 template <typename GivenReturnType, typename ExpectedReturnType>
 using IsOfType = std::enable_if_t<std::is_same_v<GivenReturnType, ExpectedReturnType>>;
 
+template <typename Type>
+using Callback = std::function<std::shared_ptr<Type>()>;
+
 template <typename Container>
 struct BaseTestStruct
 {
 protected:
     explicit BaseTestStruct(const TestType testType,
-        std::shared_ptr<BaseClass<Container>>&& f)
+        Callback<BaseClass<Container>>&& callback)
     : filePath_{Path::Create(testType)}
-    , ref_{std::move(f)}
+    , callback_{std::move(callback)}
     { }
 
+    // tylko przenoszenie
+    BaseTestStruct(BaseTestStruct&&) = default;
+    BaseTestStruct& operator=(BaseTestStruct&&) = default;
+    BaseTestStruct(const BaseTestStruct&) = delete;
+    BaseTestStruct& operator=(const BaseTestStruct&) = delete;
+
+    // Do wypisywania nazwy klasy w testach
+    friend std::ostream& operator<<(std::ostream& os, const BaseTestStruct& instance)
+    {
+        os << "[obiekt klasy " << typeid(instance).name() << "]";
+        return os;
+    }
+
     template <typename ReturnType, typename = IsOfType<ReturnType, std::vector<typename ReturnType::value_type>>>
-    std::vector<typename ReturnType::value_type>
+    static std::vector<typename ReturnType::value_type>
     initTestData(ReturnType::value_type (*generator)(), const unsigned int n)
     {
         std::vector<typename ReturnType::value_type> v;
@@ -57,7 +73,7 @@ protected:
     }
 
     template <typename ReturnType, typename = IsOfType<ReturnType, std::set<typename ReturnType::value_type>>>
-    std::set<typename ReturnType::value_type>
+    static std::set<typename ReturnType::value_type>
     initTestData(ReturnType::value_type (*generator)(const unsigned int), const unsigned int n)
     {
         std::set<typename ReturnType::value_type> v;
@@ -69,7 +85,7 @@ protected:
     }
 
     template <typename ReturnType, typename = IsOfType<ReturnType, std::vector<typename ReturnType::value_type>>>
-    std::vector<typename ReturnType::value_type>
+    static std::vector<typename ReturnType::value_type>
     initTestData(ReturnType::value_type (*generator)(const unsigned int), const unsigned int n)
     {
         std::vector<typename ReturnType::value_type> v;
@@ -83,54 +99,71 @@ protected:
     }
 
 public:
-    // Zdobadz wartosc danego pola obiektu trzymanego przez ref_
+    // Zdobadz wartosc danego pola obiektu trzymanego przez callback_
     template <typename FieldType, typename Derived>
     FieldType getField(FieldType Derived::*field) const
     {
         static_assert(std::is_base_of_v<BaseClass<Container>, Derived>,
             "Derived must be derived from BaseClass<Container>");
+
+        std::shared_ptr<BaseClass<Container>> ref_ = getTestData();
         using ptrType = decltype(ref_.get());
-        static_assert(std::is_pointer_v<ptrType>, "ref_ must be a pointer");
+
+        static_assert(std::is_pointer_v<ptrType>, "callback_ must be a pointer");
         static_assert(std::is_convertible_v<ptrType, BaseClass<Container>*>,
-            "ref_ must be convertible to BaseClass<Container>*");
+            "callback_ must be convertible to BaseClass<Container>*");
 
         return static_cast<Derived*>(ref_.get())->*field;
     }
 
-private:
-    const std::string filePath_;
-    const std::shared_ptr<BaseClass<Container>> ref_;
+    std::string getFilePath() const { return filePath_; }
 
-    template <typename>
-    friend class BaseTestFixture;
+    std::shared_ptr<BaseClass<Container>> getTestData() const
+    {
+        if (!testData_.has_value())
+            testData_ = callback_();
+        return testData_.value();
+    }
+
+private:
+    std::string filePath_;
+    Callback<BaseClass<Container>> callback_;
+    mutable std::optional<std::shared_ptr<BaseClass<Container>>> testData_;
 };
 
 // Klasa abstrakcyjna BaseTestFixture, po ktorej dziedzicza klasy testowe
 template <typename Container>
-class BaseTestFixture : public ::testing::TestWithParam<BaseTestStruct<Container>>
+class BaseTestFixture : public ::testing::TestWithParam<std::shared_ptr<BaseTestStruct<Container>>>
 {
 protected:
     BaseTestFixture() = default;
 
-    void VerifyTest(const BaseTestStruct<Container>& args)
+    // tylko przenoszenie
+    BaseTestFixture(BaseTestFixture&&) = default;
+    BaseTestFixture& operator=(BaseTestFixture&&) = default;
+    BaseTestFixture(const BaseTestFixture&) = delete;
+    BaseTestFixture& operator=(const BaseTestFixture&) = delete;
+
+    void VerifyTest(const std::shared_ptr<BaseTestStruct<Container>>& args)
     {
         using namespace std::placeholders;
         auto checker = std::bind(&BaseTestFixture::verifyElementEqualities, this, _1, _2, _3, _4);
         VerifyTest(args, checker);
     }
 
-    void VerifyTest(const BaseTestStruct<Container>& args,
+    void VerifyTest(const std::shared_ptr<BaseTestStruct<Container>>& args,
         const std::function<void(const Container&, const Container&,
             const Container&, std::ostringstream&)>& checker)
     {
         std::ostringstream os; // Uzycie ostringstream do wypisywania wynikow testow
 
-        const Container& stlResult = args.ref_->call(src::MethodType::STL, os);
-        const Container& boostResult = args.ref_->call(src::MethodType::Boost, os);
-        const Container& simpleResult = args.ref_->call(src::MethodType::Simple, os);
+        const auto& testData = args->getTestData();
+        const Container& stlResult = testData->call(src::MethodType::STL, os);
+        const Container& boostResult = testData->call(src::MethodType::Boost, os);
+        const Container& simpleResult = testData->call(src::MethodType::Simple, os);
 
         // Zapisywanie wynikow testu do pliku
-        std::ofstream outFile(args.filePath_, std::ios::out | std::ios::trunc);
+        std::ofstream outFile(args->getFilePath(), std::ios::out | std::ios::trunc);
         if (outFile.is_open())
         {
             checker(stlResult, boostResult, simpleResult, os);
@@ -139,7 +172,7 @@ protected:
         }
         else
         {
-            std::cerr << "Nie udalo sie zapisac wynikow testu do pliku: " << args.filePath_ << "\n";
+            std::cerr << "Nie udalo sie zapisac wynikow testu do pliku: " << args->getFilePath() << "\n";
         }
     }
 

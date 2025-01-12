@@ -17,11 +17,11 @@ protected:
 
     explicit NthElementTestStruct(
         const TestType testType,
-        std::shared_ptr<NthFinder<Container>>&& f)
-    : BaseTestStruct<Container>(testType, std::move(f))
+        Callback<NthFinder<Container>>&& callback)
+    : BaseTestStruct<Container>(testType, std::move(callback))
     { }
 
-    static NthFinderData<Container> initTestData7(
+    static std::shared_ptr<NthFinder<Container>> initTestData7(
         DataType(*generator)(const unsigned int),
         const unsigned int n,
         const unsigned int vectorSize)
@@ -36,7 +36,8 @@ protected:
             elements.emplace_back(generator(i));
         }
 
-        return NthFinderData<Container>(elements, n);
+        NthFinderData<Container> data(std::move(elements), n);
+        return std::make_shared<NthFinder<Container>>(std::move(data));
     }
 };
 
@@ -47,10 +48,10 @@ class NthElementTestFixture : public BaseTestFixture<Container>
 protected:
     using DataType = typename Container::value_type;
 
-    void VerifyTestCustomFor7(const BaseTestStruct<Container>& args)
+    void VerifyTestCustomFor7(const std::shared_ptr<BaseTestStruct<Container>>& args)
     {
         using namespace std::placeholders;
-        const std::size_t n = args.getField(&NthFinder<Container>::n_);
+        const std::size_t n = args->getField(&NthFinder<Container>::n_);
         auto checker = std::bind(&NthElementTestFixture::verifyCustomFor7, this, _1, _2, _3, _4, n);
         this->VerifyTest(args, checker);
     }

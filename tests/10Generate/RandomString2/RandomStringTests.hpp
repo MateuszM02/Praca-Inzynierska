@@ -13,7 +13,10 @@ struct RandomStringGenerateArgs final : public GenerateTestStruct<std::string, R
     explicit RandomStringGenerateArgs(const unsigned int l, const unsigned int n)
     : GenerateTestStruct<std::string, RandomString>(
         TestType::GenerateRandomString,
-        RandomStringImpl::createGenerator(n, l))
+        [n, l]()
+        {
+            return RandomStringImpl::createGenerator(n, l);
+        })
     { }
 };
 
@@ -21,7 +24,7 @@ class RandomStringGenerateFixture : public GenerateTestFixture<std::string, Rand
 {
 public:
     void VerifyTestCustomForRandomStringGenerator(
-        const BaseTestStruct<std::vector<std::string>>& args)
+        const std::shared_ptr<BaseTestStruct<std::vector<std::string>>>& args)
     {
         using namespace std::placeholders;
         auto checker = std::bind(&RandomStringGenerateFixture::verifyRandomStringGenerator, this, _1, _2, _3, _4);

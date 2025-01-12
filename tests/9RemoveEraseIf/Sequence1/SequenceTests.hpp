@@ -14,27 +14,23 @@ struct SequenceArgs final : public RemoveEraseIfTestStruct<std::vector<unsigned 
         bool(*predicate)(const unsigned int&))
     : RemoveEraseIfTestStruct<std::vector<unsigned int>>(
         TestType::RemoveEraseIfSequence,
-        std::make_shared<Remover<std::vector<unsigned int>>>(
-            RemoverData<std::vector<unsigned int>>(initData(n), predicate)))
+        [n, predicate]()
+        {
+            std::vector<unsigned int> data(n);
+            std::iota(data.begin(), data.end(), 0);
+            return initTestData9(identity, predicate, n);
+        })
     { }
 
-private:
-    static std::vector<unsigned int> initData(const unsigned int n)
+    static unsigned int identity(const unsigned int n)
     {
-        std::vector<unsigned int> data(n);
-        std::iota(data.begin(), data.end(), 0);
-        return data;
+        return n;
     }
 };
 
 class SequenceIntFixture : public RemoveEraseIfTestFixture<std::vector<unsigned int>>
 {
 public:
-    static unsigned int identity(const unsigned int n)
-    {
-        return n;
-    }
-
     // predykaty
     static bool isNotPrime(const unsigned int value)
     {

@@ -8,14 +8,14 @@ namespace tests::Transform
 {
 
 INSTANTIATE_TEST_SUITE_P(
-    MatrixToIntVectorTransformPrefix,
+    TransformPrefix,
     MatrixToIntVectorTransformFixture,
     ::testing::Values(
-        MatrixToIntVectorTransformArgs(
+        std::make_shared<MatrixToIntVectorTransformArgs>(
             MatrixToIntVectorTransformFixture::sortedFirstElementGenerator, SMALL_TEST),
-        MatrixToIntVectorTransformArgs(
+        std::make_shared<MatrixToIntVectorTransformArgs>(
             MatrixToIntVectorTransformFixture::sortedFirstElementGenerator, MEDIUM_TEST),
-        MatrixToIntVectorTransformArgs(
+        std::make_shared<MatrixToIntVectorTransformArgs>(
             MatrixToIntVectorTransformFixture::sortedFirstElementGenerator, BIG_TEST)
     ));
 

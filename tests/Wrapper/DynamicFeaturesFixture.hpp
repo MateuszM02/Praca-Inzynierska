@@ -22,7 +22,7 @@ protected:
     // Sprawdzenie poprawnosci dynamicznych konstruktorow/operatorow kopiujacych/przenoszacych
     // z klas pochodnych po BaseWrapper
     template <typename Structure, bool SimpleType>
-    void VerifyEverythingWorks(const Structure& inStructure)
+    void VerifyMoveCopyWorks(const Structure& inStructure) const
     {
         // powinien poprawnie zainicjowac zmienna za pomoca konstruktora kopiujacego
         Structure structure1(inStructure);
@@ -50,6 +50,71 @@ protected:
         structure2 = inStructure;
         EXPECT_EQ(structure1, inStructure) << "Operator kopiujacy nie dziala";
         EXPECT_EQ(structure2, inStructure) << "Operator kopiujacy nie dziala";
+    }
+
+    template <typename InStructure>
+    void VerifyNthFinderWorks(const InStructure& inStructure,
+        const std::size_t n,
+        const InStructure& expectedResult) const
+    {
+        const NthFinderData<InStructure> data(inStructure, n);
+        NthFinder<InStructure> finder(std::move(data));
+
+        auto [stlResult, boostResult, simpleResult] = finder.callEach();
+
+        EXPECT_EQ(stlResult.size(), expectedResult.size()) << "STL zwrocil zly wynik!";
+        EXPECT_EQ(boostResult.size(), expectedResult.size()) << "Boost zwrocil zly wynik!";
+        EXPECT_EQ(simpleResult.size(), expectedResult.size()) << "Simple zwrocil zly wynik!";
+
+        auto stlIter = stlResult.begin();
+        auto boostIter = boostResult.begin();
+        auto simpleIter = simpleResult.begin();
+        unsigned int i = 0;
+
+        auto stlNthIter = stlResult.begin();
+        auto boostNthIter = boostResult.begin();
+        auto simpleNthIter = simpleResult.begin();
+        auto expectedNthIter = expectedResult.begin();
+        std::advance(stlNthIter, n);
+        std::advance(boostNthIter, n);
+        std::advance(simpleNthIter, n);
+        std::advance(expectedNthIter, n);
+
+        // n-ty element musi byc taki sam
+        EXPECT_EQ(*stlNthIter, *expectedNthIter) << "Wynik STL jest zly na n-tej pozycji";
+        EXPECT_EQ(*boostNthIter, *expectedNthIter) << "Wynik Boost jest zly na n-tej pozycji";
+        EXPECT_EQ(*simpleNthIter, *expectedNthIter) << "Wynik Simple jest zly na n-tej pozycji";
+
+        // wszystkie elementy przed n-tym musza byc mniejsze od niego
+        while (simpleIter != simpleNthIter)
+        {
+            EXPECT_LT(*stlIter, *stlNthIter) << "Wynik STL rozni sie na indeksie " << i;
+            EXPECT_LT(*boostIter, *boostNthIter) << "Wynik Boost rozni sie na indeksie " << i;
+            EXPECT_LT(*simpleIter, *simpleNthIter) << "Wynik Boost rozni sie na indeksie " << i;
+
+            ++i;
+            ++stlIter;
+            ++boostIter;
+            ++simpleIter;
+        }
+
+        ++i;
+        ++stlIter;
+        ++boostIter;
+        ++simpleIter;
+
+        // wszystkie elementy po n-tym musza byc wieksze od niego
+        while (simpleIter != simpleResult.end())
+        {
+            EXPECT_LT(*stlNthIter, *stlIter) << "Wynik STL rozni sie na indeksie " << i;
+            EXPECT_LT(*boostNthIter, *boostIter) << "Wynik Boost rozni sie na indeksie " << i;
+            EXPECT_LT(*simpleNthIter, *simpleIter) << "Wynik Boost rozni sie na indeksie " << i;
+
+            ++i;
+            ++stlIter;
+            ++boostIter;
+            ++simpleIter;
+        }
     }
 };
 

@@ -13,22 +13,32 @@ namespace tests::NthElement
 {
 
 INSTANTIATE_TEST_SUITE_P(
-    PointsNthElementPrefix,
+    NthElementPrefix,
     PointsNthElementFixture,
     ::testing::Values(
         // Mala ilosc punktow
-        PointsNthElementArgs(PointsNthElementFixture::fmod3i3_mod7i64, SMALL_N, FEW_POINTS),
-        PointsNthElementArgs(PointsNthElementFixture::f3i_mod9i64, SMALL_N, FEW_POINTS),
-        PointsNthElementArgs(PointsNthElementFixture::fmod3i3_mod7i64, MEDIUM_N, FEW_POINTS),
-        PointsNthElementArgs(PointsNthElementFixture::f3i_mod9i64, MEDIUM_N, FEW_POINTS),
+        std::make_shared<PointsNthElementArgs>(
+            PointsNthElementFixture::fmod3i3_mod7i64, SMALL_N, FEW_POINTS),
+        std::make_shared<PointsNthElementArgs>(
+            PointsNthElementFixture::f3i_mod9i64, SMALL_N, FEW_POINTS),
+        std::make_shared<PointsNthElementArgs>(
+            PointsNthElementFixture::fmod3i3_mod7i64, MEDIUM_N, FEW_POINTS),
+        std::make_shared<PointsNthElementArgs>(
+            PointsNthElementFixture::f3i_mod9i64, MEDIUM_N, FEW_POINTS),
         // Srednia ilosc punktow
-        PointsNthElementArgs(PointsNthElementFixture::fmod3i3_mod7i64, MEDIUM_N, MEDIUM_POINTS),
-        PointsNthElementArgs(PointsNthElementFixture::f3i_mod9i64, MEDIUM_N, MEDIUM_POINTS),
-        PointsNthElementArgs(PointsNthElementFixture::fmod3i3_mod7i64, BIG_N, MEDIUM_POINTS),
-        PointsNthElementArgs(PointsNthElementFixture::f3i_mod9i64, BIG_N, MEDIUM_POINTS),
+        std::make_shared<PointsNthElementArgs>(
+            PointsNthElementFixture::fmod3i3_mod7i64, MEDIUM_N, MEDIUM_POINTS),
+        std::make_shared<PointsNthElementArgs>(
+            PointsNthElementFixture::f3i_mod9i64, MEDIUM_N, MEDIUM_POINTS),
+        std::make_shared<PointsNthElementArgs>(
+            PointsNthElementFixture::fmod3i3_mod7i64, BIG_N, MEDIUM_POINTS),
+        std::make_shared<PointsNthElementArgs>(
+            PointsNthElementFixture::f3i_mod9i64, BIG_N, MEDIUM_POINTS),
         // Duza ilosc punktow
-        PointsNthElementArgs(PointsNthElementFixture::fmod3i3_mod7i64, BIG_N, MANY_POINTS),
-        PointsNthElementArgs(PointsNthElementFixture::fmod3i3_mod7i64, HUGE_N, MANY_POINTS)
+        std::make_shared<PointsNthElementArgs>(
+            PointsNthElementFixture::fmod3i3_mod7i64, BIG_N, MANY_POINTS),
+        std::make_shared<PointsNthElementArgs>(
+            PointsNthElementFixture::fmod3i3_mod7i64, HUGE_N, MANY_POINTS)
     ));
 
 } // namespace tests::NthElement

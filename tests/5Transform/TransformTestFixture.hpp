@@ -13,8 +13,8 @@ struct TransformTestStruct : public BaseTestStruct<std::vector<ReturnDataType>>
 {
 protected:
     explicit TransformTestStruct(const TestType testType,
-        std::shared_ptr<Transformer<InDataType, ReturnDataType>>&& f)
-    : BaseTestStruct<std::vector<ReturnDataType>>(testType, std::move(f))
+        Callback<Transformer<InDataType, ReturnDataType>>&& callback)
+    : BaseTestStruct<std::vector<ReturnDataType>>(testType, std::move(callback))
     { }
 };
 

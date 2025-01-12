@@ -12,8 +12,8 @@ struct AccumulateTestStruct : public BaseTestStruct<AccResults<DataType>>
 {
 protected:
     explicit AccumulateTestStruct(const TestType testType,
-        std::shared_ptr<Accumulator<DataType>>&& f)
-    : BaseTestStruct<AccResults<DataType>>(testType, std::move(f))
+        Callback<Accumulator<DataType>>&& callback)
+    : BaseTestStruct<AccResults<DataType>>(testType, std::move(callback))
     { }
 };
 
@@ -24,7 +24,7 @@ class AccumulateTestFixture : public BaseTestFixture<AccResults<DataType>>
 protected:
     AccumulateTestFixture() = default;
 
-    void VerifyTestCustomFor2(const BaseTestStruct<AccResults<DataType>>& args)
+    void VerifyTestCustomFor2(const std::shared_ptr<BaseTestStruct<AccResults<DataType>>>& args)
     {
         using namespace std::placeholders;
         auto checker = std::bind(&AccumulateTestFixture::verifyCustomFor2, this, _1, _2, _3, _4);

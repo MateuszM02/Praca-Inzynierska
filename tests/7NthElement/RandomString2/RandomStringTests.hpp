@@ -16,7 +16,10 @@ struct RandomStringNthElementArgs final : public NthElementTestStruct<std::vecto
         const unsigned int stringLength)
     : NthElementTestStruct<std::vector<std::string>>(
         TestType::NthElementRandomString,
-        RandomStringImpl::createFinder(n, vectorSize, stringLength))
+        [n, vectorSize, stringLength]()
+        {
+            return RandomStringImpl::createFinder(n, vectorSize, stringLength);
+        })
     { }
 };
 

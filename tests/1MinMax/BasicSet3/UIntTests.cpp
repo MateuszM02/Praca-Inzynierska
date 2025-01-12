@@ -8,23 +8,24 @@ namespace tests::MinMax
 {
 
 INSTANTIATE_TEST_SUITE_P(
-    BasicSetMinMaxPrefix,
+    MinMaxPrefix,
     BasicSetMinMaxFixture,
     ::testing::Values(
         // generator rosnacych liczb
-        BasicSetMinMaxArgs(BasicSetMinMaxFixture::sortedGenerator,
-                   SMALL_TEST),
-        BasicSetMinMaxArgs(BasicSetMinMaxFixture::sortedGenerator,
-                   MEDIUM_TEST),
-        BasicSetMinMaxArgs(BasicSetMinMaxFixture::sortedGenerator,
-                   BIG_TEST),
+        std::make_shared<BasicSetMinMaxArgs>(
+            BasicSetMinMaxFixture::sortedGenerator, SMALL_TEST),
+        std::make_shared<BasicSetMinMaxArgs>(
+            BasicSetMinMaxFixture::sortedGenerator, MEDIUM_TEST),
+        std::make_shared<BasicSetMinMaxArgs>(
+            BasicSetMinMaxFixture::sortedGenerator, BIG_TEST),
+
         // generator malejacych liczb
-        BasicSetMinMaxArgs(BasicSetMinMaxFixture::reverseSortedGenerator,
-                   SMALL_TEST),
-        BasicSetMinMaxArgs(BasicSetMinMaxFixture::reverseSortedGenerator,
-                   MEDIUM_TEST),
-        BasicSetMinMaxArgs(BasicSetMinMaxFixture::reverseSortedGenerator,
-                   BIG_TEST)
+        std::make_shared<BasicSetMinMaxArgs>(
+            BasicSetMinMaxFixture::reverseSortedGenerator, SMALL_TEST),
+        std::make_shared<BasicSetMinMaxArgs>(
+            BasicSetMinMaxFixture::reverseSortedGenerator, MEDIUM_TEST),
+        std::make_shared<BasicSetMinMaxArgs>(
+            BasicSetMinMaxFixture::reverseSortedGenerator, BIG_TEST)
     ));
 
 } // namespace tests::MinMax

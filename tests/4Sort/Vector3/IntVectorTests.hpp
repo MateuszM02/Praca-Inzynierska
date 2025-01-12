@@ -11,11 +11,16 @@ namespace tests::Sort
 struct IntVectorSortArgs final : public SortTestStruct<IntVector>
 {
     explicit IntVectorSortArgs(
-        IntVector (*f)(const unsigned int),
+        IntVector (*dataCreator)(const unsigned int),
         const unsigned int n)
     : SortTestStruct<IntVector>(
         TestType::SortIntVector,
-        std::make_shared<Sorter<IntVector>>(initTestData<std::vector<IntVector>>(f, n)))
+        [dataCreator, n]()
+        {
+            std::vector<IntVector> data =
+                initTestData<std::vector<IntVector>>(dataCreator, n);
+            return std::make_shared<Sorter<IntVector>>(std::move(data));
+        })
     { }
 };
 

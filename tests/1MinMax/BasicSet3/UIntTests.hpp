@@ -8,12 +8,16 @@ namespace tests::MinMax
 struct BasicSetMinMaxArgs final : public MinMaxTestStruct<std::set<unsigned int>>
 {
     explicit BasicSetMinMaxArgs(
-        unsigned int (*f)(const unsigned int),
+        unsigned int (*dataCreator)(const unsigned int),
         const unsigned int n)
     : MinMaxTestStruct<std::set<unsigned int>>(
         TestType::MinMaxBasicSet,
-        std::make_shared<MinMaxFinder<std::set<unsigned int>>>(
-            initTestData<std::set<unsigned int>>(f, n)))
+        [dataCreator, n]()
+        {
+            std::set<unsigned int> data =
+                BaseTestStruct::initTestData<std::set<unsigned int>>(dataCreator, n);
+            return std::make_shared<MinMaxFinder<std::set<unsigned int>>>(std::move(data));
+        })
     { }
 };
 

@@ -16,12 +16,17 @@ struct FibonacciGenerateArgs final : public GenerateTestStruct<DataType, std::pa
         unsigned int n)
     : GenerateTestStruct<DataType, std::pair<DataType, DataType>>(
         TestType::GenerateFibonacci,
-        std::make_shared<Generator<DataType, std::pair<DataType, DataType>>>(n, initialPair,
-            [](std::pair<DataType, DataType>& currentState)
+        [initialPair, n]()
+        {
+            auto stateCreator = [](std::pair<DataType, DataType>& currentState)
             {
                 currentState = std::make_pair(currentState.second, currentState.first + currentState.second);
                 return currentState.first;
-            }))
+            };
+
+            return std::make_shared<Generator<DataType, std::pair<DataType, DataType>>>(
+                n, initialPair, stateCreator);
+        })
     { }
 };
 
