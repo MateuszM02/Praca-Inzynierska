@@ -35,12 +35,12 @@ using IsOfType = std::enable_if_t<std::is_same_v<GivenReturnType, ExpectedReturn
 template <typename Type>
 using Callback = std::function<std::shared_ptr<Type>()>;
 
-template <typename Container>
+template <typename ResultType>
 struct BaseTestStruct
 {
 protected:
     explicit BaseTestStruct(const TestType testType,
-        Callback<BaseClass<Container>>&& callback)
+        Callback<BaseClass<ResultType>>&& callback)
     : filePath_{Path::Create(testType)}
     , callback_{std::move(callback)}
     { }
@@ -58,11 +58,11 @@ protected:
         return os;
     }
 
-    template <typename ReturnType, typename = IsOfType<ReturnType, std::vector<typename ReturnType::value_type>>>
-    static std::vector<typename ReturnType::value_type>
-    initTestData(ReturnType::value_type (*generator)(), const unsigned int n)
+    template <typename Container, typename = IsOfType<Container, std::vector<typename Container::value_type>>>
+    static std::vector<typename Container::value_type>
+    initTestData(typename Container::value_type (*generator)(), const unsigned int n)
     {
-        std::vector<typename ReturnType::value_type> v;
+        std::vector<typename Container::value_type> v;
         v.reserve(n);
 
         for (unsigned int i = 1; i <= n; ++i)
@@ -72,11 +72,11 @@ protected:
         return v;
     }
 
-    template <typename ReturnType, typename = IsOfType<ReturnType, std::set<typename ReturnType::value_type>>>
-    static std::set<typename ReturnType::value_type>
-    initTestData(ReturnType::value_type (*generator)(const unsigned int), const unsigned int n)
+    template <typename Container, typename = IsOfType<Container, std::set<typename Container::value_type>>>
+    static std::set<typename Container::value_type>
+    initTestData(typename Container::value_type (*generator)(const unsigned int), const unsigned int n)
     {
-        std::set<typename ReturnType::value_type> v;
+        std::set<typename Container::value_type> v;
         for (unsigned int i = 1; i <= n; ++i)
         {
             v.insert(generator(i));
@@ -84,11 +84,11 @@ protected:
         return v;
     }
 
-    template <typename ReturnType, typename = IsOfType<ReturnType, std::vector<typename ReturnType::value_type>>>
-    static std::vector<typename ReturnType::value_type>
-    initTestData(ReturnType::value_type (*generator)(const unsigned int), const unsigned int n)
+    template <typename Container, typename = IsOfType<Container, std::vector<typename Container::value_type>>>
+    static std::vector<typename Container::value_type>
+    initTestData(typename Container::value_type (*generator)(const unsigned int), const unsigned int n)
     {
-        std::vector<typename ReturnType::value_type> v;
+        std::vector<typename Container::value_type> v;
         v.reserve(n);
 
         for (unsigned int i = 1; i <= n; ++i)
@@ -103,22 +103,22 @@ public:
     template <typename FieldType, typename Derived>
     FieldType getField(FieldType Derived::*field) const
     {
-        static_assert(std::is_base_of_v<BaseClass<Container>, Derived>,
-            "Derived must be derived from BaseClass<Container>");
+        static_assert(std::is_base_of_v<BaseClass<ResultType>, Derived>,
+            "Derived must be derived from BaseClass<ResultType>");
 
-        std::shared_ptr<BaseClass<Container>> ref_ = getTestData();
+        std::shared_ptr<BaseClass<ResultType>> ref_ = getTestData();
         using ptrType = decltype(ref_.get());
 
         static_assert(std::is_pointer_v<ptrType>, "callback_ must be a pointer");
-        static_assert(std::is_convertible_v<ptrType, BaseClass<Container>*>,
-            "callback_ must be convertible to BaseClass<Container>*");
+        static_assert(std::is_convertible_v<ptrType, BaseClass<ResultType>*>,
+            "callback_ must be convertible to BaseClass<ResultType>*");
 
         return static_cast<Derived*>(ref_.get())->*field;
     }
 
     std::string getFilePath() const { return filePath_; }
 
-    std::shared_ptr<BaseClass<Container>> getTestData() const
+    std::shared_ptr<BaseClass<ResultType>> getTestData() const
     {
         if (!testData_.has_value())
             testData_ = callback_();
@@ -127,13 +127,13 @@ public:
 
 private:
     std::string filePath_;
-    Callback<BaseClass<Container>> callback_;
-    mutable std::optional<std::shared_ptr<BaseClass<Container>>> testData_;
+    Callback<BaseClass<ResultType>> callback_;
+    mutable std::optional<std::shared_ptr<BaseClass<ResultType>>> testData_;
 };
 
 // Klasa abstrakcyjna BaseTestFixture, po ktorej dziedzicza klasy testowe
-template <typename Container>
-class BaseTestFixture : public ::testing::TestWithParam<std::shared_ptr<BaseTestStruct<Container>>>
+template <typename ResultType>
+class BaseTestFixture : public ::testing::TestWithParam<std::shared_ptr<BaseTestStruct<ResultType>>>
 {
 protected:
     BaseTestFixture() = default;
@@ -144,23 +144,23 @@ protected:
     BaseTestFixture(const BaseTestFixture&) = delete;
     BaseTestFixture& operator=(const BaseTestFixture&) = delete;
 
-    void VerifyTest(const std::shared_ptr<BaseTestStruct<Container>>& args)
+    void VerifyTest(const std::shared_ptr<BaseTestStruct<ResultType>>& args)
     {
         using namespace std::placeholders;
         auto checker = std::bind(&BaseTestFixture::verifyElementEqualities, this, _1, _2, _3, _4);
         VerifyTest(args, checker);
     }
 
-    void VerifyTest(const std::shared_ptr<BaseTestStruct<Container>>& args,
-        const std::function<void(const Container&, const Container&,
-            const Container&, std::ostringstream&)>& checker)
+    void VerifyTest(const std::shared_ptr<BaseTestStruct<ResultType>>& args,
+        const std::function<void(const ResultType&, const ResultType&,
+            const ResultType&, std::ostringstream&)>& checker)
     {
         std::ostringstream os; // Uzycie ostringstream do wypisywania wynikow testow
 
         const auto& testData = args->getTestData();
-        const Container& stlResult = testData->call(src::MethodType::STL, os);
-        const Container& boostResult = testData->call(src::MethodType::Boost, os);
-        const Container& simpleResult = testData->call(src::MethodType::Simple, os);
+        const ResultType& stlResult = testData->call(src::MethodType::STL, os);
+        const ResultType& boostResult = testData->call(src::MethodType::Boost, os);
+        const ResultType& simpleResult = testData->call(src::MethodType::Simple, os);
 
         // Zapisywanie wynikow testu do pliku
         std::ofstream outFile(args->getFilePath(), std::ios::out | std::ios::trunc);
@@ -178,11 +178,11 @@ protected:
 
 private:
     void verifyElementEqualities(
-        const Container& stlResult,
-        const Container& boostResult,
-        const Container& simpleResult,
+        const ResultType& stlResult,
+        const ResultType& boostResult,
+        const ResultType& simpleResult,
         std::ostringstream& os) const
-    requires EqualityComparable<typename Container::value_type>
+    requires EqualityComparable<typename ResultType::value_type>
     {
         ::testing::internal::CaptureStdout(),
         ::testing::internal::CaptureStderr();

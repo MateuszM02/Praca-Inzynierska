@@ -8,23 +8,25 @@ using namespace src::Structures;
 namespace tests::MinMax
 {
 
-struct VectorOfVectorsMinMaxArgs final : public MinMaxTestStruct<std::vector<IntVector>>
+struct VectorOfVectorsMinMaxArgs final : public MinMaxTestStruct<
+    std::vector<IntVector>, Point2D<IntVector>>
 {
     explicit VectorOfVectorsMinMaxArgs(
         IntVector (*dataCreator)(const unsigned int),
         const unsigned int n)
-    : MinMaxTestStruct<std::vector<IntVector>>(
+    : MinMaxTestStruct<std::vector<IntVector>, Point2D<IntVector>>(
         TestType::MinMaxVectorOfVectors,
         [dataCreator, n]()
         {
             std::vector<IntVector> data =
                 BaseTestStruct::initTestData<std::vector<IntVector>>(dataCreator, n);
-            return std::make_shared<MinMaxFinder<std::vector<IntVector>>>(std::move(data));
+            return std::make_shared<MinMaxFinder<
+                std::vector<IntVector>>>(std::move(data));
         })
     { }
 };
 
-class VectorOfVectorsMinMaxFixture : public MinMaxTestFixture<std::vector<IntVector>>
+class VectorOfVectorsMinMaxFixture : public MinMaxTestFixture<IntVector>
 {
 public:
     // wektory roznia sie dopiero na ostatniej pozycji
@@ -59,7 +61,7 @@ public:
 
 TEST_P(VectorOfVectorsMinMaxFixture, VectorOfVectorsMinMaxTest)
 {
-    VerifyTest(GetParam());
+    VerifyTestCustomFor1(GetParam());
 }
 
 } // namespace tests::MinMax

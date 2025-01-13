@@ -39,6 +39,8 @@ template <typename DataType>
 requires std::is_default_constructible_v<DataType>
 struct AccResults final
 {
+    using value_type = DataType;
+
     explicit AccResults()
     : sum{DataType()}
     , minimum{std::nullopt}

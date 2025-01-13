@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../../src/Concepts/DataTypeConcepts.hpp"
+#include "../../../src/Structures/PointsImpl.hpp"
 #include "../GenerateTestFixture.hpp"
 
 using namespace src::Concepts;
@@ -9,31 +10,31 @@ namespace tests::Generate
 {
 
 template <Addable DataType>
-struct FibonacciGenerateArgs final : public GenerateTestStruct<DataType, std::pair<DataType, DataType>>
+struct FibonacciGenerateArgs final : public GenerateTestStruct<DataType, Point2D<DataType>>
 {
     explicit FibonacciGenerateArgs(
-        const std::pair<DataType, DataType>& initialPair,
+        const Point2D<DataType>& initialPair,
         unsigned int n)
-    : GenerateTestStruct<DataType, std::pair<DataType, DataType>>(
+    : GenerateTestStruct<DataType, Point2D<DataType>>(
         TestType::GenerateFibonacci,
         [initialPair, n]()
         {
-            auto stateCreator = [](std::pair<DataType, DataType>& currentState)
+            auto stateCreator = [](Point2D<DataType>& currentState)
             {
-                currentState = std::make_pair(currentState.second, currentState.first + currentState.second);
-                return currentState.first;
+                currentState = Point2D(currentState.second_, currentState.first_ + currentState.second_);
+                return currentState.first_;
             };
 
-            return std::make_shared<Generator<DataType, std::pair<DataType, DataType>>>(
+            return std::make_shared<Generator<DataType, Point2D<DataType>>>(
                 n, initialPair, stateCreator);
         })
     { }
 };
 
-class FibonacciGenerateIntFixture : public GenerateTestFixture<int, std::pair<int, int>>
+class FibonacciGenerateIntFixture : public GenerateTestFixture<int, Point2D<int>>
 { };
 
-class FibonacciGenerateDoubleFixture : public GenerateTestFixture<double, std::pair<double, double>>
+class FibonacciGenerateDoubleFixture : public GenerateTestFixture<double, Point2D<double>>
 { };
 
 TEST_P(FibonacciGenerateIntFixture, intTest)
