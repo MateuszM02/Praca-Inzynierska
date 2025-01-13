@@ -22,13 +22,13 @@
 using namespace src::Algorithms;
 using namespace src::Structures;
 
-namespace tests::Wrapper
+namespace tests::Static
 {
 
-class DynamicFeatureTestFixture : public ::testing::Test
+class StaticTestFixture : public ::testing::Test
 {
 protected:
-    DynamicFeatureTestFixture() = default;
+    StaticTestFixture() = default;
 
     // Sprawdzenie poprawnosci dynamicznych konstruktorow/operatorow kopiujacych/przenoszacych
     // z klas pochodnych po BaseWrapper
@@ -63,6 +63,7 @@ protected:
         EXPECT_EQ(structure2, inStructure) << "Operator kopiujacy nie dziala";
     }
 
+    // 1. MinMax
     template <typename Container, typename ResultType>
     void VerifyMinMaxWorks(const Container& elements,
         const ResultType& expectedResult) const
@@ -75,6 +76,61 @@ protected:
         EXPECT_EQ(simpleResult, expectedResult) << "Simple zwrocil zly wynik!";
     }
 
+    // 2. Accumulate
+    template <typename DataType>
+    void VerifyAccumulatorWorks(const std::vector<DataType>& elements,
+        const AccResults<DataType>& expectedResult) const
+    {
+        const Accumulator<DataType> accumulator(elements, AccType::DoItAll);
+        auto [stlResult, boostResult, simpleResult] = accumulator.callEach();
+
+        EXPECT_EQ(stlResult.sum, expectedResult.sum) << "Suma STL jest niepoprawna";
+        EXPECT_EQ(boostResult.sum, expectedResult.sum) << "Suma Boost jest niepoprawna";
+        EXPECT_EQ(simpleResult.sum, expectedResult.sum) << "Suma Simple jest niepoprawna";
+
+        EXPECT_EQ(stlResult.minimum, expectedResult.minimum) << "Minimum STL jest niepoprawne";
+        EXPECT_EQ(boostResult.minimum, expectedResult.minimum) << "Minimum Boost jest niepoprawne";
+        EXPECT_EQ(simpleResult.minimum, expectedResult.minimum) << "Minimum Simple jest niepoprawne";
+
+        EXPECT_EQ(stlResult.maximum, expectedResult.maximum) << "Maximum STL jest niepoprawne";
+        EXPECT_EQ(boostResult.maximum, expectedResult.maximum) << "Maximum Boost jest niepoprawne";
+        EXPECT_EQ(simpleResult.maximum, expectedResult.maximum) << "Maximum Simple jest niepoprawne";
+
+        EXPECT_EQ(stlResult.mean, expectedResult.mean) << "Srednia STL jest niepoprawna";
+        EXPECT_EQ(boostResult.mean, expectedResult.mean) << "Srednia Boost jest niepoprawna";
+        EXPECT_EQ(simpleResult.mean, expectedResult.mean) << "Srednia Simple jest niepoprawna";
+    }
+
+    // 3. Merge
+    template <typename DataType>
+    void VerifyMergeWorks(const std::vector<DataType>& elements,
+        const std::vector<DataType>& expectedResult) const
+    {
+        const Merger<DataType> merger(elements);
+        VerifyAlgorithmWorks(merger, expectedResult);
+    }
+
+    // 4. Sort
+    template <typename DataType>
+    void VerifySortWorks(const std::vector<DataType>& elements,
+        const std::vector<DataType>& expectedResult) const
+    {
+        const Sorter<DataType> sorter(elements);
+        VerifyAlgorithmWorks(sorter, expectedResult);
+    }
+
+    // 5. Transform
+    template <typename InDataType, typename ReturnDataType>
+    void VerifyTransformWorks(const InDataType& elements,
+        const ReturnDataType& expectedResult) const
+    {
+        const Transformer<InDataType, ReturnDataType> transformer(elements);
+        VerifyAlgorithmWorks(transformer, expectedResult);
+    }
+
+    // TODO: 6. ???
+
+    // 7. Nth element
     template <typename Container>
     void VerifyNthFinderWorks(const Container& elements,
         const std::size_t n,
@@ -140,8 +196,39 @@ protected:
         }
     }
 
+    // 8. Regex
+    void VerifyRegexWorks(const std::string& text,
+        const std::string& pattern,
+        const std::vector<std::string>& expectedResult) const
+    {
+        const RegexData data(text, pattern);
+        const RegexEvaluator evaluator(data);
+        VerifyAlgorithmWorks(evaluator, expectedResult);
+    }
+
+    // 9. Remove erase if
+    template <typename Container>
+    void VerifyRemoveEraseIfWorks(const Container& elements,
+        bool (*const predicate)(const typename Container::value_type&),
+        const Container& expectedResult) const
+    {
+        const RemoverData data(elements, predicate);
+        const Remover remover(data);
+        VerifyAlgorithmWorks(remover, expectedResult);
+    }
+
+    // 10. Generate
+    template <typename GeneratedDataType, typename StateDataType = GeneratedDataType>
+    void VerifyGenerateWorks(const std::size_t n,
+        const StateDataType& initialState,
+        const std::function<GeneratedDataType(StateDataType&)>& stateCreator,
+        const std::vector<GeneratedDataType>& expectedResult) const
+    {
+        const Generator generator(n, initialState, stateCreator);
+        VerifyAlgorithmWorks(generator, expectedResult);
+    }
+
 private:
-    // TODO: 3Merge, 4Sort, 5Transform, 6???, 8Regex, 9RemoveEraseIf, 10Generate
     // beda wywolywac ta funkcje zgodne z zasada DRY
     template <typename Container, typename ResultType>
     void VerifyAlgorithmWorks(const BaseClass<Container>& algorithm,
@@ -174,4 +261,4 @@ private:
     }
 };
 
-} // namespace tests::Wrapper
+} // namespace tests::Static
