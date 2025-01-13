@@ -2,6 +2,7 @@
 
 #include "Base.hpp"
 #include "../Concepts/ContainerConcepts.hpp"
+#include "../Structures/PointsImpl.hpp"
 
 #include <boost/algorithm/minmax_element.hpp> // boost::minmax_element
 
@@ -11,7 +12,7 @@ namespace src::Algorithms
 {
 
 template <Iterable Container>
-class MinMaxFinder final : public BaseClass<Container>
+class MinMaxFinder final : public BaseClass<Point2D<typename Container::value_type>>
 {
 public:
     using DataType = typename Container::value_type;
@@ -23,19 +24,19 @@ public:
 private:
     void resetData() const override { }
 
-    Container executeSTL() const override
+    Point2D<DataType> executeSTL() const override
     {   
         auto [min, max] = std::minmax_element(elements_.begin(), elements_.end());
-        return { *min, *max };
+        return Point2D(*min, *max);
     }
 
-    Container executeBoost() const override
+    Point2D<DataType> executeBoost() const override
     {
         auto [min, max] = boost::minmax_element(elements_.begin(), elements_.end());
-        return { *min, *max };
+        return Point2D(*min, *max);
     }
 
-    Container executeSimple() const override
+    Point2D<DataType> executeSimple() const override
     {
         auto iter = elements_.begin();
         DataType min = *iter;
@@ -50,7 +51,7 @@ private:
                 max = *iter;
             ++iter;
         }
-        return { min, max };
+        return Point2D(min, max);
     }
 
     Container elements_;

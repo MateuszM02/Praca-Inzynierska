@@ -8,13 +8,13 @@ using namespace src::Structures;
 namespace tests::NthElement
 {
 
-struct PointsNthElementArgs final : public NthElementTestStruct<std::vector<Point2D>>
+struct PointsNthElementArgs final : public NthElementTestStruct<std::vector<Point2D<>>>
 {
     explicit PointsNthElementArgs(
-        Point2D (*dataCreator)(const unsigned int),
+        Point2D<> (*dataCreator)(const unsigned int),
         const unsigned int n,
         const unsigned int vectorSize)
-    : NthElementTestStruct<std::vector<Point2D>>(
+    : NthElementTestStruct<std::vector<Point2D<>>>(
         TestType::NthElementPoints,
         [dataCreator, n, vectorSize]()
         {
@@ -23,15 +23,15 @@ struct PointsNthElementArgs final : public NthElementTestStruct<std::vector<Poin
     { }
 };
 
-class PointsNthElementFixture : public NthElementTestFixture<std::vector<Point2D>>
+class PointsNthElementFixture : public NthElementTestFixture<std::vector<Point2D<>>>
 {
 public:
-    static Point2D fmod3i3_mod7i64(const unsigned int i)
+    static Point2D<> fmod3i3_mod7i64(const unsigned int i)
     {
         return Point2D(3*i + (i % 3), 7*i % 64);
     }
 
-    static Point2D f3i_mod9i64(const unsigned int i)
+    static Point2D<> f3i_mod9i64(const unsigned int i)
     {
         return Point2D(3*i, 9*i % 64);
     }

@@ -8,11 +8,11 @@
 namespace src::Algorithms
 {
 
-template <typename Container>
+template <typename ResultType>
 class BaseClass
 {
 public:
-    Container call(const MethodType& methodType, std::ostringstream& os) const
+    ResultType call(const MethodType& methodType, std::ostringstream& os) const
     {
         switch (methodType)
         {
@@ -26,11 +26,11 @@ public:
         }
     }
 
-    std::tuple<Container, Container, Container> callEach() const
+    std::tuple<ResultType, ResultType, ResultType> callEach() const
     {
-        const Container& stlResult = executeSTL();
-        const Container& boostResult = executeBoost();
-        const Container& simpleResult = executeSimple();
+        const ResultType& stlResult = executeSTL();
+        const ResultType& boostResult = executeBoost();
+        const ResultType& simpleResult = executeSimple();
         return { stlResult, boostResult, simpleResult };
     }
 
@@ -45,18 +45,18 @@ protected:
 
     virtual ~BaseClass() = default;
     virtual void resetData() const = 0;
-    virtual Container executeSTL() const = 0;
-    virtual Container executeBoost() const = 0;
-    virtual Container executeSimple() const = 0;
+    virtual ResultType executeSTL() const = 0;
+    virtual ResultType executeBoost() const = 0;
+    virtual ResultType executeSimple() const = 0;
 
 private:
-    Container measureExecutionTime(
-        Container(BaseClass::*memberFunction)() const,
+    ResultType measureExecutionTime(
+        ResultType(BaseClass::*memberFunction)() const,
         const std::string& methodName,
         std::ostringstream& os) const
     {
         const auto start = std::chrono::high_resolution_clock::now();
-        const Container result = (this->*memberFunction)();
+        const ResultType result = (this->*memberFunction)();
         const auto end = std::chrono::high_resolution_clock::now();
 
         const std::chrono::duration<double> duration = end - start;
