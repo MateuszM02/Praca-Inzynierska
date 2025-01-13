@@ -1,12 +1,12 @@
 # Ustal nazwy plikow wykonywalnych
 set(TEST_EXECUTABLES
-  DynamicFeaturesTests
+  StaticTests
 )
 
 # Dodaj pliki wykonywalne
 add_executable(
-  DynamicFeaturesTests
-  DynamicFeaturesTests.cpp
+  StaticTests
+  StaticTests.cpp
 )
 
 # Dodaj Boost i GTEST do kazdego execa, polacz z GTEST_main oraz dodaj testy
