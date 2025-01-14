@@ -32,20 +32,20 @@ concept SquareMatrix = requires(MatrixVector matrix)
 };
 
 // klasa trzymajaca 2-wymiarowa, kwadratowa macierz
-template <typename DataType>
-class Matrix final : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>
+template <typename DataType, bool MoveEnabled, bool CopyEnabled>
+class Matrix final : BaseWrapper<MoveEnabled, CopyEnabled>
 {
 public:
     // potrzebne do 2Accumulate
     explicit Matrix()
-    : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &n_, &matrix_ })
+    : BaseWrapper<MoveEnabled, CopyEnabled>({ &n_, &matrix_ })
     , n_{0}
     , matrix_({ { } })
     { }
 
     template <SquareMatrix MatrixVector> 
     explicit Matrix(MatrixVector&& values)
-    : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &n_, &matrix_ })
+    : BaseWrapper<MoveEnabled, CopyEnabled>({ &n_, &matrix_ })
     , n_{values.size()}
     , matrix_{std::move(values)}
     { }
@@ -70,5 +70,11 @@ private:
     std::size_t n_;
     mutable std::vector<std::vector<DataType>> matrix_;
 };
+
+template <typename DataType>
+using CopyableMatrix = Matrix<DataType, ENABLE_MOVE, ENABLE_COPY>;
+
+template <typename DataType>
+using NonCopyableMatrix = Matrix<DataType, ENABLE_MOVE, DISABLE_COPY>;
 
 } // namespace src::Structures

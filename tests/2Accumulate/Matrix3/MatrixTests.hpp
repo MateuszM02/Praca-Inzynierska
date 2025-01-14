@@ -10,28 +10,28 @@ namespace tests::Accumulate
 
 template <typename Number>
 requires std::is_arithmetic_v<Number>
-struct MatrixAccumulateArgs final : public AccumulateTestStruct<Matrix<Number>>
+struct MatrixAccumulateArgs final : public AccumulateTestStruct<CopyableMatrix<Number>>
 {
     explicit MatrixAccumulateArgs(
-        Matrix<Number>(*dataCreator)(),
+        CopyableMatrix<Number>(*dataCreator)(),
         const unsigned int n,
         AccType accType)
-    : AccumulateTestStruct<Matrix<Number>>(
+    : AccumulateTestStruct<CopyableMatrix<Number>>(
         TestType::AccumulateMatrix,
         [dataCreator, n, accType]()
         {
-            std::vector<Matrix<Number>> data =
-                BaseTestStruct<AccResults<Matrix<Number>>>::template
-                initTestData<std::vector<Matrix<Number>>>(dataCreator, n);
-            return std::make_shared<Accumulator<Matrix<Number>>>(std::move(data), accType);
+            std::vector<CopyableMatrix<Number>> data =
+                BaseTestStruct<AccResults<CopyableMatrix<Number>>>::template
+                initTestData<std::vector<CopyableMatrix<Number>>>(dataCreator, n);
+            return std::make_shared<Accumulator<CopyableMatrix<Number>>>(std::move(data), accType);
         })
     { }
 };
 
-class MatrixAccumulateIntFixture : public AccumulateTestFixture<Matrix<int>>
+class MatrixAccumulateIntFixture : public AccumulateTestFixture<CopyableMatrix<int>>
 { };
 
-class MatrixAccumulateDoubleFixture : public AccumulateTestFixture<Matrix<double>>
+class MatrixAccumulateDoubleFixture : public AccumulateTestFixture<CopyableMatrix<double>>
 { };
 
 TEST_P(MatrixAccumulateIntFixture, intTest)

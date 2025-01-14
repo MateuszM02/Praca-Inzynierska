@@ -8,27 +8,27 @@ using namespace src::Structures;
 namespace tests::Sort
 {
 
-struct IntVectorSortArgs final : public SortTestStruct<IntVector>
+struct IntVectorSortArgs final : public SortTestStruct<CopyableIntVector>
 {
     explicit IntVectorSortArgs(
-        IntVector (*dataCreator)(const unsigned int),
+        CopyableIntVector (*dataCreator)(const unsigned int),
         const unsigned int n)
-    : SortTestStruct<IntVector>(
+    : SortTestStruct<CopyableIntVector>(
         TestType::SortIntVector,
         [dataCreator, n]()
         {
-            std::vector<IntVector> data =
-                initTestData<std::vector<IntVector>>(dataCreator, n);
-            return std::make_shared<Sorter<IntVector>>(std::move(data));
+            std::vector<CopyableIntVector> data =
+                initTestData<std::vector<CopyableIntVector>>(dataCreator, n);
+            return std::make_shared<Sorter<CopyableIntVector>>(std::move(data));
         })
     { }
 };
 
-class IntVectorSortFixture : public SortTestFixture<IntVector>
+class IntVectorSortFixture : public SortTestFixture<CopyableIntVector>
 {
 public:
     // wektory roznia sie juz na pierwszej pozycji
-    static IntVector sortedFirstElementGenerator(const unsigned int n)
+    static CopyableIntVector sortedFirstElementGenerator(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -36,11 +36,11 @@ public:
         {
             v.emplace_back(i + n);
         }
-        return IntVector(v);
+        return CopyableIntVector(v);
     }
 
     // wektory roznia sie dopiero na ostatniej pozycji
-    static IntVector sortedLastElementGenerator(const unsigned int n)
+    static CopyableIntVector sortedLastElementGenerator(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -49,11 +49,11 @@ public:
             v.emplace_back(i);
         }
         v.emplace_back(n);
-        return IntVector(v);
+        return CopyableIntVector(v);
     }
 
     // wektory losowe moga sie roznic na dowolnej pozycji
-    static IntVector randomGenerator(const unsigned int n)
+    static CopyableIntVector randomGenerator(const unsigned int n)
     {
         static std::random_device rd;
         static std::mt19937 gen(rd());
@@ -65,7 +65,7 @@ public:
         {
             v.emplace_back(dis(gen));
         }
-        return IntVector(v);
+        return CopyableIntVector(v);
     }
 };
 

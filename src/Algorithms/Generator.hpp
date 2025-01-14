@@ -8,6 +8,8 @@ namespace src::Algorithms
 {
 
 template <typename GeneratedDataType, typename StateDataType = GeneratedDataType>
+requires std::is_copy_constructible_v<GeneratedDataType> &&
+    std::is_copy_constructible_v<StateDataType>
 class Generator final : public BaseClass<std::vector<GeneratedDataType>>
 {
 public:

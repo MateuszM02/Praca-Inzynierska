@@ -9,27 +9,27 @@ using namespace src::Structures;
 namespace tests::Transform
 {
 
-struct MatrixToIntVectorTransformArgs final : public TransformTestStruct<Matrix<int>, std::vector<IntVector>>
+struct MatrixToIntVectorTransformArgs final : public TransformTestStruct<NonCopyableMatrix<int>, std::vector<NonCopyableIntVector>>
 {
     explicit MatrixToIntVectorTransformArgs(
-        Matrix<int> (*dataCreator)(const unsigned int),
+        NonCopyableMatrix<int> (*dataCreator)(const unsigned int),
         const unsigned int n)
-    : TransformTestStruct<Matrix<int>, std::vector<IntVector>>(
+    : TransformTestStruct<NonCopyableMatrix<int>, std::vector<NonCopyableIntVector>>(
         TestType::TransformMatrixToIntVector,
         [dataCreator, n]()
         {
-            std::vector<Matrix<int>> inData =
-                initTestData<std::vector<Matrix<int>>>(dataCreator, n);
-            return std::make_shared<Transformer<Matrix<int>, std::vector<IntVector>>>(
+            std::vector<NonCopyableMatrix<int>> inData =
+                initTestData<std::vector<NonCopyableMatrix<int>>>(dataCreator, n);
+            return std::make_shared<Transformer<NonCopyableMatrix<int>, std::vector<NonCopyableIntVector>>>(
                 std::move(inData),
                 &transformer);
         })
     { }
 
-    static std::vector<IntVector> transformer(const Matrix<int>& matrix)
+    static std::vector<NonCopyableIntVector> transformer(const NonCopyableMatrix<int>& matrix)
     {
         const std::size_t mSize = matrix.size();
-        std::vector<IntVector> vector;
+        std::vector<NonCopyableIntVector> vector;
         vector.reserve(mSize);
 
         std::vector<int> values;
@@ -47,14 +47,14 @@ struct MatrixToIntVectorTransformArgs final : public TransformTestStruct<Matrix<
     }
 };
 
-class MatrixToIntVectorTransformFixture : public TransformTestFixture<std::vector<IntVector>>
+class MatrixToIntVectorTransformFixture : public TransformTestFixture<std::vector<NonCopyableIntVector>>
 {
 public:
     // macierz rozmiaru n * n z samymi jedynkami
-    static Matrix<int> sortedFirstElementGenerator(const unsigned int n)
+    static NonCopyableMatrix<int> sortedFirstElementGenerator(const unsigned int n)
     {
         std::vector<std::vector<int>> values(n, std::vector<int>(n, 1));
-        return Matrix<int>(std::move(values));
+        return NonCopyableMatrix<int>(std::move(values));
     }
 };
 

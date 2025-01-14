@@ -8,10 +8,10 @@ using namespace src::Structures;
 namespace tests::Generate
 {
 
-struct RandomStringGenerateArgs final : public GenerateTestStruct<std::string, RandomString>
+struct RandomStringGenerateArgs final : public GenerateTestStruct<std::string, CopyableRandomString>
 {
     explicit RandomStringGenerateArgs(const unsigned int l, const unsigned int n)
-    : GenerateTestStruct<std::string, RandomString>(
+    : GenerateTestStruct<std::string, CopyableRandomString>(
         TestType::GenerateRandomString,
         [n, l]()
         {
@@ -20,7 +20,7 @@ struct RandomStringGenerateArgs final : public GenerateTestStruct<std::string, R
     { }
 };
 
-class RandomStringGenerateFixture : public GenerateTestFixture<std::string, RandomString>
+class RandomStringGenerateFixture : public GenerateTestFixture<std::string, CopyableRandomString>
 {
 public:
     void VerifyTestCustomForRandomStringGenerator(
