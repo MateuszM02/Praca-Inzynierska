@@ -41,7 +41,7 @@ struct MatrixToIntVectorTransformArgs final : public TransformTestStruct<Matrix<
             {
                 values.emplace_back(matrix.get(row, col));
             }
-            vector.emplace_back(IntVector(values));
+            vector.emplace_back(values);
         }
         return vector;
     }
@@ -54,7 +54,7 @@ public:
     static Matrix<int> sortedFirstElementGenerator(const unsigned int n)
     {
         std::vector<std::vector<int>> values(n, std::vector<int>(n, 1));
-        return Matrix<int>(values);
+        return Matrix<int>(std::move(values));
     }
 };
 

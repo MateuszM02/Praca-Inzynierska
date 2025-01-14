@@ -16,14 +16,22 @@ public:
     // potrzebne do 2Accumulate
     explicit Point2D()
     : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &first_, &second_ })
-    , first_{0}
-    , second_{0}
+    , first_{DataType()}
+    , second_{DataType()}
     { }
 
-    explicit Point2D(const DataType first, const DataType second)
+    // // dla malych struktur
+    explicit Point2D(const DataType& first, const DataType& second)
     : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &first_, &second_ })
     , first_{first}
     , second_{second}
+    { }
+
+    // dla duzych struktur
+    explicit Point2D(DataType&& first, DataType&& second)
+    : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &first_, &second_ })
+    , first_{std::move(first)}
+    , second_{std::move(second)}
     { }
 
     DataType first_;

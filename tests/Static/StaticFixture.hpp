@@ -65,10 +65,10 @@ protected:
 
     // 1. MinMax
     template <typename Container, typename ResultType>
-    void VerifyMinMaxWorks(const Container& elements,
+    void VerifyMinMaxWorks(Container&& elements,
         const ResultType& expectedResult) const
     {
-        const MinMaxFinder<Container> finder(elements);
+        const MinMaxFinder<Container> finder(std::move(elements));
         auto [stlResult, boostResult, simpleResult] = finder.callEach();
 
         EXPECT_EQ(stlResult, expectedResult) << "STL zwrocil zly wynik!";
@@ -78,10 +78,10 @@ protected:
 
     // 2. Accumulate
     template <typename DataType>
-    void VerifyAccumulatorWorks(const std::vector<DataType>& elements,
+    void VerifyAccumulatorWorks(std::vector<DataType>&& elements,
         const AccResults<DataType>& expectedResult) const
     {
-        const Accumulator<DataType> accumulator(elements, AccType::DoItAll);
+        const Accumulator<DataType> accumulator(std::move(elements), AccType::DoItAll);
         auto [stlResult, boostResult, simpleResult] = accumulator.callEach();
 
         EXPECT_EQ(stlResult.sum, expectedResult.sum) << "Suma STL jest niepoprawna";
@@ -103,28 +103,28 @@ protected:
 
     // 3. Merge
     template <typename DataType>
-    void VerifyMergeWorks(const std::vector<DataType>& elements,
+    void VerifyMergeWorks(std::vector<DataType>&& elements,
         const std::vector<DataType>& expectedResult) const
     {
-        const Merger<DataType> merger(elements);
+        const Merger<DataType> merger(std::move(elements));
         VerifyAlgorithmWorks(merger, expectedResult);
     }
 
     // 4. Sort
     template <typename DataType>
-    void VerifySortWorks(const std::vector<DataType>& elements,
+    void VerifySortWorks(std::vector<DataType>&& elements,
         const std::vector<DataType>& expectedResult) const
     {
-        const Sorter<DataType> sorter(elements);
+        const Sorter<DataType> sorter(std::move(elements));
         VerifyAlgorithmWorks(sorter, expectedResult);
     }
 
     // 5. Transform
     template <typename InDataType, typename ReturnDataType>
-    void VerifyTransformWorks(const InDataType& elements,
+    void VerifyTransformWorks(InDataType&& elements,
         const ReturnDataType& expectedResult) const
     {
-        const Transformer<InDataType, ReturnDataType> transformer(elements);
+        const Transformer<InDataType, ReturnDataType> transformer(std::move(elements));
         VerifyAlgorithmWorks(transformer, expectedResult);
     }
 
@@ -132,11 +132,11 @@ protected:
 
     // 7. Nth element
     template <typename Container>
-    void VerifyNthFinderWorks(const Container& elements,
+    void VerifyNthFinderWorks(Container&& elements,
         const std::size_t n,
         const Container& expectedResult) const
     {
-        const NthFinderData<Container> data(elements, n);
+        NthFinderData<Container> data(std::move(elements), n);
         NthFinder<Container> finder(std::move(data));
 
         auto [stlResult, boostResult, simpleResult] = finder.callEach();

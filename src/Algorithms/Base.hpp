@@ -1,37 +1,35 @@
 #pragma once
 
-#include "../MethodType.hpp"
-
 #include <chrono> // mierzenie czasu wykonania testu
 #include <vector>
 
 namespace src::Algorithms
 {
+template <typename ResultType>
+using Results = std::tuple<ResultType, ResultType, ResultType>;
 
 template <typename ResultType>
 class BaseClass
 {
 public:
-    ResultType call(const MethodType& methodType, std::ostringstream& os) const
+    Results<ResultType> callEachWithTimer(std::ostringstream& os) const
     {
-        switch (methodType)
-        {
-            case MethodType::STL:
-                return measureExecutionTime(&BaseClass::executeSTL, "STL", os);
-            case MethodType::Boost:
-                return measureExecutionTime(&BaseClass::executeBoost, "Boost", os);
-            case MethodType::Simple:
-                return measureExecutionTime(&BaseClass::executeSimple, "Simple", os);
-            default: throw std::invalid_argument("Zły typ metody!");
-        }
+        ResultType stlResult = measureExecutionTime(&BaseClass::executeSTL, "STL", os);
+        resetData();
+        ResultType boostResult = measureExecutionTime(&BaseClass::executeBoost, "Boost", os);
+        resetData();
+        ResultType simpleResult = measureExecutionTime(&BaseClass::executeSimple, "Simple", os);
+        return std::make_tuple(std::move(stlResult), std::move(boostResult), std::move(simpleResult));
     }
 
-    std::tuple<ResultType, ResultType, ResultType> callEach() const
+    Results<ResultType> callEach() const
     {
         const ResultType& stlResult = executeSTL();
+        resetData();
         const ResultType& boostResult = executeBoost();
+        resetData();
         const ResultType& simpleResult = executeSimple();
-        return { stlResult, boostResult, simpleResult };
+        return Results(stlResult, boostResult, simpleResult);
     }
 
 protected:
@@ -56,14 +54,13 @@ private:
         std::ostringstream& os) const
     {
         const auto start = std::chrono::high_resolution_clock::now();
-        const ResultType result = (this->*memberFunction)();
+        ResultType result = (this->*memberFunction)();
         const auto end = std::chrono::high_resolution_clock::now();
 
         const std::chrono::duration<double> duration = end - start;
         os << methodName << " call time: " << duration.count() << " seconds\n";
 
-        resetData();
-        return result;
+        return std::move(result);
     }
 };
 
