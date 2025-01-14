@@ -1,52 +1,52 @@
 #pragma once
 
 #include "../SortTestFixture.hpp"
-#include "../../../src/Structures/PointsImpl.hpp"
+#include "../../../src/Structures/CustomPairImpl.hpp"
 
 using namespace src::Structures;
 
 namespace tests::Sort
 {
 
-struct PointsSortArgs final : public SortTestStruct<Point2D<>>
+struct PointsSortArgs final : public SortTestStruct<CopyableUIntPair>
 {
-    explicit PointsSortArgs(Point2D<> (*dataCreator)(), const unsigned int n)
-    : SortTestStruct<Point2D<>>(
+    explicit PointsSortArgs(CopyableUIntPair (*dataCreator)(), const unsigned int n)
+    : SortTestStruct<CopyableUIntPair>(
         TestType::SortPoints,
         [dataCreator, n]()
         {
-            std::vector<Point2D<>> data =
-                initTestData<std::vector<Point2D<>>>(dataCreator, n);
-            return std::make_shared<Sorter<Point2D<>>>(std::move(data));
+            std::vector<CopyableUIntPair> data =
+                initTestData<std::vector<CopyableUIntPair>>(dataCreator, n);
+            return std::make_shared<Sorter<CopyableUIntPair>>(std::move(data));
         })
     { }
 
-    PointsSortArgs(Point2D<> (*dataCreator)(const unsigned int), const unsigned int n)
-    : SortTestStruct<Point2D<>>(
+    PointsSortArgs(CopyableUIntPair (*dataCreator)(const unsigned int), const unsigned int n)
+    : SortTestStruct<CopyableUIntPair>(
         TestType::SortPoints,
         [dataCreator, n]()
         {
-            std::vector<Point2D<>> data =
-                initTestData<std::vector<Point2D<>>>(dataCreator, n);
-            return std::make_shared<Sorter<Point2D<>>>(std::move(data));
+            std::vector<CopyableUIntPair> data =
+                initTestData<std::vector<CopyableUIntPair>>(dataCreator, n);
+            return std::make_shared<Sorter<CopyableUIntPair>>(std::move(data));
         })
     { }
 };
 
-class PointsSortFixture : public SortTestFixture<Point2D<>>
+class PointsSortFixture : public SortTestFixture<CopyableUIntPair>
 {
 public:
-    static Point2D<> sortedGenerator(const unsigned int i)
+    static CopyableUIntPair sortedGenerator(const unsigned int i)
     {
-        return Point2D(i, i);
+        return CopyableUIntPair(i, i);
     }
 
-    static Point2D<> reverseSortedGenerator(const unsigned int i)
+    static CopyableUIntPair reverseSortedGenerator(const unsigned int i)
     {
-        return Point2D(UINT32_MAX - i, UINT32_MAX - i);
+        return CopyableUIntPair(UINT32_MAX - i, UINT32_MAX - i);
     }
 
-    static Point2D<> randomGenerator()
+    static CopyableUIntPair randomGenerator()
     {
         static std::random_device rd;
         static std::mt19937 gen(rd());
@@ -54,7 +54,7 @@ public:
 
         unsigned int x = dis(gen);
         unsigned int y = dis(gen);
-        return Point2D(x, y);
+        return CopyableUIntPair(x, y);
     }
 };
 

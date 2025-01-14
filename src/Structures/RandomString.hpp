@@ -7,11 +7,12 @@
 namespace src::Structures
 {
 
-class RandomString final : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>
+template <bool MoveEnabled, bool CopyEnabled>
+class RandomString final : BaseWrapper<MoveEnabled, CopyEnabled>
 {
 public:
     explicit RandomString(const unsigned int l)
-    : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &length_, &randomGenerator_, &distribution_ })
+    : BaseWrapper<MoveEnabled, CopyEnabled>({ &length_, &randomGenerator_, &distribution_ })
     , length_{l}
     , randomGenerator_{std::random_device{}()}
     , distribution_{'a', 'z'}
@@ -44,7 +45,7 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const RandomString& rs)
     {
-        os << "[RandomString (word length: " << rs.length_ << ")]";
+        os << "[RandomString (dlugosc slowa: " << rs.length_ << ")]";
         return os;
     }
 
@@ -53,5 +54,7 @@ private:
     mutable std::mt19937 randomGenerator_;
     mutable std::uniform_int_distribution<char> distribution_;
 };
+
+using CopyableRandomString = RandomString<ENABLE_MOVE, ENABLE_COPY>;
 
 } // namespace src::Structures

@@ -5,11 +5,12 @@
 namespace src::Structures
 {
 
-class IntVector final : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>
+template <bool MoveEnabled, bool CopyEnabled>
+class IntVector final : BaseWrapper<MoveEnabled, CopyEnabled>
 {
 public:
     explicit IntVector(const std::vector<int>& v)
-    : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &values_ })
+    : BaseWrapper<MoveEnabled, CopyEnabled>({ &values_ })
     , values_{std::move(v)}
     { }
 
@@ -22,5 +23,8 @@ public:
 private:
     std::vector<int> values_;
 };
+
+using CopyableIntVector = IntVector<ENABLE_MOVE, ENABLE_COPY>;
+using NonCopyableIntVector = IntVector<ENABLE_MOVE, DISABLE_COPY>;
 
 } // namespace src::Structures

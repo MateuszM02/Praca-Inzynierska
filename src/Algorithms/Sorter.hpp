@@ -8,6 +8,7 @@ namespace src::Algorithms
 {
 
 template <typename DataType>
+requires std::is_copy_constructible_v<DataType>
 class Sorter final : public BaseClass<std::vector<DataType>>
 {
 public:

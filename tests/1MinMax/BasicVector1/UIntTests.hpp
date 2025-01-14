@@ -6,12 +6,12 @@ namespace tests::MinMax
 {
 
 struct BasicVectorMinMaxArgs final : public MinMaxTestStruct<
-    std::vector<unsigned int>, Point2D<>>
+    std::vector<unsigned int>, CopyableUIntPair>
 {
     explicit BasicVectorMinMaxArgs(
         unsigned int (*dataCreator)(const unsigned int),
         const unsigned int n)
-    : MinMaxTestStruct<std::vector<unsigned int>, Point2D<>>(
+    : MinMaxTestStruct<std::vector<unsigned int>, CopyableUIntPair>(
         TestType::MinMaxBasicVector,
         [dataCreator, n]()
         {
@@ -23,7 +23,7 @@ struct BasicVectorMinMaxArgs final : public MinMaxTestStruct<
     { }
 };
 
-class BasicVectorMinMaxFixture : public MinMaxTestFixture<>
+class BasicVectorMinMaxFixture : public MinMaxUIntTestFixture
 {
 public:
     static unsigned int sortedGenerator(const unsigned int i)

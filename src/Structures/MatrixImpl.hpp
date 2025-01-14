@@ -18,11 +18,13 @@ concept SameShape = requires(const MatrixType& m1, const MatrixType& m2)
 };
 
 // implementacja operatorow potrzebnych do testow na klasie Matrix
-template <Addable DataType>
-requires SameShape<Matrix<DataType>>
-Matrix<DataType> operator+(const Matrix<DataType>& m1, const Matrix<DataType>& m2)
+template <Addable DataType, bool MoveEnabled, bool CopyEnabled>
+requires SameShape<Matrix<DataType, MoveEnabled, CopyEnabled>>
+Matrix<DataType, MoveEnabled, CopyEnabled> operator+(
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m1,
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m2)
 {
-    Matrix<DataType> newMatrix(m1);
+    Matrix<DataType, MoveEnabled, CopyEnabled> newMatrix(m1);
     for (size_t row = 0; row < m1.size(); ++row)
     {
         for (size_t col = 0; col < m1.size(); ++col)
@@ -33,10 +35,12 @@ Matrix<DataType> operator+(const Matrix<DataType>& m1, const Matrix<DataType>& m
     return newMatrix;
 }
 
-template <DivisibleByConst DataType>
-Matrix<DataType> operator/(const Matrix<DataType>& m, const unsigned int div)
+template <DivisibleByConst DataType, bool MoveEnabled, bool CopyEnabled>
+Matrix<DataType, MoveEnabled, CopyEnabled> operator/(
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m,
+    const unsigned int div)
 {
-    Matrix<DataType> newMatrix(m);
+    Matrix<DataType, MoveEnabled, CopyEnabled> newMatrix(m);
     for (size_t row = 0; row < m.size(); ++row)
     {
         for (size_t col = 0; col < m.size(); ++col)
@@ -47,9 +51,11 @@ Matrix<DataType> operator/(const Matrix<DataType>& m, const unsigned int div)
     return newMatrix;
 }
 
-template <Multiplicable DataType>
-requires SameShape<Matrix<DataType>>
-Matrix<DataType>& operator+=(Matrix<DataType>& m1, const Matrix<DataType>& m2)
+template <Multiplicable DataType, bool MoveEnabled, bool CopyEnabled>
+requires SameShape<Matrix<DataType, MoveEnabled, CopyEnabled>>
+Matrix<DataType, MoveEnabled, CopyEnabled>& operator+=(
+    Matrix<DataType, MoveEnabled, CopyEnabled>& m1,
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m2)
 {
     for (size_t row = 0; row < m1.size(); ++row)
     {
@@ -61,9 +67,11 @@ Matrix<DataType>& operator+=(Matrix<DataType>& m1, const Matrix<DataType>& m2)
     return m1;
 }
 
-template <Multiplicable DataType>
-requires SameShape<Matrix<DataType>>
-Matrix<DataType>& operator*=(Matrix<DataType>& m1, const Matrix<DataType>& m2)
+template <Multiplicable DataType, bool MoveEnabled, bool CopyEnabled>
+requires SameShape<Matrix<DataType, MoveEnabled, CopyEnabled>>
+Matrix<DataType, MoveEnabled, CopyEnabled>& operator*=(
+    Matrix<DataType, MoveEnabled, CopyEnabled>& m1,
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m2)
 {
     for (size_t row = 0; row < m1.size(); ++row)
     {
@@ -81,9 +89,11 @@ Matrix<DataType>& operator*=(Matrix<DataType>& m1, const Matrix<DataType>& m2)
     return m1;
 }
 
-template <Comparable DataType>
-requires SameShape<Matrix<DataType>>
-bool operator==(const Matrix<DataType>& m1, const Matrix<DataType>& m2)
+template <Comparable DataType, bool MoveEnabled, bool CopyEnabled>
+requires SameShape<Matrix<DataType, MoveEnabled, CopyEnabled>>
+bool operator==(
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m1,
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m2)
 {
     if (m1.size() != m2.size())
         return false;
@@ -100,15 +110,19 @@ bool operator==(const Matrix<DataType>& m1, const Matrix<DataType>& m2)
     return true;
 }
 
-template <typename DataType>
-bool operator!=(const Matrix<DataType>& m1, const Matrix<DataType>& m2)
+template <typename DataType, bool MoveEnabled, bool CopyEnabled>
+bool operator!=(
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m1,
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m2)
 {
     return !(m1 == m2);
 }
 
-template <Comparable DataType>
-requires SameShape<Matrix<DataType>>
-bool operator<(const Matrix<DataType>& m1, const Matrix<DataType>& m2)
+template <Comparable DataType, bool MoveEnabled, bool CopyEnabled>
+requires SameShape<Matrix<DataType, MoveEnabled, CopyEnabled>>
+bool operator<(
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m1,
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m2)
 {
     for (size_t row = 0; row < m1.size(); ++row)
     {
@@ -124,14 +138,17 @@ bool operator<(const Matrix<DataType>& m1, const Matrix<DataType>& m2)
     return false;
 }
 
-template <typename DataType>
-bool operator>(const Matrix<DataType>& m1, const Matrix<DataType>& m2)
+template <typename DataType, bool MoveEnabled, bool CopyEnabled>
+bool operator>(
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m1,
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m2)
 {
     return m2 < m1;
 }
 
-template <Printable DataType>
-std::ostream& operator<<(std::ostream& os, const Matrix<DataType>& m) 
+template <Printable DataType, bool MoveEnabled, bool CopyEnabled>
+std::ostream& operator<<(std::ostream& os,
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m) 
 {
     for (size_t row = 0; row < m.size(); ++row)
     {
@@ -150,34 +167,38 @@ std::ostream& operator<<(std::ostream& os, const Matrix<DataType>& m)
 namespace std
 {
 
-template <HasNumericLimits DataType>
-class numeric_limits<src::Structures::Matrix<DataType>>
+template <HasNumericLimits DataType, bool MoveEnabled, bool CopyEnabled>
+class numeric_limits<src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled>>
 {
 public:
     static constexpr bool is_specialized = true;
     
-    static src::Structures::Matrix<DataType> min() noexcept
+    static src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled> min() noexcept
     {
-        std::vector<std::vector<DataType>> vec = { { std::numeric_limits<DataType>::min() } };
-        return src::Structures::Matrix<DataType>(std::move(vec));
+        std::vector<std::vector<DataType>> vec =
+            { { std::numeric_limits<DataType>::min() } };
+        return src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled>(std::move(vec));
     } 
     
-    static src::Structures::Matrix<DataType> max() noexcept
+    static src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled> max() noexcept
     {
-        std::vector<std::vector<DataType>> vec = { { std::numeric_limits<DataType>::max() } };
-        return src::Structures::Matrix<DataType>(std::move(vec));
+        std::vector<std::vector<DataType>> vec =
+            { { std::numeric_limits<DataType>::max() } };
+        return src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled>(std::move(vec));
     }
     
-    static src::Structures::Matrix<DataType> lowest() noexcept
+    static src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled> lowest() noexcept
     {
-        std::vector<std::vector<DataType>> vec = { { std::numeric_limits<DataType>::lowest() } };
-        return src::Structures::Matrix<DataType>(std::move(vec));
+        std::vector<std::vector<DataType>> vec =
+            { { std::numeric_limits<DataType>::lowest() } };
+        return src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled>(std::move(vec));
     }
     
-    static src::Structures::Matrix<DataType> epsilon() noexcept
+    static src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled> epsilon() noexcept
     {
-        std::vector<std::vector<DataType>> vec = { { std::numeric_limits<DataType>::epsilon() } };
-        return src::Structures::Matrix<DataType>(std::move(vec));
+        std::vector<std::vector<DataType>> vec =
+            { { std::numeric_limits<DataType>::epsilon() } };
+        return src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled>(std::move(vec));
     }
 };
 

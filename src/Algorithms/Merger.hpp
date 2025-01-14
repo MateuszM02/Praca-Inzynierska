@@ -20,6 +20,7 @@ struct MergerData final
 };
 
 template <typename DataType>
+requires std::is_copy_constructible_v<DataType>
 class Merger final : public BaseClass<std::vector<DataType>>
 {
 public:

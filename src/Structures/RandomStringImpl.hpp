@@ -14,9 +14,9 @@ namespace src::Structures
 class RandomStringImpl final
 {
 private:
-    using StrGenerator = Generator<std::string, RandomString>;
+    using StrGenerator = Generator<std::string, CopyableRandomString>;
     
-    static std::string creator(RandomString& currentState)
+    static std::string creator(CopyableRandomString& currentState)
     {
         return currentState();
     }
@@ -24,7 +24,7 @@ private:
     static StrGenerator
     createGeneratorData(const unsigned int vectorSize, const unsigned int length)
     {
-        return StrGenerator(vectorSize, RandomString(length), creator);
+        return StrGenerator(vectorSize, CopyableRandomString(length), creator);
     }
 
 public:

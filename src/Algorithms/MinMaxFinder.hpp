@@ -2,7 +2,7 @@
 
 #include "Base.hpp"
 #include "../Concepts/ContainerConcepts.hpp"
-#include "../Structures/PointsImpl.hpp"
+#include "../Structures/CustomPairImpl.hpp"
 
 #include <boost/algorithm/minmax_element.hpp> // boost::minmax_element
 
@@ -12,7 +12,8 @@ namespace src::Algorithms
 {
 
 template <Iterable Container>
-class MinMaxFinder final : public BaseClass<Point2D<typename Container::value_type>>
+requires std::is_copy_constructible_v<typename Container::value_type>
+class MinMaxFinder final : public BaseClass<CopyablePair<typename Container::value_type>>
 {
 public:
     using DataType = typename Container::value_type;
@@ -24,19 +25,19 @@ public:
 private:
     void resetData() const override { }
 
-    Point2D<DataType> executeSTL() const override
+    CopyablePair<DataType> executeSTL() const override
     {   
         auto [minIter, maxIter] = std::minmax_element(elements_.begin(), elements_.end());
-        return Point2D(*minIter, *maxIter);
+        return CopyablePair(*minIter, *maxIter);
     }
 
-    Point2D<DataType> executeBoost() const override
+    CopyablePair<DataType> executeBoost() const override
     {
         auto [minIter, maxIter] = boost::minmax_element(elements_.begin(), elements_.end());
-        return Point2D(*minIter, *maxIter);
+        return CopyablePair(*minIter, *maxIter);
     }
 
-    Point2D<DataType> executeSimple() const override
+    CopyablePair<DataType> executeSimple() const override
     {
         auto iter = elements_.begin();
         auto minIter = elements_.begin();
@@ -51,7 +52,7 @@ private:
                 maxIter = iter;
             ++iter;
         }
-        return Point2D(*minIter, *maxIter);
+        return CopyablePair(*minIter, *maxIter);
     }
 
     Container elements_;

@@ -2,7 +2,7 @@
 
 #include "../../src/Structures/IntVectorImpl.hpp"
 #include "../../src/Structures/MatrixImpl.hpp"
-#include "../../src/Structures/PointsImpl.hpp"
+#include "../../src/Structures/CustomPairImpl.hpp"
 #include "../../src/Structures/RandomStringImpl.hpp"
 
 #include "../../src/Algorithms/Accumulator.hpp"

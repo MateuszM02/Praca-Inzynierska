@@ -23,6 +23,7 @@ struct NthFinderData final
 };
 
 template <NthElementCompatible Container>
+requires std::is_copy_constructible_v<typename Container::value_type>
 class NthFinder final : public BaseClass<Container>
 {
 public:

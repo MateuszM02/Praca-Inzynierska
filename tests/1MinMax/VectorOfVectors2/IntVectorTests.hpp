@@ -9,28 +9,28 @@ namespace tests::MinMax
 {
 
 struct VectorOfVectorsMinMaxArgs final : public MinMaxTestStruct<
-    std::vector<IntVector>, Point2D<IntVector>>
+    std::vector<CopyableIntVector>, CopyablePair<CopyableIntVector>>
 {
     explicit VectorOfVectorsMinMaxArgs(
-        IntVector (*dataCreator)(const unsigned int),
+        CopyableIntVector (*dataCreator)(const unsigned int),
         const unsigned int n)
-    : MinMaxTestStruct<std::vector<IntVector>, Point2D<IntVector>>(
+    : MinMaxTestStruct<std::vector<CopyableIntVector>, CopyablePair<CopyableIntVector>>(
         TestType::MinMaxVectorOfVectors,
         [dataCreator, n]()
         {
-            std::vector<IntVector> data =
-                BaseTestStruct::initTestData<std::vector<IntVector>>(dataCreator, n);
+            std::vector<CopyableIntVector> data =
+                BaseTestStruct::initTestData<std::vector<CopyableIntVector>>(dataCreator, n);
             return std::make_shared<MinMaxFinder<
-                std::vector<IntVector>>>(std::move(data));
+                std::vector<CopyableIntVector>>>(std::move(data));
         })
     { }
 };
 
-class VectorOfVectorsMinMaxFixture : public MinMaxTestFixture<IntVector>
+class VectorOfVectorsMinMaxFixture : public MinMaxTestFixture<CopyableIntVector>
 {
 public:
     // wektory roznia sie dopiero na ostatniej pozycji
-    static IntVector sortedLastElementGenerator(const unsigned int n)
+    static CopyableIntVector sortedLastElementGenerator(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -39,11 +39,11 @@ public:
             v.emplace_back(i);
         }
         v.emplace_back(n);
-        return IntVector(v);
+        return CopyableIntVector(v);
     }
 
     // wektory losowe moga sie roznic na dowolnej pozycji
-    static IntVector randomGenerator(const unsigned int n)
+    static CopyableIntVector randomGenerator(const unsigned int n)
     {
         static std::random_device rd;
         static std::mt19937 gen(rd());
@@ -55,7 +55,7 @@ public:
         {
             v.emplace_back(dis(gen));
         }
-        return IntVector(v);
+        return CopyableIntVector(v);
     }
 };
 

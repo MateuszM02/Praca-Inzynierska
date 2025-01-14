@@ -8,14 +8,14 @@ using namespace src::Structures;
 namespace tests::Merge
 {
 
-struct IntVectorMergeArgs final : public MergeTestStruct<IntVector>
+struct IntVectorMergeArgs final : public MergeTestStruct<CopyableIntVector>
 {
     explicit IntVectorMergeArgs(
-        IntVector (*dataCreator1)(const unsigned int),
-        IntVector (*dataCreator2)(const unsigned int),
+        CopyableIntVector (*dataCreator1)(const unsigned int),
+        CopyableIntVector (*dataCreator2)(const unsigned int),
         const unsigned int n1,
         const unsigned int n2)
-    : MergeTestStruct<IntVector>(
+    : MergeTestStruct<CopyableIntVector>(
         TestType::MergeIntVector,
         [dataCreator1, dataCreator2, n1, n2]()
         {
@@ -24,10 +24,10 @@ struct IntVectorMergeArgs final : public MergeTestStruct<IntVector>
     { }
 };
 
-class IntVectorMergeFixture : public MergeTestFixture<IntVector>
+class IntVectorMergeFixture : public MergeTestFixture<CopyableIntVector>
 {
 public:
-    static IntVector f10i_imod7(const unsigned int n)
+    static CopyableIntVector f10i_imod7(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -35,10 +35,10 @@ public:
         {
             v.emplace_back(10*i + ((i+1) % 7));
         }
-        return IntVector(v);
+        return CopyableIntVector(v);
     }
 
-    static IntVector f10i_imod9(const unsigned int n)
+    static CopyableIntVector f10i_imod9(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -46,7 +46,7 @@ public:
         {
             v.emplace_back(10*i + (i % 9));
         }
-        return IntVector(v);
+        return CopyableIntVector(v);
     }
 };
 

@@ -27,6 +27,7 @@ struct RemoverData final
 };
 
 template <Removable Container>
+requires std::is_move_constructible_v<typename Container::value_type>
 class Remover final : public BaseClass<Container>
 {
 public:

@@ -9,28 +9,28 @@ namespace tests::MinMax
 {
 
 struct VectorSetMinMaxArgs final : public MinMaxTestStruct<
-    std::set<IntVector>, Point2D<IntVector>>
+    std::set<CopyableIntVector>, CopyablePair<CopyableIntVector>>
 {
     explicit VectorSetMinMaxArgs(
-        IntVector (*dataCreator)(const unsigned int),
+        CopyableIntVector (*dataCreator)(const unsigned int),
         const unsigned int n)
-    : MinMaxTestStruct<std::set<IntVector>, Point2D<IntVector>>(
+    : MinMaxTestStruct<std::set<CopyableIntVector>, CopyablePair<CopyableIntVector>>(
         TestType::MinMaxVectorSet,
         [dataCreator, n]()
         {
-            std::set<IntVector> data =
-                BaseTestStruct::initTestData<std::set<IntVector>>(dataCreator, n);
+            std::set<CopyableIntVector> data =
+                BaseTestStruct::initTestData<std::set<CopyableIntVector>>(dataCreator, n);
             return std::make_shared<MinMaxFinder<
-                std::set<IntVector>>>(std::move(data));
+                std::set<CopyableIntVector>>>(std::move(data));
         })
     { }
 };
 
-class VectorSetMinMaxFixture : public MinMaxTestFixture<IntVector>
+class VectorSetMinMaxFixture : public MinMaxTestFixture<CopyableIntVector>
 {
 public:
     // wektory roznia sie dopiero na ostatniej pozycji
-    static IntVector sortedLastElementGenerator(const unsigned int n)
+    static CopyableIntVector sortedLastElementGenerator(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -39,11 +39,11 @@ public:
             v.emplace_back(i);
         }
         v.emplace_back(n);
-        return IntVector(v);
+        return CopyableIntVector(v);
     }
 
     // wektory losowe moga sie roznic na dowolnej pozycji
-    static IntVector randomGenerator(const unsigned int n)
+    static CopyableIntVector randomGenerator(const unsigned int n)
     {
         static std::random_device rd;
         static std::mt19937 gen(rd());
@@ -55,7 +55,7 @@ public:
         {
             v.emplace_back(dis(gen));
         }
-        return IntVector(v);
+        return CopyableIntVector(v);
     }
 };
 

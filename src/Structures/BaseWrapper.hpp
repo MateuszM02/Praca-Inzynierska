@@ -75,45 +75,13 @@ private:
     std::vector<std::any> classFields_;
 };
 
-// Wersja 3/4 - tylko kopiowanie ------------------------------------------------------------------
+// Wersja 3/4 - tylko kopiowanie - jest niedozwolona ----------------------------------------------
 
 template <>
 class BaseWrapper<DISABLE_MOVE, ENABLE_COPY>
 {
-protected:
-    explicit BaseWrapper(const std::vector<std::any>& classFields)
-    : classFields_{classFields}
-    { }
-
-    BaseWrapper(BaseWrapper&& other) = delete;
-    BaseWrapper& operator=(BaseWrapper&& other) = delete;
-
-    BaseWrapper(const BaseWrapper& other)
-    : classFields_{other.classFields_}
-    {
-        for (size_t i = 0; i < classFields_.size(); ++i)
-        {
-            if (classFields_[i].has_value() && other.classFields_[i].has_value())
-                classFields_[i] = other.classFields_[i];
-        }
-    }
-
-    BaseWrapper& operator=(const BaseWrapper& other)
-    {
-        if (this != &other)
-        {
-            classFields_ = other.classFields_;
-            for (size_t i = 0; i < classFields_.size(); ++i)
-            {
-                if (classFields_[i].has_value() && other.classFields_[i].has_value())
-                    classFields_[i] = other.classFields_[i];
-            }
-        }
-        return *this;
-    }
-
 private:
-    std::vector<std::any> classFields_;
+    BaseWrapper() = delete;
 };
 
 // Wersja 4/4 - przenoszenie i kopiowanie ---------------------------------------------------------

@@ -6,12 +6,12 @@ namespace tests::MinMax
 {
 
 struct BasicSetMinMaxArgs final : public MinMaxTestStruct<
-    std::set<unsigned int>, Point2D<>>
+    std::set<unsigned int>, CopyableUIntPair>
 {
     explicit BasicSetMinMaxArgs(
         unsigned int (*dataCreator)(const unsigned int),
         const unsigned int n)
-    : MinMaxTestStruct<std::set<unsigned int>, Point2D<>>(
+    : MinMaxTestStruct<std::set<unsigned int>, CopyableUIntPair>(
         TestType::MinMaxBasicSet,
         [dataCreator, n]()
         {
@@ -23,7 +23,7 @@ struct BasicSetMinMaxArgs final : public MinMaxTestStruct<
     { }
 };
 
-class BasicSetMinMaxFixture : public MinMaxTestFixture<>
+class BasicSetMinMaxFixture : public MinMaxUIntTestFixture
 {
 public:
     static unsigned int sortedGenerator(const unsigned int i)
