@@ -52,8 +52,6 @@ public:
 
 TEST_P(IntVectorMergeFixture, IntVectorTest)
 {
-    IntVector iv1({});
-    IntVector iv2(iv1);
     VerifyTest(GetParam());
 }
 

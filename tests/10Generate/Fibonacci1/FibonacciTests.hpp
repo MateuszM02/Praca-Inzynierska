@@ -13,11 +13,11 @@ template <Addable DataType>
 struct FibonacciGenerateArgs final : public GenerateTestStruct<DataType, Point2D<DataType>>
 {
     explicit FibonacciGenerateArgs(
-        const Point2D<DataType>& initialPair,
+        Point2D<DataType>&& initialPair,
         unsigned int n)
     : GenerateTestStruct<DataType, Point2D<DataType>>(
         TestType::GenerateFibonacci,
-        [initialPair, n]()
+        [initialPair_ = std::move(initialPair), n]() mutable
         {
             auto stateCreator = [](Point2D<DataType>& currentState)
             {
@@ -26,7 +26,7 @@ struct FibonacciGenerateArgs final : public GenerateTestStruct<DataType, Point2D
             };
 
             return std::make_shared<Generator<DataType, Point2D<DataType>>>(
-                n, initialPair, stateCreator);
+                n, std::move(initialPair_), std::move(stateCreator));
         })
     { }
 };

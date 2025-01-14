@@ -12,8 +12,8 @@ class Generator final : public BaseClass<std::vector<GeneratedDataType>>
 {
 public:
     explicit Generator(const std::size_t n,
-        const StateDataType& initialState,
-        const std::function<GeneratedDataType(StateDataType&)>& generator)
+        StateDataType&& initialState,
+        std::function<GeneratedDataType(StateDataType&)>&& generator)
     : n_{n}
     , initialState_{initialState}
     , currentState_{std::move(initialState)}

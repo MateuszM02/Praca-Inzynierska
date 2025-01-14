@@ -13,19 +13,20 @@ requires std::is_arithmetic_v<Number>
 struct MatrixGenerateArgs final : public GenerateTestStruct<Matrix<Number>>
 {
     explicit MatrixGenerateArgs(
-        const Matrix<Number>& initialMatrix,
+        Matrix<Number>&& initialMatrix,
         const unsigned int n)
     : GenerateTestStruct<Matrix<Number>>(
         TestType::GenerateMatrix,
-        [initialMatrix, n]()
+        [initialMatrix_ = std::move(initialMatrix), n]() mutable
         {
-            auto stateCreator = [initialMatrix](Matrix<Number>& currentState)
+            auto stateCreator = [initialMatrix_](Matrix<Number>& currentState)
             {
-                currentState *= initialMatrix;
+                currentState *= initialMatrix_;
                 return currentState;
             };
 
-            return std::make_shared<Generator<Matrix<Number>>>(n, initialMatrix, stateCreator);
+            return std::make_shared<Generator<Matrix<Number>>>(
+                n, std::move(initialMatrix_), std::move(stateCreator));
         })
     { }
 };

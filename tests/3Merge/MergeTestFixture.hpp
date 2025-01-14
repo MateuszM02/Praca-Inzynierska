@@ -36,7 +36,7 @@ protected:
         {
             v2.emplace_back(dataCreator2(i));
         }
-        MergerData<DataType> data(v1, v2);
+        MergerData<DataType> data(std::move(v1), std::move(v2));
         return std::make_shared<Merger<DataType>>(std::move(data));
     }
 };

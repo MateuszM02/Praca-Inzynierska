@@ -13,12 +13,12 @@ namespace src::Algorithms
 template <typename Container>
 struct NthFinderData final
 {
-    explicit NthFinderData(const Container& elements, const std::size_t n)
+    explicit NthFinderData(Container&& elements, const std::size_t n)
     : elements_{std::move(elements)}
     , n_{n}
     { }
 
-    const Container elements_;
+    Container elements_;
     const std::size_t n_;
 };
 
@@ -29,7 +29,7 @@ public:
     using DataType = typename Container::value_type;
     using Iterator = typename Container::iterator;
 
-    explicit NthFinder(const NthFinderData<Container>& data)
+    explicit NthFinder(NthFinderData<Container>&& data)
     : elements_{data.elements_}
     , initialElements_{std::move(data.elements_)}
     , n_{data.n_}
@@ -95,12 +95,11 @@ private:
             std::iter_swap(mid, high);
 
         std::iter_swap(mid, high - 1);
-        DataType pivot = *(high - 1);
         Iterator i = low;
 
         for (Iterator j = low; j < high - 1; ++j)
         {
-            if (*j < pivot)
+            if (*j < *(high - 1)) // j < pivot
             {
                 std::iter_swap(i, j);
                 ++i;

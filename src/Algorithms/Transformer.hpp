@@ -15,7 +15,7 @@ template <Transformable InDataType, Transformable ReturnDataType>
 class Transformer final : public BaseClass<std::vector<ReturnDataType>>
 {
 public:
-    explicit Transformer(const std::vector<InDataType>& elements,
+    explicit Transformer(std::vector<InDataType>&& elements,
         ReturnDataType (*const transformer)(const InDataType&))
     : initialElements_{std::move(elements)}
     , transformer_{std::move(transformer)}

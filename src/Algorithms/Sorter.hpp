@@ -11,7 +11,7 @@ template <typename DataType>
 class Sorter final : public BaseClass<std::vector<DataType>>
 {
 public:
-    explicit Sorter(const std::vector<DataType>& elements)
+    explicit Sorter(std::vector<DataType>&& elements)
     : initialElements_{elements}
     , sortedElements_{std::move(elements)}
     { }

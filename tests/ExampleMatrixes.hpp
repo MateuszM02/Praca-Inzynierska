@@ -16,11 +16,11 @@ public:
 
     static Matrix<int> a1()
     {
-        static const std::vector<std::vector<int>> values{
+        std::vector<std::vector<int>> values{
             { 1, 1, 0 },
             { 0, 1, 0 },
             { 0, 0, 1 } };
-        static const Matrix<int> instance{ std::move(values) };
+        Matrix<int> instance(std::move(values));
         return instance;
     }
 
@@ -37,7 +37,7 @@ public:
             matrix_values[i][i] = 1.0;
         }
 
-        return Matrix<double>(matrix_values);
+        return Matrix<double>(std::move(matrix_values));
     }
 
     // Przyklad 3. Po podniesieniu macierzy rozmiaru n x n 
@@ -52,7 +52,7 @@ public:
             matrix_values[i][i] = 1;
         }
 
-        return Matrix<int>(matrix_values);
+        return Matrix<int>(std::move(matrix_values));
     }
 
     static Matrix<int> randomIntMatrix()
@@ -69,7 +69,7 @@ public:
                 matrix_values[i][j] = dis(gen);
             }
         }
-        return Matrix<int>(matrix_values);
+        return Matrix<int>(std::move(matrix_values));
     }
 
     static Matrix<double> randomDoubleMatrix()
@@ -86,7 +86,7 @@ public:
                 matrix_values[i][j] = dis(gen);
             }
         }
-        return Matrix<double>(matrix_values);
+        return Matrix<double>(std::move(matrix_values));
     }
 };
 

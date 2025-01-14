@@ -157,10 +157,8 @@ protected:
     {
         std::ostringstream os; // Uzycie ostringstream do wypisywania wynikow testow
 
-        const auto& testData = args->getTestData();
-        const ResultType& stlResult = testData->call(src::MethodType::STL, os);
-        const ResultType& boostResult = testData->call(src::MethodType::Boost, os);
-        const ResultType& simpleResult = testData->call(src::MethodType::Simple, os);
+        const std::shared_ptr<BaseClass<ResultType>>& testData = args->getTestData();
+        const auto& [stlResult, boostResult, simpleResult] = testData->callEachWithTimer(os);
 
         // Zapisywanie wynikow testu do pliku
         std::ofstream outFile(args->getFilePath(), std::ios::out | std::ios::trunc);

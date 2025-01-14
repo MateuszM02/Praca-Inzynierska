@@ -59,7 +59,7 @@ requires std::is_move_constructible_v<DataType>
 class Accumulator final : public BaseClass<AccResults<DataType>>
 {
 public:
-    explicit Accumulator(const std::vector<DataType>& data, AccType accType)
+    explicit Accumulator(std::vector<DataType>&& data, AccType accType)
     : data_{std::move(data)}
     , accType_{accType}
     { }
@@ -67,11 +67,11 @@ public:
 private:
     void resetData() const override { }
 
-    void FOR_ITER(const std::function<void(DataType)>& dataCallback) const
+    void FOR_ITER(const std::function<void(const DataType&)>& dataCallback) const
     {
-        for (auto it = data_.begin(); it != data_.end(); ++it)
+        for (const DataType& item : data_)
         {
-            dataCallback(*it);
+            dataCallback(item);
         }
     }
 
@@ -84,7 +84,15 @@ private:
     AccResults<DataType> executeSTL() const override
     {
         AccResults<DataType> results;
-        results.sum = std::accumulate(data_.begin(), data_.end(), results.sum);
+        results.sum = std::accumulate(
+            std::make_move_iterator(data_.begin()), 
+            std::make_move_iterator(data_.end()), 
+            std::move(results.sum),
+            [](auto&& sum, auto&& value)
+            {
+                sum += std::move(value);
+                return std::move(sum);
+            });
 
         if (accType_ == AccType::SumAndExtremes || accType_ == AccType::DoItAll)
         {

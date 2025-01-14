@@ -44,10 +44,10 @@ public:
     { }
 
     template <SquareMatrix MatrixVector> 
-    explicit Matrix(const MatrixVector& values)
+    explicit Matrix(MatrixVector&& values)
     : BaseWrapper<ENABLE_MOVE, ENABLE_COPY>({ &n_, &matrix_ })
     , n_{values.size()}
-    , matrix_{values}
+    , matrix_{std::move(values)}
     { }
     
     std::size_t size() const noexcept { return n_; }

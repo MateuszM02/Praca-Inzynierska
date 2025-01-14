@@ -158,30 +158,26 @@ public:
     
     static src::Structures::Matrix<DataType> min() noexcept
     {
-        static vector<vector<DataType>> v = { { numeric_limits<DataType>::min() } };
-        static src::Structures::Matrix<DataType> m(v);
-        return m;
+        std::vector<std::vector<DataType>> vec = { { std::numeric_limits<DataType>::min() } };
+        return src::Structures::Matrix<DataType>(std::move(vec));
     } 
     
     static src::Structures::Matrix<DataType> max() noexcept
     {
-        static vector<vector<DataType>> v = { { numeric_limits<DataType>::max() } };
-        static src::Structures::Matrix<DataType> m(v);
-        return m;
+        std::vector<std::vector<DataType>> vec = { { std::numeric_limits<DataType>::max() } };
+        return src::Structures::Matrix<DataType>(std::move(vec));
     }
     
     static src::Structures::Matrix<DataType> lowest() noexcept
     {
-        static vector<vector<DataType>> v = { { numeric_limits<DataType>::lowest() } };
-        static src::Structures::Matrix<DataType> m(v);
-        return m;
+        std::vector<std::vector<DataType>> vec = { { std::numeric_limits<DataType>::lowest() } };
+        return src::Structures::Matrix<DataType>(std::move(vec));
     }
     
     static src::Structures::Matrix<DataType> epsilon() noexcept
     {
-        static vector<vector<DataType>> v = { { numeric_limits<DataType>::epsilon() } };
-        static src::Structures::Matrix<DataType> m(v);
-        return m;
+        std::vector<std::vector<DataType>> vec = { { std::numeric_limits<DataType>::epsilon() } };
+        return src::Structures::Matrix<DataType>(std::move(vec));
     }
 };
 
