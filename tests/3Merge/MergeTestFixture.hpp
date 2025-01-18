@@ -3,6 +3,9 @@
 #include "../BaseTestFixture.hpp"
 #include "../../src/Algorithms/Merger.hpp"
 
+#define count1 first
+#define count2 second
+
 using namespace src::Algorithms;
 
 namespace tests::Merge
@@ -20,19 +23,18 @@ protected:
     static std::shared_ptr<Merger<DataType>> initTestData3(
         DataType (*dataCreator1)(const unsigned int),
         DataType (*dataCreator2)(const unsigned int),
-        const unsigned int n1,
-        const unsigned int n2)
+        const TestPair& info)
     {
         std::vector<DataType> v1;
         std::vector<DataType> v2;
-        v1.reserve(n1);
-        v2.reserve(n2);
+        v1.reserve(info.count1);
+        v2.reserve(info.count2);
 
-        for (unsigned int i = 1; i <= n1; ++i)
+        for (unsigned int i = 1; i <= info.count1; ++i)
         {
             v1.emplace_back(dataCreator1(i));
         }
-        for (unsigned int i = 1; i <= n2; ++i)
+        for (unsigned int i = 1; i <= info.count2; ++i)
         {
             v2.emplace_back(dataCreator2(i));
         }

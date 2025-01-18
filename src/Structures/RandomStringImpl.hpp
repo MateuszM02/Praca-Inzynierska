@@ -4,6 +4,9 @@
 #include "../Algorithms/Generator.hpp"
 #include "RandomString.hpp"
 
+#define nth first
+#define numberOfElements second
+
 using namespace src::Algorithms;
 using namespace src::Structures;
 
@@ -38,19 +41,17 @@ public:
     }
 
     static std::shared_ptr<NthFinder<std::vector<std::string>>> createFinder(
-        const unsigned int n,
-        const unsigned int vectorSize,
-        const unsigned int length)
+        const unsigned int length, const TestPair& info)
     {
-        const StrGenerator& generator = createGeneratorData(vectorSize, length);
+        const StrGenerator& generator = createGeneratorData(info.numberOfElements, length);
         std::vector<std::string> elements;
-        elements.reserve(vectorSize);
-        for (unsigned int i = 0; i < vectorSize; i++)
+        elements.reserve(info.numberOfElements);
+        for (unsigned int i = 0; i < info.numberOfElements; i++)
         {
             elements.emplace_back(generator.create());
         }
 
-        NthFinderData<std::vector<std::string>> data(std::move(elements), n);
+        NthFinderData<std::vector<std::string>> data(std::move(elements), info.nth);
         return std::make_shared<NthFinder<std::vector<std::string>>>(std::move(data));
     }
 };

@@ -1,19 +1,21 @@
 #include "RegexTests.hpp"
 
-#define SMALL_TEXT_SIZE 100'000
-#define MEDIUM_TEXT_SIZE 1'000'000
+#define TEST_SIZES { 10'000'000, 20'000'000, 30'000'000 }
 
 namespace tests::Regex
 {
 
+static std::vector<std::shared_ptr<Base>> getTests()
+{
+    static std::vector<std::shared_ptr<Base>> tests;
+    createTestArgs<Base, RegexTestStruct, ERegexTestType>(tests, TEST_SIZES, ERegexTestType::date);
+    createTestArgs<Base, RegexTestStruct, ERegexTestType>(tests, TEST_SIZES, ERegexTestType::phone);
+    return tests;
+}
+
 INSTANTIATE_TEST_SUITE_P(
     RegexPrefix,
     RegexTestFixture,
-    ::testing::Values(
-        std::make_shared<RegexTestStruct>(SMALL_TEXT_SIZE, ERegexTestType::date),
-        std::make_shared<RegexTestStruct>(MEDIUM_TEXT_SIZE, ERegexTestType::date),
-        std::make_shared<RegexTestStruct>(SMALL_TEXT_SIZE, ERegexTestType::phone),
-        std::make_shared<RegexTestStruct>(MEDIUM_TEXT_SIZE, ERegexTestType::phone)
-    ));
+    ::testing::ValuesIn(getTests()));
 
 } // namespace tests::Regex

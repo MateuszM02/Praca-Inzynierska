@@ -9,13 +9,15 @@ using namespace src::Structures;
 namespace tests::Transform
 {
 
-struct MatrixToIntVectorTransformArgs final : public TransformTestStruct<NonCopyableMatrix<int>, std::vector<NonCopyableIntVector>>
+using Base = BaseTestStruct<std::vector<std::vector<NonCopyableIntVector>>>;
+using Parent = TransformTestStruct<NonCopyableMatrix<int>, std::vector<NonCopyableIntVector>>;
+
+struct MatrixToIntVectorTransformArgs final : public Parent
 {
     explicit MatrixToIntVectorTransformArgs(
         NonCopyableMatrix<int> (*dataCreator)(const unsigned int),
         const unsigned int n)
-    : TransformTestStruct<NonCopyableMatrix<int>, std::vector<NonCopyableIntVector>>(
-        TestType::TransformMatrixToIntVector,
+    : Parent(TestType::TransformMatrixToIntVector,
         [dataCreator, n]()
         {
             std::vector<NonCopyableMatrix<int>> inData =

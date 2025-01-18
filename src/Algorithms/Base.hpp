@@ -5,8 +5,11 @@
 
 namespace src::Algorithms
 {
+
 template <typename ResultType>
 using Results = std::tuple<ResultType, ResultType, ResultType>;
+
+using TestPair = std::pair<unsigned int, unsigned int>;
 
 template <typename ResultType>
 class BaseClass

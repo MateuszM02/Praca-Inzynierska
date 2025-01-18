@@ -98,6 +98,20 @@ protected:
         return v;
     }
 
+    template <typename Container, typename = IsOfType<Container, std::vector<typename Container::value_type>>>
+    static std::vector<typename Container::value_type>
+    initTestData(typename Container::value_type (*generator)(const unsigned int), const TestPair& info)
+    {
+        std::vector<typename Container::value_type> v;
+        v.reserve(info.first);
+
+        for (unsigned int i = 1; i <= info.first; ++i)
+        {
+            v.emplace_back(generator(info.second));
+        }
+        return v;
+    }
+
 public:
     // Zdobadz wartosc danego pola obiektu trzymanego przez callback_
     template <typename FieldType, typename Derived>
@@ -207,5 +221,31 @@ private:
         }
     }
 };
+
+template <typename Base, typename TestArgsStructure, typename... Args>
+void createTestArgs(
+    std::vector<std::shared_ptr<Base>>& testArgs,
+    const std::vector<unsigned int>& testSizes,
+    const Args&... args)
+{
+    for (const unsigned int testSize : testSizes)
+    {
+        testArgs.emplace_back(
+            std::make_shared<TestArgsStructure>(args..., testSize));
+    }
+}
+
+template <typename Base, typename TestArgsStructure, typename... Args>
+void createTestArgs(
+    std::vector<std::shared_ptr<Base>>& testArgs,
+    const std::vector<TestPair>& testSizePairs,
+    const Args&... args)
+{
+    for (const TestPair& testSizePair : testSizePairs)
+    {
+        testArgs.emplace_back(
+            std::make_shared<TestArgsStructure>(args..., testSizePair));
+    }
+}
 
 } // namespace tests

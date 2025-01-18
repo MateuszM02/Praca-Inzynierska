@@ -1,25 +1,27 @@
 #include "PointsTests.hpp"
 
-#define SMALL_TEST 100'000
-#define MEDIUM_TEST 250'000
-#define BIG_TEST 500'000
+#define TEST_SIZES { 50'000, 100'000, 150'000, 200'000 }
 
 namespace tests::Sort
 {
 
+static std::vector<std::shared_ptr<Base>> getTests()
+{
+    std::vector<std::shared_ptr<Base>> tests;
+    using T = CopyableUIntPair(*)(const unsigned int);
+
+    createTestArgs<Base, PointsSortArgs, T>(tests, TEST_SIZES,
+        &PointsSortFixture::sortedGenerator);
+    createTestArgs<Base, PointsSortArgs, T>(tests, TEST_SIZES,
+        &PointsSortFixture::reverseSortedGenerator);
+    createTestArgs<Base, PointsSortArgs, T>(tests, TEST_SIZES,
+        &PointsSortFixture::randomGenerator);
+    return tests;
+}
+
 INSTANTIATE_TEST_SUITE_P(
     SortPrefix,
     PointsSortFixture,
-    ::testing::Values(
-        std::make_shared<PointsSortArgs>(PointsSortFixture::sortedGenerator, SMALL_TEST),
-        std::make_shared<PointsSortArgs>(PointsSortFixture::sortedGenerator, MEDIUM_TEST),
-        std::make_shared<PointsSortArgs>(PointsSortFixture::sortedGenerator, BIG_TEST),
-        std::make_shared<PointsSortArgs>(PointsSortFixture::reverseSortedGenerator, SMALL_TEST),
-        std::make_shared<PointsSortArgs>(PointsSortFixture::reverseSortedGenerator, MEDIUM_TEST),
-        std::make_shared<PointsSortArgs>(PointsSortFixture::reverseSortedGenerator, BIG_TEST),
-        std::make_shared<PointsSortArgs>(PointsSortFixture::randomGenerator, SMALL_TEST),
-        std::make_shared<PointsSortArgs>(PointsSortFixture::randomGenerator, MEDIUM_TEST),
-        std::make_shared<PointsSortArgs>(PointsSortFixture::randomGenerator, BIG_TEST)
-    ));
+    ::testing::ValuesIn(getTests()));
 
 } // namespace tests::Sort

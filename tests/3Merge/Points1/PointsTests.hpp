@@ -8,18 +8,19 @@ using namespace src::Structures;
 namespace tests::Merge
 {
 
-struct PointsMergeArgs final : public MergeTestStruct<CopyableUIntPair>
+using Base = BaseTestStruct<std::vector<CopyableUIntPair>>;
+using Parent = MergeTestStruct<CopyableUIntPair>;
+
+struct PointsMergeArgs final : public Parent
 {
     explicit PointsMergeArgs(
         CopyableUIntPair (*dataCreator1)(const unsigned int),
         CopyableUIntPair (*dataCreator2)(const unsigned int),
-        const unsigned int n1,
-        const unsigned int n2)
-    : MergeTestStruct<CopyableUIntPair>(
-        TestType::MergePoints,
-        [dataCreator1, dataCreator2, n1, n2]()
+        const TestPair& info)
+    : Parent(TestType::MergePoints,
+        [dataCreator1, dataCreator2, info]()
         {
-            return initTestData3(dataCreator1, dataCreator2, n1, n2);
+            return initTestData3(dataCreator1, dataCreator2, info);
         })
     { }
 };

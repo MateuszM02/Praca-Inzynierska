@@ -55,16 +55,15 @@ public:
         return CopyableMatrix<int>(std::move(matrix_values));
     }
 
-    static CopyableMatrix<int> randomIntMatrix()
+    static CopyableMatrix<int> randomIntMatrix(const unsigned int matrixSize)
     {
-        static constexpr std::size_t MATRIX_SIZE{100};
-        std::vector<std::vector<int>> matrix_values(MATRIX_SIZE, std::vector<int>(MATRIX_SIZE, 0));
+        std::vector<std::vector<int>> matrix_values(matrixSize, std::vector<int>(matrixSize, 0));
         static std::mt19937 gen(0);
         static std::uniform_int_distribution<> dis(1, 10);
 
-        for (size_t i = 0; i < MATRIX_SIZE; ++i)
+        for (size_t i = 0; i < matrixSize; ++i)
         {
-            for (size_t j = 0; j < MATRIX_SIZE; ++j)
+            for (size_t j = 0; j < matrixSize; ++j)
             {
                 matrix_values[i][j] = dis(gen);
             }
@@ -72,16 +71,15 @@ public:
         return CopyableMatrix<int>(std::move(matrix_values));
     }
 
-    static CopyableMatrix<double> randomDoubleMatrix()
+    static CopyableMatrix<double> randomDoubleMatrix(const unsigned int matrixSize)
     {
-        static constexpr std::size_t MATRIX_SIZE{100};
-        std::vector<std::vector<double>> matrix_values(MATRIX_SIZE, std::vector<double>(MATRIX_SIZE, 0.0));
+        std::vector<std::vector<double>> matrix_values(matrixSize, std::vector<double>(matrixSize, 0.0));
         static std::mt19937 gen(0);
         static std::uniform_real_distribution<> dis(1.0, 10.0);
 
-        for (size_t i = 0; i < MATRIX_SIZE; ++i)
+        for (size_t i = 0; i < matrixSize; ++i)
         {
-            for (size_t j = 0; j < MATRIX_SIZE; ++j)
+            for (size_t j = 0; j < matrixSize; ++j)
             {
                 matrix_values[i][j] = dis(gen);
             }

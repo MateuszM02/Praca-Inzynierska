@@ -8,17 +8,18 @@ using namespace src::Structures;
 namespace tests::NthElement
 {
 
-struct RandomStringNthElementArgs final : public NthElementTestStruct<std::vector<std::string>>
+using Base = BaseTestStruct<std::vector<std::string>>;
+using Parent = NthElementTestStruct<std::vector<std::string>>;
+
+struct RandomStringNthElementArgs final : public Parent
 {
     explicit RandomStringNthElementArgs(
-        const unsigned int n,
-        const unsigned int vectorSize,
-        const unsigned int stringLength)
-    : NthElementTestStruct<std::vector<std::string>>(
-        TestType::NthElementRandomString,
-        [n, vectorSize, stringLength]()
+        const unsigned int stringLength,
+        const TestPair& info)
+    : Parent(TestType::NthElementRandomString,
+        [stringLength, info]()
         {
-            return RandomStringImpl::createFinder(n, vectorSize, stringLength);
+            return RandomStringImpl::createFinder(stringLength, info);
         })
     { }
 };

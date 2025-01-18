@@ -8,17 +8,18 @@ using namespace src::Structures;
 namespace tests::NthElement
 {
 
-struct PointsNthElementArgs final : public NthElementTestStruct<std::vector<CopyableUIntPair>>
+using Base = BaseTestStruct<std::vector<CopyableUIntPair>>;
+using Parent = NthElementTestStruct<std::vector<CopyableUIntPair>>;
+
+struct PointsNthElementArgs final : public Parent
 {
     explicit PointsNthElementArgs(
         CopyableUIntPair (*dataCreator)(const unsigned int),
-        const unsigned int n,
-        const unsigned int vectorSize)
-    : NthElementTestStruct<std::vector<CopyableUIntPair>>(
-        TestType::NthElementPoints,
-        [dataCreator, n, vectorSize]()
+        const TestPair& info)
+    : Parent(TestType::NthElementPoints,
+        [dataCreator, info]()
         {
-            return initTestData7(dataCreator, n, vectorSize);
+            return initTestData7(dataCreator, info);
         })
     { }
 };

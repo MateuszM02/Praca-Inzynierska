@@ -1,5 +1,8 @@
 #pragma once
 
+#define nth first
+#define numberOfElements second
+
 #include "../BaseTestFixture.hpp"
 #include "../../src/Algorithms/NthFinder.hpp"
 
@@ -23,20 +26,19 @@ protected:
 
     static std::shared_ptr<NthFinder<Container>> initTestData7(
         DataType(*generator)(const unsigned int),
-        const unsigned int n,
-        const unsigned int vectorSize)
+        const TestPair& info)
     {
-        assert(n < vectorSize && "n must be smaller than vectorSize");
+        assert(info.nth < info.numberOfElements && "n must be smaller than number of elements");
 
         Container elements;
-        elements.reserve(vectorSize);
+        elements.reserve(info.numberOfElements);
 
-        for (unsigned int i = 1; i <= vectorSize; ++i)
+        for (unsigned int i = 1; i <= info.numberOfElements; ++i)
         {
             elements.emplace_back(generator(i));
         }
 
-        NthFinderData<Container> data(std::move(elements), n);
+        NthFinderData<Container> data(std::move(elements), info.nth);
         return std::make_shared<NthFinder<Container>>(std::move(data));
     }
 };
