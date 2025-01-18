@@ -5,15 +5,17 @@
 namespace tests::Accumulate
 {
 
-struct UIntAccumulateArgs final : public AccumulateTestStruct<unsigned int>
+using Base = BaseTestStruct<AccResults<unsigned int>>;
+using Parent = AccumulateTestStruct<unsigned int>;
+
+struct UIntAccumulateArgs final : public Parent
 {
     explicit UIntAccumulateArgs(
         unsigned int (*dataCreator)(const unsigned int),
-        const unsigned int n,
-        AccType accType)
-    : AccumulateTestStruct<unsigned int>(
-        TestType::AccumulateUint,
-        [dataCreator, n, accType]()
+        AccType accType,
+        const unsigned int n)
+    : Parent(TestType::AccumulateUint,
+        [dataCreator, accType, n]()
         {
             std::vector<unsigned int> data =
                 initTestData<std::vector<unsigned int>>(dataCreator, n);

@@ -8,15 +8,17 @@ using namespace src::Structures;
 namespace tests::Accumulate
 {
 
-struct PointsAccumulateArgs final : public AccumulateTestStruct<CopyableUIntPair>
+using Base = BaseTestStruct<AccResults<CopyableUIntPair>>;
+using Parent = AccumulateTestStruct<CopyableUIntPair>;
+
+struct PointsAccumulateArgs final : public Parent
 {
     explicit PointsAccumulateArgs(
         CopyableUIntPair (*dataCreator)(const unsigned int),
-        const unsigned int n,
-        AccType accType)
-    : AccumulateTestStruct<CopyableUIntPair>(
-        TestType::AccumulatePoints,
-        [dataCreator, n, accType]()
+        AccType accType,
+        const unsigned int n)
+    : Parent(TestType::AccumulatePoints,
+        [dataCreator, accType, n]()
         {
             std::vector<CopyableUIntPair> data =
                 initTestData<std::vector<CopyableUIntPair>>(dataCreator, n);

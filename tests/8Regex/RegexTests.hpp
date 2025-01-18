@@ -15,18 +15,19 @@ enum class ERegexTestType : unsigned char
     date
 };
 
-struct RegexTestStruct final : public BaseTestStruct<std::vector<std::string>>
+using Base = BaseTestStruct<std::vector<std::string>>;
+struct RegexTestStruct final : public Base
 {
 public:
-    explicit RegexTestStruct(const unsigned int textLength, const ERegexTestType testType)
-    : BaseTestStruct<std::vector<std::string>>(TestType::RegexType,
-        [textLength, testType]()
-        { return initTestData8(textLength, testType); })
+    explicit RegexTestStruct(const ERegexTestType testType, const unsigned int textLength)
+    : Base(TestType::RegexType,
+        [testType, textLength]()
+        { return initTestData8(testType, textLength); })
     { }
 
 private:
     static std::shared_ptr<RegexEvaluator> initTestData8(
-        const unsigned int textLength, const ERegexTestType testType)
+        const ERegexTestType testType, const unsigned int textLength)
     {
         std::string(*textGenerator)(const unsigned int);
         std::string(*patternGenerator)();

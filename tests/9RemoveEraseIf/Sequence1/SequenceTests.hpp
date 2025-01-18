@@ -8,13 +8,16 @@
 namespace tests::RemoveEraseIf
 {
 
-struct SequenceArgs final : public RemoveEraseIfTestStruct<std::vector<unsigned int>>
+using Base = BaseTestStruct<std::vector<unsigned int>>;
+using Parent = RemoveEraseIfTestStruct<std::vector<unsigned int>>;
+
+struct SequenceArgs final : public Parent
 {
-    explicit SequenceArgs(const unsigned int n,
-        bool(*predicate)(const unsigned int&))
-    : RemoveEraseIfTestStruct<std::vector<unsigned int>>(
-        TestType::RemoveEraseIfSequence,
-        [n, predicate]()
+    explicit SequenceArgs(
+        bool(*predicate)(const unsigned int&),
+        const unsigned int n)
+    : Parent(TestType::RemoveEraseIfSequence,
+        [predicate, n]()
         {
             std::vector<unsigned int> data(n);
             std::iota(data.begin(), data.end(), 0);

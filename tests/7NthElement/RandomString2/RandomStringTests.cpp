@@ -11,22 +11,23 @@
 
 #define STRING_LENGTH 32
 
+#define TEST_SIZES { TestPair(SMALL_N, FEW_STRINGS), TestPair(MEDIUM_N, FEW_STRINGS), \
+    TestPair(MEDIUM_N, MEDIUM_STRINGS), TestPair(BIG_N, MEDIUM_STRINGS), \
+    TestPair(BIG_N, MANY_STRINGS), TestPair(HUGE_N, MANY_STRINGS) }
+
 namespace tests::NthElement
 {
+
+static std::vector<std::shared_ptr<Base>> getTests()
+{
+    std::vector<std::shared_ptr<Base>> tests;
+    createTestArgs<Base, RandomStringNthElementArgs, unsigned int>(tests, TEST_SIZES, STRING_LENGTH);
+    return tests;
+}
 
 INSTANTIATE_TEST_SUITE_P(
     NthElementPrefix,
     RandomStringNthElementFixture,
-    ::testing::Values(
-        // Mala ilosc napisow
-        std::make_shared<RandomStringNthElementArgs>(SMALL_N, FEW_STRINGS, STRING_LENGTH),
-        std::make_shared<RandomStringNthElementArgs>(MEDIUM_N, FEW_STRINGS, STRING_LENGTH),
-        // Srednia ilosc napisow
-        std::make_shared<RandomStringNthElementArgs>(MEDIUM_N, MEDIUM_STRINGS, STRING_LENGTH),
-        std::make_shared<RandomStringNthElementArgs>(BIG_N, MEDIUM_STRINGS, STRING_LENGTH),
-        // Duza ilosc napisow
-        std::make_shared<RandomStringNthElementArgs>(BIG_N, MANY_STRINGS, STRING_LENGTH),
-        std::make_shared<RandomStringNthElementArgs>(HUGE_N, MANY_STRINGS, STRING_LENGTH)
-    ));
+    ::testing::ValuesIn(getTests()));
 
 } // namespace tests::NthElement

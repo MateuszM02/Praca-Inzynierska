@@ -8,11 +8,15 @@ using namespace src::Structures;
 namespace tests::Sort
 {
 
-struct PointsSortArgs final : public SortTestStruct<CopyableUIntPair>
+using Base = BaseTestStruct<std::vector<CopyableUIntPair>>;
+using Parent = SortTestStruct<CopyableUIntPair>;
+
+struct PointsSortArgs final : public Parent
 {
-    explicit PointsSortArgs(CopyableUIntPair (*dataCreator)(), const unsigned int n)
-    : SortTestStruct<CopyableUIntPair>(
-        TestType::SortPoints,
+    explicit PointsSortArgs(
+        CopyableUIntPair (*dataCreator)(),
+        const unsigned int n)
+    : Parent(TestType::SortPoints,
         [dataCreator, n]()
         {
             std::vector<CopyableUIntPair> data =
@@ -21,9 +25,10 @@ struct PointsSortArgs final : public SortTestStruct<CopyableUIntPair>
         })
     { }
 
-    PointsSortArgs(CopyableUIntPair (*dataCreator)(const unsigned int), const unsigned int n)
-    : SortTestStruct<CopyableUIntPair>(
-        TestType::SortPoints,
+    explicit PointsSortArgs(
+        CopyableUIntPair (*dataCreator)(const unsigned int),
+        const unsigned int n)
+    : Parent(TestType::SortPoints,
         [dataCreator, n]()
         {
             std::vector<CopyableUIntPair> data =
@@ -46,11 +51,11 @@ public:
         return CopyableUIntPair(UINT32_MAX - i, UINT32_MAX - i);
     }
 
-    static CopyableUIntPair randomGenerator()
+    static CopyableUIntPair randomGenerator(const unsigned int seed)
     {
         static std::random_device rd;
         static std::mt19937 gen(rd());
-        static std::uniform_int_distribution<unsigned int> dis(0, UINT32_MAX);
+        static std::uniform_int_distribution<unsigned int> dis(seed, UINT32_MAX);
 
         unsigned int x = dis(gen);
         unsigned int y = dis(gen);

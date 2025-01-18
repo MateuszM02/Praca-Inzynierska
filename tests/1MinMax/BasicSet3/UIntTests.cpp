@@ -1,31 +1,24 @@
 #include "UIntTests.hpp"
 
-#define SMALL_TEST 250'000
-#define MEDIUM_TEST 1'000'000
-#define BIG_TEST 2'000'000
+#define TEST_SIZES { 250'000, 1'000'000, 2'000'000 }
 
 namespace tests::MinMax
 {
 
+static std::vector<std::shared_ptr<Base>> getTests()
+{
+    std::vector<std::shared_ptr<Base>> tests;
+    using T = unsigned int(*)(const unsigned int);
+    createTestArgs<Base, BasicSetMinMaxArgs, T>(
+        tests, TEST_SIZES, &BasicSetMinMaxFixture::sortedGenerator);
+    createTestArgs<Base, BasicSetMinMaxArgs, T>(
+        tests, TEST_SIZES, &BasicSetMinMaxFixture::reverseSortedGenerator);
+    return tests;
+}
+
 INSTANTIATE_TEST_SUITE_P(
     MinMaxPrefix,
     BasicSetMinMaxFixture,
-    ::testing::Values(
-        // generator rosnacych liczb
-        std::make_shared<BasicSetMinMaxArgs>(
-            BasicSetMinMaxFixture::sortedGenerator, SMALL_TEST),
-        std::make_shared<BasicSetMinMaxArgs>(
-            BasicSetMinMaxFixture::sortedGenerator, MEDIUM_TEST),
-        std::make_shared<BasicSetMinMaxArgs>(
-            BasicSetMinMaxFixture::sortedGenerator, BIG_TEST),
-
-        // generator malejacych liczb
-        std::make_shared<BasicSetMinMaxArgs>(
-            BasicSetMinMaxFixture::reverseSortedGenerator, SMALL_TEST),
-        std::make_shared<BasicSetMinMaxArgs>(
-            BasicSetMinMaxFixture::reverseSortedGenerator, MEDIUM_TEST),
-        std::make_shared<BasicSetMinMaxArgs>(
-            BasicSetMinMaxFixture::reverseSortedGenerator, BIG_TEST)
-    ));
+    ::testing::ValuesIn(getTests()));
 
 } // namespace tests::MinMax

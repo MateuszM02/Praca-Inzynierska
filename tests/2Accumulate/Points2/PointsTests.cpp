@@ -1,50 +1,38 @@
 #include "PointsTests.hpp"
 
-#define SMALL_TEST 75'000
-#define MEDIUM_TEST 400'000
+#define TEST_SIZES { 100'000, 200'000, 300'000 }
 
 namespace tests::Accumulate
 {
 
+static std::vector<std::shared_ptr<Base>> getTests()
+{
+    std::vector<std::shared_ptr<Base>> tests;
+    using T = CopyableUIntPair(*)(const unsigned int);
+
+    createTestArgs<Base, PointsAccumulateArgs, T, AccType>(
+        tests, TEST_SIZES, &PointsAccumulateFixture::sortedGenerator, AccType::SumOnly);
+    createTestArgs<Base, PointsAccumulateArgs, T, AccType>(
+        tests, TEST_SIZES, &PointsAccumulateFixture::sortedGenerator, AccType::SumAndExtremes);
+    createTestArgs<Base, PointsAccumulateArgs, T, AccType>(
+        tests, TEST_SIZES, &PointsAccumulateFixture::sortedGenerator, AccType::SumAndMean);
+    createTestArgs<Base, PointsAccumulateArgs, T, AccType>(
+        tests, TEST_SIZES, &PointsAccumulateFixture::sortedGenerator, AccType::DoItAll);
+
+    createTestArgs<Base, PointsAccumulateArgs, T, AccType>(
+        tests, TEST_SIZES, &PointsAccumulateFixture::reverseSortedGenerator, AccType::SumOnly);
+    createTestArgs<Base, PointsAccumulateArgs, T, AccType>(
+        tests, TEST_SIZES, &PointsAccumulateFixture::reverseSortedGenerator, AccType::SumAndExtremes);
+    createTestArgs<Base, PointsAccumulateArgs, T, AccType>(
+        tests, TEST_SIZES, &PointsAccumulateFixture::reverseSortedGenerator, AccType::SumAndMean);
+    createTestArgs<Base, PointsAccumulateArgs, T, AccType>(
+        tests, TEST_SIZES, &PointsAccumulateFixture::reverseSortedGenerator, AccType::DoItAll);
+    return tests;
+}
+
 INSTANTIATE_TEST_SUITE_P(
     AccumulatePrefix,
     PointsAccumulateFixture,
-    ::testing::Values(
-        // generator rosnacych liczb
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::sortedGenerator, SMALL_TEST, AccType::SumOnly),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::sortedGenerator, SMALL_TEST, AccType::SumAndExtremes),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::sortedGenerator, SMALL_TEST, AccType::SumAndMean),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::sortedGenerator, SMALL_TEST, AccType::DoItAll),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::sortedGenerator, MEDIUM_TEST, AccType::SumOnly),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::sortedGenerator, MEDIUM_TEST, AccType::SumAndExtremes),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::sortedGenerator, MEDIUM_TEST, AccType::SumAndMean),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::sortedGenerator, MEDIUM_TEST, AccType::DoItAll),
-
-        // generator malejacych liczb
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::reverseSortedGenerator, SMALL_TEST, AccType::SumOnly),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::reverseSortedGenerator, SMALL_TEST, AccType::SumAndExtremes),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::reverseSortedGenerator, SMALL_TEST, AccType::SumAndMean),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::reverseSortedGenerator, SMALL_TEST, AccType::DoItAll),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::reverseSortedGenerator, MEDIUM_TEST, AccType::SumOnly),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::reverseSortedGenerator, MEDIUM_TEST, AccType::SumAndExtremes),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::reverseSortedGenerator, MEDIUM_TEST, AccType::SumAndMean),
-        std::make_shared<PointsAccumulateArgs>(
-            PointsAccumulateFixture::reverseSortedGenerator, MEDIUM_TEST, AccType::DoItAll)
-    ));
+    ::testing::ValuesIn(getTests()));
 
 } // namespace tests::Accumulate

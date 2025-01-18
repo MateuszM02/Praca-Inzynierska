@@ -5,14 +5,15 @@
 namespace tests::MinMax
 {
 
-struct BasicSetMinMaxArgs final : public MinMaxTestStruct<
-    std::set<unsigned int>, CopyableUIntPair>
+using Base = BaseTestStruct<CopyableUIntPair>;
+using Parent = MinMaxTestStruct<std::set<unsigned int>, CopyableUIntPair>;
+
+struct BasicSetMinMaxArgs final : public Parent
 {
     explicit BasicSetMinMaxArgs(
         unsigned int (*dataCreator)(const unsigned int),
         const unsigned int n)
-    : MinMaxTestStruct<std::set<unsigned int>, CopyableUIntPair>(
-        TestType::MinMaxBasicSet,
+    : Parent(TestType::MinMaxBasicSet,
         [dataCreator, n]()
         {
             std::set<unsigned int> data =

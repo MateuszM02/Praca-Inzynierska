@@ -1,31 +1,24 @@
 #include "IntVectorTests.hpp"
 
-#define SMALL_TEST 1'000
-#define MEDIUM_TEST 5'000
-#define BIG_TEST 10'000
+#define TEST_SIZES { 1'000, 5'000, 10'000 }
 
 namespace tests::MinMax
 {
 
+static std::vector<std::shared_ptr<Base>> getTests()
+{
+    std::vector<std::shared_ptr<Base>> tests;
+    using T = CopyableIntVector(*)(const unsigned int);
+    createTestArgs<Base, VectorSetMinMaxArgs, T>(
+        tests, TEST_SIZES, &VectorSetMinMaxFixture::sortedLastElementGenerator);
+    createTestArgs<Base, VectorSetMinMaxArgs, T>(
+        tests, TEST_SIZES, &VectorSetMinMaxFixture::randomGenerator);
+    return tests;
+}
+
 INSTANTIATE_TEST_SUITE_P(
     MinMaxPrefix,
     VectorSetMinMaxFixture,
-    ::testing::Values(
-        // generator rosnacych liczb
-        std::make_shared<VectorSetMinMaxArgs>(
-            VectorSetMinMaxFixture::sortedLastElementGenerator, SMALL_TEST),
-        std::make_shared<VectorSetMinMaxArgs>(
-            VectorSetMinMaxFixture::sortedLastElementGenerator, MEDIUM_TEST),
-        std::make_shared<VectorSetMinMaxArgs>(
-            VectorSetMinMaxFixture::sortedLastElementGenerator, BIG_TEST),
-
-        // generator malejacych liczb
-        std::make_shared<VectorSetMinMaxArgs>(
-            VectorSetMinMaxFixture::randomGenerator, SMALL_TEST),
-        std::make_shared<VectorSetMinMaxArgs>(
-            VectorSetMinMaxFixture::randomGenerator, MEDIUM_TEST),
-        std::make_shared<VectorSetMinMaxArgs>(
-            VectorSetMinMaxFixture::randomGenerator, BIG_TEST)
-    ));
+    ::testing::ValuesIn(getTests()));
 
 } // namespace tests::MinMax

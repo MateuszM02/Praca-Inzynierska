@@ -8,14 +8,15 @@ using namespace src::Structures;
 namespace tests::MinMax
 {
 
-struct VectorSetMinMaxArgs final : public MinMaxTestStruct<
-    std::set<CopyableIntVector>, CopyablePair<CopyableIntVector>>
+using Base = BaseTestStruct<CopyablePair<CopyableIntVector>>;
+using Parent = MinMaxTestStruct<std::set<CopyableIntVector>, CopyablePair<CopyableIntVector>>;
+
+struct VectorSetMinMaxArgs final : public Parent
 {
     explicit VectorSetMinMaxArgs(
         CopyableIntVector (*dataCreator)(const unsigned int),
         const unsigned int n)
-    : MinMaxTestStruct<std::set<CopyableIntVector>, CopyablePair<CopyableIntVector>>(
-        TestType::MinMaxVectorSet,
+    : Parent(TestType::MinMaxVectorSet,
         [dataCreator, n]()
         {
             std::set<CopyableIntVector> data =

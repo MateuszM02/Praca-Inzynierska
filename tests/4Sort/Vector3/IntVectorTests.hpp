@@ -8,13 +8,15 @@ using namespace src::Structures;
 namespace tests::Sort
 {
 
-struct IntVectorSortArgs final : public SortTestStruct<CopyableIntVector>
+using Base = BaseTestStruct<std::vector<CopyableIntVector>>;
+using Parent = SortTestStruct<CopyableIntVector>;
+
+struct IntVectorSortArgs final : public Parent
 {
     explicit IntVectorSortArgs(
         CopyableIntVector (*dataCreator)(const unsigned int),
         const unsigned int n)
-    : SortTestStruct<CopyableIntVector>(
-        TestType::SortIntVector,
+    : Parent(TestType::SortIntVector,
         [dataCreator, n]()
         {
             std::vector<CopyableIntVector> data =
