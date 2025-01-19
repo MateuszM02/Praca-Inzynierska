@@ -19,8 +19,8 @@ enum class TestType : unsigned char
     MergeIntVector,
     SortPoints,
     SortIntVector,
-    // TODO: wiecej typow 5
     TransformMatrixToIntVector,
+    TransformVectorToMap,
     // TODO: typy 6
     NthElementPoints,
     NthElementRandomString,
@@ -47,8 +47,8 @@ std::ostream& operator<<(std::ostream& os, const TestType& testType)
         case TestType::MergeIntVector:              return os << "IntVector";
         case TestType::SortPoints:                  return os << "Points";
         case TestType::SortIntVector:               return os << "IntVector";
-        // TODO: wiecej typow 5
         case TestType::TransformMatrixToIntVector:  return os << "MatrixToIntVector";
+        case TestType::TransformVectorToMap:        return os << "VectorToMap";
         // TODO: typy 6
         case TestType::NthElementPoints:            return os << "Points";
         case TestType::NthElementRandomString:      return os << "RandomString";

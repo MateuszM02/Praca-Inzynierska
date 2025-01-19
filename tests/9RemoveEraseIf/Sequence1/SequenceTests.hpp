@@ -8,8 +8,9 @@
 namespace tests::RemoveEraseIf
 {
 
-using Base = BaseTestStruct<std::vector<unsigned int>>;
-using Parent = RemoveEraseIfTestStruct<std::vector<unsigned int>>;
+using Container = std::vector<unsigned int>;
+using Base = BaseTestStruct<Container>;
+using Parent = RemoveEraseIfTestStruct<Container>;
 
 struct SequenceArgs final : public Parent
 {
@@ -19,7 +20,7 @@ struct SequenceArgs final : public Parent
     : Parent(TestType::RemoveEraseIfSequence,
         [predicate, n]()
         {
-            std::vector<unsigned int> data(n);
+            Container data(n);
             std::iota(data.begin(), data.end(), 0);
             return initTestData9(identity, predicate, n);
         })
@@ -31,7 +32,7 @@ struct SequenceArgs final : public Parent
     }
 };
 
-class SequenceIntFixture : public RemoveEraseIfTestFixture<std::vector<unsigned int>>
+class SequenceIntFixture : public RemoveEraseIfTestFixture<Container>
 {
 public:
     // predykaty
