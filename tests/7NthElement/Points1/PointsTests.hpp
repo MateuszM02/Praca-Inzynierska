@@ -8,8 +8,9 @@ using namespace src::Structures;
 namespace tests::NthElement
 {
 
-using Base = BaseTestStruct<std::vector<CopyableUIntPair>>;
-using Parent = NthElementTestStruct<std::vector<CopyableUIntPair>>;
+using Container = std::vector<CopyableUIntPair>;
+using Base = BaseTestStruct<Container>;
+using Parent = NthElementTestStruct<Container>;
 
 struct PointsNthElementArgs final : public Parent
 {
@@ -24,7 +25,7 @@ struct PointsNthElementArgs final : public Parent
     { }
 };
 
-class PointsNthElementFixture : public NthElementTestFixture<std::vector<CopyableUIntPair>>
+class PointsNthElementFixture : public NthElementTestFixture<Container>
 {
 public:
     static CopyableUIntPair fmod3i3_mod7i64(const unsigned int i)

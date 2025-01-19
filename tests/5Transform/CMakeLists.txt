@@ -1,12 +1,18 @@
 # Ustal nazwy plikow wykonywalnych
 set(TEST_EXECUTABLES
   TransformMatrixToIntVector
+  TransformVectorToMap
 )
 
 # Dodaj pliki wykonywalne
 add_executable(
   TransformMatrixToIntVector
   MatrixToIntVector1/TransformTests.cpp
+)
+
+add_executable(
+  TransformVectorToMap
+  VectorToMap2/TransformTests.cpp
 )
 
 # Dodaj Boost i GTEST do kazdego execa, polacz z GTEST_main oraz dodaj testy

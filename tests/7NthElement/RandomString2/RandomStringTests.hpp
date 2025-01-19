@@ -8,8 +8,9 @@ using namespace src::Structures;
 namespace tests::NthElement
 {
 
-using Base = BaseTestStruct<std::vector<std::string>>;
-using Parent = NthElementTestStruct<std::vector<std::string>>;
+using Container = std::vector<std::string>;
+using Base = BaseTestStruct<Container>;
+using Parent = NthElementTestStruct<Container>;
 
 struct RandomStringNthElementArgs final : public Parent
 {
@@ -24,7 +25,7 @@ struct RandomStringNthElementArgs final : public Parent
     { }
 };
 
-class RandomStringNthElementFixture : public NthElementTestFixture<std::vector<std::string>>
+class RandomStringNthElementFixture : public NthElementTestFixture<Container>
 {
 };
 
