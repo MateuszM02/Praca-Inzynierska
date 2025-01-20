@@ -14,16 +14,21 @@
 namespace tests::Transform
 {
 
-static std::vector<std::shared_ptr<Base>> getTests()
+static std::vector<std::shared_ptr<Base2>> getTests()
 {
-    std::vector<std::shared_ptr<Base>> tests;
-    using T = InType(*)(const unsigned int);
+    std::vector<std::shared_ptr<Base2>> tests;
+    using T = InType2(*)(const unsigned int);
 
-    createTestArgs<Base, VectorToMapTransformArgs, T>(tests, TEST_SIZES,
+    createTestArgs<Base2, VectorToMapTransformArgs, T>(tests, TEST_SIZES,
         &VectorToMapTransformFixture::randomGeneratorOftenCopies);
-    createTestArgs<Base, VectorToMapTransformArgs, T>(tests, TEST_SIZES,
+    createTestArgs<Base2, VectorToMapTransformArgs, T>(tests, TEST_SIZES,
         &VectorToMapTransformFixture::randomGeneratorRareCopies);
     return tests;
+}
+
+TEST_P(VectorToMapTransformFixture, VectorToMapTransformTest)
+{
+    VerifyTest(GetParam());
 }
 
 INSTANTIATE_TEST_SUITE_P(

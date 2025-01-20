@@ -37,30 +37,30 @@ protected:
     {
         // powinien poprawnie zainicjowac zmienna za pomoca konstruktora kopiujacego
         Container structure1(inStructure);
-        EXPECT_EQ(structure1, inStructure) << "Konstruktor kopiujacy nie dziala";
+        ASSERT_EQ(structure1, inStructure) << "Konstruktor kopiujacy nie dziala";
 
         // powinien poprawnie zainicjowac zmienna za pomoca konstruktora przenoszacego
         Container structure2 = std::move(structure1);
         if (SimpleType)
         {
-            EXPECT_EQ(structure1, structure2) << "Konstruktor przenoszacy nie dziala";
+            ASSERT_EQ(structure1, structure2) << "Konstruktor przenoszacy nie dziala";
         }
         // w p.p. jesli typ jest skomplikowany to structure1 bedzie w nieokreslonym stanie tutaj
-        EXPECT_EQ(structure2, inStructure) << "Konstruktor przenoszacy nie dziala";
+        ASSERT_EQ(structure2, inStructure) << "Konstruktor przenoszacy nie dziala";
 
         // powinien poprawnie przypisac wartosc zmiennej za pomoca operatora przenoszacego
         structure1 = std::move(structure2);
         if (SimpleType)
         {
-            EXPECT_EQ(structure1, structure2) << "Operator przenoszacy nie dziala";
+            ASSERT_EQ(structure1, structure2) << "Operator przenoszacy nie dziala";
         }
         // w p.p. jesli typ jest skomplikowany to structure2 bedzie w nieokreslonym stanie tutaj
-        EXPECT_EQ(structure1, inStructure) << "Operator przenoszacy nie dziala";
+        ASSERT_EQ(structure1, inStructure) << "Operator przenoszacy nie dziala";
 
         // powinien poprawnie przypisac wartosc zmiennej za pomoca operatora kopiujacego
         structure2 = inStructure;
-        EXPECT_EQ(structure1, inStructure) << "Operator kopiujacy nie dziala";
-        EXPECT_EQ(structure2, inStructure) << "Operator kopiujacy nie dziala";
+        ASSERT_EQ(structure1, inStructure) << "Operator kopiujacy nie dziala";
+        ASSERT_EQ(structure2, inStructure) << "Operator kopiujacy nie dziala";
     }
 
     // 1. MinMax
@@ -78,10 +78,10 @@ protected:
 
     // 2. Accumulate
     template <typename DataType>
-    void VerifyAccumulatorWorks(std::vector<DataType>&& elements,
+    void VerifyAccumulateWorks(std::vector<DataType>&& elements,
         const AccResults<DataType>& expectedResult) const
     {
-        const Accumulator<DataType> accumulator(std::move(elements), AccType::DoItAll);
+        const Accumulator<DataType> accumulator(std::move(elements), AccType::SumOnly);
         auto [stlResult, boostResult, simpleResult] = accumulator.callEach();
 
         EXPECT_EQ(stlResult.sum, expectedResult.sum) << "Suma STL jest niepoprawna";
@@ -103,7 +103,7 @@ protected:
 
     // 3. Merge
     template <typename DataType>
-    void VerifyMergeWorks(std::vector<DataType>&& elements,
+    void VerifyMergeWorks(MergerData<DataType>&& elements,
         const std::vector<DataType>& expectedResult) const
     {
         const Merger<DataType> merger(std::move(elements));
@@ -122,9 +122,10 @@ protected:
     // 5. Transform
     template <typename InDataType, typename ReturnDataType>
     void VerifyTransformWorks(InDataType&& elements,
+        ReturnDataType (*const converter)(const InDataType&),
         const ReturnDataType& expectedResult) const
     {
-        const Transformer<InDataType, ReturnDataType> transformer(std::move(elements));
+        const Transformer<InDataType, ReturnDataType> transformer(std::move(elements), converter);
         VerifyAlgorithmWorks(transformer, expectedResult);
     }
 
@@ -141,9 +142,9 @@ protected:
 
         auto [stlResult, boostResult, simpleResult] = finder.callEach();
 
-        EXPECT_EQ(stlResult.size(), expectedResult.size()) << "STL zwrocil zly wynik!";
-        EXPECT_EQ(boostResult.size(), expectedResult.size()) << "Boost zwrocil zly wynik!";
-        EXPECT_EQ(simpleResult.size(), expectedResult.size()) << "Simple zwrocil zly wynik!";
+        ASSERT_EQ(stlResult.size(), expectedResult.size()) << "STL zwrocil zly wynik!";
+        ASSERT_EQ(boostResult.size(), expectedResult.size()) << "Boost zwrocil zly wynik!";
+        ASSERT_EQ(simpleResult.size(), expectedResult.size()) << "Simple zwrocil zly wynik!";
 
         auto stlIter = stlResult.begin();
         auto boostIter = boostResult.begin();
@@ -220,12 +221,48 @@ protected:
     // 10. Generate
     template <typename GeneratedDataType, typename StateDataType = GeneratedDataType>
     void VerifyGenerateWorks(const std::size_t n,
-        const StateDataType& initialState,
-        const std::function<GeneratedDataType(StateDataType&)>& stateCreator,
+        StateDataType&& initialState,
+        std::function<GeneratedDataType(StateDataType&)>&& stateCreator,
         const std::vector<GeneratedDataType>& expectedResult) const
     {
-        const Generator generator(n, initialState, stateCreator);
+        const Generator<GeneratedDataType, StateDataType> generator(n,
+            std::move(initialState),
+            std::move(stateCreator));
         VerifyAlgorithmWorks(generator, expectedResult);
+    }
+
+    void VerifyGenerateRandomStringWorks(const std::size_t n,
+        CopyableRandomString&& initialState,
+        std::function<std::string(CopyableRandomString&)>&& stateCreator,
+        const std::vector<std::string>& expectedResult) const
+    {
+        const Generator<std::string, CopyableRandomString> generator(n,
+            std::move(initialState),
+            std::move(stateCreator));
+        auto [stlResult, boostResult, simpleResult] = generator.callEach();
+
+        ASSERT_EQ(stlResult.size(), expectedResult.size()) << "STL zwrocil zly wynik!";
+        ASSERT_EQ(boostResult.size(), expectedResult.size()) << "Boost zwrocil zly wynik!";
+        ASSERT_EQ(simpleResult.size(), expectedResult.size()) << "Simple zwrocil zly wynik!";
+
+        auto stlIter = stlResult.begin();
+        auto boostIter = boostResult.begin();
+        auto simpleIter = simpleResult.begin();
+        auto expectedIter = expectedResult.begin();
+        unsigned int i = 0;
+
+        while (expectedIter != expectedResult.end())
+        {
+            EXPECT_EQ(stlIter->size(), expectedIter->size()) << "Wynik STL rozni sie na indeksie " << i;
+            EXPECT_EQ(boostIter->size(), expectedIter->size()) << "Wynik Boost rozni sie na indeksie " << i;
+            EXPECT_EQ(simpleIter->size(), expectedIter->size()) << "Wynik STL rozni sie na indeksie " << i;
+
+            ++stlIter;
+            ++boostIter;
+            ++simpleIter;
+            ++expectedIter;
+            ++i;
+        }
     }
 
 private:
@@ -236,9 +273,9 @@ private:
     {
         auto [stlResult, boostResult, simpleResult] = algorithm.callEach();
 
-        EXPECT_EQ(stlResult.size(), expectedResult.size()) << "STL zwrocil zly wynik!";
-        EXPECT_EQ(boostResult.size(), expectedResult.size()) << "Boost zwrocil zly wynik!";
-        EXPECT_EQ(simpleResult.size(), expectedResult.size()) << "Simple zwrocil zly wynik!";
+        ASSERT_EQ(stlResult.size(), expectedResult.size()) << "STL zwrocil zly wynik!";
+        ASSERT_EQ(boostResult.size(), expectedResult.size()) << "Boost zwrocil zly wynik!";
+        ASSERT_EQ(simpleResult.size(), expectedResult.size()) << "Simple zwrocil zly wynik!";
 
         auto stlIter = stlResult.begin();
         auto boostIter = boostResult.begin();
@@ -259,6 +296,7 @@ private:
             ++i;
         }
     }
+
 };
 
 } // namespace tests::Static

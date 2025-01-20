@@ -47,9 +47,7 @@ private:
 
     Container executeSTL() const override
     {
-        elements_.erase(
-            std::remove_if(elements_.begin(), elements_.end(), predicate_),
-            elements_.end());
+        std::erase_if(elements_, predicate_);
         return elements_;
     }
 

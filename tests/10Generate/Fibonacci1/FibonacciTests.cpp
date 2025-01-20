@@ -3,6 +3,16 @@
 namespace tests::Generate
 {
 
+TEST_P(FibonacciGenerateIntFixture, intTest)
+{
+    VerifyTest(GetParam());
+}
+
+TEST_P(FibonacciGenerateDoubleFixture, doubleTest)
+{
+    VerifyTest(GetParam());
+}
+
 INSTANTIATE_TEST_SUITE_P(
     GeneratePrefix,
     FibonacciGenerateIntFixture,

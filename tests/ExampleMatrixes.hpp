@@ -14,10 +14,10 @@ public:
 
     // Przyklad 1. Po podniesieniu macierzy do potegi i dokladnie 1 liczba bedzie rowna i
 
-    static CopyableMatrix<int> a1()
+    static CopyableMatrix<int> a1(const int i = 1)
     {
         std::vector<std::vector<int>> values{
-            { 1, 1, 0 },
+            { 1, i, 0 },
             { 0, 1, 0 },
             { 0, 0, 1 } };
         CopyableMatrix<int> instance(std::move(values));

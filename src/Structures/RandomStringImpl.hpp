@@ -18,11 +18,6 @@ class RandomStringImpl final
 {
 private:
     using StrGenerator = Generator<std::string, CopyableRandomString>;
-    
-    static std::string creator(CopyableRandomString& currentState)
-    {
-        return currentState();
-    }
 
     static StrGenerator
     createGeneratorData(const unsigned int vectorSize, const unsigned int length)
@@ -32,6 +27,11 @@ private:
 
 public:
     RandomStringImpl() = delete;
+
+    static std::string creator(CopyableRandomString& currentState)
+    {
+        return currentState();
+    }
 
     static std::shared_ptr<StrGenerator> 
     createGenerator(const unsigned int vectorSize, const unsigned int length)

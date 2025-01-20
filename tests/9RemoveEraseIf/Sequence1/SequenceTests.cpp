@@ -18,6 +18,11 @@ static std::vector<std::shared_ptr<Base>> getTests()
     return tests;
 }
 
+TEST_P(SequenceIntFixture, SequenceRemoveEraseIfTest)
+{
+    VerifyTest(GetParam());
+}
+
 INSTANTIATE_TEST_SUITE_P(
     SequencePrefix,
     SequenceIntFixture,

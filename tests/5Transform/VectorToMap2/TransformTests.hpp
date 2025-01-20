@@ -8,30 +8,30 @@
 namespace tests::Transform
 {
 
-using InType = std::vector<unsigned int>;
-using ReturnType = std::map<unsigned int, unsigned int>;
-using Base = BaseTestStruct<std::vector<ReturnType>>;
-using Parent = TransformTestStruct<InType, ReturnType>;
+using InType2 = std::vector<unsigned int>;
+using ReturnType2 = std::map<unsigned int, unsigned int>;
+using Base2 = BaseTestStruct<std::vector<ReturnType2>>;
+using Parent2 = TransformTestStruct<InType2, ReturnType2>;
 
-struct VectorToMapTransformArgs final : public Parent
+struct VectorToMapTransformArgs final : public Parent2
 {
     explicit VectorToMapTransformArgs(
-        InType (*dataCreator)(const unsigned int),
+        InType2 (*dataCreator)(const unsigned int),
         const TestPair& info)
-    : Parent(TestType::TransformVectorToMap,
+    : Parent2(TestType::TransformVectorToMap,
         [dataCreator, info]()
         {
-            std::vector<InType> inData =
-                initTestData<std::vector<InType>>(dataCreator, info);
-            return std::make_shared<Transformer<InType, ReturnType>>(
+            std::vector<InType2> inData =
+                initTestData<std::vector<InType2>>(dataCreator, info);
+            return std::make_shared<Transformer<InType2, ReturnType2>>(
                 std::move(inData),
                 &transformer);
         })
     { }
 
-    static ReturnType transformer(const InType& vec)
+    static ReturnType2 transformer(const InType2& vec)
     {
-        ReturnType occurenceMap;
+        ReturnType2 occurenceMap;
         for (const unsigned int value : vec)
         {
             occurenceMap[value]++;
@@ -40,12 +40,12 @@ struct VectorToMapTransformArgs final : public Parent
     }
 };
 
-class VectorToMapTransformFixture : public TransformTestFixture<ReturnType>
+class VectorToMapTransformFixture : public TransformTestFixture<ReturnType2>
 {
 public:
-    static InType randomGeneratorOftenCopies(const unsigned int n)
+    static InType2 randomGeneratorOftenCopies(const unsigned int n)
     {
-        InType vec;
+        InType2 vec;
         vec.reserve(n);
         static std::mt19937 gen(0);
         static std::uniform_int_distribution<> dis(1, std::sqrt(n));
@@ -57,9 +57,9 @@ public:
         return vec;
     }
 
-    static InType randomGeneratorRareCopies(const unsigned int n)
+    static InType2 randomGeneratorRareCopies(const unsigned int n)
     {
-        InType vec;
+        InType2 vec;
         vec.reserve(n);
         static std::mt19937 gen(0);
         static std::uniform_int_distribution<> dis(1, n);
@@ -71,10 +71,5 @@ public:
         return vec;
     }
 };
-
-TEST_P(VectorToMapTransformFixture, VectorToMapTransformTest)
-{
-    VerifyTest(GetParam());
-}
 
 } // namespace tests::Transform
