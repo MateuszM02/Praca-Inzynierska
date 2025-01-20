@@ -17,6 +17,11 @@ static std::vector<std::shared_ptr<Base>> getTests()
     return tests;
 }
 
+TEST_P(PointsMergeFixture, PointsMergeTest)
+{
+    VerifyTest(GetParam());
+}
+
 INSTANTIATE_TEST_SUITE_P(
     MergePrefix,
     PointsMergeFixture,

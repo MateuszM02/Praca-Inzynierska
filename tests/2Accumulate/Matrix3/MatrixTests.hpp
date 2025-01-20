@@ -44,14 +44,4 @@ class MatrixAccumulateIntFixture : public AccumulateTestFixture<CopyableMatrix<i
 class MatrixAccumulateDoubleFixture : public AccumulateTestFixture<CopyableMatrix<double>>
 { };
 
-TEST_P(MatrixAccumulateIntFixture, intTest)
-{
-    VerifyTestCustomFor2(GetParam());
-}
-
-TEST_P(MatrixAccumulateDoubleFixture, doubleTest)
-{
-    VerifyTestCustomFor2(GetParam());
-}
-
 } // namespace tests::Accumulate

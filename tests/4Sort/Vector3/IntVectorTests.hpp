@@ -71,9 +71,4 @@ public:
     }
 };
 
-TEST_P(IntVectorSortFixture, IntVectorSortTest)
-{
-    VerifyTest(GetParam());
-}
-
 } // namespace tests::Sort

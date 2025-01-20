@@ -29,9 +29,4 @@ class RandomStringNthElementFixture : public NthElementTestFixture<Container>
 {
 };
 
-TEST_P(RandomStringNthElementFixture, RandomStringNthElementTest)
-{
-    VerifyTestCustomFor7(GetParam());
-}
-
 } // namespace tests::NthElement

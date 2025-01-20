@@ -16,6 +16,11 @@ static std::vector<std::shared_ptr<Base>> getTests()
     return tests;
 }
 
+TEST_P(BasicVectorMinMaxFixture, BasicVectorMinMaxTest)
+{
+    VerifyTestCustomFor1(GetParam());
+}
+
 INSTANTIATE_TEST_SUITE_P(
     MinMaxPrefix,
     BasicVectorMinMaxFixture,

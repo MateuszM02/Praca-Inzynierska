@@ -60,9 +60,4 @@ public:
     }
 };
 
-TEST_P(VectorOfVectorsMinMaxFixture, VectorOfVectorsMinMaxTest)
-{
-    VerifyTestCustomFor1(GetParam());
-}
-
 } // namespace tests::MinMax

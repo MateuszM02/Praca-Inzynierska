@@ -37,14 +37,4 @@ class MatrixGenerateIntFixture : public GenerateTestFixture<CopyableMatrix<int>>
 class MatrixGenerateDoubleFixture : public GenerateTestFixture<CopyableMatrix<double>>
 { };
 
-TEST_P(MatrixGenerateIntFixture, intTest)
-{
-    VerifyTest(GetParam());
-}
-
-TEST_P(MatrixGenerateDoubleFixture, doubleTest)
-{
-    VerifyTest(GetParam());
-}
-
 } // namespace tests::Generate

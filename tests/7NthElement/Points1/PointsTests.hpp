@@ -39,9 +39,4 @@ public:
     }
 };
 
-TEST_P(PointsNthElementFixture, PointsNthElementTest)
-{
-    VerifyTestCustomFor7(GetParam());
-}
-
 } // namespace tests::NthElement

@@ -59,9 +59,4 @@ class RegexTestFixture : public BaseTestFixture<std::vector<std::string>>
 {
 };
 
-TEST_P(RegexTestFixture, RegexTest)
-{
-    VerifyTest(GetParam());
-}
-
 } // namespace tests::Regex

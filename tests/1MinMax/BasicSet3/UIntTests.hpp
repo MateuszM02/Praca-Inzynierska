@@ -38,9 +38,4 @@ public:
     }
 };
 
-TEST_P(BasicSetMinMaxFixture, BasicSetMinMaxTest)
-{
-    VerifyTestCustomFor1(GetParam());
-}
-
 } // namespace tests::MinMax

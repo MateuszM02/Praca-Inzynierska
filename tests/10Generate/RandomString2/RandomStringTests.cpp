@@ -3,6 +3,11 @@
 namespace tests::Generate
 {
 
+TEST_P(RandomStringGenerateFixture, RandomStringGenerateTest) 
+{
+    VerifyTestCustomForRandomStringGenerator(GetParam());
+}
+
 INSTANTIATE_TEST_SUITE_P(
     GeneratePrefix,
     RandomStringGenerateFixture,

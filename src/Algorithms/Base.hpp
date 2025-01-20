@@ -27,12 +27,12 @@ public:
 
     Results<ResultType> callEach() const
     {
-        const ResultType& stlResult = executeSTL();
+        ResultType stlResult = executeSTL();
         resetData();
-        const ResultType& boostResult = executeBoost();
+        ResultType boostResult = executeBoost();
         resetData();
-        const ResultType& simpleResult = executeSimple();
-        return Results(stlResult, boostResult, simpleResult);
+        ResultType simpleResult = executeSimple();
+        return Results(std::move(stlResult), std::move(boostResult), std::move(simpleResult));
     }
 
 protected:

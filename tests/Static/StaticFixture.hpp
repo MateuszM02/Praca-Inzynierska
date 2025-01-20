@@ -81,7 +81,7 @@ protected:
     void VerifyAccumulateWorks(std::vector<DataType>&& elements,
         const AccResults<DataType>& expectedResult) const
     {
-        const Accumulator<DataType> accumulator(std::move(elements), AccType::SumOnly);
+        const Accumulator<DataType> accumulator(std::move(elements), AccType::DoItAll);
         auto [stlResult, boostResult, simpleResult] = accumulator.callEach();
 
         EXPECT_EQ(stlResult.sum, expectedResult.sum) << "Suma STL jest niepoprawna";
@@ -121,9 +121,9 @@ protected:
 
     // 5. Transform
     template <typename InDataType, typename ReturnDataType>
-    void VerifyTransformWorks(InDataType&& elements,
+    void VerifyTransformWorks(std::vector<InDataType>&& elements,
         ReturnDataType (*const converter)(const InDataType&),
-        const ReturnDataType& expectedResult) const
+        const std::vector<ReturnDataType>& expectedResult) const
     {
         const Transformer<InDataType, ReturnDataType> transformer(std::move(elements), converter);
         VerifyAlgorithmWorks(transformer, expectedResult);

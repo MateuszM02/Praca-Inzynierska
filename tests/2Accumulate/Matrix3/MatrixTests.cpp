@@ -45,6 +45,16 @@ static std::vector<std::shared_ptr<Base<double>>> getDoubleTests()
     return tests;
 }
 
+TEST_P(MatrixAccumulateIntFixture, intTest)
+{
+    VerifyTestCustomFor2(GetParam());
+}
+
+TEST_P(MatrixAccumulateDoubleFixture, doubleTest)
+{
+    VerifyTestCustomFor2(GetParam());
+}
+
 INSTANTIATE_TEST_SUITE_P(
     AccumulatePrefix,
     MatrixAccumulateIntFixture,

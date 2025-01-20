@@ -28,6 +28,11 @@ static std::vector<std::shared_ptr<Base>> getTests()
     return tests;
 }
 
+TEST_P(PointsNthElementFixture, PointsNthElementTest)
+{
+    VerifyTestCustomFor7(GetParam());
+}
+
 INSTANTIATE_TEST_SUITE_P(
     NthElementPrefix,
     PointsNthElementFixture,

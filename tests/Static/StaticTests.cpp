@@ -102,22 +102,22 @@ TEST_F(StaticTestFixture, MinMaxTest)
     VerifyMinMaxWorks(IvSet(), minMaxIvResult);
 }
 
-// 2. Accumulate TODO: Naprawic niedzialajace testy
+// 2. Accumulate TODO: Naprawic niedzialajace testy Matrix
 TEST_F(StaticTestFixture, AccumulateTest)
 {
-    // AccResults<int> accumulateUIntResult;
-    // accumulateUIntResult.minimum = 1;
-    // accumulateUIntResult.maximum = 7;
-    // accumulateUIntResult.mean = 4;
-    // accumulateUIntResult.sum = 28;
-    // VerifyAccumulateWorks({ 2, 1, 3, 7, 5, 6, 4 }, accumulateUIntResult);
+    AccResults<int> accumulateUIntResult;
+    accumulateUIntResult.minimum = 1;
+    accumulateUIntResult.maximum = 7;
+    accumulateUIntResult.mean = 4;
+    accumulateUIntResult.sum = 28;
+    VerifyAccumulateWorks({ 2, 1, 3, 7, 5, 6, 4 }, accumulateUIntResult);
 
-    // AccResults<CopyablePair<int>> accumulateIntResult;
-    // accumulateIntResult.minimum = p1();
-    // accumulateIntResult.maximum = p5();
-    // accumulateIntResult.mean = p4();
-    // accumulateIntResult.sum = CopyablePair<int>(30, 25);
-    // VerifyAccumulateWorks(PointVector(), accumulateIntResult);
+    AccResults<CopyablePair<int>> accumulatePointResult;
+    accumulatePointResult.minimum = p1();
+    accumulatePointResult.maximum = p5();
+    accumulatePointResult.mean = p4();
+    accumulatePointResult.sum = CopyablePair<int>(30, 25);
+    VerifyAccumulateWorks(PointVector(), accumulatePointResult);
 
     // auto values1 = []() -> std::vector<std::vector<int>> { return {{10, 2}, {16, 33}}; };
     // auto values2 = []() -> std::vector<std::vector<int>> { return {{30, 6}, {48, 99}}; };
@@ -150,21 +150,34 @@ TEST_F(StaticTestFixture, SortTest)
     VerifySortWorks(IvVector(), sortedIvVector());
 }
 
-// 5. Transform TODO: Naprawic niedzialajace testy
+// 5. Transform
 TEST_F(StaticTestFixture, TransformTest)
 {
-    // VerifyTransformWorks<NonCopyableMatrix<int>, std::vector<NonCopyableIntVector>>(
-    //     { NCM1() },
-    //     &Transform::MatrixToIntVectorTransformArgs::transformer,
-    //     { matrixIvVector() });
+    NonCopyableMatrix<int> ncm = NCM1();
+    std::vector<NonCopyableMatrix<int>> inVec;
+    inVec.emplace_back(std::move(ncm));
 
-    // std::vector<unsigned int> vectorWithDuplicates = { 2, 1, 2, 3, 1, 7, 7, 2 };
-    // const std::map<unsigned int, unsigned int> mapWithoutDuplicates = { { 1, 2 }, { 2, 3 }, { 3, 1 }, { 7, 2 } };
+    std::vector<NonCopyableIntVector> mIntVec = matrixIvVector();
+    std::vector<std::vector<NonCopyableIntVector>> outVec;
+    outVec.emplace_back(std::move(mIntVec));
 
-    // VerifyTransformWorks(
-    //     std::move(vectorWithDuplicates),
-    //     &Transform::VectorToMapTransformArgs::transformer,
-    //     mapWithoutDuplicates);
+    VerifyTransformWorks<NonCopyableMatrix<int>, std::vector<NonCopyableIntVector>>(
+        std::move(inVec),
+        &Transform::MatrixToIntVectorTransformArgs::transformer,
+        outVec);
+
+    std::vector<unsigned int> vectorWithDuplicates = { 2, 1, 2, 3, 1, 7, 7, 2 };
+    std::vector<std::vector<unsigned int>> inVec2;
+    inVec2.emplace_back(std::move(vectorWithDuplicates));
+
+    std::map<unsigned int, unsigned int> mapWithoutDuplicates = { { 1, 2 }, { 2, 3 }, { 3, 1 }, { 7, 2 } };
+    std::vector<std::map<unsigned int, unsigned int>> outVec2;
+    outVec2.emplace_back(std::move(mapWithoutDuplicates));
+
+    VerifyTransformWorks<std::vector<unsigned int>, std::map<unsigned int, unsigned int>>(
+        std::move(inVec2),
+        &Transform::VectorToMapTransformArgs::transformer,
+        outVec2);
 }
 
 // TODO: 6. ???

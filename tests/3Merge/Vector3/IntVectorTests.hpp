@@ -51,9 +51,4 @@ public:
     }
 };
 
-TEST_P(IntVectorMergeFixture, IntVectorTest)
-{
-    VerifyTest(GetParam());
-}
-
 } // namespace tests::Merge
