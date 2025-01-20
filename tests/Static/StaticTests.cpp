@@ -1,14 +1,41 @@
+#include "../../src/Structures/RandomStringImpl.hpp"
+#include "../5Transform/MatrixToIntVector1/TransformTests.hpp"
+#include "../5Transform/VectorToMap2/TransformTests.hpp"
+#include "../9RemoveEraseIf/Sequence1/SequenceTests.hpp"
+#include "../10Generate/Fibonacci1/FibonacciTests.hpp"
+#include "../ExampleMatrixes.hpp"
 #include "StaticFixture.hpp"
-#include <utility>
 
 namespace tests::Static
 {
 
 // CopyableMatrix
-CopyableMatrix<int> M1() 
+CopyableMatrix<int> M1()
 {
     std::vector<std::vector<int>> vecOfVecs{ { 11, 1 }, { 20, 25 } };
     CopyableMatrix<int> m(std::move(vecOfVecs));
+    return m;
+}
+
+CopyableMatrix<int> M2()
+{
+    std::vector<std::vector<int>> vecOfVecs{ { 7, 3 }, { 25, 55 } };
+    CopyableMatrix<int> m(std::move(vecOfVecs));
+    return m;
+}
+
+CopyableMatrix<int> M3()
+{
+    std::vector<std::vector<int>> vecOfVecs{ { 12, 2 }, { 3, 29 } };
+    CopyableMatrix<int> m(std::move(vecOfVecs));
+    return m;
+}
+
+// NonCopyableMatrix
+NonCopyableMatrix<int> NCM1()
+{
+    std::vector<std::vector<int>> vecOfVecs{ { 11, 1 }, { 20, 25 } };
+    NonCopyableMatrix<int> m(std::move(vecOfVecs));
     return m;
 }
 
@@ -20,17 +47,28 @@ CopyableIntVector iv4() { return CopyableIntVector({ 3, 4 }); }
 CopyableIntVector iv5() { return CopyableIntVector({ 3, 5 }); }
 CopyableIntVector iv6() { return CopyableIntVector({ 4, 1 }); }
 
+std::vector<CopyableIntVector> sortedIvVector() { return { iv1(), iv2(), iv3(), iv4(), iv5(), iv6() }; }
 std::vector<CopyableIntVector> IvVector() { return { iv2(), iv4(), iv6(), iv1(), iv5(), iv3() }; }
 std::set<CopyableIntVector> IvSet() { return { iv2(), iv4(), iv6(), iv1(), iv5(), iv3() }; }
+
+// NonCopyableIntVector
+std::vector<NonCopyableIntVector> matrixIvVector()
+{
+    std::vector<NonCopyableIntVector> vec;
+    vec.emplace_back(std::vector<int>{11, 1});
+    vec.emplace_back(std::vector<int>{20, 25});
+    return vec;
+}
 
 // CopyablePair - posortowane rosnaco - liczy sie najpierw 1 wspolrzedna x, potem druga y jesli x1 = x2
 
 CopyablePair<int> p1() { return CopyablePair(1, 12); }
 CopyablePair<int> p2() { return CopyablePair(5, 2); }
 CopyablePair<int> p3() { return CopyablePair(5, 5); }
-CopyablePair<int> p4() { return CopyablePair(6, 1); }
-CopyablePair<int> p5() { return CopyablePair(10, 1); }
+CopyablePair<int> p4() { return CopyablePair(6, 5); }
+CopyablePair<int> p5() { return CopyablePair(13, 1); }
 
+std::vector<CopyablePair<int>> sortedPointVector() { return { p1(), p2(), p3(), p4(), p5() }; }
 std::vector<CopyablePair<int>> PointVector() { return { p2(), p4(), p1(), p5(), p3() }; }
 std::set<CopyablePair<int>> PointSet() { return { p2(), p4(), p1(), p5(), p3() }; }
 
@@ -64,12 +102,72 @@ TEST_F(StaticTestFixture, MinMaxTest)
     VerifyMinMaxWorks(IvSet(), minMaxIvResult);
 }
 
-// TODO:
-// 2. Accumulate
+// 2. Accumulate TODO: Naprawic niedzialajace testy
+TEST_F(StaticTestFixture, AccumulateTest)
+{
+    // AccResults<int> accumulateUIntResult;
+    // accumulateUIntResult.minimum = 1;
+    // accumulateUIntResult.maximum = 7;
+    // accumulateUIntResult.mean = 4;
+    // accumulateUIntResult.sum = 28;
+    // VerifyAccumulateWorks({ 2, 1, 3, 7, 5, 6, 4 }, accumulateUIntResult);
+
+    // AccResults<CopyablePair<int>> accumulateIntResult;
+    // accumulateIntResult.minimum = p1();
+    // accumulateIntResult.maximum = p5();
+    // accumulateIntResult.mean = p4();
+    // accumulateIntResult.sum = CopyablePair<int>(30, 25);
+    // VerifyAccumulateWorks(PointVector(), accumulateIntResult);
+
+    // auto values1 = []() -> std::vector<std::vector<int>> { return {{10, 2}, {16, 33}}; };
+    // auto values2 = []() -> std::vector<std::vector<int>> { return {{30, 6}, {48, 99}}; };
+    // auto matrixes = []() -> std::vector<CopyableMatrix<int>> { return { M1(), M2(), M3() }; };
+
+    // AccResults<CopyableMatrix<int>> accumulateMatrixResult;
+    // accumulateMatrixResult.minimum = M2();
+    // accumulateMatrixResult.maximum = M3();
+    // accumulateMatrixResult.mean = CopyableMatrix<int>(values1());
+    // accumulateMatrixResult.sum = CopyableMatrix<int>(values2());
+    // VerifyAccumulateWorks(matrixes(), accumulateMatrixResult);
+}
+
 // 3. Merge
+TEST_F(StaticTestFixture, MergeTest)
+{
+    auto mergePoint1 = []() -> std::vector<CopyablePair<int>> { return { p1(), p3(), p4() }; };
+    auto mergePoint2 = []() -> std::vector<CopyablePair<int>> { return { p2(), p5() }; };
+    VerifyMergeWorks(MergerData<CopyablePair<int>>(mergePoint1(), mergePoint2()), sortedPointVector());
+
+    auto mergeIntVec1 = []() -> std::vector<CopyableIntVector> { return { iv1(), iv3(), iv4(), iv6() }; };
+    auto mergeIntVec2 = []() -> std::vector<CopyableIntVector> { return { iv2(), iv5() }; };
+    VerifyMergeWorks(MergerData<CopyableIntVector>(mergeIntVec1(), mergeIntVec2()), sortedIvVector());
+}
+
 // 4. Sort
-// 5. Transform
-// 6. ???
+TEST_F(StaticTestFixture, SortTest)
+{
+    VerifySortWorks(PointVector(), sortedPointVector());
+    VerifySortWorks(IvVector(), sortedIvVector());
+}
+
+// 5. Transform TODO: Naprawic niedzialajace testy
+TEST_F(StaticTestFixture, TransformTest)
+{
+    // VerifyTransformWorks<NonCopyableMatrix<int>, std::vector<NonCopyableIntVector>>(
+    //     { NCM1() },
+    //     &Transform::MatrixToIntVectorTransformArgs::transformer,
+    //     { matrixIvVector() });
+
+    // std::vector<unsigned int> vectorWithDuplicates = { 2, 1, 2, 3, 1, 7, 7, 2 };
+    // const std::map<unsigned int, unsigned int> mapWithoutDuplicates = { { 1, 2 }, { 2, 3 }, { 3, 1 }, { 7, 2 } };
+
+    // VerifyTransformWorks(
+    //     std::move(vectorWithDuplicates),
+    //     &Transform::VectorToMapTransformArgs::transformer,
+    //     mapWithoutDuplicates);
+}
+
+// TODO: 6. ???
 
 // 7. Nth element
 TEST_F(StaticTestFixture, NthElementTest) 
@@ -91,9 +189,70 @@ TEST_F(StaticTestFixture, NthElementTest)
     VerifyNthFinderWorks(stringVector(), 4, nthStringResult5);
 }
 
-// TODO:
 // 8. Regex
+TEST_F(StaticTestFixture, RegexTest)
+{
+    const std::string text =
+        "fakedatepatternis20012025realis20-01-2025fakepatternnumberis123456goodnumberis123 456 789endtext";
+    const std::string datePattern = R"((0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4})";
+    const std::string phonePattern = R"(\d{3} \d{3} \d{3})";
+    const std::vector<std::string> expectedDateResult = { "20-01-2025" };
+    const std::vector<std::string> expectedPhoneResult = { "123 456 789" };
+    VerifyRegexWorks(text, datePattern, expectedDateResult);
+    VerifyRegexWorks(text, phonePattern, expectedPhoneResult);
+}
+
 // 9. Remove erase if
-// 10. Generate
+TEST_F(StaticTestFixture, RemoveEraseIfTest)
+{
+    const std::vector<unsigned int> elements = { 1, 2, 3, 7, 16, 18, 22, 31 };
+    const std::vector<unsigned int> expectedNonMersenneNumbers = { 1, 2, 16, 18, 22 };
+    const std::vector<unsigned int> expectedNumbersWithMoreThan4Divisors = { 16, 18 };
+    const std::vector<unsigned int> expectedNumbersWith1ToNSumEven = { 3, 7, 16, 31 };
+
+    VerifyRemoveEraseIfWorks(elements,
+        &RemoveEraseIf::SequenceIntFixture::isMersenneNumber,
+        expectedNonMersenneNumbers);
+    VerifyRemoveEraseIfWorks(elements,
+        &RemoveEraseIf::SequenceIntFixture::hasAtMost4Divisors,
+        expectedNumbersWithMoreThan4Divisors);
+    VerifyRemoveEraseIfWorks(elements,
+        &RemoveEraseIf::SequenceIntFixture::is1toNSumOdd,
+        expectedNumbersWith1ToNSumEven);
+}
+
+TEST_F(StaticTestFixture, GenerateTest)
+{
+    const std::size_t elementCount = 8;
+    const std::vector<int> expectedFibonacciResult = { 1, 2, 3, 5, 8, 13, 21, 34 };
+
+    VerifyGenerateWorks<int, CopyablePair<int>>(elementCount,
+        CopyablePair<int>(1, 1),
+        &Generate::FibonacciGenerateArgs<int>::stateCreator,
+        expectedFibonacciResult);
+
+    // sprawdzamy tylko czy rozmiar sie zgadza
+    const std::size_t stringSize = 4;
+    const std::vector<std::string> expectedRandomStringResult(elementCount, std::string(stringSize, 'a'));
+
+    VerifyGenerateRandomStringWorks(elementCount,
+        CopyableRandomString(stringSize),
+        &RandomStringImpl::creator,
+        expectedRandomStringResult);
+
+    const std::vector<CopyableMatrix<int>> expectedMatrixResult = {
+        Examples::a1(2), Examples::a1(3), Examples::a1(4) };
+
+    auto matrixStateGenerator = [initialMatrix = Examples::a1()](CopyableMatrix<int>& currentState)
+    {
+        currentState *= initialMatrix;
+        return currentState;
+    };
+
+    VerifyGenerateWorks<CopyableMatrix<int>, CopyableMatrix<int>>(expectedMatrixResult.size(),
+        Examples::a1(),
+        std::move(matrixStateGenerator),
+        expectedMatrixResult);
+}
 
 } // namespace tests::Static

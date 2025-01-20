@@ -9,31 +9,31 @@ using namespace src::Structures;
 namespace tests::Transform
 {
 
-using InType = NonCopyableMatrix<int>;
-using ReturnType = std::vector<NonCopyableIntVector>;
-using Base = BaseTestStruct<std::vector<ReturnType>>;
-using Parent = TransformTestStruct<InType, ReturnType>;
+using InType1 = NonCopyableMatrix<int>;
+using ReturnType1 = std::vector<NonCopyableIntVector>;
+using Base1 = BaseTestStruct<std::vector<ReturnType1>>;
+using Parent1 = TransformTestStruct<InType1, ReturnType1>;
 
-struct MatrixToIntVectorTransformArgs final : public Parent
+struct MatrixToIntVectorTransformArgs final : public Parent1
 {
     explicit MatrixToIntVectorTransformArgs(
-        InType (*dataCreator)(const unsigned int),
+        InType1 (*dataCreator)(const unsigned int),
         const unsigned int n)
-    : Parent(TestType::TransformMatrixToIntVector,
+    : Parent1(TestType::TransformMatrixToIntVector,
         [dataCreator, n]()
         {
-            std::vector<InType> inData =
-                initTestData<std::vector<InType>>(dataCreator, n);
-            return std::make_shared<Transformer<InType, ReturnType>>(
+            std::vector<InType1> inData =
+                initTestData<std::vector<InType1>>(dataCreator, n);
+            return std::make_shared<Transformer<InType1, ReturnType1>>(
                 std::move(inData),
                 &transformer);
         })
     { }
 
-    static ReturnType transformer(const InType& matrix)
+    static ReturnType1 transformer(const InType1& matrix)
     {
         const std::size_t mSize = matrix.size();
-        ReturnType vector;
+        ReturnType1 vector;
         vector.reserve(mSize);
 
         std::vector<int> values;
@@ -51,20 +51,15 @@ struct MatrixToIntVectorTransformArgs final : public Parent
     }
 };
 
-class MatrixToIntVectorTransformFixture : public TransformTestFixture<ReturnType>
+class MatrixToIntVectorTransformFixture : public TransformTestFixture<ReturnType1>
 {
 public:
     // macierz rozmiaru n * n z samymi jedynkami
-    static InType sortedFirstElementGenerator(const unsigned int n)
+    static InType1 sortedFirstElementGenerator(const unsigned int n)
     {
         std::vector<std::vector<int>> values(n, std::vector<int>(n, 1));
-        return InType(std::move(values));
+        return InType1(std::move(values));
     }
 };
-
-TEST_P(MatrixToIntVectorTransformFixture, MatrixToIntVectorTransformTest)
-{
-    VerifyTest(GetParam());
-}
 
 } // namespace tests::Transform

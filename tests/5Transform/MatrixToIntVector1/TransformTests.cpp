@@ -5,14 +5,19 @@
 namespace tests::Transform
 {
 
-static std::vector<std::shared_ptr<Base>> getTests()
+static std::vector<std::shared_ptr<Base1>> getTests()
 {
-    std::vector<std::shared_ptr<Base>> tests;
+    std::vector<std::shared_ptr<Base1>> tests;
     using T = NonCopyableMatrix<int>(*)(const unsigned int);
 
-    createTestArgs<Base, MatrixToIntVectorTransformArgs, T>(tests, TEST_SIZES,
+    createTestArgs<Base1, MatrixToIntVectorTransformArgs, T>(tests, TEST_SIZES,
         &MatrixToIntVectorTransformFixture::sortedFirstElementGenerator);
     return tests;
+}
+
+TEST_P(MatrixToIntVectorTransformFixture, MatrixToIntVectorTransformTest)
+{
+    VerifyTest(GetParam());
 }
 
 INSTANTIATE_TEST_SUITE_P(

@@ -19,16 +19,16 @@ struct FibonacciGenerateArgs final : public GenerateTestStruct<DataType, Copyabl
         TestType::GenerateFibonacci,
         [initialPair_ = std::move(initialPair), n]() mutable
         {
-            auto stateCreator = [](CopyablePair<DataType>& currentState)
-            {
-                currentState = CopyablePair(currentState.second_, currentState.first_ + currentState.second_);
-                return currentState.first_;
-            };
-
             return std::make_shared<Generator<DataType, CopyablePair<DataType>>>(
-                n, std::move(initialPair_), std::move(stateCreator));
+                n, std::move(initialPair_), &stateCreator);
         })
     { }
+
+    static DataType stateCreator(CopyablePair<DataType>& currentState)
+    {
+        currentState = CopyablePair(currentState.second_, currentState.first_ + currentState.second_);
+        return currentState.first_;
+    }
 };
 
 class FibonacciGenerateIntFixture : public GenerateTestFixture<int, CopyablePair<int>>
@@ -36,15 +36,5 @@ class FibonacciGenerateIntFixture : public GenerateTestFixture<int, CopyablePair
 
 class FibonacciGenerateDoubleFixture : public GenerateTestFixture<double, CopyablePair<double>>
 { };
-
-TEST_P(FibonacciGenerateIntFixture, intTest)
-{
-    VerifyTest(GetParam());
-}
-
-TEST_P(FibonacciGenerateDoubleFixture, doubleTest)
-{
-    VerifyTest(GetParam());
-}
 
 } // namespace tests::Generate

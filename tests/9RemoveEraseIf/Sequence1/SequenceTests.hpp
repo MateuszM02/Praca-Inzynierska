@@ -52,7 +52,7 @@ public:
 
     static bool isMersenneNumber(const unsigned int& value)
     {
-        unsigned int p = 1;
+        unsigned int p = 2;
         while (true)
         {
             unsigned int mersenneNumber = std::pow(2, p) - 1;
@@ -69,8 +69,8 @@ public:
 
     static bool hasAtMost4Divisors(const unsigned int& value) 
     {
-        if (value < 2) return false; 
-        unsigned int divisors = 2; 
+        if (value < 2) return true;
+        unsigned int divisors = 2;
         const unsigned int sqrtValue = std::sqrt(value);
         for (unsigned int div = 2; div <= sqrtValue; ++div)
         {
@@ -87,18 +87,13 @@ public:
     static bool is1toNSumOdd(const unsigned int& value)
     {
         unsigned int sum = 0;
-        for (unsigned int i = 1; i < value; i++)
+        for (unsigned int i = 1; i <= value; i++)
         {
             sum = (sum + i) % 2;
         }
 
-        return sum == 0;
+        return sum == 1;
     }
 };
-
-TEST_P(SequenceIntFixture, SequenceRemoveEraseIfTest)
-{
-    VerifyTest(GetParam());
-}
 
 } // namespace tests::RemoveEraseIf

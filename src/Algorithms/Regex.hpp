@@ -23,8 +23,8 @@ class RegexEvaluator final : public BaseClass<std::vector<std::string>>
 {
 public:
     explicit RegexEvaluator(const RegexData& data)
-    : text_{std::move(data.text_)}
-    , pattern_{std::move(data.pattern_)}
+    : text_{data.text_}
+    , pattern_{data.pattern_}
     { }
 
 private:

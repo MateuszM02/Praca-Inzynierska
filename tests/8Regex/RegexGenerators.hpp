@@ -13,8 +13,8 @@ public:
     // generatory wzorcow
     static std::string datePatternGenerator()
     {
-        // data w formacie DD-MM-R* (uproszczona walidacja, dowolny rok o ile jest dodatni)
-        return R"((0[1-9]|[12][0-9]|3[01])-([1-9]|1[0-2])-\d+)";
+        // data w formacie DD-MM-RRRR (uproszczona walidacja)
+        return R"((0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-\d{4})";
     }
 
     static std::string phonePatternGenerator()
