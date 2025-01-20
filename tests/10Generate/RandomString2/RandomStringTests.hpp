@@ -51,9 +51,4 @@ private:
     }
 };
 
-TEST_P(RandomStringGenerateFixture, RandomStringGenerateTest) 
-{
-    VerifyTestCustomForRandomStringGenerator(GetParam());
-}
-
 } // namespace tests::Generate

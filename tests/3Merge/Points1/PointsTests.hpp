@@ -39,9 +39,4 @@ public:
     }
 };
 
-TEST_P(PointsMergeFixture, PointsMergeTest)
-{
-    VerifyTest(GetParam());
-}
-
 } // namespace tests::Merge

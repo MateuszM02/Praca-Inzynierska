@@ -41,9 +41,4 @@ public:
     }
 };
 
-TEST_P(PointsAccumulateFixture, PointsAccumulateTest)
-{
-    VerifyTestCustomFor2(GetParam());
-}
-
 } // namespace tests::Accumulate

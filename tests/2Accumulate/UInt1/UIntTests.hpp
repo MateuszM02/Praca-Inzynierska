@@ -38,9 +38,4 @@ public:
     }
 };
 
-TEST_P(UIntAccumulateFixture, UIntAccumulateTest)
-{
-    VerifyTestCustomFor2(GetParam());
-}
-
 } // namespace tests::Accumulate

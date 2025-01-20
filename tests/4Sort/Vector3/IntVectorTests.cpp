@@ -19,6 +19,11 @@ static std::vector<std::shared_ptr<Base>> getTests()
     return tests;
 }
 
+TEST_P(IntVectorSortFixture, IntVectorSortTest)
+{
+    VerifyTest(GetParam());
+}
+
 INSTANTIATE_TEST_SUITE_P(
     SortPrefix,
     IntVectorSortFixture,

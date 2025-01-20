@@ -4,6 +4,16 @@
 namespace tests::Generate
 {
 
+TEST_P(MatrixGenerateIntFixture, intTest)
+{
+    VerifyTest(GetParam());
+}
+
+TEST_P(MatrixGenerateDoubleFixture, doubleTest)
+{
+    VerifyTest(GetParam());
+}
+
 INSTANTIATE_TEST_SUITE_P(
     GeneratePrefix, 
     MatrixGenerateIntFixture,

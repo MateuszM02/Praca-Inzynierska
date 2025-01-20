@@ -63,9 +63,4 @@ public:
     }
 };
 
-TEST_P(PointsSortFixture, pointsSortTest)
-{
-    VerifyTest(GetParam());
-}
-
 } // namespace tests::Sort

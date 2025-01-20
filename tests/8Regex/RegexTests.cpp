@@ -13,6 +13,11 @@ static std::vector<std::shared_ptr<Base>> getTests()
     return tests;
 }
 
+TEST_P(RegexTestFixture, RegexTest)
+{
+    VerifyTest(GetParam());
+}
+
 INSTANTIATE_TEST_SUITE_P(
     RegexPrefix,
     RegexTestFixture,
