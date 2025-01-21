@@ -180,10 +180,16 @@ TEST_F(StaticTestFixture, TransformTest)
         outVec2);
 }
 
-// TODO: 6. ???
+// 6. Unique
+TEST_F(StaticTestFixture, UniqueTest)
+{
+    std::vector<CopyablePair<int>> inVec1 = { p1(), p2(), p2(), p3(), p2(), p4(), p4(), p4() };
+    std::vector<CopyablePair<int>> outVec1 = { p1(), p2(), p3(), p2(), p4() };
+    VerifyUniqueWorks<CopyablePair<int>>(std::move(inVec1), outVec1);
+}
 
 // 7. Nth element
-TEST_F(StaticTestFixture, NthElementTest) 
+TEST_F(StaticTestFixture, NthElementTest)
 {
     std::vector<CopyablePair<int>> nthPointResult1 = { p1(), p4(), p2(), p5(), p3() };
     std::vector<CopyablePair<int>> nthPointResult3 = { p2(), p1(), p3(), p5(), p4() };

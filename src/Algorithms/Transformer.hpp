@@ -3,7 +3,6 @@
 #include "Base.hpp"
 #include "../Concepts/DataTypeConcepts.hpp"
 
-#include <ranges> // std::views::transformed
 #include <boost/range/adaptor/transformed.hpp> // boost::adaptors::transformed
 
 using namespace src::Concepts;
@@ -28,7 +27,7 @@ private:
     {
         auto resultView = initialElements_ | std::views::transform(transformer_);
         std::vector<ReturnDataType> result;
-        result.reserve(std::ranges::distance(resultView));
+        result.reserve(initialElements_.size());
         std::ranges::move(resultView, std::back_inserter(result));
         return result;
     }
@@ -37,7 +36,7 @@ private:
     {
         auto resultView = initialElements_ | boost::adaptors::transformed(transformer_);
         std::vector<ReturnDataType> result;
-        result.reserve(std::ranges::distance(resultView));
+        result.reserve(initialElements_.size());
         std::ranges::move(resultView, std::back_inserter(result));
         return result;
     }
@@ -45,6 +44,7 @@ private:
     std::vector<ReturnDataType> executeSimple() const override
     {
         std::vector<ReturnDataType> result;
+        result.reserve(initialElements_.size());
         for (const InDataType& element : initialElements_)
         {
             result.emplace_back(transformer_(element));
