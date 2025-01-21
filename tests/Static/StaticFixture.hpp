@@ -14,6 +14,7 @@
 #include "../../src/Algorithms/Remover.hpp"
 #include "../../src/Algorithms/Sorter.hpp"
 #include "../../src/Algorithms/Transformer.hpp"
+#include "../../src/Algorithms/Uniquer.hpp"
 
 #include <iostream>
 
@@ -129,7 +130,14 @@ protected:
         VerifyAlgorithmWorks(transformer, expectedResult);
     }
 
-    // TODO: 6. ???
+    // 6. Unique
+    template <typename DataType>
+    void VerifyUniqueWorks(std::vector<DataType>&& elements,
+        const std::vector<DataType>& expectedResult) const
+    {
+        const Uniquer<DataType> uniquer(std::move(elements));
+        VerifyAlgorithmWorks(uniquer, expectedResult);
+    }
 
     // 7. Nth element
     template <typename Container>
