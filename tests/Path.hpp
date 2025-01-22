@@ -26,7 +26,7 @@ enum class TestType : unsigned char
     NthElementPoints,
     NthElementRandomString,
     RegexType,
-    // TODO: wiecej typow 9
+    RemoveEraseIfRandomString,
     RemoveEraseIfSequence,
     GenerateFibonacci,
     GenerateRandomString,
@@ -55,7 +55,7 @@ std::ostream& operator<<(std::ostream& os, const TestType& testType)
         case TestType::NthElementPoints:            return os << "Points";
         case TestType::NthElementRandomString:      return os << "RandomString";
         case TestType::RegexType:                   return os << "Regex";
-        // TODO: wiecej typow 9
+        case TestType::RemoveEraseIfRandomString:   return os << "RandomString";
         case TestType::RemoveEraseIfSequence:       return os << "Sequence";
         case TestType::GenerateFibonacci:           return os << "Fibonacci";
         case TestType::GenerateRandomString:        return os << "RandomString";

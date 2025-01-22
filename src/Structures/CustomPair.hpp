@@ -11,8 +11,6 @@ template <typename DataType, bool MoveEnabled, bool CopyEnabled>
 class CustomPair final : BaseWrapper<MoveEnabled, CopyEnabled>
 {
 public:
-    using value_type = DataType;
-
     // potrzebne do 2Accumulate
     explicit CustomPair()
     requires std::is_default_constructible_v<DataType>
@@ -21,7 +19,6 @@ public:
     , second_{DataType()}
     { }
 
-    // dla duzych struktur
     explicit CustomPair(DataType&& first, DataType&& second)
     : BaseWrapper<MoveEnabled, CopyEnabled>({ &first_, &second_ })
     , first_{std::move(first)}

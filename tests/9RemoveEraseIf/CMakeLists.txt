@@ -1,12 +1,18 @@
 # Ustal nazwy plikow wykonywalnych
 set(TEST_EXECUTABLES
   SequenceRemoveEraseIfTests
+  RandomStringRemoveEraseIfTests
 )
 
 # Dodaj pliki wykonywalne
 add_executable(
   SequenceRemoveEraseIfTests
   Sequence1/SequenceTests.cpp
+)
+
+add_executable(
+  RandomStringRemoveEraseIfTests
+  RandomString2/RandomStringTests.cpp
 )
 
 # Dodaj Boost i GTEST do kazdego execa, polacz z GTEST_main oraz dodaj testy
