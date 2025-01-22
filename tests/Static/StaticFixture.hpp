@@ -282,7 +282,7 @@ private:
         auto [stlResult, boostResult, simpleResult] = algorithm.callEach();
 
         ASSERT_EQ(stlResult.size(), expectedResult.size()) << "STL zwrocil zly wynik!";
-        // ASSERT_EQ(boostResult.size(), expectedResult.size()) << "Boost zwrocil zly wynik!";
+        ASSERT_EQ(boostResult.size(), expectedResult.size()) << "Boost zwrocil zly wynik!";
         ASSERT_EQ(simpleResult.size(), expectedResult.size()) << "Simple zwrocil zly wynik!";
         ASSERT_EQ(boostResult.size(), expectedResult.size()) << "Boost zwrocil zly wynik!";
 

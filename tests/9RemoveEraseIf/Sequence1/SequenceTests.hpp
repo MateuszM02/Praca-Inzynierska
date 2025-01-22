@@ -2,26 +2,23 @@
 
 #include "../RemoveEraseIfTestFixture.hpp"
 
-#include <bits/stl_numeric.h> // std::iota
 #include <cmath> // std::pow, std::sqrt
 
 namespace tests::RemoveEraseIf
 {
 
-using Container = std::vector<unsigned int>;
-using Base = BaseTestStruct<Container>;
-using Parent = RemoveEraseIfTestStruct<Container>;
+using Container1 = std::vector<unsigned int>;
+using Base1 = BaseTestStruct<Container1>;
+using Parent1 = RemoveEraseIfTestStruct<Container1>;
 
-struct SequenceArgs final : public Parent
+struct SequenceArgs final : public Parent1
 {
     explicit SequenceArgs(
         bool(*predicate)(const unsigned int&),
         const unsigned int n)
-    : Parent(TestType::RemoveEraseIfSequence,
+    : Parent1(TestType::RemoveEraseIfSequence,
         [predicate, n]()
         {
-            Container data(n);
-            std::iota(data.begin(), data.end(), 0);
             return initTestData9(identity, predicate, n);
         })
     { }
@@ -32,7 +29,7 @@ struct SequenceArgs final : public Parent
     }
 };
 
-class SequenceIntFixture : public RemoveEraseIfTestFixture<Container>
+class SequenceIntFixture : public RemoveEraseIfTestFixture<Container1>
 {
 public:
     // predykaty

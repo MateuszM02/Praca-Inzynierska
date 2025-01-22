@@ -7,14 +7,14 @@
 namespace tests::RemoveEraseIf
 {
 
-static std::vector<std::shared_ptr<Base>> getTests()
+static std::vector<std::shared_ptr<Base1>> getTests()
 {
-    static std::vector<std::shared_ptr<Base>> tests;
+    static std::vector<std::shared_ptr<Base1>> tests;
     using T = bool(*)(const unsigned int&);
 
-    createTestArgs<Base, SequenceArgs, T>(tests, MERSENNE_TEST_SIZES, SequenceIntFixture::isMersenneNumber);
-    createTestArgs<Base, SequenceArgs, T>(tests, DIVISORS_TEST_SIZES, SequenceIntFixture::hasAtMost4Divisors);
-    createTestArgs<Base, SequenceArgs, T>(tests, SUM_TEST_SIZES, SequenceIntFixture::is1toNSumOdd);
+    createTestArgs<Base1, SequenceArgs, T>(tests, MERSENNE_TEST_SIZES, SequenceIntFixture::isMersenneNumber);
+    createTestArgs<Base1, SequenceArgs, T>(tests, DIVISORS_TEST_SIZES, SequenceIntFixture::hasAtMost4Divisors);
+    createTestArgs<Base1, SequenceArgs, T>(tests, SUM_TEST_SIZES, SequenceIntFixture::is1toNSumOdd);
     return tests;
 }
 

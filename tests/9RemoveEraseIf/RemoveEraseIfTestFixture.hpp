@@ -36,6 +36,23 @@ protected:
         RemoverData<Container> data(std::move(elements), predicate);
         return std::make_shared<Remover<Container>>(std::move(data));
     }
+
+    static std::shared_ptr<Remover<Container>> initTestData9(
+        DataType(*generator)(const unsigned int),
+        bool (*predicate)(const DataType&),
+        const TestPair& info)
+    {
+        Container elements;
+        elements.reserve(info.first);
+
+        for (unsigned int i = 1; i <= info.first; ++i)
+        {
+            elements.emplace_back(generator(info.second));
+        }
+
+        RemoverData<Container> data(std::move(elements), predicate);
+        return std::make_shared<Remover<Container>>(std::move(data));
+    }
 };
 
 // Klasa abstrakcyjna RemoveEraseIfTestFixture, po ktorej dziedzicza klasy testowe metod RemoveEraseIf

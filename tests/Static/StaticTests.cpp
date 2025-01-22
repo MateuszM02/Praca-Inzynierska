@@ -2,6 +2,7 @@
 #include "../5Transform/MatrixToIntVector1/TransformTests.hpp"
 #include "../5Transform/VectorToMap2/TransformTests.hpp"
 #include "../9RemoveEraseIf/Sequence1/SequenceTests.hpp"
+#include "../9RemoveEraseIf/RandomString2/RandomStringTests.hpp"
 #include "../10Generate/Fibonacci1/FibonacciTests.hpp"
 #include "../ExampleMatrixes.hpp"
 #include "StaticFixture.hpp"
@@ -242,6 +243,17 @@ TEST_F(StaticTestFixture, RemoveEraseIfTest)
     VerifyRemoveEraseIfWorks(elements,
         &RemoveEraseIf::SequenceIntFixture::is1toNSumOdd,
         expectedNumbersWith1ToNSumEven);
+
+    const std::vector<std::string> elements2 = { "aba", "ca", "", "@a", "ABBAI##", "BO$o", "Y" };
+    const std::vector<std::string> expectedDoesntStartWithVowel = { "ca", "", "@a", "BO$o" };
+    const std::vector<std::string> expectedNotMoreVowelsThanConsonants = { "ca", "" };
+
+    VerifyRemoveEraseIfWorks(elements2,
+        &RemoveEraseIf::RandomStringRemoveEraseIfFixture::startsWithVowel,
+        expectedDoesntStartWithVowel);
+    VerifyRemoveEraseIfWorks(elements2,
+        &RemoveEraseIf::RandomStringRemoveEraseIfFixture::moreVowelsThanConsonants,
+        expectedNotMoreVowelsThanConsonants);
 }
 
 TEST_F(StaticTestFixture, GenerateTest)
