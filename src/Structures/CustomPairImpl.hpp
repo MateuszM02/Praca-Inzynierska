@@ -74,7 +74,7 @@ bool operator>(
 
 template <typename DataType, bool MoveEnabled, bool CopyEnabled>
 std::ostream& operator<<(std::ostream& os,
-    const CustomPair<DataType, MoveEnabled, CopyEnabled>& p) 
+    const CustomPair<DataType, MoveEnabled, CopyEnabled>& p)
 {
     os << "(" << p.first_ << ", " << p.second_ << ")";
     return os;
@@ -90,28 +90,28 @@ class numeric_limits<src::Structures::CustomPair<DataType, MoveEnabled, CopyEnab
 {
 public:
     static const bool is_specialized = true;
-    
+
     static src::Structures::CustomPair<DataType, MoveEnabled, CopyEnabled> min()
     {
         return src::Structures::CustomPair<DataType, MoveEnabled, CopyEnabled>(
             std::numeric_limits<DataType>::min(),
             std::numeric_limits<DataType>::min());
     }
-    
+
     static src::Structures::CustomPair<DataType, MoveEnabled, CopyEnabled> max()
     {
         return src::Structures::CustomPair<DataType, MoveEnabled, CopyEnabled>(
             std::numeric_limits<DataType>::max(),
             std::numeric_limits<DataType>::max());
     }
-    
+
     static src::Structures::CustomPair<DataType, MoveEnabled, CopyEnabled> lowest()
     {
         return src::Structures::CustomPair<DataType, MoveEnabled, CopyEnabled>(
             std::numeric_limits<DataType>::lowest(),
             std::numeric_limits<DataType>::lowest());
     }
-    
+
     static src::Structures::CustomPair<DataType, MoveEnabled, CopyEnabled> epsilon()
     {
         return src::Structures::CustomPair<DataType, MoveEnabled, CopyEnabled>(

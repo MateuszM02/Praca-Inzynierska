@@ -36,7 +36,7 @@ public:
         {
             v.emplace_back(10*i + ((i+1) % 7));
         }
-        return CopyableIntVector(v);
+        return CopyableIntVector(std::move(v));
     }
 
     static CopyableIntVector f10i_imod9(const unsigned int n)
@@ -47,7 +47,7 @@ public:
         {
             v.emplace_back(10*i + (i % 9));
         }
-        return CopyableIntVector(v);
+        return CopyableIntVector(std::move(v));
     }
 };
 

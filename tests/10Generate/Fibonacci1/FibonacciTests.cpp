@@ -22,7 +22,7 @@ INSTANTIATE_TEST_SUITE_P(
     ));
 
 INSTANTIATE_TEST_SUITE_P(
-    GeneratePrefix, 
+    GeneratePrefix,
     FibonacciGenerateDoubleFixture,
     ::testing::Values(
         std::make_shared<FibonacciGenerateArgs<double>>(CopyablePair(1.0, 1.0), 80u),

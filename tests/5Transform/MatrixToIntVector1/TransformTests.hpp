@@ -45,7 +45,7 @@ struct MatrixToIntVectorTransformArgs final : public Parent1
             {
                 values.emplace_back(matrix.get(row, col));
             }
-            vector.emplace_back(values);
+            vector.emplace_back(std::move(values));
         }
         return vector;
     }

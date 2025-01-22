@@ -148,7 +148,7 @@ bool operator>(
 
 template <Printable DataType, bool MoveEnabled, bool CopyEnabled>
 std::ostream& operator<<(std::ostream& os,
-    const Matrix<DataType, MoveEnabled, CopyEnabled>& m) 
+    const Matrix<DataType, MoveEnabled, CopyEnabled>& m)
 {
     for (size_t row = 0; row < m.size(); ++row)
     {
@@ -172,28 +172,28 @@ class numeric_limits<src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled>
 {
 public:
     static constexpr bool is_specialized = true;
-    
+
     static src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled> min() noexcept
     {
         std::vector<std::vector<DataType>> vec =
             { { std::numeric_limits<DataType>::min() } };
         return src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled>(std::move(vec));
-    } 
-    
+    }
+
     static src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled> max() noexcept
     {
         std::vector<std::vector<DataType>> vec =
             { { std::numeric_limits<DataType>::max() } };
         return src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled>(std::move(vec));
     }
-    
+
     static src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled> lowest() noexcept
     {
         std::vector<std::vector<DataType>> vec =
             { { std::numeric_limits<DataType>::lowest() } };
         return src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled>(std::move(vec));
     }
-    
+
     static src::Structures::Matrix<DataType, MoveEnabled, CopyEnabled> epsilon() noexcept
     {
         std::vector<std::vector<DataType>> vec =

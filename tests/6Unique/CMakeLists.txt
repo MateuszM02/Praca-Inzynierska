@@ -1,12 +1,18 @@
 # Ustal nazwy plikow wykonywalnych
 set(TEST_EXECUTABLES
   UniquePoints
+  UniqueVectors
 )
 
 # Dodaj pliki wykonywalne
 add_executable(
   UniquePoints
   Points1/PointsTests.cpp
+)
+
+add_executable(
+  UniqueVectors
+  Vector2/IntVectorTests.cpp
 )
 
 # Dodaj Boost i GTEST do kazdego execa, polacz z GTEST_main oraz dodaj testy

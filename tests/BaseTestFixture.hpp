@@ -199,8 +199,8 @@ private:
         ::testing::internal::CaptureStdout(),
         ::testing::internal::CaptureStderr();
 
-        EXPECT_EQ_OS(stlResult.size(), simpleResult.size(), os) << "Rozmiar wyniku STL rozni sie od oczekiwanego.";
-        EXPECT_EQ_OS(boostResult.size(), simpleResult.size(), os) << "Rozmiar wyniku Boost rozni sie od oczekiwanego.";
+        EXPECT_EQ_OS(stlResult.size(), simpleResult.size(), os);
+        EXPECT_EQ_OS(boostResult.size(), simpleResult.size(), os);
 
         if (::testing::Test::HasFailure())  return;
 

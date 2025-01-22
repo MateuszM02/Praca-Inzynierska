@@ -33,7 +33,7 @@ public:
         return currentState();
     }
 
-    static std::shared_ptr<StrGenerator> 
+    static std::shared_ptr<StrGenerator>
     createGenerator(const unsigned int vectorSize, const unsigned int length)
     {
         StrGenerator generator = createGeneratorData(vectorSize, length);

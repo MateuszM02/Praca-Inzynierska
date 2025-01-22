@@ -15,7 +15,7 @@ TEST_P(MatrixGenerateDoubleFixture, doubleTest)
 }
 
 INSTANTIATE_TEST_SUITE_P(
-    GeneratePrefix, 
+    GeneratePrefix,
     MatrixGenerateIntFixture,
     ::testing::Values(
         std::make_shared<MatrixGenerateArgs<int>>(Examples::a1(), 10000u),

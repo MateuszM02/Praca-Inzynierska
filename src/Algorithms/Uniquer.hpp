@@ -28,39 +28,45 @@ private:
 
     std::vector<DataType> executeSTL() const override
     {
-        std::vector<DataType> result;
-        auto resultView = std::ranges::unique(filteredElements_);
-        result.reserve(initialElements_.size() - resultView.size());
-        std::ranges::move(filteredElements_.begin(), resultView.begin(), std::back_inserter(result));
-        return result;
+        auto removedRange = std::ranges::unique(filteredElements_);
+        filteredElements_.erase(removedRange.begin(), removedRange.end());
+        return filteredElements_;
     }
 
     std::vector<DataType> executeBoost() const override
     {
         auto resultView = filteredElements_ | boost::adaptors::uniqued;
-        std::vector<DataType> result;
-        result.reserve(std::distance(resultView.begin(), resultView.end()));
-        std::ranges::move(resultView, std::back_inserter(result));
-        return result;
+        return std::vector<DataType>(resultView.begin(), resultView.end());
     }
 
     std::vector<DataType> executeSimple() const override
     {
         if (filteredElements_.empty()) return filteredElements_;
 
-        auto writeIter = filteredElements_.begin();
-        for (auto readIter = std::next(filteredElements_.begin());
-            readIter != filteredElements_.end(); ++readIter)
+        std::size_t removedElements = 0;
+        std::size_t begin = 0;
+
+        while (begin < filteredElements_.size() - removedElements)
         {
-            if (*readIter != *writeIter)
+            std::size_t end = begin + 1;
+            while (end < filteredElements_.size() - removedElements &&
+                filteredElements_[begin] == filteredElements_[end])
             {
-                ++writeIter;
-                *writeIter = std::move(*readIter);
+                end++;
             }
+
+            std::size_t moveDiff = end - begin - 1;
+            begin++;
+            if (moveDiff < 1)   continue;
+
+            for (std::size_t k = begin; k < filteredElements_.size() - removedElements - moveDiff; k++)
+            {
+                filteredElements_[k] = std::move(filteredElements_[k + moveDiff]);
+            }
+            removedElements += moveDiff;
         }
 
-        auto newSize = std::distance(filteredElements_.begin(), std::next(writeIter));
-        filteredElements_.resize(newSize);
+        filteredElements_.erase(filteredElements_.end() - removedElements, filteredElements_.end());
         return filteredElements_;
     }
 

@@ -26,15 +26,19 @@ private:
     void resetData() const override { }
 
     CopyablePair<DataType> executeSTL() const override
-    {   
+    {
         auto [minIter, maxIter] = std::minmax_element(elements_.begin(), elements_.end());
-        return CopyablePair(*minIter, *maxIter);
+        DataType arg1 = *minIter;
+        DataType arg2 = *maxIter;
+        return CopyablePair(std::move(arg1), std::move(arg2));
     }
 
     CopyablePair<DataType> executeBoost() const override
     {
         auto [minIter, maxIter] = boost::minmax_element(elements_.begin(), elements_.end());
-        return CopyablePair(*minIter, *maxIter);
+        DataType arg1 = *minIter;
+        DataType arg2 = *maxIter;
+        return CopyablePair(std::move(arg1), std::move(arg2));
     }
 
     CopyablePair<DataType> executeSimple() const override
@@ -52,7 +56,10 @@ private:
                 maxIter = iter;
             ++iter;
         }
-        return CopyablePair(*minIter, *maxIter);
+
+        DataType arg1 = *minIter;
+        DataType arg2 = *maxIter;
+        return CopyablePair(std::move(arg1), std::move(arg2));
     }
 
     Container elements_;

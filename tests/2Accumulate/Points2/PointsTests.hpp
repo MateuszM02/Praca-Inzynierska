@@ -32,12 +32,16 @@ class PointsAccumulateFixture : public AccumulateTestFixture<CopyableUIntPair>
 public:
     static CopyableUIntPair sortedGenerator(const unsigned int i)
     {
-        return CopyableUIntPair(i, i);
+        unsigned int arg1 = i;
+        unsigned int arg2 = i;
+        return CopyableUIntPair(std::move(arg1), std::move(arg2));
     }
 
     static CopyableUIntPair reverseSortedGenerator(const unsigned int i)
     {
-        return CopyableUIntPair(UINT32_MAX - i, i);
+        unsigned int arg1 = UINT32_MAX - i;
+        unsigned int arg2 = i;
+        return CopyableUIntPair(std::move(arg1), std::move(arg2));
     }
 };
 

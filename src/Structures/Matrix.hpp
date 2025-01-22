@@ -43,13 +43,13 @@ public:
     , matrix_({ { } })
     { }
 
-    template <SquareMatrix MatrixVector> 
+    template <SquareMatrix MatrixVector>
     explicit Matrix(MatrixVector&& values)
     : BaseWrapper<MoveEnabled, CopyEnabled>({ &n_, &matrix_ })
     , n_{values.size()}
     , matrix_{std::move(values)}
     { }
-    
+
     std::size_t size() const noexcept { return n_; }
 
     DataType get(const size_t row, const size_t col) const
