@@ -1,9 +1,7 @@
 #pragma once
 
 #include <any>
-#include <cassert>
 #include <vector>
-#include <type_traits> // std::enable_if
 
 #define ENABLE_MOVE true
 #define DISABLE_MOVE false
@@ -24,7 +22,7 @@ protected:
     explicit BaseWrapper(const std::vector<std::any>& classFields)
     : classFields_{classFields}
     { }
-    
+
     BaseWrapper(BaseWrapper&& other) = delete;
     BaseWrapper& operator=(BaseWrapper&& other) = delete;
     BaseWrapper(const BaseWrapper& other) = delete;

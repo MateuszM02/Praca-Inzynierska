@@ -4,8 +4,6 @@
 // wiec dla tego pliku wylaczymy warning [-Werror=deprecated-copy]
 #ifdef __GNUC__
     #pragma GCC diagnostic ignored "-Wdeprecated-copy"
-#elif defined(_MSC_VER)
-    #pragma warning(disable : 4996)
 #endif
 
 #include "Base.hpp"
@@ -85,8 +83,8 @@ private:
     {
         AccResults<DataType> results;
         results.sum = std::accumulate(
-            std::make_move_iterator(data_.begin()), 
-            std::make_move_iterator(data_.end()), 
+            std::make_move_iterator(data_.begin()),
+            std::make_move_iterator(data_.end()),
             std::move(results.sum),
             [](auto&& sum, auto&& value)
             {

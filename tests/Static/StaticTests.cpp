@@ -184,8 +184,12 @@ TEST_F(StaticTestFixture, TransformTest)
 TEST_F(StaticTestFixture, UniqueTest)
 {
     std::vector<CopyablePair<int>> inVec1 = { p1(), p2(), p2(), p3(), p2(), p4(), p4(), p4() };
-    std::vector<CopyablePair<int>> outVec1 = { p1(), p2(), p3(), p2(), p4() };
+    const std::vector<CopyablePair<int>> outVec1 = { p1(), p2(), p3(), p2(), p4() };
     VerifyUniqueWorks<CopyablePair<int>>(std::move(inVec1), outVec1);
+
+    std::vector<CopyableIntVector> inVec2 = { iv1(), iv2(), iv2(), iv3(), iv2(), iv4(), iv4(), iv4() };
+    const std::vector<CopyableIntVector> outVec2 = { iv1(), iv2(), iv3(), iv2(), iv4() };
+    VerifyUniqueWorks<CopyableIntVector>(std::move(inVec2), outVec2);
 }
 
 // 7. Nth element

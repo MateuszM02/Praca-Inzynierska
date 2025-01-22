@@ -9,7 +9,7 @@ template <bool MoveEnabled, bool CopyEnabled>
 class IntVector final : BaseWrapper<MoveEnabled, CopyEnabled>
 {
 public:
-    explicit IntVector(const std::vector<int>& v)
+    explicit IntVector(std::vector<int>&& v)
     : BaseWrapper<MoveEnabled, CopyEnabled>({ &values_ })
     , values_{std::move(v)}
     { }

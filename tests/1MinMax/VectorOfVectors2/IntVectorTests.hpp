@@ -40,7 +40,7 @@ public:
             v.emplace_back(i);
         }
         v.emplace_back(n);
-        return CopyableIntVector(v);
+        return CopyableIntVector(std::move(v));
     }
 
     // wektory losowe moga sie roznic na dowolnej pozycji
@@ -56,7 +56,7 @@ public:
         {
             v.emplace_back(dis(gen));
         }
-        return CopyableIntVector(v);
+        return CopyableIntVector(std::move(v));
     }
 };
 

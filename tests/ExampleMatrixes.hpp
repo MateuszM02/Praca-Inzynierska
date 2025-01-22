@@ -40,7 +40,7 @@ public:
         return CopyableMatrix<double>(std::move(matrix_values));
     }
 
-    // Przyklad 3. Po podniesieniu macierzy rozmiaru n x n 
+    // Przyklad 3. Po podniesieniu macierzy rozmiaru n x n
     // do potegi i dokladnie 1 liczba bedzie rowna i (1 rzad, 2 kolumna)
     static CopyableMatrix<int> c1(const unsigned int n)
     {

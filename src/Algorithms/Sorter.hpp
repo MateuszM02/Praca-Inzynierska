@@ -40,7 +40,7 @@ private:
         quicksort(sortedElements_, 0, sortedElements_.size() - 1);
         return sortedElements_;
     }
-    
+
     void quicksort(std::vector<DataType>& vec, int low, int high) const
     {
         if (low < high)
@@ -57,7 +57,7 @@ private:
             }
         }
     }
-    
+
     int medianOfThreePartition(std::vector<DataType>& vec, int low, int high) const
     {
         int mid = low + (high - low) / 2;

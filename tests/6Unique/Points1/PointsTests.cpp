@@ -15,9 +15,11 @@ static std::vector<std::shared_ptr<Base>> getTests()
     using T = CopyableUIntPair(*)(const unsigned int);
 
     createTestArgs<Base, UniquePointsArgs, T>(tests, TEST_SIZES,
+        &UniquePointsFixture::noCopiesGenerator);
+    createTestArgs<Base, UniquePointsArgs, T>(tests, TEST_SIZES,
         &UniquePointsFixture::randomGeneratorOftenCopies);
     createTestArgs<Base, UniquePointsArgs, T>(tests, TEST_SIZES,
-        &UniquePointsFixture::randomGeneratorRareCopies);
+        &UniquePointsFixture::onlyCopiesGenerator);
     return tests;
 }
 

@@ -21,14 +21,6 @@ public:
     , second_{DataType()}
     { }
 
-    // dla malych struktur
-    explicit CustomPair(const DataType& first, const DataType& second)
-    requires std::is_copy_constructible_v<DataType>
-    : BaseWrapper<MoveEnabled, CopyEnabled>({ &first_, &second_ })
-    , first_{first}
-    , second_{second}
-    { }
-
     // dla duzych struktur
     explicit CustomPair(DataType&& first, DataType&& second)
     : BaseWrapper<MoveEnabled, CopyEnabled>({ &first_, &second_ })

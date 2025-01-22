@@ -26,7 +26,9 @@ struct FibonacciGenerateArgs final : public GenerateTestStruct<DataType, Copyabl
 
     static DataType stateCreator(CopyablePair<DataType>& currentState)
     {
-        currentState = CopyablePair(currentState.second_, currentState.first_ + currentState.second_);
+        DataType arg1 = currentState.second_;
+        DataType arg2 = currentState.first_ + currentState.second_;
+        currentState = CopyablePair(std::move(arg1), std::move(arg2));
         return currentState.first_;
     }
 };

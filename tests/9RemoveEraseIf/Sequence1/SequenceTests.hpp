@@ -67,7 +67,7 @@ public:
         }
     }
 
-    static bool hasAtMost4Divisors(const unsigned int& value) 
+    static bool hasAtMost4Divisors(const unsigned int& value)
     {
         if (value < 2) return true;
         unsigned int divisors = 2;

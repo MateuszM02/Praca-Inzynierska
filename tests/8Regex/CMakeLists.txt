@@ -4,7 +4,7 @@ add_executable(
   RegexTests.cpp
 )
 
-# Dodaj Boost i GTEST do kazdego execa 
+# Dodaj Boost i GTEST do kazdego execa
 target_include_directories(RegexTests PRIVATE ${Boost_INCLUDE_DIRS} ${gtest_SOURCE_DIR}/include)
 
 # Polacz z GTEST_main

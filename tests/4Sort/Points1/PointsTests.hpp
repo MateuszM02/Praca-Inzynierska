@@ -43,12 +43,16 @@ class PointsSortFixture : public SortTestFixture<CopyableUIntPair>
 public:
     static CopyableUIntPair sortedGenerator(const unsigned int i)
     {
-        return CopyableUIntPair(i, i);
+        unsigned int arg1 = i;
+        unsigned int arg2 = i;
+        return CopyableUIntPair(std::move(arg1), std::move(arg2));
     }
 
     static CopyableUIntPair reverseSortedGenerator(const unsigned int i)
     {
-        return CopyableUIntPair(UINT32_MAX - i, UINT32_MAX - i);
+        unsigned int arg1 = UINT32_MAX - i;
+        unsigned int arg2 = UINT32_MAX - i;
+        return CopyableUIntPair(std::move(arg1), std::move(arg2));
     }
 
     static CopyableUIntPair randomGenerator(const unsigned int seed)
@@ -59,7 +63,7 @@ public:
 
         unsigned int x = dis(gen);
         unsigned int y = dis(gen);
-        return CopyableUIntPair(x, y);
+        return CopyableUIntPair(std::move(x), std::move(y));
     }
 };
 

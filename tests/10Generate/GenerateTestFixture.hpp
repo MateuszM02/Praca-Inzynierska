@@ -19,7 +19,7 @@ protected:
 };
 
 // Klasa abstrakcyjna GenerateTestFixture, po ktorej dziedzicza klasy testowe metod generate
-template <typename GeneratedDataType, typename StateDataType = GeneratedDataType> 
+template <typename GeneratedDataType, typename StateDataType = GeneratedDataType>
 class GenerateTestFixture : public BaseTestFixture<std::vector<GeneratedDataType>>
 {
 protected:

@@ -50,7 +50,7 @@ concept IsAccumulable =
 
 // Concept sprawdzajacy, czy typ spelnia warunki do 5Transformer
 template <typename DataType>
-concept Transformable = 
+concept Transformable =
     (std::copyable<DataType> || std::movable<DataType>) &&
     std::ranges::range<std::vector<DataType>>;
 

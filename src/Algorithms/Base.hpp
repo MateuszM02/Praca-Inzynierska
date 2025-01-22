@@ -1,7 +1,6 @@
 #pragma once
 
 #include <chrono> // mierzenie czasu wykonania testu
-#include <vector>
 
 namespace src::Algorithms
 {

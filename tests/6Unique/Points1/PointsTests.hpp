@@ -29,6 +29,13 @@ struct UniquePointsArgs final : public Parent
 class UniquePointsFixture : public UniqueTestFixture<CopyableUIntPair>
 {
 public:
+    static CopyableUIntPair noCopiesGenerator(const unsigned int n)
+    {
+        unsigned int arg1 = n;
+        unsigned int arg2 = n;
+        return CopyableUIntPair(std::move(arg1), std::move(arg2));
+    }
+
     static CopyableUIntPair randomGeneratorOftenCopies(const unsigned int n)
     {
         static std::mt19937 gen(0);
@@ -39,14 +46,9 @@ public:
         return p;
     }
 
-    static CopyableUIntPair randomGeneratorRareCopies(const unsigned int n)
+    static CopyableUIntPair onlyCopiesGenerator(const unsigned int)
     {
-        static std::mt19937 gen(0);
-        static std::uniform_int_distribution<> dis(1, n);
-
-        const int value = dis(gen);
-        const CopyableUIntPair p(value, value);
-        return p;
+        return CopyableUIntPair(1, 1);
     }
 };
 
