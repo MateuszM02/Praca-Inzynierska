@@ -1,10 +1,6 @@
 #include "PointsTests.hpp"
 
-#define FEW_POINTS 100'000
-#define AVERAGE_POINTS 200'000
-#define MANY_POINTS 300'000
-
-#define TEST_SIZES { FEW_POINTS, AVERAGE_POINTS, MANY_POINTS }
+#define TEST_SIZES { 100'000, 200'000, 300'000 }
 
 namespace tests::Unique
 {

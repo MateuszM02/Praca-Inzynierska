@@ -1,8 +1,7 @@
 #include "RandomStringTests.hpp"
 
-//ilosc, jakosc
-#define FEW_STRINGS 1'000
-#define MANY_STRINGS 2'000
+#define FEW_STRINGS 20'000
+#define MANY_STRINGS 40'000
 
 #define SHORT_STRINGS 1'000
 #define LONG_STRINGS 2'000

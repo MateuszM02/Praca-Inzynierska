@@ -25,7 +25,7 @@ endif()
 
 # Dodanie flag kompilatora globalnie
 # GoogleTest wymaga co najmniej C++14 ale potrzeba C++20 do konceptow
-set(CMAKE_CXX_FLAGS "-std=c++20 -Wall -Wextra -Werror -Wunused -Wuninitialized -O2 -g")
+set(CMAKE_CXX_FLAGS "-std=c++20 -Wall -Wextra -Werror -Wunused -Wuninitialized -O2")
 
 add_subdirectory(tests)
 

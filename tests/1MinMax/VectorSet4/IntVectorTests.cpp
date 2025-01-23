@@ -1,6 +1,6 @@
 #include "IntVectorTests.hpp"
 
-#define TEST_SIZES { 1'000, 5'000, 10'000 }
+#define TEST_SIZES { 5'000, 10'000, 15'000 }
 
 namespace tests::MinMax
 {

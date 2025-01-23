@@ -1,6 +1,6 @@
 #include "IntVectorTests.hpp"
 
-#define TEST_SIZES { 2'000, 4'000, 8'000, 16'000 }
+#define TEST_SIZES { 4'000, 8'000, 12'000 }
 
 namespace tests::Sort
 {

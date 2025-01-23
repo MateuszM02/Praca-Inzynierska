@@ -11,9 +11,9 @@ using Container1 = std::vector<unsigned int>;
 using Base1 = BaseTestStruct<Container1>;
 using Parent1 = RemoveEraseIfTestStruct<Container1>;
 
-struct SequenceArgs final : public Parent1
+struct SequenceRemoveEraseIfArgs final : public Parent1
 {
-    explicit SequenceArgs(
+    explicit SequenceRemoveEraseIfArgs(
         bool(*predicate)(const unsigned int&),
         const unsigned int n)
     : Parent1(TestType::RemoveEraseIfSequence,
@@ -29,7 +29,7 @@ struct SequenceArgs final : public Parent1
     }
 };
 
-class SequenceIntFixture : public RemoveEraseIfTestFixture<Container1>
+class SequenceRemoveEraseIfFixture : public RemoveEraseIfTestFixture<Container1>
 {
 public:
     // predykaty

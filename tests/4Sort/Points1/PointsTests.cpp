@@ -1,6 +1,6 @@
 #include "PointsTests.hpp"
 
-#define TEST_SIZES { 50'000, 100'000, 150'000, 200'000 }
+#define TEST_SIZES { 25'000, 50'000, 75'000 }
 
 namespace tests::Sort
 {
