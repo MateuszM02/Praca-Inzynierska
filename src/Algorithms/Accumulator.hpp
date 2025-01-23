@@ -84,9 +84,9 @@ private:
             std::make_move_iterator(data_.begin()),
             std::make_move_iterator(data_.end()),
             std::move(results.sum),
-            [](auto&& sum, auto&& value)
+            [](DataType&& sum, const DataType& value)
             {
-                sum += std::move(value);
+                sum += value;
                 return std::move(sum);
             });
 

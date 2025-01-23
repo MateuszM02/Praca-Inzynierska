@@ -9,10 +9,11 @@
 #include "BaseWrapper.hpp"
 
 #define ASSERT_INDEX(indexName) \
-    if ((indexName) >= n_) \
+    if ((indexName) >= matrix_.size()) \
     { \
-        std::cerr << #indexName << " index out of range, given: " << (indexName) << ", size: " << n_ << "\n"; \
-        assert((indexName) < n_); \
+        std::cerr << #indexName << " index out of range, given: " \
+            << (indexName) << ", size: " << matrix_.size() << "\n"; \
+        assert((indexName) < matrix_.size()); \
     }
 
 using namespace src::Concepts;
@@ -21,7 +22,7 @@ namespace src::Structures
 {
 
 template <typename MatrixVector>
-concept SquareMatrix = requires(MatrixVector matrix)
+concept SquareMatrix = requires(const MatrixVector& matrix)
 {
     { matrix.size() } -> std::convertible_to<std::size_t>;
     { matrix[0].size() } -> std::convertible_to<std::size_t>;
@@ -38,19 +39,17 @@ class Matrix final : BaseWrapper<MoveEnabled, CopyEnabled>
 public:
     // potrzebne do 2Accumulate
     explicit Matrix()
-    : BaseWrapper<MoveEnabled, CopyEnabled>({ &n_, &matrix_ })
-    , n_{0}
-    , matrix_({ { } })
+    : BaseWrapper<MoveEnabled, CopyEnabled>({ &matrix_ })
+    , matrix_{}
     { }
 
     template <SquareMatrix MatrixVector>
     explicit Matrix(MatrixVector&& values)
-    : BaseWrapper<MoveEnabled, CopyEnabled>({ &n_, &matrix_ })
-    , n_{values.size()}
+    : BaseWrapper<MoveEnabled, CopyEnabled>({ &matrix_ })
     , matrix_{std::move(values)}
     { }
 
-    std::size_t size() const noexcept { return n_; }
+    std::size_t size() const { return matrix_.size(); }
 
     DataType get(const size_t row, const size_t col) const
     {
@@ -63,11 +62,10 @@ public:
     {
         ASSERT_INDEX(row);
         ASSERT_INDEX(col);
-        matrix_[row][col] = std::move(newValue);
+        matrix_[row][col] = newValue;
     }
 
 private:
-    std::size_t n_;
     mutable std::vector<std::vector<DataType>> matrix_;
 };
 

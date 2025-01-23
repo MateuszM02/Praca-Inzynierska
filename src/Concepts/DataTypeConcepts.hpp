@@ -43,7 +43,6 @@ concept Comparable = EqualityComparable<DataType> &&
 template <typename DataType>
 concept IsAccumulable =
     HasNumericLimits<DataType> &&
-    Addable<DataType> &&
     DivisibleByConst<DataType> &&
     NoCopyAddable<DataType> &&
     Comparable<DataType>;
