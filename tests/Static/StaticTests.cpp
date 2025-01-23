@@ -20,7 +20,7 @@ CopyableMatrix<int> M1()
 
 CopyableMatrix<int> M2()
 {
-    std::vector<std::vector<int>> vecOfVecs{ { 7, 3 }, { 25, 55 } };
+    std::vector<std::vector<int>> vecOfVecs{ { 7, 3 }, { 25, 45 } };
     CopyableMatrix<int> m(std::move(vecOfVecs));
     return m;
 }
@@ -103,7 +103,7 @@ TEST_F(StaticTestFixture, MinMaxTest)
     VerifyMinMaxWorks(IvSet(), minMaxIvResult);
 }
 
-// 2. Accumulate TODO: Naprawic niedzialajace testy Matrix
+// 2. Accumulate
 TEST_F(StaticTestFixture, AccumulateTest)
 {
     AccResults<int> accumulateUIntResult;
@@ -120,16 +120,16 @@ TEST_F(StaticTestFixture, AccumulateTest)
     accumulatePointResult.sum = CopyablePair<int>(30, 25);
     VerifyAccumulateWorks(PointVector(), accumulatePointResult);
 
-    // auto values1 = []() -> std::vector<std::vector<int>> { return {{10, 2}, {16, 33}}; };
-    // auto values2 = []() -> std::vector<std::vector<int>> { return {{30, 6}, {48, 99}}; };
-    // auto matrixes = []() -> std::vector<CopyableMatrix<int>> { return { M1(), M2(), M3() }; };
+    auto values1 = []() -> std::vector<std::vector<int>> { return {{10, 2}, {16, 33}}; };
+    auto values2 = []() -> std::vector<std::vector<int>> { return {{30, 6}, {48, 99}}; };
+    auto matrixes = []() -> std::vector<CopyableMatrix<int>> { return { M1(), M2(), M3() }; };
 
-    // AccResults<CopyableMatrix<int>> accumulateMatrixResult;
-    // accumulateMatrixResult.minimum = M2();
-    // accumulateMatrixResult.maximum = M3();
-    // accumulateMatrixResult.mean = CopyableMatrix<int>(values1());
-    // accumulateMatrixResult.sum = CopyableMatrix<int>(values2());
-    // VerifyAccumulateWorks(matrixes(), accumulateMatrixResult);
+    AccResults<CopyableMatrix<int>> accumulateMatrixResult;
+    accumulateMatrixResult.minimum = M2();
+    accumulateMatrixResult.maximum = M3();
+    accumulateMatrixResult.mean = CopyableMatrix<int>(values1());
+    accumulateMatrixResult.sum = CopyableMatrix<int>(values2());
+    VerifyAccumulateWorks(matrixes(), accumulateMatrixResult);
 }
 
 // 3. Merge

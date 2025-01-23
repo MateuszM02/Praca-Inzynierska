@@ -14,26 +14,8 @@ concept SameShape = requires(const MatrixType& m1, const MatrixType& m2)
 {
     { m1.size() } -> std::convertible_to<std::size_t>;
     { m2.size() } -> std::convertible_to<std::size_t>;
-    { m1.size() == m2.size() } -> std::convertible_to<bool>;
+    { m1.size() == m2.size() } -> std::same_as<bool>;
 };
-
-// implementacja operatorow potrzebnych do testow na klasie Matrix
-template <Addable DataType, bool MoveEnabled, bool CopyEnabled>
-requires SameShape<Matrix<DataType, MoveEnabled, CopyEnabled>>
-Matrix<DataType, MoveEnabled, CopyEnabled> operator+(
-    const Matrix<DataType, MoveEnabled, CopyEnabled>& m1,
-    const Matrix<DataType, MoveEnabled, CopyEnabled>& m2)
-{
-    Matrix<DataType, MoveEnabled, CopyEnabled> newMatrix(m1);
-    for (size_t row = 0; row < m1.size(); ++row)
-    {
-        for (size_t col = 0; col < m1.size(); ++col)
-        {
-            newMatrix.update(row, col, m1.get(row, col) + m2.get(row, col));
-        }
-    }
-    return newMatrix;
-}
 
 template <DivisibleByConst DataType, bool MoveEnabled, bool CopyEnabled>
 Matrix<DataType, MoveEnabled, CopyEnabled> operator/(
@@ -57,6 +39,13 @@ Matrix<DataType, MoveEnabled, CopyEnabled>& operator+=(
     Matrix<DataType, MoveEnabled, CopyEnabled>& m1,
     const Matrix<DataType, MoveEnabled, CopyEnabled>& m2)
 {
+    // potrzebne do 2Accumulate, bo domyslny konstruktor ktorego uzywa tworzy pusta macierz
+    if (m1.size() == 0)
+    {
+        m1 = m2;
+        return m1;
+    }
+
     for (size_t row = 0; row < m1.size(); ++row)
     {
         for (size_t col = 0; col < m1.size(); ++col)
