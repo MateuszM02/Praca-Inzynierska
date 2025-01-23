@@ -1,8 +1,8 @@
 #include "MatrixTests.hpp"
 #include "../../ExampleMatrixes.hpp"
 
-#define FEW_MATRIXES 2'000
-#define MANY_MATRIXES 4'000
+#define FEW_MATRIXES 1'000
+#define MANY_MATRIXES 2'000
 
 #define SMALL_MATRIXES 100
 #define BIG_MATRIXES 200

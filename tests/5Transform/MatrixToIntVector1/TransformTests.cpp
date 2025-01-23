@@ -1,6 +1,6 @@
 #include "TransformTests.hpp"
 
-#define TEST_SIZES { 200, 400, 800 }
+#define TEST_SIZES { 200, 400, 600 }
 
 namespace tests::Transform
 {

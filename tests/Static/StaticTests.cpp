@@ -235,13 +235,13 @@ TEST_F(StaticTestFixture, RemoveEraseIfTest)
     const std::vector<unsigned int> expectedNumbersWith1ToNSumEven = { 3, 7, 16, 31 };
 
     VerifyRemoveEraseIfWorks(elements,
-        &RemoveEraseIf::SequenceIntFixture::isMersenneNumber,
+        &RemoveEraseIf::SequenceRemoveEraseIfFixture::isMersenneNumber,
         expectedNonMersenneNumbers);
     VerifyRemoveEraseIfWorks(elements,
-        &RemoveEraseIf::SequenceIntFixture::hasAtMost4Divisors,
+        &RemoveEraseIf::SequenceRemoveEraseIfFixture::hasAtMost4Divisors,
         expectedNumbersWithMoreThan4Divisors);
     VerifyRemoveEraseIfWorks(elements,
-        &RemoveEraseIf::SequenceIntFixture::is1toNSumOdd,
+        &RemoveEraseIf::SequenceRemoveEraseIfFixture::is1toNSumOdd,
         expectedNumbersWith1ToNSumEven);
 
     const std::vector<std::string> elements2 = { "aba", "ca", "", "@a", "ABBAI##", "BO$o", "Y" };

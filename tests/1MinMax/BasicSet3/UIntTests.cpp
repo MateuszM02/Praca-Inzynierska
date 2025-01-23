@@ -1,6 +1,6 @@
 #include "UIntTests.hpp"
 
-#define TEST_SIZES { 250'000, 1'000'000, 2'000'000 }
+#define TEST_SIZES { 2'000'000, 4'000'000, 6'000'000 }
 
 namespace tests::MinMax
 {

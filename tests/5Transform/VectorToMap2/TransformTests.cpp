@@ -1,7 +1,7 @@
 #include "TransformTests.hpp"
 
 #define FEW_VECTORS 1'000
-#define MANY_VECTORS 5'000
+#define MANY_VECTORS 2'000
 
 #define SMALL_VECTORS 1'000
 #define MEDIUM_VECTORS 2'000
