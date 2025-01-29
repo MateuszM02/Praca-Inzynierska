@@ -1,6 +1,7 @@
 #include "IntVectorTests.hpp"
 
-#define TEST_SIZES { 5'000, 10'000, 15'000 }
+#define BASE_SIZE 2'500
+#define TEST_SIZES TEST_SIZES10(BASE_SIZE)
 
 namespace tests::MinMax
 {

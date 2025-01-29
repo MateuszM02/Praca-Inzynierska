@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <unordered_map>
 
 namespace tests
 {
@@ -71,9 +70,8 @@ public:
 
     static std::string Create(const TestType& testType)
     {
-        static std::unordered_map<TestType, unsigned int> testIdMap;
         std::ostringstream os;
-        os << testType << ++testIdMap[testType] << ".txt";
+        os << testType << ".txt";
         return os.str();
     }
 };

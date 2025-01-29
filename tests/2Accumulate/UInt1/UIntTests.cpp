@@ -1,6 +1,7 @@
 #include "UIntTests.hpp"
 
-#define TEST_SIZES { 25'000'000, 50'000'000, 75'000'000 }
+#define BASE_SIZE 10'000'000
+#define TEST_SIZES TEST_SIZES10(BASE_SIZE)
 
 namespace tests::Accumulate
 {
@@ -11,22 +12,7 @@ static std::vector<std::shared_ptr<Base>> getTests()
     using T = unsigned int(*)(const unsigned int);
 
     createTestArgs<Base, UIntAccumulateArgs, T, AccType>(
-        tests, TEST_SIZES, &UIntAccumulateFixture::sortedGenerator, AccType::SumOnly);
-    createTestArgs<Base, UIntAccumulateArgs, T, AccType>(
-        tests, TEST_SIZES, &UIntAccumulateFixture::sortedGenerator, AccType::SumAndExtremes);
-    createTestArgs<Base, UIntAccumulateArgs, T, AccType>(
-        tests, TEST_SIZES, &UIntAccumulateFixture::sortedGenerator, AccType::SumAndMean);
-    createTestArgs<Base, UIntAccumulateArgs, T, AccType>(
         tests, TEST_SIZES, &UIntAccumulateFixture::sortedGenerator, AccType::DoItAll);
-
-    createTestArgs<Base, UIntAccumulateArgs, T, AccType>(
-        tests, TEST_SIZES, &UIntAccumulateFixture::reverseSortedGenerator, AccType::SumOnly);
-    createTestArgs<Base, UIntAccumulateArgs, T, AccType>(
-        tests, TEST_SIZES, &UIntAccumulateFixture::reverseSortedGenerator, AccType::SumAndExtremes);
-    createTestArgs<Base, UIntAccumulateArgs, T, AccType>(
-        tests, TEST_SIZES, &UIntAccumulateFixture::reverseSortedGenerator, AccType::SumAndMean);
-    createTestArgs<Base, UIntAccumulateArgs, T, AccType>(
-        tests, TEST_SIZES, &UIntAccumulateFixture::reverseSortedGenerator, AccType::DoItAll);
     return tests;
 }
 

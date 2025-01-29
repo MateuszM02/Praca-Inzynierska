@@ -16,11 +16,11 @@ struct PointsMergeArgs final : public Parent
     explicit PointsMergeArgs(
         CopyableUIntPair (*dataCreator1)(const unsigned int),
         CopyableUIntPair (*dataCreator2)(const unsigned int),
-        const TestPair& info)
+        const unsigned int n)
     : Parent(TestType::MergePoints,
-        [dataCreator1, dataCreator2, info]()
+        [dataCreator1, dataCreator2, n]()
         {
-            return initTestData3(dataCreator1, dataCreator2, info);
+            return initTestData3(dataCreator1, dataCreator2, n);
         })
     { }
 };

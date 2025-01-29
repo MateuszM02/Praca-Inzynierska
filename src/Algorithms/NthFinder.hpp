@@ -70,14 +70,14 @@ private:
         return elements_;
     }
 
-    Iterator quickselect(Iterator low, Iterator high, const Iterator& nth) const
+    Iterator quickselect(Iterator low, Iterator high, const Iterator& nthIter) const
     {
         while (low < high)
         {
             Iterator pivotIter = partition(low, high);
-            if (pivotIter == nth)
+            if (pivotIter == nthIter)
                 return pivotIter;
-            else if (nth < pivotIter)
+            else if (nthIter < pivotIter)
                 high = pivotIter - 1;
             else
                 low = pivotIter + 1;

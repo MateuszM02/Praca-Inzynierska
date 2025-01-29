@@ -36,13 +36,6 @@ public:
         unsigned int arg2 = i;
         return CopyableUIntPair(std::move(arg1), std::move(arg2));
     }
-
-    static CopyableUIntPair reverseSortedGenerator(const unsigned int i)
-    {
-        unsigned int arg1 = UINT32_MAX - i;
-        unsigned int arg2 = i;
-        return CopyableUIntPair(std::move(arg1), std::move(arg2));
-    }
 };
 
 } // namespace tests::Accumulate

@@ -28,14 +28,11 @@ struct PointsNthElementArgs final : public Parent
 class PointsNthElementFixture : public NthElementTestFixture<Container>
 {
 public:
-    static CopyableUIntPair fmod3i3_mod7i64(const unsigned int i)
+    static CopyableUIntPair sortedGenerator(const unsigned int i)
     {
-        return CopyableUIntPair(3*i + (i % 3), 7*i % 64);
-    }
-
-    static CopyableUIntPair f3i_mod9i64(const unsigned int i)
-    {
-        return CopyableUIntPair(3*i, 9*i % 64);
+        unsigned int arg1 = i;
+        unsigned int arg2 = i;
+        return CopyableUIntPair(std::move(arg1), std::move(arg2));
     }
 };
 

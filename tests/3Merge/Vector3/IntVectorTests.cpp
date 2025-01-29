@@ -1,7 +1,7 @@
 #include "IntVectorTests.hpp"
 
-#define TEST_SIZES { TestPair(3'000, 3'000), TestPair(6'000, 6'000), \
-    TestPair(9'000, 9'000), TestPair( 12'000, 12'000) }
+#define BASE_SIZE 2'000
+#define TEST_SIZES TEST_SIZES10(BASE_SIZE)
 
 namespace tests::Merge
 {
@@ -12,8 +12,8 @@ static std::vector<std::shared_ptr<Base>> getTests()
     using T = CopyableIntVector(*)(const unsigned int);
 
     createTestArgs<Base, IntVectorMergeArgs, T, T>(tests, TEST_SIZES,
-        &IntVectorMergeFixture::f10i_imod7,
-        &IntVectorMergeFixture::f10i_imod9);
+        &IntVectorMergeFixture::fun1,
+        &IntVectorMergeFixture::fun2);
     return tests;
 }
 

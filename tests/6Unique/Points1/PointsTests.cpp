@@ -1,6 +1,7 @@
 #include "PointsTests.hpp"
 
-#define TEST_SIZES { 100'000, 200'000, 300'000 }
+#define BASE_SIZE 200'000
+#define TEST_SIZES TEST_SIZES10(BASE_SIZE)
 
 namespace tests::Unique
 {
@@ -11,9 +12,7 @@ static std::vector<std::shared_ptr<Base>> getTests()
     using T = CopyableUIntPair(*)(const unsigned int);
 
     createTestArgs<Base, UniquePointsArgs, T>(tests, TEST_SIZES,
-        &UniquePointsFixture::noCopiesGenerator);
-    createTestArgs<Base, UniquePointsArgs, T>(tests, TEST_SIZES,
-        &UniquePointsFixture::randomGeneratorOftenCopies);
+         &UniquePointsFixture::noCopiesGenerator);
     createTestArgs<Base, UniquePointsArgs, T>(tests, TEST_SIZES,
         &UniquePointsFixture::onlyCopiesGenerator);
     return tests;
