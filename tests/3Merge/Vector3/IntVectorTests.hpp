@@ -16,11 +16,11 @@ struct IntVectorMergeArgs final : public Parent
     explicit IntVectorMergeArgs(
         CopyableIntVector (*dataCreator1)(const unsigned int),
         CopyableIntVector (*dataCreator2)(const unsigned int),
-        const TestPair& info)
+        const unsigned int n)
     : Parent(TestType::MergeIntVector,
-        [dataCreator1, dataCreator2, info]()
+        [dataCreator1, dataCreator2, n]()
         {
-            return initTestData3(dataCreator1, dataCreator2, info);
+            return initTestData3(dataCreator1, dataCreator2, n);
         })
     { }
 };
@@ -28,7 +28,7 @@ struct IntVectorMergeArgs final : public Parent
 class IntVectorMergeFixture : public MergeTestFixture<CopyableIntVector>
 {
 public:
-    static CopyableIntVector f10i_imod7(const unsigned int n)
+    static CopyableIntVector fun1(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
@@ -39,7 +39,7 @@ public:
         return CopyableIntVector(std::move(v));
     }
 
-    static CopyableIntVector f10i_imod9(const unsigned int n)
+    static CopyableIntVector fun2(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);

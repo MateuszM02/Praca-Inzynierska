@@ -1,6 +1,8 @@
 #include "RegexTests.hpp"
 
-#define TEST_SIZES { 10'000'000, 20'000'000, 30'000'000 }
+#define BASE_SIZE 5'000'000
+
+#define TEST_SIZES TEST_SIZES10(BASE_SIZE)
 
 namespace tests::Regex
 {

@@ -31,11 +31,6 @@ public:
     {
         return i;
     }
-
-    static unsigned int reverseSortedGenerator(const unsigned int i)
-    {
-        return UINT32_MAX - i;
-    }
 };
 
 } // namespace tests::Accumulate

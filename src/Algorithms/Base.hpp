@@ -52,7 +52,7 @@ protected:
 private:
     ResultType measureExecutionTime(
         ResultType(BaseClass::*memberFunction)() const,
-        const std::string& methodName,
+        const std::string&,// methodName,
         std::ostringstream& os) const
     {
         const auto start = std::chrono::high_resolution_clock::now();
@@ -60,7 +60,7 @@ private:
         const auto end = std::chrono::high_resolution_clock::now();
 
         const std::chrono::duration<double> duration = end - start;
-        os << methodName << " call time: " << duration.count() << " seconds\n";
+        os << duration.count() << "\t";
 
         return std::move(result);
     }

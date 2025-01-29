@@ -1,6 +1,7 @@
 #include "IntVectorTests.hpp"
 
-#define TEST_SIZES { 4'000, 8'000, 12'000 }
+#define BASE_SIZE 2'000
+#define TEST_SIZES TEST_SIZES10(BASE_SIZE)
 
 namespace tests::Sort
 {
@@ -11,9 +12,9 @@ static std::vector<std::shared_ptr<Base>> getTests()
     using T = CopyableIntVector(*)(const unsigned int);
 
     createTestArgs<Base, IntVectorSortArgs, T>(tests, TEST_SIZES,
-        &IntVectorSortFixture::sortedFirstElementGenerator);
+        &IntVectorSortFixture::sortedGenerator);
     createTestArgs<Base, IntVectorSortArgs, T>(tests, TEST_SIZES,
-        &IntVectorSortFixture::sortedLastElementGenerator);
+        &IntVectorSortFixture::reverseSortedGenerator);
     createTestArgs<Base, IntVectorSortArgs, T>(tests, TEST_SIZES,
         &IntVectorSortFixture::randomGenerator);
     return tests;

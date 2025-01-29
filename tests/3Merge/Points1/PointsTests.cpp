@@ -1,7 +1,7 @@
 #include "PointsTests.hpp"
 
-#define TEST_SIZES { TestPair(100'000, 100'000), TestPair(200'000, 200'000), \
-    TestPair(300'000, 300'000), TestPair(400'000, 400'000) }
+#define BASE_SIZE 100'000
+#define TEST_SIZES TEST_SIZES10(BASE_SIZE)
 
 namespace tests::Merge
 {

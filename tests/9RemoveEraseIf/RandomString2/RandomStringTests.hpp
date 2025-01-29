@@ -17,7 +17,7 @@ struct RandomStringRemoveEraseIfArgs final : public Parent2
     explicit RandomStringRemoveEraseIfArgs(
         bool(*predicate)(const std::string&),
         const TestPair& info)
-    : Parent2(TestType::RemoveEraseIfSequence,
+    : Parent2(TestType::RemoveEraseIfRandomString,
         [predicate, info]()
         {
             return initTestData9(generateRandomString, predicate, info);

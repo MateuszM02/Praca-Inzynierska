@@ -8,33 +8,28 @@ using namespace src::Structures;
 namespace tests::Generate
 {
 
-template <typename Number>
-requires std::is_arithmetic_v<Number>
-struct MatrixGenerateArgs final : public GenerateTestStruct<CopyableMatrix<Number>>
+struct MatrixGenerateArgs final : public GenerateTestStruct<CopyableMatrix<int>>
 {
     explicit MatrixGenerateArgs(
-        CopyableMatrix<Number>&& initialMatrix,
+        CopyableMatrix<int>&& initialMatrix,
         const unsigned int n)
-    : GenerateTestStruct<CopyableMatrix<Number>>(
+    : GenerateTestStruct<CopyableMatrix<int>>(
         TestType::GenerateMatrix,
         [initialMatrix_ = std::move(initialMatrix), n]() mutable
         {
-            auto stateCreator = [initialMatrix_](CopyableMatrix<Number>& currentState)
+            auto stateCreator = [initialMatrix_](CopyableMatrix<int>& currentState)
             {
                 currentState *= initialMatrix_;
                 return currentState;
             };
 
-            return std::make_shared<Generator<CopyableMatrix<Number>>>(
+            return std::make_shared<Generator<CopyableMatrix<int>>>(
                 n, std::move(initialMatrix_), std::move(stateCreator));
         })
     { }
 };
 
 class MatrixGenerateIntFixture : public GenerateTestFixture<CopyableMatrix<int>>
-{ };
-
-class MatrixGenerateDoubleFixture : public GenerateTestFixture<CopyableMatrix<double>>
 { };
 
 } // namespace tests::Generate

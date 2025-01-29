@@ -26,6 +26,43 @@ using namespace src::Concepts;
     } \
     EXPECT_EQ(val1, val2)
 
+#define TEST_SIZES10(base) \
+std::vector<unsigned int>{ \
+    base, 2*base, \
+    3*base, 4*base, \
+    5*base, 6*base, \
+    7*base, 8*base, \
+    9*base, 10*base \
+}
+
+#define TEST_SIZES10_PAIRS(base1, base2) \
+{ \
+    TestPair(base1, base2), \
+    TestPair(2*base1, 2*base2), \
+    TestPair(3*base1, 3*base2), \
+    TestPair(4*base1, 4*base2), \
+    TestPair(5*base1, 5*base2), \
+    TestPair(6*base1, 6*base2), \
+    TestPair(7*base1, 7*base2), \
+    TestPair(8*base1, 8*base2), \
+    TestPair(9*base1, 9*base2), \
+    TestPair(10*base1, 10*base2) \
+}
+
+#define TEST_SIZES10_PAIRS_ONLY1RISE(base1, base2) \
+{ \
+    TestPair(base1, base2), \
+    TestPair(2*base1, base2), \
+    TestPair(3*base1, base2), \
+    TestPair(4*base1, base2), \
+    TestPair(5*base1, base2), \
+    TestPair(6*base1, base2), \
+    TestPair(7*base1, base2), \
+    TestPair(8*base1, base2), \
+    TestPair(9*base1, base2), \
+    TestPair(10*base1, base2) \
+}
+
 namespace tests
 {
 
@@ -134,7 +171,7 @@ public:
 
     std::shared_ptr<BaseClass<ResultType>> getTestData() const
     {
-        if (!testData_.has_value())
+        if (not testData_.has_value())
             testData_ = callback_();
         return testData_.value();
     }
@@ -149,6 +186,8 @@ private:
 template <typename ResultType>
 class BaseTestFixture : public ::testing::TestWithParam<std::shared_ptr<BaseTestStruct<ResultType>>>
 {
+private:
+    static std::ios_base::openmode mode;
 protected:
     BaseTestFixture() = default;
 
@@ -175,11 +214,11 @@ protected:
         const auto& [stlResult, boostResult, simpleResult] = testData->callEachWithTimer(os);
 
         // Zapisywanie wynikow testu do pliku
-        std::ofstream outFile(args->getFilePath(), std::ios::out | std::ios::trunc);
+        std::ofstream outFile(args->getFilePath(), std::ios::out | std::ios::app);
         if (outFile.is_open())
         {
             checker(stlResult, boostResult, simpleResult, os);
-            outFile << os.str();
+            outFile << os.str() << "\n";
             outFile.close();
         }
         else

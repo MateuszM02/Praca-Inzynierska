@@ -1,5 +1,9 @@
 #include "RandomStringTests.hpp"
 
+#define STRING_LENGTH 1'000
+#define BASE_COUNT 50'000
+#define TEST_COUNTS TEST_SIZES10(BASE_COUNT)
+
 namespace tests::Generate
 {
 
@@ -11,15 +15,17 @@ TEST_P(RandomStringGenerateFixture, RandomStringGenerateTest)
 INSTANTIATE_TEST_SUITE_P(
     GeneratePrefix,
     RandomStringGenerateFixture,
-    ::testing::Values( // dlugosc slowa, ilosc slow
-        std::make_shared<RandomStringGenerateArgs>(10u, 1'000'000u),
-        std::make_shared<RandomStringGenerateArgs>(10u, 2'000'000u),
-        std::make_shared<RandomStringGenerateArgs>(1'000u, 50'000u),
-        std::make_shared<RandomStringGenerateArgs>(1'000u, 100'000u),
-        std::make_shared<RandomStringGenerateArgs>(50'000u, 1'000u),
-        std::make_shared<RandomStringGenerateArgs>(100'000u, 1'000u),
-        std::make_shared<RandomStringGenerateArgs>(1'000'000u, 10u),
-        std::make_shared<RandomStringGenerateArgs>(2'000'000u, 10u)
+    ::testing::Values(
+        std::make_shared<RandomStringGenerateArgs>(STRING_LENGTH, TEST_COUNTS[0]),
+        std::make_shared<RandomStringGenerateArgs>(STRING_LENGTH, TEST_COUNTS[1]),
+        std::make_shared<RandomStringGenerateArgs>(STRING_LENGTH, TEST_COUNTS[2]),
+        std::make_shared<RandomStringGenerateArgs>(STRING_LENGTH, TEST_COUNTS[3]),
+        std::make_shared<RandomStringGenerateArgs>(STRING_LENGTH, TEST_COUNTS[4]),
+        std::make_shared<RandomStringGenerateArgs>(STRING_LENGTH, TEST_COUNTS[5]),
+        std::make_shared<RandomStringGenerateArgs>(STRING_LENGTH, TEST_COUNTS[6]),
+        std::make_shared<RandomStringGenerateArgs>(STRING_LENGTH, TEST_COUNTS[7]),
+        std::make_shared<RandomStringGenerateArgs>(STRING_LENGTH, TEST_COUNTS[8]),
+        std::make_shared<RandomStringGenerateArgs>(STRING_LENGTH, TEST_COUNTS[9])
 ));
 
 } // namespace tests::Generate

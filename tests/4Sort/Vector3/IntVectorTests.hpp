@@ -29,28 +29,25 @@ struct IntVectorSortArgs final : public Parent
 class IntVectorSortFixture : public SortTestFixture<CopyableIntVector>
 {
 public:
-    // wektory roznia sie juz na pierwszej pozycji
-    static CopyableIntVector sortedFirstElementGenerator(const unsigned int n)
+    static CopyableIntVector sortedGenerator(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
         for (unsigned int i = 0; i < n; ++i)
         {
-            v.emplace_back(i + n);
+            v.emplace_back(i);
         }
         return CopyableIntVector(std::move(v));
     }
 
-    // wektory roznia sie dopiero na ostatniej pozycji
-    static CopyableIntVector sortedLastElementGenerator(const unsigned int n)
+    static CopyableIntVector reverseSortedGenerator(const unsigned int n)
     {
         std::vector<int> v;
         v.reserve(n);
-        for (unsigned int i = 0; i < n-1; ++i)
+        for (unsigned int i = 0; i < n; ++i)
         {
-            v.emplace_back(i);
+            v.emplace_back(UINT32_MAX - i);
         }
-        v.emplace_back(n);
         return CopyableIntVector(std::move(v));
     }
 

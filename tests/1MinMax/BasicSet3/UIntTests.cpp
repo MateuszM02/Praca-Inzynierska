@@ -1,6 +1,7 @@
 #include "UIntTests.hpp"
 
-#define TEST_SIZES { 2'000'000, 4'000'000, 6'000'000 }
+#define BASE_SIZE 2'000'000
+#define TEST_SIZES TEST_SIZES10(BASE_SIZE)
 
 namespace tests::MinMax
 {
@@ -11,8 +12,6 @@ static std::vector<std::shared_ptr<Base>> getTests()
     using T = unsigned int(*)(const unsigned int);
     createTestArgs<Base, BasicSetMinMaxArgs, T>(
         tests, TEST_SIZES, &BasicSetMinMaxFixture::sortedGenerator);
-    createTestArgs<Base, BasicSetMinMaxArgs, T>(
-        tests, TEST_SIZES, &BasicSetMinMaxFixture::reverseSortedGenerator);
     return tests;
 }
 

@@ -1,13 +1,9 @@
 #include "RandomStringTests.hpp"
 
-#define FEW_STRINGS 20'000
-#define MANY_STRINGS 40'000
+#define BASE_COUNT 10'000
+#define BASE_SIZE 1'000
 
-#define SHORT_STRINGS 1'000
-#define LONG_STRINGS 2'000
-
-#define TEST_SIZES { TestPair(FEW_STRINGS, SHORT_STRINGS), TestPair(MANY_STRINGS, SHORT_STRINGS), \
-    TestPair(FEW_STRINGS, LONG_STRINGS), TestPair(MANY_STRINGS, LONG_STRINGS) }
+#define TEST_SIZES TEST_SIZES10_PAIRS(BASE_COUNT, BASE_SIZE)
 
 namespace tests::RemoveEraseIf
 {
